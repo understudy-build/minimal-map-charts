@@ -1,0 +1,18 @@
+# Supply chain: pnpm installs only versions published at least a day ago, and
+# fails on any dependency build script not reviewed below.
+minimumReleaseAge: 1440
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  # pnpm flags tsrs as a possible takeover: another user published a 0.0.0
+  # placeholder under the name in 2024 before the oxc project took it over.
+  # 0.20.1 to 0.25.0 are all published by GitHub Actions as trusted publisher,
+  # with SLSA provenance from oxc-project/tsrs, .github/workflows/release.yml on
+  # main. Checked 2026-11-15. Check each new version the same way before
+  # adding it here.
+  - tsrs@0.25.0-ts7.1.0-beta
+blockExoticSubdeps: true
+strictDepBuilds: true
+allowBuilds:
+  # Its postinstall only checks the platform binary, which pnpm installs as an
+  # optional dependency anyway.
+  esbuild: false
