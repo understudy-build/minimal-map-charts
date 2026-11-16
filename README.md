@@ -1,11 +1,91 @@
-# @nicolastoulemont/minimal-maps
+# @nicolastoulemont/minimal-map-charts
 
-Small map primitives for generative UI. A model writes a few lines of JSON naming countries and values; `parse` checks them, `draw` picks the map and returns a scene, and you draw that scene however your interface needs: an SVG string, DOM nodes, a React component, an animation.
+Minimal map charts for generative UI.
 
-The package has no runtime dependencies. Bundled and tree-shaken, `draw` and `svg` cost 11.7 kB gzipped, and each map adds one pre-projected sheet: a map of Europe comes to 21.5 kB in all, France with its regions to 17.7 kB. It ships 242 sheets: the world, 29 regions and 212 countries with their subdivisions.
+It is a chart, not a mapping library. There are no tiles, no pan and zoom across the globe, and no geographies beyond countries and their subdivisions. For those, use MapLibre. For other chart types, use Vega-Lite, Observable Plot or D3.
+
+## How it works
+
+### Generate map charts from a JSON object
+
+Give a model the spec's JSON Schema as a tool. Whatever it sends goes is parsed then drawn.
 
 ```ts
-import { draw, parse, svg } from "@nicolastoulemont/minimal-maps"
+import { describe, draw, parse, schema, svg } from "@nicolastoulemont/minimal-map-charts"
+
+const tool = { name: "show_map", description: "Draw a map of countries", input_schema: schema }
+
+const call = async (input: unknown) => {
+  const parsed = parse(input)
+
+  return parsed.ok
+    ? { svg: svg(await draw(parsed.spec)) }
+    : { error: parsed.issues.map(describe).join("\n") }
+}
+```
+
+For example, if the user asked which countries use the euro, the model only needs to send the following JSON payload to render the chart:
+
+<!-- prettier-ignore -->
+```json
+{
+  "title": "Euro area members, 2026",
+  "fill": {
+    "kind": "highlight",
+    "countries": ["AUT", "BEL", "BGR", "HRV", "CYP", "EST", "FIN", "FRA", "DEU", "GRC", "IRL",
+                  "ITA", "LVA", "LTU", "LUX", "MLT", "NLD", "PRT", "SVK", "SVN", "ESP"]
+  }
+}
+```
+
+![Euro area members on the Europe map, with insets for French overseas regions, the Canaries, the Azores and Madeira](docs/images/euro.svg)
+
+A few things:
+
+1. The container map is inferred when possible, for this chart every country is in Europe, so `draw` picks the Europe sheet.
+2. Islands get insets: France's overseas regions and Portugal's and Spain's islands get insets.
+3. Validation: Had the model written `"France"`, it would get back `fill.countries.0: "France" is not a country code. Did you mean "FRA"?`.
+4. The page pays 24.9 kB gzipped for this: the code with `parse` and `schema`, plus the Europe sheet.
+
+### Compare countries far apart at the same scale
+
+For example, to compare GDP growth in the United States and Western Europe, list the countries in a layout. There is no projection to pick:
+
+```json
+{
+  "sheet": { "places": ["USA", "GBR", "FRA", "ESP", "BEL", "NLD", "DEU", "ITA"], "insets": false },
+  "title": "GDP growth, 2024 (%)",
+  "source": "Illustrative values",
+  "fill": {
+    "kind": "choropleth",
+    "values": {
+      "USA": 2.8,
+      "GBR": 1.1,
+      "FRA": 1.1,
+      "ESP": 3.2,
+      "BEL": 1,
+      "NLD": 0.9,
+      "DEU": -0.2,
+      "ITA": 0.7
+    },
+    "better": "higher"
+  }
+}
+```
+
+![The United States beside Western Europe, both at the same scale](docs/images/comparison.svg)
+
+A few things:
+
+1. Panels: countries more than 2,000 km apart are split into panels side by side.
+2. Same scale: a kilometre is as long in both panels, so the countries compare by size as well as by colour. `"scale": "fit"` makes the panels equally tall instead.
+3. No projection in the browser: each panel is cropped from the narrowest prebuilt sheet that holds its countries, here North America and Europe.
+4. The page pays about 45 kB gzipped for this: the code, the layout code and both sheets.
+
+## Quick start
+
+```ts
+import { draw, parse, svg } from "@nicolastoulemont/minimal-map-charts"
 
 const parsed = parse({
   title: "GDP growth, 2024 (%)",
@@ -16,77 +96,109 @@ const parsed = parse({
 if (parsed.ok) document.body.innerHTML = svg(await draw(parsed.spec))
 ```
 
-There is no `sheet` in that spec: every country in the fill is in Europe, so the map draws Europe. Add the United States and it draws the world. Name a sheet to override that, for example `"sheet": "FRA"` for France with its regions and overseas insets. `scene.choice` says whether the sheet was given or derived.
+A few things:
 
-## For model output
+1. The map is inferred: every country in the fill is in Europe, so it draws Europe. Add the United States and it draws the world.
+2. `sheet` overrides it: `"sheet": "FRA"` draws France with its regions and overseas insets. `scene.choice` is `"Given"` or `"Derived"`.
 
-The spec describes the subject, not the chart: countries and values, never projections, joins or colours. The shortest valid spec is a correct map, so a model has few ways to get it wrong.
+## Use it with a model
 
-- `schema` is the spec as JSON Schema, for a tool's input schema or structured output.
-- `parse` returns typed issues written for the model to fix on its next turn:
+The spec describes what to show, not how to draw it: countries and values, never projections, joins or colours. The shortest valid spec is a correct map, so a model has few ways to get it wrong.
 
-  ```
-  fill.values.France: "France" is not a country code. Did you mean "FRA"?
-  fill.values.BRA: BRA is not on the "europe" sheet. Sheets that hold every country: world.
-  spec: unknown key "titel".
-  ```
+1. Tool schema: `schema` is the spec as JSON Schema, for a tool's input or for structured output.
+2. Validation: `parse` returns typed issues, and `describe` turns each into a line the model can fix on its next turn:
 
-- `Spec` implements Standard Schema, so libraries that accept one validate with it directly.
-- A spec can be drawn while it streams: once the first country arrives the frame is known, and each later value only colours its country.
+   ```
+   fill.values.France: "France" is not a country code. Did you mean "FRA"?
+   fill.values.BRA: BRA is not on the "europe" sheet. Sheets that hold every country: world.
+   spec: unknown key "titel".
+   ```
 
-Have the model choose the map and the host supply the numbers. A model should not invent the values it charts.
+3. Standard Schema: `Spec` implements it, so libraries that accept one validate with it directly.
+4. Streaming: a spec can be drawn while it streams. Once the first country arrives the map is known, and each later value only colours its country.
 
-## Primitives
+Let the model pick the map and the host supply the numbers. A model should not invent the values it charts.
 
-| Export                              | What it does                                                                |
-| ----------------------------------- | --------------------------------------------------------------------------- |
-| `parse(input)`                      | Reads untrusted input into a `Spec`, or returns every issue.                |
-| `schema`, `Spec`                    | The spec as JSON Schema and as Standard Schema.                             |
-| `draw(spec, { locale })`            | Picks and loads the sheet, classes the values and returns a `Scene`.        |
-| `svg(scene, { palette })`           | Turns a scene into a standalone SVG document with its legend and credits.   |
-| `paint(tone, { classes, palette })` | The colour of a shape's tone. `light` and `dark` are the built-in palettes. |
-| `range(bin)`                        | A legend bin as text: "4 to 6", "10 and above".                             |
+## API
 
-A scene is plain data: SVG paths in sheet units, a tone per shape (a shade index, not a colour), insets, the legend, boundary credits, a data table (`rows`) and a one-sentence description. Every sheet keeps one coordinate space, so a renderer can animate fills, zoom by moving the viewBox, or pan by dragging without touching the geometry. `svg` is one renderer; the stories show others.
+| Export                              | What it does                                                                          |
+| ----------------------------------- | ------------------------------------------------------------------------------------- |
+| `parse(input)`                      | Reads untrusted input into a `Spec`, or returns every issue.                          |
+| `schema`, `Spec`                    | The spec as JSON Schema and as Standard Schema.                                       |
+| `draw(spec, { locale })`            | Picks and loads the sheet, groups the values into colour bands and returns a `Scene`. |
+| `svg(scene, { palette })`           | Turns a scene into a standalone SVG document with its legend and credits.             |
+| `paint(tone, { classes, palette })` | The colour of a shape's tone. `light` and `dark` are the built-in palettes.           |
+| `range(bin)`                        | A legend band as text: "4 to 6", "10 and above".                                      |
 
-The Storybook stories are the examples, run with `pnpm storybook`:
+A scene is plain data, so you can draw it however your interface needs:
+
+1. Contents: SVG paths, a tone per shape (a shade index, not a colour), insets, the legend, credits, a data table (`rows`) and a one-sentence description.
+2. One coordinate space per sheet: a renderer can animate fills, zoom or pan without touching the geometry.
+3. Renderers: `svg` is one. The stories show others, in plain DOM and in React, Vue, Svelte and Solid.
+
+## Examples
+
+Run the Storybook stories with `pnpm storybook`:
 
 - Use cases: choropleth, highlight, fixed breaks, a country with its subdivisions, dark palette, French locale, every sheet.
 - From a model: a spec playground, typical model mistakes and the tool schema.
-- Motion: values revealed in order, years played over a shadcn slider, a highlight tour, hover details, a spec drawn while it streams, zooming inside a sheet, and dragging to move.
+- Motion: values revealed in order, years played over a slider, a highlight tour, hover details, a spec drawn while it streams, zoom and drag.
 - Regions: one story per region.
+- Colour scales: a sequential ramp of your own, and a diverging scale centred on zero. Colours belong to the renderer's palette, never to the spec.
+- Layouts: layouts written in JSX.
+- Frameworks: React, Vue, Svelte and Solid recipes to copy into an app, in `stories/frameworks/`. Each is a set of parts (`Figure.Root`, `Figure.Map`, `Figure.Legend`…) that share one context.
 
 ## The spec
 
-| Field             | Meaning                                                                                                 |
-| ----------------- | ------------------------------------------------------------------------------------------------------- |
-| `sheet`           | `"world"`, a region id such as `"europe"`, or the alpha-3 code of a country with its own map. Optional. |
-| `title`, `source` | Text shown with the map. `source` names who published the values.                                       |
-| `fill`            | `{ kind: "choropleth", values, scale?, better? }` or `{ kind: "highlight", countries }`.                |
+| Field             | Meaning                                                                                                           |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `sheet`           | `"world"`, a region id such as `"europe"`, the alpha-3 code of a country with its own map, or a layout. Optional. |
+| `title`, `source` | Text shown with the map. `source` names who published the values.                                                 |
+| `fill`            | `{ kind: "choropleth", values, scale?, better? }` or `{ kind: "highlight", countries }`.                          |
 
-`values` maps ISO 3166-1 alpha-3 codes to numbers. `scale` is `{ kind: "quantile", classes?: 3–7 }` (the default, 5 classes) or `{ kind: "breaks", at: [...] }` for fixed bands. Equal values always share a class.
+A few things:
+
+1. Values: `values` maps ISO 3166-1 alpha-3 codes to numbers.
+2. Colour bands, called classes: `scale` is `{ kind: "quantile", classes?: 3–7 }` or `{ kind: "breaks", at: [...] }`. Quantile is the default, with 5 classes of about as many countries each. Breaks set fixed boundaries.
+3. Ties: equal values always share a class.
+
+## Layouts
+
+A layout draws any set of countries, as in [the comparison above](#compare-countries-far-apart-at-the-same-scale). Pass it as `sheet`:
+
+| Field     | Meaning                                                                                                 |
+| --------- | ------------------------------------------------------------------------------------------------------- |
+| `places`  | Country codes, region ids, `"world"`, or `{ country, insets }`. Defaults to the countries in the fill.  |
+| `panels`  | `[{ places }]`, drawn left to right as given. Use instead of `places`.                                  |
+| `scale`   | `"shared"` (default): a kilometre is as long in every panel. `"fit"`: every panel equally tall.         |
+| `insets`  | Draw the boxes a sheet gives a country's far parts, such as Hawaii or the Canaries. Defaults to `true`. |
+| `context` | Draw the land and countries around the panel's countries in grey. Defaults to `true`.                   |
+
+A few things:
+
+1. Sheets decide the details: a panel keeps its sheet's projection and choices. The North America sheet draws Alaska in place, so a United States panel includes it.
+2. Shared scale: the sheets are equal-area, so each sheet's units per kilometre come from its countries' areas.
+3. JSX: the "Layouts" stories write layouts as `<Sheet>`, `<Panel>` and `<Country>`.
 
 ## Bundle size
 
-Each sheet is its own chunk, loaded with `import()` the first time it is drawn, so a page downloads the code it imports plus the one sheet it shows. Bundled with Vite, tree-shaken and minified:
+The package has no runtime dependencies. Everything is lazily-loaded to reduce bundle size.
+
+Bundled with Vite, tree-shaken and minified:
 
 | Map           | Sheet, gzip | With `draw` and `svg`, gzip | With `parse` and `schema` too, gzip |
 | ------------- | ----------: | --------------------------: | ----------------------------------: |
-| World         |      8.3 kB |                     20.0 kB |                             22.1 kB |
-| North America |     10.5 kB |                     22.2 kB |                             24.3 kB |
-| Europe        |      9.8 kB |                     21.5 kB |                             23.6 kB |
-| East Asia     |      3.9 kB |                     15.6 kB |                             17.7 kB |
-| United States |      8.8 kB |                     20.5 kB |                             22.6 kB |
-| France        |      6.0 kB |                     17.7 kB |                             19.8 kB |
-| Germany       |      6.9 kB |                     18.6 kB |                             20.7 kB |
-| China         |      6.1 kB |                     17.9 kB |                             19.9 kB |
-| Japan         |      6.7 kB |                     18.4 kB |                             20.5 kB |
+| World         |      8.3 kB |                     20.4 kB |                             23.5 kB |
+| North America |     10.5 kB |                     22.6 kB |                             25.7 kB |
+| Europe        |      9.8 kB |                     21.9 kB |                             24.9 kB |
+| East Asia     |      3.9 kB |                     16.0 kB |                             19.1 kB |
+| United States |      8.8 kB |                     20.9 kB |                             24.0 kB |
+| France        |      6.0 kB |                     18.1 kB |                             21.2 kB |
+| Germany       |      6.9 kB |                     19.0 kB |                             22.1 kB |
+| China         |      6.1 kB |                     18.2 kB |                             21.3 kB |
+| Japan         |      6.7 kB |                     18.8 kB |                             21.9 kB |
 
-[docs/bundle-size.md](docs/bundle-size.md) has these with Brotli sizes, and the raw, gzip and Brotli size of every file in `dist/`, with the sheets grouped into world, regions and countries. `pnpm sizes` rebuilds the package, bundles these maps again and regenerates it.
-
-## Where it fits
-
-It draws country choropleths and highlights, nothing else. For other chart types, or geographies it does not ship, Vega-Lite or D3 fit better. For maps people pan and zoom across tiles, use MapLibre.
+It ships 242 sheets: the world, 29 regions and 212 countries with their subdivisions. [docs/bundle-size.md](docs/bundle-size.md) adds Brotli sizes and the size of every file in `dist/`.
 
 ## Development
 
@@ -95,10 +207,12 @@ pnpm install
 pnpm check       # format, lint, typecheck, test, build
 pnpm storybook   # http://localhost:6007
 pnpm sizes       # regenerate docs/bundle-size.md
+pnpm readme      # redraw the README's example maps
 ```
 
 ## Where the geometry comes from
 
-`src/data/*.gen.ts` was generated by civicdata's `packages/maps` generator (commit `6c2d279`), then simplified with mapshaper's Douglas-Peucker at 1 sheet unit on shared arcs, which keeps borders between neighbours aligned. The generator, its source snapshots and the simplification step are not part of this repository yet, so the geometry cannot be regenerated here.
+1. Sheets: civicdata's `packages/maps` generator (commit `6c2d279`) wrote `src/data/*.gen.ts`. Mapshaper then simplified them with Douglas-Peucker at 1 sheet unit, on shared arcs so borders between neighbours stay aligned. The generator, its sources and the simplification step are not in this repository yet, so the sheets cannot be regenerated here.
+2. Layouts: `scripts/globe.ts` writes `src/data/globe.gen.ts`, each country's box in degrees and its area, from Natural Earth's 1:50m countries, v5.1.2. The script's header says how to fetch the source and run it.
 
-See [LICENSE.md](LICENSE.md): the code is MIT; each sheet keeps its source's licence.
+See [LICENSE.md](LICENSE.md): the code is MIT, and each sheet keeps its source's licence.

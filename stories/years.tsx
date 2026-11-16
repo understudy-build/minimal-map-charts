@@ -11,7 +11,7 @@ const first = (value: number | ReadonlyArray<number>) => [value].flat()[0] ?? 0
 // How long play shows each year.
 const step = 1200
 
-interface YearsProps {
+export interface YearsProps {
   readonly years: ReadonlyArray<number>
   // Called with the index of the year to show.
   readonly onYear: (index: number) => void
@@ -19,7 +19,7 @@ interface YearsProps {
 
 // Play and a slider over the years, as civicdata's chart over time has them:
 // moving the slider pauses play, and play stops at the last year.
-const Years = ({ years, onYear }: YearsProps) => {
+export const Years = ({ years, onYear }: YearsProps) => {
   const [index, setIndex] = useState(0)
   const [playing, setPlaying] = useState(false)
   const last = years.length - 1

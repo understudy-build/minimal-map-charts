@@ -11,6 +11,8 @@ export {
   type Shape,
   type Tone,
 } from "./draw.ts"
+export type { Frame } from "./compose.ts"
+export type { Layout, Panel, Place } from "./layout.ts"
 export { type Region, regions } from "./regions.ts"
 export type { Bin } from "./scale.ts"
 export { schema } from "./schema.ts"

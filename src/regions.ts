@@ -303,3 +303,6 @@ export const regions = [
 }>
 
 export type Region = (typeof regions)[number]
+
+export const isRegion = (input: string): input is Region["id"] =>
+  regions.some((region) => region.id === input)

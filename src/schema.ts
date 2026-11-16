@@ -15,8 +15,46 @@ export const schema = {
   properties: {
     sheet: {
       description:
-        'Which map to draw. Leave it out unless asked for a specific map. "world", a region id, or the ISO 3166-1 alpha-3 code of a country to draw its own map with its subdivisions. Every country in `fill` must be on this sheet.',
-      enum: ["world", ...regions.map((region) => region.id), ...nations],
+        "Which map to draw. Leave it out unless asked for a specific map or layout. A name picks a prebuilt map; an object lays countries out in panels cropped from the prebuilt maps.",
+      oneOf: [
+        {
+          description:
+            '"world", a region id, or the ISO 3166-1 alpha-3 code of a country to draw its own map with its subdivisions. Every country in `fill` must be on this sheet.',
+          enum: ["world", ...regions.map((region) => region.id), ...nations],
+        },
+        {
+          description:
+            "A layout. With `places`, countries far apart split into panels side by side, e.g. the United States beside Western Europe. With `panels`, each panel is drawn as given. Without either, the places are the countries in `fill`.",
+          type: "object",
+          additionalProperties: false,
+          not: { required: ["places", "panels"] },
+          properties: {
+            scale: {
+              description:
+                '"shared" (default): a kilometre is as long in every panel, so areas compare. "fit": every panel equally tall.',
+              enum: ["shared", "fit"],
+            },
+            insets: { $ref: "#/definitions/insets" },
+            context: {
+              description:
+                "Draw the land and countries around the panels' countries in grey. Defaults to true.",
+              type: "boolean",
+            },
+            places: { $ref: "#/definitions/places" },
+            panels: {
+              description: "Panels drawn left to right. Use instead of `places`, not with it.",
+              type: "array",
+              minItems: 1,
+              items: {
+                type: "object",
+                additionalProperties: false,
+                required: ["places"],
+                properties: { places: { $ref: "#/definitions/places" } },
+              },
+            },
+          },
+        },
+      ],
     },
     title: { description: "A short title.", type: "string", minLength: 1 },
     source: {
@@ -95,6 +133,35 @@ export const schema = {
     },
   },
   definitions: {
+    insets: {
+      description:
+        "Draw a country's far parts, such as the Canaries or Hawaii, in their own boxes beside the map. Defaults to true.",
+      type: "boolean",
+    },
+    places: {
+      description:
+        'Country codes, region ids, "world" for every country, or a country with its own `insets` rule.',
+      type: "array",
+      minItems: 1,
+      items: {
+        oneOf: [
+          { $ref: "#/definitions/country" },
+          {
+            description: "A region's countries, or every country.",
+            enum: ["world", ...regions.map((region) => region.id)],
+          },
+          {
+            type: "object",
+            additionalProperties: false,
+            required: ["country"],
+            properties: {
+              country: { $ref: "#/definitions/country" },
+              insets: { $ref: "#/definitions/insets" },
+            },
+          },
+        ],
+      },
+    },
     country: {
       description: "An ISO 3166-1 alpha-3 code; XKX for Kosovo, CHI for the Channel Islands.",
       enum: countries.map((country) => country.code),

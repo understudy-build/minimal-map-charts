@@ -79,7 +79,7 @@ group("parse", () => {
       issues: [
         {
           message:
-            'sheet: expected "world", a region id or the code of a country with its own map.',
+            'sheet: expected "world", a region id, the code of a country with its own map, or a layout object.',
           path: ["sheet"],
         },
       ],
@@ -98,6 +98,21 @@ group("JSON Schema", () => {
     ["bad classes", choropleth({ FRA: 1 }, { scale: { kind: "quantile", classes: 9 } })],
     ["unknown sheet", { sheet: "moon" }],
     ["empty highlight", { fill: { kind: "highlight", countries: [] } }],
+    [
+      "layout",
+      {
+        sheet: { scale: "fit", places: ["USA", "europe", { country: "FRA", insets: false }] },
+      },
+    ],
+    [
+      "layout panels",
+      {
+        sheet: { context: false, panels: [{ places: ["USA"] }, { places: ["FRA"] }] },
+      },
+    ],
+    ["projection", { sheet: { projection: "mercator" } }],
+    ["unknown place", { sheet: { places: ["atlantis"] } }],
+    ["places and panels", { sheet: { places: ["USA"], panels: [{ places: ["FRA"] }] } }],
     ["repeated highlight", { fill: { kind: "highlight", countries: ["FRA", "FRA"] } }],
   ]
 

@@ -56,7 +56,7 @@ const chunks = (output: Rollup.RollupOutput) =>
 
 // Bundles an app entry that uses `names` and draws a sheet chosen at run time.
 export const bundle = async (dist: string, used: Imports): Promise<Bundle> => {
-  const folder = mkdtempSync(join(tmpdir(), "minimal-maps-"))
+  const folder = mkdtempSync(join(tmpdir(), "minimal-map-charts-"))
   const entry = join(folder, "app.js")
 
   writeFileSync(

@@ -1,8 +1,18 @@
+import type { Frame } from "./compose.ts"
 import { type Country, countries, names } from "./countries.ts"
 import { frames } from "./frame.ts"
+import type { Layout } from "./layout.ts"
 import { regions } from "./regions.ts"
 import { type Bin, classify } from "./scale.ts"
-import { type Credit, credits, load, type SheetId, type Steps } from "./sheet.ts"
+import {
+  type Area,
+  type Credit,
+  credits,
+  type Inset as SheetInset,
+  load,
+  type SheetId,
+  type Steps,
+} from "./sheet.ts"
 import { named, type Spec } from "./spec.ts"
 
 // How a shape is coloured: blank, one of the legend's shades, picked out by a
@@ -56,10 +66,12 @@ export type Choice = "Given" | "Derived"
 // Everything a renderer needs, with paths built and values classed. It holds
 // no colours: a renderer maps each tone to its palette.
 export interface Scene {
-  readonly sheet: SheetId
+  readonly sheet: SheetId | Layout
   readonly choice: Choice
   readonly width: number
   readonly height: number
+  // Where each panel sits; a sheet is one panel.
+  readonly panels: ReadonlyArray<Frame>
   readonly title: string | undefined
   readonly source: string | undefined
   readonly land: string
@@ -103,15 +115,123 @@ const circle = ([x, y]: readonly [number, number]) =>
   `M${x - dotRadius} ${y}a${dotRadius} ${dotRadius} 0 1 0 ${dotRadius * 2} 0a${dotRadius} ${dotRadius} 0 1 0 ${-dotRadius * 2} 0z`
 
 const blank: Tone = { kind: "blank" }
+const context: Tone = { kind: "context" }
 
-// Resolves a spec into a scene: picks the sheet, loads it and classes the
-// values. A page downloads only the sheet it draws.
+// A map before its values: shapes by country, in one space `width` by
+// `height` units.
+interface Canvas {
+  readonly width: number
+  readonly height: number
+  readonly panels: ReadonlyArray<Frame>
+  readonly land: string
+  readonly paths: ReadonlyMap<Country, string>
+  // The countries the map is about; the rest are context. Every country on a
+  // sheet is.
+  readonly members: ReadonlySet<Country> | undefined
+  readonly borders: ReadonlyArray<Border>
+  readonly insets: ReadonlyArray<{
+    readonly name: string
+    readonly country: Country
+    readonly context: boolean
+    readonly width: number
+    readonly height: number
+    readonly path: string
+    readonly borders: ReadonlyArray<Border>
+  }>
+  readonly credits: ReadonlyArray<Credit>
+  readonly where: (name: (code: Country) => string) => string
+}
+
+const borders = (area: Area): Border => ({
+  code: area.code,
+  name: area.name,
+  path: path(area.outline),
+})
+
+const insetOf = (inset: SheetInset): Canvas["insets"][number] => ({
+  name: inset.name,
+  country: inset.country,
+  context: inset.coverage === "Context",
+  width: inset.width,
+  height: inset.height,
+  path: path(inset.outline),
+  borders: (inset.areas ?? []).map(borders),
+})
+
+const fromSheet = async (id: SheetId): Promise<Canvas> => {
+  const sheet = await load(id)
+  const paths = new Map<Country, string>()
+
+  for (const { code } of countries) {
+    const outline = sheet.outlines[code]
+    const dot = sheet.dots?.[code]
+
+    if (outline !== undefined) paths.set(code, path(outline))
+    else if (dot !== undefined) paths.set(code, circle(dot))
+  }
+
+  return {
+    width: sheet.width,
+    height: sheet.height,
+    panels: [{ x: 0, y: 0, width: sheet.width, height: sheet.height }],
+    land: path(sheet.land),
+    paths,
+    members: undefined,
+    borders: (sheet.subdivisions?.areas ?? []).map(borders),
+    insets: sheet.insets.map(insetOf),
+    credits: credits(sheet),
+    where: (name) =>
+      sheet.subdivisions !== undefined
+        ? name(sheet.subdivisions.country)
+        : (regions.find((region) => region.id === id)?.name ?? "the world"),
+  }
+}
+
+// Layouts with more countries than this are described by their count.
+const listed = 6
+
+const fromLayout = async (layout: Layout, codes: ReadonlyArray<Country>): Promise<Canvas> => {
+  // Layout code and its country table load only when a map uses a layout.
+  const { compose } = await import("./compose.ts")
+  const composed = await compose(layout, codes)
+  const paths = new Map<Country, string>()
+
+  for (const { code } of countries) {
+    const outline = composed.outlines.get(code)
+    const dot = composed.dots.get(code)
+
+    if (outline !== undefined) paths.set(code, path(outline))
+    else if (dot !== undefined) paths.set(code, circle(dot))
+  }
+
+  return {
+    width: composed.width,
+    height: composed.height,
+    panels: composed.panels,
+    land: path(composed.land),
+    paths,
+    members: composed.members,
+    borders: [],
+    insets: composed.insets.map(insetOf),
+    credits: composed.credits,
+    where: (name) => {
+      const all = [...composed.members]
+
+      return all.length > listed
+        ? `${all.length} countries`
+        : new Intl.ListFormat("en", { type: "conjunction" }).format(all.map(name))
+    },
+  }
+}
+
+// Resolves a spec into a scene: picks the sheet, or crops sheets into the
+// layout's panels, and classes the values. A page downloads only the sheets
+// it draws.
 export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene> => {
   const locale = options.locale ?? "en"
   const codes = named(spec.fill)
-  const derived = frames(codes)[0] ?? "world"
-  const id = spec.sheet ?? derived
-  const sheet = await load(id)
+  const id = spec.sheet ?? frames(codes)[0] ?? "world"
+  const canvas = typeof id === "object" ? await fromLayout(id, codes) : await fromSheet(id)
 
   const name = names(locale)
   const numbers = new Intl.NumberFormat(locale, { maximumFractionDigits: 2 })
@@ -136,9 +256,10 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
 
     const value = values.get(code)
 
-    return value === undefined || classed === undefined
-      ? blank
-      : { kind: "shade", shade: classed.shadeOf(value) }
+    if (value !== undefined && classed !== undefined)
+      return { kind: "shade", shade: classed.shadeOf(value) }
+
+    return canvas.members === undefined || canvas.members.has(code) ? blank : context
   }
 
   const labelOf = (code: Country) => {
@@ -150,10 +271,7 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
   }
 
   const shapes = countries.flatMap(({ code }): ReadonlyArray<Shape> => {
-    const outline = sheet.outlines[code]
-    const dot = sheet.dots?.[code]
-    const drawn =
-      outline === undefined ? (dot === undefined ? undefined : circle(dot)) : path(outline)
+    const drawn = canvas.paths.get(code)
 
     return drawn === undefined
       ? []
@@ -169,32 +287,18 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
         ]
   })
 
-  const borders = (sheet.subdivisions?.areas ?? []).map(({ code, name: area, outline }) => ({
-    code,
-    name: area,
-    path: path(outline),
+  const insets = canvas.insets.map((inset): Inset => ({
+    name: inset.name,
+    country: inset.country,
+    width: inset.width,
+    height: inset.height,
+    tone: inset.context ? context : toneOf(inset.country),
+    path: inset.path,
+    label: inset.context
+      ? `${inset.name}, ${name(inset.country)}: location only`
+      : `${inset.name}, ${labelOf(inset.country)}`,
+    borders: inset.borders,
   }))
-
-  const insets = sheet.insets.map((inset): Inset => {
-    const context = inset.coverage === "Context"
-
-    return {
-      name: inset.name,
-      country: inset.country,
-      width: inset.width,
-      height: inset.height,
-      tone: context ? { kind: "context" } : toneOf(inset.country),
-      path: path(inset.outline),
-      label: context
-        ? `${inset.name}, ${name(inset.country)}: location only`
-        : `${inset.name}, ${labelOf(inset.country)}`,
-      borders: (inset.areas ?? []).map(({ code, name: area, outline }) => ({
-        code,
-        name: area,
-        path: path(outline),
-      })),
-    }
-  })
 
   const rows = codes
     .map((code) => ({
@@ -211,10 +315,7 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
       ? undefined
       : { classes: classed.classes, bins: classed.bins, better: fill.better }
 
-  const where =
-    sheet.subdivisions !== undefined
-      ? name(sheet.subdivisions.country)
-      : (regions.find((region) => region.id === id)?.name ?? "the world")
+  const where = canvas.where(name)
   const what =
     fill === undefined
       ? "countries"
@@ -225,17 +326,18 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
   return {
     sheet: id,
     choice: spec.sheet === undefined ? "Derived" : "Given",
-    width: sheet.width,
-    height: sheet.height,
+    width: canvas.width,
+    height: canvas.height,
+    panels: canvas.panels,
     title: spec.title,
     source: spec.source,
-    land: path(sheet.land),
+    land: canvas.land,
     shapes,
-    borders,
+    borders: canvas.borders,
     insets,
     legend,
     missing: codes.filter((code) => !drawn.has(code)),
-    credits: credits(sheet),
+    credits: canvas.credits,
     rows,
     description: `${spec.title === undefined ? "" : `${spec.title}. `}Map of ${where}: ${what}.`,
   }

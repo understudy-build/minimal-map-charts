@@ -1,12 +1,15 @@
 import { type Country, countries, names } from "./countries.ts"
 import { frames, isSheet, members } from "./frame.ts"
+import type { Layout, Panel, Place } from "./layout.ts"
+import { isRegion } from "./regions.ts"
 import type { SheetId } from "./sheet.ts"
 
 // What a map shows. Every field is optional: `{}` draws the world, blank.
 // Without `sheet`, the map draws the narrowest region that holds every
-// country in `fill`, else the world.
+// country in `fill`, else the world. `sheet` names a prebuilt map, or lays
+// countries out in panels cropped from the prebuilt maps.
 export interface Spec {
-  readonly sheet?: SheetId
+  readonly sheet?: SheetId | Layout
   readonly title?: string
   // Who published the values, shown beside the boundary credits.
   readonly source?: string
@@ -309,6 +312,123 @@ const placed = (sheet: SheetId, input: Fill): ReadonlyArray<Issue> => {
   )
 }
 
+const flag = (input: unknown, path: Path): Checked<boolean> =>
+  typeof input === "boolean"
+    ? { value: input, issues: [] }
+    : { value: undefined, issues: [{ kind: "Invalid", path, expected: "true or false" }] }
+
+const place = (input: unknown, path: Path): Checked<Place> => {
+  if (typeof input === "string" && (input === "world" || isRegion(input)))
+    return { value: input, issues: [] }
+
+  if (isRecord(input)) {
+    const issues = keys(path, ["country", "insets"])(input)
+    const code = country(input["country"], [...path, "country"])
+    const insets =
+      input["insets"] === undefined ? undefined : flag(input["insets"], [...path, "insets"])
+    const all = [...issues, ...code.issues, ...(insets?.issues ?? [])]
+
+    return all.length > 0 || code.value === undefined
+      ? { value: undefined, issues: all }
+      : {
+          value: {
+            country: code.value,
+            ...(insets?.value === undefined ? {} : { insets: insets.value }),
+          },
+          issues: [],
+        }
+  }
+
+  return country(input, path)
+}
+
+const list = <A>(
+  input: unknown,
+  path: Path,
+  each: (input: unknown, path: Path) => Checked<A>,
+  expected: string,
+): Checked<ReadonlyArray<A>> => {
+  if (!Array.isArray(input) || input.length === 0)
+    return { value: undefined, issues: [{ kind: "Invalid", path, expected }] }
+
+  const checked = input.map((item, index) => each(item, [...path, index]))
+  const issues = checked.flatMap((item) => item.issues)
+  const items = checked.flatMap((item) => (item.value === undefined ? [] : [item.value]))
+
+  return { value: issues.length === 0 ? items : undefined, issues }
+}
+
+const places = (input: unknown, path: Path) =>
+  list(
+    input,
+    path,
+    place,
+    'a non-empty array of country codes, region ids, "world" or { country, insets }',
+  )
+
+const panel = (input: unknown, path: Path): Checked<Panel> => {
+  if (!isRecord(input))
+    return { value: undefined, issues: [{ kind: "Invalid", path, expected: "a panel object" }] }
+
+  const issues = keys(path, ["places"])(input)
+  const listed = places(input["places"], [...path, "places"])
+  const all = [...issues, ...listed.issues]
+
+  return all.length > 0 || listed.value === undefined
+    ? { value: undefined, issues: all }
+    : { value: { places: listed.value }, issues: [] }
+}
+
+const layout = (input: Readonly<Record<string, unknown>>, path: Path): Checked<Layout> => {
+  const issues: Array<Issue> = [
+    ...keys(path, ["scale", "insets", "context", "places", "panels"])(input),
+  ]
+  const at = (key: string) => [...path, key]
+  const optional = <A>(key: string, check: (input: unknown, path: Path) => Checked<A>) => {
+    if (input[key] === undefined) return undefined
+
+    const checked = check(input[key], at(key))
+
+    issues.push(...checked.issues)
+
+    return checked.value
+  }
+
+  const scaled = optional("scale", (value, where): Checked<"shared" | "fit"> =>
+    value === "shared" || value === "fit"
+      ? { value, issues: [] }
+      : {
+          value: undefined,
+          issues: [{ kind: "Invalid", path: where, expected: '"shared" or "fit"' }],
+        },
+  )
+  const insets = optional("insets", flag)
+  const context = optional("context", flag)
+  const listed = optional("places", places)
+  const panels = optional("panels", (value, where) =>
+    list(value, where, panel, "a non-empty array of panels"),
+  )
+
+  if (input["places"] !== undefined && input["panels"] !== undefined)
+    issues.push({ kind: "Invalid", path, expected: "either `places` or `panels`, not both" })
+
+  if (issues.length > 0) return { value: undefined, issues }
+
+  const shared = {
+    ...(scaled === undefined ? {} : { scale: scaled }),
+    ...(insets === undefined ? {} : { insets }),
+    ...(context === undefined ? {} : { context }),
+  }
+
+  return {
+    value:
+      panels !== undefined
+        ? { ...shared, panels }
+        : { ...shared, ...(listed === undefined ? {} : { places: listed }) },
+    issues: [],
+  }
+}
+
 // Reads untrusted input, from a model, a form or a URL, into a spec, or every
 // reason it is not one.
 export const parse = (input: unknown): Parsed => {
@@ -318,21 +438,24 @@ export const parse = (input: unknown): Parsed => {
   const known = keys([], ["sheet", "title", "source", "fill"])(input)
   const sheet = input["sheet"]
 
-  const framing: Checked<SheetId> =
+  const framing: Checked<SheetId | Layout> =
     sheet === undefined
       ? { value: undefined, issues: [] }
       : typeof sheet === "string" && isSheet(sheet)
         ? { value: sheet, issues: [] }
-        : {
-            value: undefined,
-            issues: [
-              {
-                kind: "Invalid",
-                path: ["sheet"],
-                expected: '"world", a region id or the code of a country with its own map',
-              },
-            ],
-          }
+        : isRecord(sheet)
+          ? layout(sheet, ["sheet"])
+          : {
+              value: undefined,
+              issues: [
+                {
+                  kind: "Invalid",
+                  path: ["sheet"],
+                  expected:
+                    '"world", a region id, the code of a country with its own map, or a layout object',
+                },
+              ],
+            }
 
   const title = input["title"] === undefined ? undefined : text(input["title"], ["title"])
   const source = input["source"] === undefined ? undefined : text(input["source"], ["source"])
@@ -348,8 +471,9 @@ export const parse = (input: unknown): Parsed => {
 
   if (issues.length > 0) return { ok: false, issues }
 
+  // A layout draws any country, so only a prebuilt sheet can leave one off.
   const off =
-    framing.value === undefined || filled?.value === undefined
+    typeof framing.value !== "string" || filled?.value === undefined
       ? []
       : placed(framing.value, filled.value)
 
@@ -402,7 +526,7 @@ interface Standard<Output> {
 export const Spec: Standard<Spec> = {
   "~standard": {
     version: 1,
-    vendor: "@nicolastoulemont/minimal-maps",
+    vendor: "@nicolastoulemont/minimal-map-charts",
     validate: (value) => {
       const parsed = parse(value)
 

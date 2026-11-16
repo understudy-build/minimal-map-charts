@@ -294,7 +294,7 @@ export const StreamingFromAModel: StoryObj = {
 
       const mine = run
       let map: SVGSVGElement | undefined
-      let sheet: string | undefined
+      let sheet: Scene["sheet"] | undefined
       const colours = new Map<string, string>()
 
       stage.replaceChildren("Waiting for the first country…")
