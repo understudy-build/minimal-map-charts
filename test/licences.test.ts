@@ -65,7 +65,7 @@ describe("a map's credits", () => {
 
     expect(line).toContain("simplified and re-projected")
     expect(line).toContain("ODbL 1.0: opendatacommons.org/licenses/odbl/1-0")
-    expect(line).toContain("Derived data: npmjs.com/package/@nicolastoulemont/minimal-map-charts")
+    expect(line).toContain("Derived data: npmjs.com/package/@understudy-build/minimal-map-charts")
     // Too long for one line under the map, it wraps at spaces.
     expect(notes.join(" ")).toContain(line)
     expect(notes).not.toContain(line)

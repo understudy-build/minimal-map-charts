@@ -47,7 +47,7 @@ export const licences = {
 } as const satisfies Record<string, Terms>
 
 // Where the changed data of every sheet can be downloaded: this package.
-const derived = "npmjs.com/package/@nicolastoulemont/minimal-map-charts"
+const derived = "npmjs.com/package/@understudy-build/minimal-map-charts"
 
 const isKnown = (name: string): name is keyof typeof licences => Object.hasOwn(licences, name)
 

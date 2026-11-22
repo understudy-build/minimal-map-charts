@@ -1,4 +1,4 @@
-# @nicolastoulemont/minimal-map-charts
+# @understudy-build/minimal-map-charts
 
 Minimal map charts for generative UI with a focus on composability and small bundle size.
 
@@ -7,13 +7,13 @@ It draws charts, not slippy maps: no tiles, no pan and zoom, and no geography be
 ## Quick start
 
 ```sh
-pnpm add @nicolastoulemont/minimal-map-charts
+pnpm add @understudy-build/minimal-map-charts
 # or
-bun add @nicolastoulemont/minimal-map-charts
+bun add @understudy-build/minimal-map-charts
 ```
 
 ```ts
-import { dark, draw, light, parse, svg } from "@nicolastoulemont/minimal-map-charts"
+import { dark, draw, light, parse, svg } from "@understudy-build/minimal-map-charts"
 
 const parsed = parse({
   title: "GDP growth, 2024 (%)",
@@ -45,7 +45,7 @@ if (drawn.ok) document.body.innerHTML = svg(drawn.scene, { palette: { light, dar
 Give the model the spec's JSON Schema as a tool, then parse and draw what it sends. Each problem comes back as a line the model can fix.
 
 ```ts
-import { describe, draw, parse, schema, svg } from "@nicolastoulemont/minimal-map-charts"
+import { describe, draw, parse, schema, svg } from "@understudy-build/minimal-map-charts"
 
 const tool = { name: "show_map", description: "Draw a map of countries", input_schema: schema }
 
@@ -121,7 +121,7 @@ When a model writes HTML (an artifact, a chat preview), `<map-chart>` takes the 
 ```html
 <script
   type="module"
-  src="https://cdn.jsdelivr.net/npm/@nicolastoulemont/minimal-map-charts@0/dist/element.js"
+  src="https://cdn.jsdelivr.net/npm/@understudy-build/minimal-map-charts@0/dist/element.js"
 ></script>
 <map-chart
   ><script type="application/json">
@@ -143,8 +143,8 @@ When a model writes HTML (an artifact, a chat preview), `<map-chart>` takes the 
 With a shell, the CLI writes the same spec to SVG. A bad spec prints its issues to stderr and exits 1:
 
 ```sh
-npx @nicolastoulemont/minimal-map-charts render spec.json > map.svg
-cat spec.json | npx @nicolastoulemont/minimal-map-charts render --palette dark > map.svg
+npx @understudy-build/minimal-map-charts render spec.json > map.svg
+cat spec.json | npx @understudy-build/minimal-map-charts render --palette dark > map.svg
 ```
 
 [llms.txt](llms.txt), shipped in the package, puts the spec, both snippets and three examples on one page for a model.

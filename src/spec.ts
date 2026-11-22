@@ -1137,7 +1137,7 @@ const json = ({ target }: { readonly target: string }) => {
 export const Spec: Standard<Spec> = {
   "~standard": {
     version: 1,
-    vendor: "@nicolastoulemont/minimal-map-charts",
+    vendor: "@understudy-build/minimal-map-charts",
     validate: (value) => {
       const parsed = parse(value)
 

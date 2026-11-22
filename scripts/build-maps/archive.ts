@@ -12,7 +12,7 @@ import { access, mkdir, rename, writeFile } from "node:fs/promises"
 
 import { Schema } from "effect"
 
-const repository = "nicolastoulemont/minimal-map-charts"
+const repository = "understudy-build/minimal-map-charts"
 const tag = "sources-6c2d279"
 
 const cache = new URL("../../.archive/", import.meta.url)

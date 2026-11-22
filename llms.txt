@@ -15,7 +15,7 @@ The same goes for where a point is. Give `lat` and `lon` only from the data or a
 Load the element once and put the spec in a JSON script inside `<map-chart>`. No other script is needed.
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@nicolastoulemont/minimal-map-charts@0/dist/element.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@understudy-build/minimal-map-charts@0/dist/element.js"></script>
 <map-chart><script type="application/json">{ "title": "Euro area founders, 1999", "fill": { "kind": "highlight", "countries": ["AUT", "BEL", "FIN", "FRA", "DEU", "IRL", "ITA", "LUX", "NLD", "PRT", "ESP"] } }</script></map-chart>
 ```
 
@@ -27,8 +27,8 @@ Load the element once and put the spec in a JSON script inside `<map-chart>`. No
 ## In a shell
 
 ```sh
-npx @nicolastoulemont/minimal-map-charts render spec.json > map.svg
-cat spec.json | npx @nicolastoulemont/minimal-map-charts render --palette light > map.svg
+npx @understudy-build/minimal-map-charts render spec.json > map.svg
+cat spec.json | npx @understudy-build/minimal-map-charts render --palette light > map.svg
 ```
 
 Without a file it reads stdin. The SVG follows the page's `color-scheme`; `--palette light` or `--palette dark` paints a fixed map with its own background, for an image or an email. A bad spec prints what to fix on stderr, one line each, and exits 1.
