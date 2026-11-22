@@ -2,7 +2,22 @@
   "name": "@understudy-build/minimal-map-charts",
   "version": "0.0.0",
   "description": "Small map primitives for generative UI: a JSON spec of countries and values, checked and drawn as SVG from pre-projected sheets.",
+  "keywords": [
+    "choropleth",
+    "generative-ui",
+    "json-schema",
+    "llm",
+    "map",
+    "mcp",
+    "svg"
+  ],
+  "homepage": "https://github.com/understudy-build/minimal-map-charts#readme",
+  "bugs": "https://github.com/understudy-build/minimal-map-charts/issues",
   "license": "SEE LICENSE IN LICENSE.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/understudy-build/minimal-map-charts.git"
+  },
   "bin": {
     "minimal-map-charts": "./dist/cli.js"
   },
@@ -25,6 +40,9 @@
       "default": "./dist/element.js"
     }
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsrs -p tsconfig.build.json",
     "typecheck": "tsrs --noEmit",
@@ -46,6 +64,8 @@
     "@a2ui/react": "0.15.0",
     "@a2ui/web_core": "0.15.0",
     "@base-ui/react": "^1.9.0",
+    "@changesets/changelog-github": "1.0.1",
+    "@changesets/cli": "3.0.3",
     "@json-render/core": "0.23.2",
     "@json-render/react": "0.23.2",
     "@modelcontextprotocol/client": "2.4.0",
