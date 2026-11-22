@@ -17,8 +17,8 @@ export interface YearsProps {
   readonly onYear: (index: number) => void
 }
 
-// Play and a slider over the years, as civicdata's chart over time has them:
-// moving the slider pauses play, and play stops at the last year.
+// Play and a slider over the years: moving the slider pauses play, and play
+// stops at the last year.
 export const Years = ({ years, onYear }: YearsProps) => {
   const [index, setIndex] = useState(0)
   const [playing, setPlaying] = useState(false)

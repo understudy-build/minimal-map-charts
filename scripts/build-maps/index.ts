@@ -9,8 +9,6 @@
 // 2. simplifies them on shared arcs (simplify.ts);
 // 3. removes the spikes and flat rings rounding leaves (tidy.ts);
 // 4. draws a country left with no ring on a world or regional sheet as a dot.
-//
-// Ported from civicdata's packages/maps/scripts/maps.ts at commit 6c2d279.
 import { mkdirSync, writeFileSync } from "node:fs"
 
 import {

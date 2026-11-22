@@ -1,8 +1,6 @@
 // Reads each national map's subdivisions from its source snapshot, as GeoJSON
-// features with a code and a name, in WGS84 longitude and latitude. The
-// snapshots were selected and pinned by civicdata's packages/maps/scripts
-// (commit 6c2d279); refreshing them from their publishers stays there.
-// scripts/build-maps/archive.ts restores them.
+// features with a code and a name, in WGS84 longitude and latitude.
+// scripts/build-maps/archive.ts restores the snapshots.
 import { createHash } from "node:crypto"
 import { readFileSync } from "node:fs"
 import { gunzipSync } from "node:zlib"

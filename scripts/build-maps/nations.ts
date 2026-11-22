@@ -1,6 +1,5 @@
 // How each country with a map of its own is drawn: its source, the
-// subdivisions it shows, its centre and its insets. Copied from civicdata's
-// packages/maps/scripts/countries.ts at commit 6c2d279.
+// subdivisions it shows, its centre and its insets.
 import type { Country } from "../../src/countries.ts"
 
 interface Frame {
