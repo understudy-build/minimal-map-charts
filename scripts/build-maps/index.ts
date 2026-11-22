@@ -39,6 +39,7 @@ import { type Country, countries } from "../../src/countries.ts"
 import type { Projection } from "../../src/project.ts"
 import { type Region, regions } from "../../src/regions.ts"
 import { credits, type Footprint, type Sheet } from "../../src/sheet.ts"
+import { creditLines } from "../../src/svg.ts"
 import { restore } from "./archive.ts"
 import { atlas, type Detail, isArea } from "./atlas.ts"
 import { landmarks } from "./borders.ts"
@@ -796,11 +797,6 @@ const drawNation = (nation: Nation) => {
     Match.exhaustive,
   )
 
-  const shown =
-    nation.insets.length === 0
-      ? "areas"
-      : "areas.filter((area) => !insets.some((inset) => inset.areas?.some((part) => part.code === area.code)))"
-
   const uncoded = divisions.filter((division) => !published.has(division.code))
 
   const gap =
@@ -824,7 +820,7 @@ const sheet: Sheet = {
   projection: ${JSON.stringify(recorded(projection, "azimuthal"))},
   outlines: { ${nation.country}: areas.flatMap((area) => area.outline) },
   land: ${JSON.stringify(clean(background))}, insets,
-  subdivisions: { country: "${nation.country}", source: "${nation.source}", ${input.source === "Boundary" ? `credit: ${JSON.stringify(input.credit)},` : ""} areas: ${shown} },
+  subdivisions: { country: "${nation.country}", source: "${nation.source}", ${input.source === "Boundary" ? `credit: ${JSON.stringify(input.credit)},` : ""} areas: areas },
 }
 
 export default sheet
@@ -868,7 +864,7 @@ const footprintOf = async (id: string, members: ReadonlyArray<Country>): Promise
     width: sheet.width,
     height: sheet.height,
     insets: sheet.insets.map((each) => [each.width, each.height] as const),
-    credits: credits(sheet).length,
+    credits: creditLines(credits(sheet), sheet.width).length,
     ...(absent.length === 0 ? {} : { absent }),
   }
 }

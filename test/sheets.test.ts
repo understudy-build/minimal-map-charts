@@ -78,12 +78,16 @@ describe("sheets", () => {
 })
 
 // The code of every area a national sheet draws, on the map or in an inset.
+// An inset that zooms in on an area of the map draws that same area again.
 const codes = async (country: (typeof nations)[number]) => {
   const sheet = await load(country)
+  const mapped = sheet.subdivisions?.areas ?? []
+  const zoomed = (area: (typeof mapped)[number]) =>
+    mapped.some((each) => each.code === area.code && each.name === area.name)
 
   return [
-    ...(sheet.subdivisions?.areas ?? []),
-    ...sheet.insets.flatMap((inset) => inset.areas ?? []),
+    ...mapped,
+    ...sheet.insets.flatMap((inset) => inset.areas ?? []).filter((area) => !zoomed(area)),
   ].map((area) => area.code)
 }
 

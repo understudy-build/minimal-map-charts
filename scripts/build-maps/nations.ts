@@ -6,6 +6,9 @@ import type { Country } from "../../src/countries.ts"
 interface Frame {
   readonly country: Country
   readonly id: string
+  // The snapshot's file name when it is not the id: a replaced source gets a
+  // new release asset, so earlier commits still build from the old one.
+  readonly snapshot?: string
   readonly centre: readonly [number, number]
   readonly land?: ReadonlyArray<string>
   readonly offshore?: ReadonlyArray<{
@@ -6101,26 +6104,19 @@ export const nations: ReadonlyArray<Nation> = [
     source: "Boundary",
     country: "GRL",
     id: "greenland",
+    snapshot: "greenland-overture",
     centre: [-46.148, 71.815],
+    // Overture's municipalities on Greenland's land: the national park and
+    // Pituffik belong to none and are drawn as plain land.
+    land: ["27a88497-79ab-4bb8-911f-0a0492cac350"],
     codes: [
-      "42512837B15316814347491",
-      "42512837B19798010135006",
-      "42512837B56880650870693",
-      "42512837B76623301896964",
-      "42512837B82481266018751",
-      "42512837B89373787162082",
+      "01fa1777-d28a-4a3d-8a88-b13091f58c9a",
+      "045f6c25-9a04-4c7d-91cf-480788488b41",
+      "3e56c94a-b788-4892-9a81-1575cb035f1a",
+      "f42b381c-375d-4adf-8940-a8d11ffd9cb3",
+      "fb5ee0b2-29ed-45c0-9340-3b36de6c2c07",
     ],
-    insets: [
-      {
-        code: "42512837B82481266018751",
-        detached: false,
-      },
-      {
-        code: "42512837B15316814347491",
-        detached: true,
-        coverage: "Context",
-      },
-    ],
+    insets: [],
   },
   {
     source: "NaturalEarth",

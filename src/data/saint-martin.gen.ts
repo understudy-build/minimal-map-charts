@@ -280,9 +280,7 @@ const sheet: Sheet = {
       licenseUrl: "https://github.com/etalab/licence-ouverte/blob/master/LO.md",
       kind: "Statistical",
     },
-    areas: areas.filter(
-      (area) => !insets.some((inset) => inset.areas?.some((part) => part.code === area.code)),
-    ),
+    areas: areas,
   },
 }
 

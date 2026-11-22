@@ -1,4 +1,4 @@
-import { type Inset, paint, type Palette, range, type Scene } from "../../src/index.ts"
+import { cite, type Inset, paint, type Palette, range, type Scene } from "../../src/index.ts"
 
 // What a figure's legend and credits say, with no framework in it. Each
 // framework's recipe renders these the same way.
@@ -43,9 +43,7 @@ export const entries = (scene: Scene, palette: Palette): ReadonlyArray<Entry> =>
 export const credit = (scene: Scene) =>
   [
     ...(scene.source === undefined ? [] : [`Data: ${scene.source}.`]),
-    ...scene.credits.map(
-      (each) => `Boundaries: ${each.publisher}, ${each.vintage}. ${each.license}.`,
-    ),
+    ...scene.credits.map(cite),
     ...(scene.points?.credit === undefined
       ? []
       : [

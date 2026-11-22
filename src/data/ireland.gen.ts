@@ -1984,13 +1984,7 @@ const sheet: Sheet = {
   outlines: { IRL: areas.flatMap((area) => area.outline) },
   land: [],
   insets,
-  subdivisions: {
-    country: "IRL",
-    source: "Tailte",
-    areas: areas.filter(
-      (area) => !insets.some((inset) => inset.areas?.some((part) => part.code === area.code)),
-    ),
-  },
+  subdivisions: { country: "IRL", source: "Tailte", areas: areas },
 }
 
 export default sheet

@@ -1,4 +1,5 @@
 import {
+  cite,
   type Country,
   dark,
   describe,
@@ -155,9 +156,7 @@ export const credits = (scene: Scene, { palette = light }: FigureOptions = {}) =
   note.style.cssText = `font-size:12px;color:${palette.muted};margin:4px 0`
   note.textContent = [
     ...(scene.source === undefined ? [] : [`Data: ${scene.source}.`]),
-    ...scene.credits.map(
-      (credit) => `Boundaries: ${credit.publisher}, ${credit.vintage}. ${credit.license}.`,
-    ),
+    ...scene.credits.map(cite),
   ].join(" ")
 
   return note

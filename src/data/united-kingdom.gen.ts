@@ -1176,13 +1176,7 @@ const sheet: Sheet = {
   outlines: { GBR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,
-  subdivisions: {
-    country: "GBR",
-    source: "ONS",
-    areas: areas.filter(
-      (area) => !insets.some((inset) => inset.areas?.some((part) => part.code === area.code)),
-    ),
-  },
+  subdivisions: { country: "GBR", source: "ONS", areas: areas },
 }
 
 export default sheet

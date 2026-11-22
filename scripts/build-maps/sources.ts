@@ -24,7 +24,7 @@ const Country = Codes(countries.map((country) => country.code))
 
 // A nation's snapshot file: gzipped for the larger sources.
 export const file = (nation: Nation) =>
-  `${nation.id}${nation.source === "Boundary" || nation.source === "LandBoard" ? ".json.gz" : ".json"}`
+  `${nation.snapshot ?? nation.id}${nation.source === "Boundary" || nation.source === "LandBoard" ? ".json.gz" : ".json"}`
 
 export interface Land {
   readonly type: "Feature"
@@ -400,7 +400,7 @@ const clipBoundaries = (features: ReadonlyArray<Part>, code: string): ReadonlyAr
 }
 
 const readBoundary = (nation: Extract<Nation, { source: "Boundary" }>) => {
-  const { id, codes, context = [], coast, cuts = [] } = nation
+  const { id, codes, context = [], land = [], coast, cuts = [] } = nation
   const data = Schema.decodeUnknownSync(boundary)(gzipped(nation))
 
   if (data.country !== nation.country) throw new Error(`Wrong boundary snapshot for ${id}`)
@@ -427,6 +427,7 @@ const readBoundary = (nation: Extract<Nation, { source: "Boundary" }>) => {
   const expected = new Set([
     ...codes,
     ...context.flatMap((part) => part.codes),
+    ...land,
     ...(coast === undefined ? [] : [coast]),
   ])
 

@@ -427,13 +427,7 @@ const sheet: Sheet = {
   outlines: { MWI: areas.flatMap((area) => area.outline) },
   land: [],
   insets,
-  subdivisions: {
-    country: "MWI",
-    source: "NaturalEarth",
-    areas: areas.filter(
-      (area) => !insets.some((inset) => inset.areas?.some((part) => part.code === area.code)),
-    ),
-  },
+  subdivisions: { country: "MWI", source: "NaturalEarth", areas: areas },
 }
 
 export default sheet

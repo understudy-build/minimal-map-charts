@@ -505,9 +505,7 @@ const sheet: Sheet = {
       licenseUrl: "https://opendatacommons.org/licenses/odbl/1-0/",
       kind: "Administrative",
     },
-    areas: areas.filter(
-      (area) => !insets.some((inset) => inset.areas?.some((part) => part.code === area.code)),
-    ),
+    areas: areas,
   },
 }
 

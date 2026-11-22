@@ -1,7 +1,9 @@
 import { type Colour, hex, oklch } from "./colour.ts"
+import { cite } from "./credit.ts"
 import type { Legend, Mark, Scene, Tone } from "./draw.ts"
 import { legendHeight } from "./points.ts"
 import type { Bin } from "./scale.ts"
+import type { Credit } from "./sheet.ts"
 
 export interface Palette {
   // Shades and highlights take this colour's hue and chroma when the spec
@@ -154,6 +156,31 @@ export const key = (
 
 const round = (value: number) => Math.round(value * 100) / 100
 
+// A note split at spaces into lines of at most `columns` characters; a word
+// longer than that keeps a line of its own.
+const wrap = (note: string, columns: number): ReadonlyArray<string> =>
+  note.split(" ").reduce<Array<string>>((lines, word) => {
+    const last = lines.at(-1)
+
+    if (last !== undefined && last.length + 1 + word.length <= columns)
+      lines[lines.length - 1] = `${last} ${word}`
+    else lines.push(word)
+
+    return lines
+  }, [])
+
+// The lines of small print a map's boundary credits take under a map `width`
+// units wide: each source's line, wrapped to the characters that fit by the
+// estimate the legend uses.
+export const creditLines = (
+  credits: ReadonlyArray<Credit>,
+  width: number,
+): ReadonlyArray<string> => {
+  const columns = Math.floor(width / (units(width).small * 0.55))
+
+  return credits.flatMap((credit) => wrap(cite(credit), columns))
+}
+
 // What decides where svg() puts each part, and so the document's height.
 export interface Parts {
   // The map's size in units: the scene's, or its sheet's before it loads.
@@ -277,9 +304,7 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
             .join(", ")}.`,
         ]),
     ...(scene.source === undefined ? [] : [`Data: ${scene.source}.`]),
-    ...scene.credits.map(
-      (credit) => `Boundaries: ${credit.publisher}, ${credit.vintage}. ${credit.license}.`,
-    ),
+    ...creditLines(scene.credits, width),
     ...(scene.points?.credit === undefined
       ? []
       : [

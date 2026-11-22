@@ -136,7 +136,7 @@ export const credits = (sheet: Sheet): ReadonlyArray<Credit> => {
           url: "https://ckan.publishing.service.gov.uk/dataset/international-territorial-level-1-january-2025-boundaries-uk-buc",
           vintage: "January 2025",
           license: "Open Government Licence v3.0",
-          licenseUrl: "https://www.ons.gov.uk/methodology/geography/licences/",
+          licenseUrl: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
           kind: "Statistical",
         },
       ]
@@ -157,8 +157,9 @@ export const credits = (sheet: Sheet): ReadonlyArray<Credit> => {
           publisher: "Estonian Land and Spatial Development Board",
           url: "https://geoportaal.maaruum.ee/eng/spatial-data/administrative-and-settlement-division-p312.html",
           vintage: "12 November 2026",
-          // civicdata never recorded this licence; check it before publishing.
-          license: "Publisher's open data terms",
+          // The dataset page's terms: use is not restricted, but a map must
+          // name the Board and the data's validity date, as this credit does.
+          license: "Free use with credit",
           licenseUrl:
             "https://geoportaal.maaruum.ee/eng/spatial-data/administrative-and-settlement-division-p312.html",
           kind: "Administrative",

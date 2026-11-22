@@ -21,6 +21,7 @@ export {
 } from "./draw.ts"
 export type { Frame } from "./compose.ts"
 export type { Layout, Panel, Place } from "./layout.ts"
+export { cite } from "./credit.ts"
 export { type Region, regions } from "./regions.ts"
 export type { Bin, Shade } from "./scale.ts"
 export { partial } from "./partial.ts"

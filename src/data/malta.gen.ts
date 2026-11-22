@@ -164,9 +164,7 @@ const sheet: Sheet = {
       licenseUrl: "https://address.gov.mt/local-council/",
       kind: "Administrative",
     },
-    areas: areas.filter(
-      (area) => !insets.some((inset) => inset.areas?.some((part) => part.code === area.code)),
-    ),
+    areas: areas,
   },
 }
 

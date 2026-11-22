@@ -834,9 +834,7 @@ const sheet: Sheet = {
       licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
       kind: "Administrative",
     },
-    areas: areas.filter(
-      (area) => !insets.some((inset) => inset.areas?.some((part) => part.code === area.code)),
-    ),
+    areas: areas,
   },
 }
 

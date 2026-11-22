@@ -313,13 +313,7 @@ const sheet: Sheet = {
   outlines: { NLD: areas.flatMap((area) => area.outline) },
   land: [],
   insets,
-  subdivisions: {
-    country: "NLD",
-    source: "NaturalEarth",
-    areas: areas.filter(
-      (area) => !insets.some((inset) => inset.areas?.some((part) => part.code === area.code)),
-    ),
-  },
+  subdivisions: { country: "NLD", source: "NaturalEarth", areas: areas },
 }
 
 export default sheet

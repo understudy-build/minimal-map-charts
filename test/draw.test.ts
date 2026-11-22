@@ -366,6 +366,13 @@ describe("svg", () => {
     expect(all).not.toContain("No data")
   })
 
+  it("colours an area on the map as well as in the inset that zooms in on it", async () => {
+    const markup = svg(await drawn(states({ "US-DC": 1 })))
+    const fills = [...markup.matchAll(/data-area="US-DC" fill="(#[0-9a-f]{6})"/g)]
+
+    expect(fills.map((match) => match[1])).toEqual([fills[0]?.[1], fills[0]?.[1]])
+  })
+
   it("draws a standalone document with its title, legend and credits", async () => {
     const result = parse({
       title: "Growth <2024>",

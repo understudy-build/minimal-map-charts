@@ -384,10 +384,6 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
   STP: [
     "19237168B40253326356618", // São Tomé
   ],
-  // greenland
-  GRL: [
-    "42512837B15316814347491", // Northeast Greenland National Park
-  ],
   // channel-islands
   CHI: [
     "GGY+00?", // Bailiwick of Guernsey

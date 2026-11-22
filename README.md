@@ -293,17 +293,18 @@ npx @nicolastoulemont/minimal-map-charts render spec.json --palette dark > map.s
 
 ## API
 
-| Export                     | What it does                                                                                                                                                                        |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `parse(input)`             | Reads untrusted input into a `Spec`, or returns every issue it finds without loading a sheet.                                                                                       |
-| `partial(input)`           | Reads a spec from a stream cut short. Never fails.                                                                                                                                  |
-| `schema`, `strict`, `Spec` | The spec as JSON Schema, as JSON Schema for strict mode, and as Standard Schema.                                                                                                    |
-| `draw(spec, { locale })`   | Loads the sheet and any named places and groups the values into colour bands. Returns `{ ok, scene }`, or `{ ok, issues }` for an area or a place it lacks, or a point off the map. |
-| `svg(scene, { palette })`  | Turns a scene into a standalone SVG document with its legend and credits. `{ light, dark }` follows the page's `color-scheme`.                                                      |
-| `paint(tone, { palette })` | The colour of a shape's tone. `light` and `dark` are the built-in palettes; `{ light, dark }` gives a `light-dark()` pair.                                                          |
-| `range(bin)`               | A legend band as text: "4 to 6", "10 and above".                                                                                                                                    |
-| `size(spec)`               | The size `svg` will give a spec's map, before its sheet loads, to reserve its height. `undefined` for a layout.                                                                     |
-| `sheetOf(spec)`            | The sheet or layout `draw` will use, without loading anything.                                                                                                                      |
+| Export                     | What it does                                                                                                                                                                                   |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `parse(input)`             | Reads untrusted input into a `Spec`, or returns every issue it finds without loading a sheet.                                                                                                  |
+| `partial(input)`           | Reads a spec from a stream cut short. Never fails.                                                                                                                                             |
+| `schema`, `strict`, `Spec` | The spec as JSON Schema, as JSON Schema for strict mode, and as Standard Schema.                                                                                                               |
+| `draw(spec, { locale })`   | Loads the sheet and any named places and groups the values into colour bands. Returns `{ ok, scene }`, or `{ ok, issues }` for an area or a place it lacks, or a point off the map.            |
+| `svg(scene, { palette })`  | Turns a scene into a standalone SVG document with its legend and credits. `{ light, dark }` follows the page's `color-scheme`.                                                                 |
+| `paint(tone, { palette })` | The colour of a shape's tone. `light` and `dark` are the built-in palettes; `{ light, dark }` gives a `light-dark()` pair.                                                                     |
+| `range(bin)`               | A legend band as text: "4 to 6", "10 and above".                                                                                                                                               |
+| `cite(credit)`             | The line a source's licence asks a map to print: publisher, date, licence address, and for ODbL where the derived data is. Print `scene.credits.map(cite)` beside every map you draw yourself. |
+| `size(spec)`               | The size `svg` will give a spec's map, before its sheet loads, to reserve its height. `undefined` for a layout.                                                                                |
+| `sheetOf(spec)`            | The sheet or layout `draw` will use, without loading anything.                                                                                                                                 |
 
 A scene is plain data, so you can draw it however your interface needs:
 
