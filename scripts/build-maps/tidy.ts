@@ -1,12 +1,9 @@
-// Tidies the rings of every sheet in src/data/. Projection rounds points to
+// Tidies a sheet's rings after simplification. Projection rounds points to
 // whole units, which leaves two kinds of debris that enclose nothing and only
 // draw a stray stroke across a country:
 // - spikes: an outline goes out to a point and straight back;
 // - flat rings: a whole ring folds back on itself.
-// It removes the spikes, then the rings left flat. Run with `pnpm tidy`.
-import { readdirSync, readFileSync, writeFileSync } from "node:fs"
-import { join } from "node:path"
-
+// It removes the spikes, then the rings left flat.
 type Point = readonly [number, number]
 
 const decode = (steps: ReadonlyArray<number>): Array<Point> => {
@@ -92,51 +89,10 @@ export const despike = (steps: ReadonlyArray<number>): Array<number> => {
   return encode(points)
 }
 
-// A ring in a generated module: a bracketed list of whole numbers.
-const ring = /\[\s*-?\d+(?:\s*,\s*-?\d+)+\s*,?\s*\]/g
+// The rings without their spikes, and without the rings left flat.
+export const tidy = (rings: ReadonlyArray<ReadonlyArray<number>>): Array<ReadonlyArray<number>> =>
+  rings.flatMap((ring) => {
+    const clean = spikes(ring) === 0 ? ring : despike(ring)
 
-const tidy = (source: string) => {
-  const counts = { spikes: 0, rings: 0 }
-
-  const marked = source.replace(ring, (literal) => {
-    const steps = literal
-      .slice(1, -1)
-      .split(",")
-      .filter((part) => part.trim() !== "")
-      .map(Number)
-
-    const tips = spikes(steps)
-    const clean = tips === 0 ? steps : despike(steps)
-
-    counts.spikes += tips
-
-    if (clean.length < 6 || flat(clean)) {
-      counts.rings += 1
-
-      return "FLAT"
-    }
-
-    return tips === 0 ? literal : `[${clean.join(", ")}]`
+    return clean.length < 6 || flat(clean) ? [] : [clean]
   })
-
-  return { source: marked.replace(/\s*FLAT\s*,?/g, ""), counts }
-}
-
-if (import.meta.main) {
-  const folder = new URL("../src/data/", import.meta.url).pathname
-  const total = { spikes: 0, rings: 0 }
-
-  for (const file of readdirSync(folder).filter((name) => name.endsWith(".gen.ts"))) {
-    const path = join(folder, file)
-    const { source, counts } = tidy(readFileSync(path, "utf8"))
-
-    if (counts.spikes === 0 && counts.rings === 0) continue
-
-    writeFileSync(path, source)
-    total.spikes += counts.spikes
-    total.rings += counts.rings
-    console.info(`${file}: ${counts.spikes} spikes, ${counts.rings} flat rings`)
-  }
-
-  console.info(`Removed ${total.spikes} spikes and ${total.rings} flat rings`)
-}

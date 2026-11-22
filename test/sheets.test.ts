@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 
-import { despike, flat, spikes } from "../scripts/tidy.ts"
+import { despike, flat, spikes } from "../scripts/build-maps/tidy.ts"
 import { draw, sheetIds } from "../src/index.ts"
 import { load, type Steps } from "../src/sheet.ts"
 

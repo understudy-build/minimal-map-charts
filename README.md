@@ -212,11 +212,12 @@ pnpm check       # format, lint, typecheck, test, build
 pnpm storybook   # http://localhost:6007
 pnpm sizes       # regenerate docs/bundle-size.md
 pnpm readme      # redraw the README's example maps
+pnpm build:maps  # regenerate src/data/ from the pinned source snapshots
 ```
 
 ## Where the geometry comes from
 
-1. Sheets: civicdata's `packages/maps` generator (commit `6c2d279`) wrote `src/data/*.gen.ts`. Mapshaper then simplified them with Douglas-Peucker at 1 sheet unit, on shared arcs so borders between neighbours stay aligned. The generator, its sources and the simplification step are not in this repository yet, so the sheets cannot be regenerated here.
+1. Sheets: `pnpm build:maps` runs `scripts/build-maps/index.ts`, which writes every `src/data/*.gen.ts` but `globe.gen.ts`. It projects Natural Earth's countries (from `world-atlas`) for the world and the regions, and each country's subdivisions from one of 212 source snapshots. It then simplifies the rings with mapshaper's Douglas-Peucker at 1 sheet unit, on shared arcs so borders between neighbours stay aligned, and removes the spikes and flat rings left by rounding. The snapshots weigh 126 MB, so they are not in Git: the script downloads any missing one into the ignored `.archive/` folder before it starts, and checks it against the SHA-256 GitHub records for the asset. A changed source shows up as a diff in the committed `src/data`. They are assets of the [`sources-6c2d279`](https://github.com/nicolastoulemont/minimal-map-charts/releases/tag/sources-6c2d279) release; while this repository is private, run `GITHUB_TOKEN=$(gh auth token) pnpm build:maps`. The generator and the snapshots come from civicdata's `packages/maps` (commit `6c2d279`), and refreshing a snapshot from its publisher still happens there.
 2. Layouts: `scripts/globe.ts` writes `src/data/globe.gen.ts`, each country's box in degrees and its area, from Natural Earth's 1:50m countries, v5.1.2. The script's header says how to fetch the source and run it.
 
 See [LICENSE.md](LICENSE.md): the code is MIT, and each sheet keeps its source's licence.

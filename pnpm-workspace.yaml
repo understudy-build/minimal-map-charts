@@ -16,3 +16,8 @@ allowBuilds:
   # Its postinstall only checks the platform binary, which pnpm installs as an
   # optional dependency anyway.
   esbuild: false
+  # mapshaper (scripts/maps.ts) reads GeoPackage files through better-sqlite3
+  # and speeds up msgpack with msgpackr-extract. Simplifying arcs needs
+  # neither native build.
+  better-sqlite3: false
+  msgpackr-extract: false

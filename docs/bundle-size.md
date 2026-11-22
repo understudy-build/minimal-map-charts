@@ -103,7 +103,7 @@ Each map adds its sheet. The totals are that code plus the sheet:
 
 ### Countries
 
-212 sheets, 1184.6 kB gzipped in total. The median sheet is 4.1 kB gzipped.
+212 sheets, 1184.7 kB gzipped in total. The median sheet is 4.1 kB gzipped.
 
 | Sheet                                        |      Raw |    gzip |  Brotli |
 | -------------------------------------------- | -------: | ------: | ------: |
@@ -130,8 +130,8 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | data/estonia.gen.js                          |  70.1 kB | 11.1 kB |  9.9 kB |
 | data/vietnam.gen.js                          |  62.5 kB | 11.0 kB |  9.7 kB |
 | data/moldova.gen.js                          |  52.3 kB | 10.6 kB |  9.6 kB |
+| data/india.gen.js                            |  54.7 kB | 10.3 kB |  9.3 kB |
 | data/latvia.gen.js                           |  52.3 kB | 10.3 kB |  9.2 kB |
-| data/india.gen.js                            |  54.8 kB | 10.3 kB |  9.3 kB |
 | data/tunisia.gen.js                          |  53.3 kB | 10.2 kB |  9.2 kB |
 | data/seychelles.gen.js                       |  55.3 kB | 10.1 kB |  9.0 kB |
 | data/curacao.gen.js                          |  49.9 kB | 10.1 kB |  9.0 kB |
@@ -174,7 +174,7 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | data/argentina.gen.js                        |  28.8 kB |  6.2 kB |  5.6 kB |
 | data/united-arab-emirates.gen.js             |  30.8 kB |  6.1 kB |  5.5 kB |
 | data/portugal.gen.js                         |  27.5 kB |  6.1 kB |  5.6 kB |
-| data/spain.gen.js                            |  29.5 kB |  6.0 kB |  5.4 kB |
+| data/spain.gen.js                            |  29.4 kB |  6.0 kB |  5.4 kB |
 | data/ethiopia.gen.js                         |  27.9 kB |  5.9 kB |  5.3 kB |
 | data/central-african-republic.gen.js         |  28.5 kB |  5.9 kB |  5.3 kB |
 | data/guam.gen.js                             |  25.1 kB |  5.9 kB |  5.3 kB |
@@ -194,8 +194,8 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | data/switzerland.gen.js                      |  23.4 kB |  5.3 kB |  4.8 kB |
 | data/equatorial-guinea.gen.js                |  32.9 kB |  5.1 kB |  4.5 kB |
 | data/british-virgin-islands.gen.js           |  30.7 kB |  5.0 kB |  4.4 kB |
-| data/australia-states.gen.js                 |  24.1 kB |  4.9 kB |  4.4 kB |
-| data/guinea.gen.js                           |  21.2 kB |  4.8 kB |  4.3 kB |
+| data/australia-states.gen.js                 |  24.0 kB |  4.9 kB |  4.4 kB |
+| data/guinea.gen.js                           |  21.2 kB |  4.8 kB |  4.4 kB |
 | data/south-sudan.gen.js                      |  23.3 kB |  4.8 kB |  4.3 kB |
 | data/norway.gen.js                           |  23.2 kB |  4.8 kB |  4.3 kB |
 | data/mali.gen.js                             |  20.7 kB |  4.7 kB |  4.2 kB |
@@ -212,7 +212,7 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | data/north-macedonia.gen.js                  |  17.3 kB |  4.2 kB |  3.8 kB |
 | data/cyprus.gen.js                           |  25.2 kB |  4.2 kB |  3.7 kB |
 | data/chad.gen.js                             |  16.1 kB |  4.2 kB |  3.7 kB |
-| data/mozambique.gen.js                       |  17.6 kB |  4.1 kB |  3.8 kB |
+| data/mozambique.gen.js                       |  17.6 kB |  4.2 kB |  3.8 kB |
 | data/egypt.gen.js                            |  17.7 kB |  4.1 kB |  3.7 kB |
 | data/bosnia-and-herzegovina.gen.js           |  16.5 kB |  4.1 kB |  3.7 kB |
 | data/hungary.gen.js                          |  16.9 kB |  4.0 kB |  3.6 kB |
@@ -286,7 +286,7 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | data/rwanda.gen.js                           |   7.7 kB |  2.0 kB |  1.8 kB |
 | data/jordan.gen.js                           |   7.6 kB |  1.9 kB |  1.7 kB |
 | data/eritrea.gen.js                          |   7.2 kB |  1.9 kB |  1.7 kB |
-| data/marshall-islands.gen.js                 |   7.2 kB |  1.9 kB |  1.6 kB |
+| data/marshall-islands.gen.js                 |   7.1 kB |  1.9 kB |  1.6 kB |
 | data/cabo-verde.gen.js                       |   7.5 kB |  1.8 kB |  1.6 kB |
 | data/sao-tome-and-principe.gen.js            |   7.7 kB |  1.8 kB |  1.6 kB |
 | data/jamaica.gen.js                          |   7.0 kB |  1.8 kB |  1.6 kB |

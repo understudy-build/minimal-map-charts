@@ -2,3 +2,6 @@ node_modules
 dist
 .DS_Store
 storybook-static
+
+# Source snapshots scripts/build-maps downloads from the sources-6c2d279 release.
+.archive
