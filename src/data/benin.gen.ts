@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "BEN-2169",
+    code: "BJ-BO",
     name: "Borgou",
     outline: [
       [
@@ -22,7 +22,7 @@ const areas = [
     ],
   },
   {
-    code: "BEN-2170",
+    code: "BJ-AL",
     name: "Alibori",
     outline: [
       [
@@ -39,7 +39,7 @@ const areas = [
     ],
   },
   {
-    code: "BEN-2171",
+    code: "BJ-CO",
     name: "Collines",
     outline: [
       [
@@ -53,7 +53,7 @@ const areas = [
     ],
   },
   {
-    code: "BEN-2174",
+    code: "BJ-AQ",
     name: "Atlantique",
     outline: [
       [
@@ -64,12 +64,12 @@ const areas = [
     ],
   },
   {
-    code: "BEN-2175",
+    code: "BJ-LI",
     name: "Littoral",
     outline: [[560, 1969, -40, 4, 3, -8, 4, -4, 13, -5, 15, -2, -1, 6, 5, 4]],
   },
   {
-    code: "BEN-2176",
+    code: "BJ-KO",
     name: "Kouffo",
     outline: [
       [
@@ -81,7 +81,7 @@ const areas = [
     ],
   },
   {
-    code: "BEN-2177",
+    code: "BJ-OU",
     name: "Ouémé",
     outline: [
       [
@@ -92,7 +92,7 @@ const areas = [
     ],
   },
   {
-    code: "BEN-2178",
+    code: "BJ-ZO",
     name: "Zou",
     outline: [
       [
@@ -105,7 +105,7 @@ const areas = [
     ],
   },
   {
-    code: "BEN-2179",
+    code: "BJ-PL",
     name: "Plateau",
     outline: [
       [
@@ -118,7 +118,7 @@ const areas = [
     ],
   },
   {
-    code: "BEN-2180",
+    code: "BJ-MO",
     name: "Mono",
     outline: [
       [
@@ -130,7 +130,7 @@ const areas = [
     ],
   },
   {
-    code: "BEN-2181",
+    code: "BJ-AK",
     name: "Atakora",
     outline: [
       [
@@ -148,7 +148,7 @@ const areas = [
     ],
   },
   {
-    code: "BEN-2182",
+    code: "BJ-DO",
     name: "Donga",
     outline: [
       [
@@ -175,7 +175,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "BEN-2175",
+        code: "BJ-LI",
         name: "Littoral",
         outline: [
           [

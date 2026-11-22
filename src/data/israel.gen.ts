@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "19161824B12012272353046",
+    code: "IL-HA",
     name: "Haifa",
     outline: [
       [
@@ -19,7 +19,7 @@ const areas = [
     ],
   },
   {
-    code: "19161824B24193204184747",
+    code: "IL-D",
     name: "Southern District",
     outline: [
       [
@@ -48,7 +48,7 @@ const areas = [
     ],
   },
   {
-    code: "19161824B470428506180",
+    code: "IL-M",
     name: "Central District",
     outline: [
       [
@@ -69,7 +69,7 @@ const areas = [
     ],
   },
   {
-    code: "19161824B77983365125372",
+    code: "IL-TA",
     name: "Tel Aviv",
     outline: [
       [
@@ -80,7 +80,7 @@ const areas = [
     ],
   },
   {
-    code: "19161824B79530266069959",
+    code: "IL-JM",
     name: "Jerusalem District",
     outline: [
       [
@@ -94,7 +94,7 @@ const areas = [
     ],
   },
   {
-    code: "19161824B91089536365577",
+    code: "IL-Z",
     name: "Northern District",
     outline: [
       [
@@ -135,7 +135,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "19161824B77983365125372",
+        code: "IL-TA",
         name: "Tel Aviv",
         outline: [
           [

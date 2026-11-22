@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "HTI-1359",
+    code: "HT-GA",
     name: "Grand'Anse",
     outline: [
       [249, 540, 8, -4, 11, 1, 9, 5, 0, 8, -8, 4, -11, 0, -8, -5],
@@ -16,7 +16,7 @@ const areas = [
     ],
   },
   {
-    code: "HTI-1360",
+    code: "HT-NI",
     name: "Nippes",
     outline: [
       [
@@ -30,7 +30,7 @@ const areas = [
     ],
   },
   {
-    code: "HTI-1361",
+    code: "HT-NO",
     name: "Nord-Ouest",
     outline: [
       [
@@ -47,7 +47,7 @@ const areas = [
     ],
   },
   {
-    code: "HTI-1362",
+    code: "HT-SD",
     name: "Sud",
     outline: [
       [306, 734, 12, 2, 5, 3, 0, 5, -4, 3, -27, -2, -13, -11, 2, -5, 2, 0, 2, 3, 4, -3, 6, 5],
@@ -64,7 +64,7 @@ const areas = [
     ],
   },
   {
-    code: "HTI-1384",
+    code: "HT-AR",
     name: "L'Artibonite",
     outline: [
       [
@@ -80,7 +80,7 @@ const areas = [
     ],
   },
   {
-    code: "HTI-1385",
+    code: "HT-CE",
     name: "Centre",
     outline: [
       [
@@ -93,7 +93,7 @@ const areas = [
     ],
   },
   {
-    code: "HTI-1386",
+    code: "HT-NE",
     name: "Nord-Est",
     outline: [
       [
@@ -106,7 +106,7 @@ const areas = [
     ],
   },
   {
-    code: "HTI-1387",
+    code: "HT-ND",
     name: "Nord",
     outline: [
       [
@@ -121,7 +121,7 @@ const areas = [
     ],
   },
   {
-    code: "HTI-1388",
+    code: "HT-OU",
     name: "Ouest",
     outline: [
       [
@@ -144,7 +144,7 @@ const areas = [
     ],
   },
   {
-    code: "HTI-1389",
+    code: "HT-SE",
     name: "Sud-Est",
     outline: [
       [
@@ -178,7 +178,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "HTI-1360",
+        code: "HT-NI",
         name: "Nippes",
         outline: [
           [

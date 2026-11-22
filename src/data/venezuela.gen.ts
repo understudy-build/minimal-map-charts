@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "VEN-23",
+    code: "VE-I",
     name: "Falcón",
     outline: [
       [
@@ -21,7 +21,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-25",
+    code: "VE-C",
     name: "Apure",
     outline: [
       [
@@ -40,7 +40,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-26",
+    code: "VE-E",
     name: "Barinas",
     outline: [
       [
@@ -59,7 +59,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-27",
+    code: "VE-L",
     name: "Mérida",
     outline: [
       [
@@ -73,7 +73,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-28",
+    code: "VE-S",
     name: "Táchira",
     outline: [
       [
@@ -86,7 +86,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-29",
+    code: "VE-T",
     name: "Trujillo",
     outline: [
       [
@@ -99,7 +99,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-31",
+    code: "VE-V",
     name: "Zulia",
     outline: [
       [
@@ -123,7 +123,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-32",
+    code: "VE-H",
     name: "Cojedes",
     outline: [
       [
@@ -136,7 +136,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-33",
+    code: "VE-G",
     name: "Carabobo",
     outline: [
       [
@@ -148,7 +148,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-34",
+    code: "VE-K",
     name: "Lara",
     outline: [
       [
@@ -164,7 +164,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-35",
+    code: "VE-P",
     name: "Portuguesa",
     outline: [
       [
@@ -178,7 +178,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-36",
+    code: "VE-U",
     name: "Yaracuy",
     outline: [
       [
@@ -190,7 +190,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-38",
+    code: "VE-Z",
     name: "Amazonas",
     outline: [
       [
@@ -213,7 +213,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-39",
+    code: "VE-F",
     name: "Bolívar",
     outline: [
       [
@@ -239,7 +239,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-40",
+    code: "VE-B",
     name: "Anzoátegui",
     outline: [
       [
@@ -258,7 +258,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-41",
+    code: "VE-D",
     name: "Aragua",
     outline: [
       [
@@ -271,7 +271,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-42",
+    code: "VE-X",
     name: "La Guaira",
     outline: [
       [
@@ -281,7 +281,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-43",
+    code: "VE-A",
     name: "Distrito Capital",
     outline: [
       [
@@ -291,7 +291,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-45",
+    code: "VE-J",
     name: "Guárico",
     outline: [
       [
@@ -311,7 +311,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-46",
+    code: "VE-N",
     name: "Monagas",
     outline: [
       [
@@ -329,7 +329,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-47",
+    code: "VE-M",
     name: "Miranda",
     outline: [
       [
@@ -342,7 +342,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-48",
+    code: "VE-O",
     name: "Nueva Esparta",
     outline: [
       [688, 111, 5, 2, 1, 2, -5, 1, 0, -2, -3, 0, 0, -2],
@@ -354,7 +354,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-49",
+    code: "VE-R",
     name: "Sucre",
     outline: [
       [
@@ -373,7 +373,7 @@ const areas = [
     ],
   },
   {
-    code: "VEN-65",
+    code: "VE-Y",
     name: "Delta Amacuro",
     outline: [
       [
@@ -424,7 +424,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "VEN-44",
+        code: "VE-W",
         name: "Federal Dependencies",
         outline: [
           [135, 170, 1, 1, -1, 1, -1, 0, -3, 0, 0, -1, -2, 0, 0, -1, 1, -1, 2, 0, 2, 1],

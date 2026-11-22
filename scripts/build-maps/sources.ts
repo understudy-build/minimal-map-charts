@@ -38,7 +38,9 @@ const geometry = Schema.Union([
 export interface Land {
   readonly type: "Feature"
   readonly geometry: Polygon | MultiPolygon
-  readonly properties: { readonly code: string; readonly name: string }
+  // `iso` is the ISO 3166-2 code the source gives the area, as it gives it:
+  // the build keeps it only if it is one.
+  readonly properties: { readonly code: string; readonly name: string; readonly iso?: string }
 }
 
 const json = (nation: Nation): unknown => JSON.parse(readFileSync(snapshot(file(nation)), "utf8"))
@@ -116,7 +118,23 @@ const readNaturalEarth = (nation: Extract<Nation, { source: "NaturalEarth" }>) =
 
     if (!code || !name) throw new Error(`No region for ${properties.iso_3166_2}`)
 
-    return [{ type: feature.type, geometry: feature.geometry, properties: { code, name } }]
+    // A part joined into another area leaves the code to that area's own part.
+    const iso =
+      code !== grouped
+        ? undefined
+        : nation.level === "region" && !city
+          ? code
+          : nation.identifier === "adm1_code"
+            ? properties.iso_3166_2
+            : native
+
+    return [
+      {
+        type: feature.type,
+        geometry: feature.geometry,
+        properties: iso === undefined ? { code, name } : { code, name, iso },
+      },
+    ]
   })
 
   const codes = new Set(features.map((feature) => feature.properties.code))
@@ -284,6 +302,8 @@ const readLandBoard = (nation: Nation): ReadonlyArray<Land> => {
     properties: {
       code: feature.properties.ehak_kood,
       name: feature.properties.maakond.replace(/ maakond$/, ""),
+      // ISO 3166-2:EE numbers counties by their EHAK code: 0037 is EE-37.
+      iso: `EE-${feature.properties.ehak_kood.slice(2)}`,
     },
   }))
 }
@@ -323,6 +343,18 @@ const boundary = Schema.Struct({
     }),
   ),
 })
+
+// The ISO 3166-2 code a feature's publisher gives it: geoBoundaries'
+// shapeISO, or the region an Overture division of the region subtype is.
+const geoBoundaries = Schema.Struct({ shapeISO: Schema.String })
+const overture = Schema.Struct({ subtype: Schema.Literal("region"), region: Schema.String })
+
+const isoOf = (native: unknown): string | undefined =>
+  Schema.is(geoBoundaries)(native)
+    ? native.shapeISO
+    : Schema.is(overture)(native)
+      ? native.region
+      : undefined
 
 type Part = Land & { readonly geometry: typeof geometry.Type }
 
@@ -387,11 +419,16 @@ const readBoundary = (nation: Extract<Nation, { source: "Boundary" }>) => {
       throw new Error(`A boundary input of ${id} does not match its hash`)
 
   const features = data.inputs.flatMap((part) =>
-    part.features.map((feature) => ({
-      type: feature.type,
-      geometry: feature.geometry,
-      properties: { code: feature.properties.code, name: feature.properties.name },
-    })),
+    part.features.map((feature) => {
+      const { code, name, native } = feature.properties
+      const iso = isoOf(native)
+
+      return {
+        type: feature.type,
+        geometry: feature.geometry,
+        properties: iso === undefined ? { code, name } : { code, name, iso },
+      }
+    }),
   )
 
   const found = new Set(features.map((part) => part.properties.code))

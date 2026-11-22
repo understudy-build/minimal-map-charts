@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "46075475B435983987357",
+    code: "BH-14",
     name: "Southern Governorate",
     outline: [
       [
@@ -63,7 +63,7 @@ const areas = [
     ],
   },
   {
-    code: "46075475B51781384290981",
+    code: "BH-15",
     name: "Muharraq Governorate",
     outline: [
       [
@@ -96,7 +96,7 @@ const areas = [
     ],
   },
   {
-    code: "46075475B55467070984053",
+    code: "BH-13",
     name: "Capital Governorate",
     outline: [
       [
@@ -130,7 +130,7 @@ const areas = [
     ],
   },
   {
-    code: "46075475B93510634474911",
+    code: "BH-17",
     name: "Northern Governorate",
     outline: [
       [
@@ -203,7 +203,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "46075475B51781384290981",
+        code: "BH-15",
         name: "Muharraq Governorate",
         outline: [
           [

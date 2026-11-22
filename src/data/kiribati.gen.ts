@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "97431129B35506555718846",
+    code: "KI-L",
     name: "Line Islands",
     outline: [
       [
@@ -17,7 +17,7 @@ const areas = [
     ],
   },
   {
-    code: "97431129B36644055464690",
+    code: "KI-P",
     name: "Phoenix Islands",
     outline: [
       [565, 235, -1, -1, 1, 0],
@@ -28,7 +28,7 @@ const areas = [
     ],
   },
   {
-    code: "97431129B55805139245338",
+    code: "KI-G",
     name: "Gilbert Islands",
     outline: [
       [224, 228, -1, 0, 0, -1, 1, 0],
@@ -70,7 +70,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "97431129B36644055464690",
+        code: "KI-P",
         name: "Phoenix Islands",
         outline: [
           [231, 116, 1, 0, 0, 1, -1, 0, 0, -1, 1, 1, 0, -1, -1, 0],

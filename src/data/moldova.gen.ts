@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "25212430B10989766506063",
+    code: "MD-SV",
     name: "Stefan Voda",
     outline: [
       [
@@ -25,7 +25,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B1615629371845",
+    code: "MD-RI",
     name: "RIscani",
     outline: [
       [
@@ -44,7 +44,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B23943377724140",
+    code: "MD-UN",
     name: "Ungheni",
     outline: [
       [
@@ -68,7 +68,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B26910735221199",
+    code: "MD-AN",
     name: "Anenii Noi",
     outline: [
       [
@@ -89,7 +89,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B269818099865",
+    code: "MD-LE",
     name: "Leova",
     outline: [
       [
@@ -105,7 +105,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B29368029244886",
+    code: "MD-CU",
     name: "Chisinau",
     outline: [
       [
@@ -124,7 +124,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B31479954216778",
+    code: "MD-CS",
     name: "Causeni",
     outline: [
       [
@@ -145,7 +145,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B35951071556291",
+    code: "MD-OC",
     name: "Ocnita",
     outline: [
       [
@@ -161,7 +161,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B36697629718061",
+    code: "MD-RE",
     name: "Rezina",
     outline: [
       [
@@ -176,7 +176,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B37177221829666",
+    code: "MD-DU",
     name: "Dubasari",
     outline: [
       [
@@ -197,7 +197,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B37613660942888",
+    code: "MD-SI",
     name: "SIngerei",
     outline: [
       [
@@ -216,7 +216,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B38040597710669",
+    code: "MD-FL",
     name: "Floresti",
     outline: [
       [
@@ -235,7 +235,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B3857280687737",
+    code: "MD-DR",
     name: "Drochia",
     outline: [
       [
@@ -250,7 +250,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B39831138215863",
+    code: "MD-DO",
     name: "Donduseni",
     outline: [
       [
@@ -267,7 +267,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B41329206409501",
+    code: "MD-BS",
     name: "Basarabeasca",
     outline: [
       [
@@ -279,7 +279,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B43456438192105",
+    code: "MD-TA",
     name: "Taraclia",
     outline: [
       [
@@ -295,7 +295,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B45328982281571",
+    code: "MD-OR",
     name: "Orhei",
     outline: [
       [
@@ -316,7 +316,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B46101437811477",
+    code: "MD-BR",
     name: "Briceni",
     outline: [
       [
@@ -335,7 +335,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B51059014460141",
+    code: "MD-CA",
     name: "Cahul",
     outline: [
       [518, 1167, 9, -2, 7, 28, -22, 5, -3, 7, -3, 1, -2, -1, 1, -3, -2, -3, 3, -13, -1, -16],
@@ -356,7 +356,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B51243918943413",
+    code: "MD-CM",
     name: "Cimislia",
     outline: [
       [
@@ -371,7 +371,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B52468939139965",
+    code: "MD-SD",
     name: "Soldanesti",
     outline: [
       [
@@ -386,7 +386,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B53322619224262",
+    code: "MD-BA",
     name: "Balti",
     outline: [
       [
@@ -399,7 +399,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B55748044124793",
+    code: "MD-GA",
     name: "Gagauzia",
     outline: [
       [
@@ -427,7 +427,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B5738533784066",
+    code: "MD-NI",
     name: "Nisporeni",
     outline: [
       [
@@ -444,7 +444,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B57403780332927",
+    code: "MD-CR",
     name: "Criuleni",
     outline: [
       [
@@ -470,7 +470,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B61222791146584",
+    code: "MD-FA",
     name: "Falesti",
     outline: [
       [
@@ -489,7 +489,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B65458906379390",
+    code: "MD-ED",
     name: "Edinet",
     outline: [
       [
@@ -506,7 +506,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B70495112373630",
+    code: "MD-CL",
     name: "Calarasi",
     outline: [
       [
@@ -530,7 +530,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B70903588336793",
+    code: "MD-SO",
     name: "Soroca",
     outline: [
       [
@@ -549,7 +549,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B73317679220215",
+    code: "MD-HI",
     name: "Hincesti",
     outline: [
       [
@@ -572,7 +572,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B74275153833775",
+    code: "MD-IA",
     name: "Ialoveni",
     outline: [
       [
@@ -593,7 +593,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B80524279714584",
+    code: "MD-TE",
     name: "Telenesti",
     outline: [
       [
@@ -608,7 +608,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B81482951983667",
+    code: "MD-CT",
     name: "Cantemir",
     outline: [
       [
@@ -625,7 +625,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B89307550133505",
+    code: "MD-GL",
     name: "Glodeni",
     outline: [
       [
@@ -640,7 +640,7 @@ const areas = [
     ],
   },
   {
-    code: "25212430B9063126289167",
+    code: "MD-ST",
     name: "Straseni",
     outline: [
       [
@@ -683,7 +683,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "25212430B95154791539173",
+        code: "MD-BD",
         name: "Bender",
         outline: [
           [
@@ -739,7 +739,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "25212430B22111314945643",
+        code: "MD-SN",
         name: "Transnistria",
         outline: [
           [

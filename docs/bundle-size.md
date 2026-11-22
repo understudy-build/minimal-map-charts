@@ -43,7 +43,7 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | Map              | Sheet           | Sheet, gzip | Render, gzip | Generative UI, gzip | Render, Brotli | Generative UI, Brotli |
 | ---------------- | --------------- | ----------: | -----------: | ------------------: | -------------: | --------------------: |
 | World            | `world`         |      8.3 kB |      21.3 kB |             25.5 kB |        18.1 kB |               21.7 kB |
-| North America    | `north-america` |     10.5 kB |      23.5 kB |             27.7 kB |        20.2 kB |               23.9 kB |
+| North America    | `north-america` |     10.5 kB |      23.5 kB |             27.7 kB |        20.2 kB |               23.8 kB |
 | Europe           | `europe`        |      9.8 kB |      22.8 kB |             27.0 kB |        19.4 kB |               23.1 kB |
 | Asia (East Asia) | `east-asia`     |      3.9 kB |      16.9 kB |             21.1 kB |        14.2 kB |               17.9 kB |
 | United States    | `USA`           |      8.8 kB |      21.8 kB |             26.0 kB |        18.2 kB |               21.8 kB |
@@ -56,7 +56,7 @@ Each map adds its sheet. The totals are that code plus the sheet:
 
 ## Sheets
 
-242 sheets, 1364.8 kB gzipped in total. The median sheet is 4.2 kB gzipped.
+242 sheets, 1355.2 kB gzipped in total. The median sheet is 4.2 kB gzipped.
 
 ### World
 
@@ -104,13 +104,13 @@ Each map adds its sheet. The totals are that code plus the sheet:
 
 ### Countries
 
-212 sheets, 1184.7 kB gzipped in total. The median sheet is 4.1 kB gzipped.
+212 sheets, 1175.0 kB gzipped in total. The median sheet is 4.1 kB gzipped.
 
 | Sheet                                        |      Raw |    gzip |  Brotli |
 | -------------------------------------------- | -------: | ------: | ------: |
 | data/finland.gen.js                          | 230.6 kB | 35.3 kB | 28.9 kB |
 | data/philippines.gen.js                      | 155.8 kB | 29.5 kB | 26.1 kB |
-| data/russia.gen.js                           | 164.0 kB | 26.8 kB | 23.5 kB |
+| data/russia.gen.js                           | 161.4 kB | 24.8 kB | 21.9 kB |
 | data/ireland.gen.js                          | 148.1 kB | 24.0 kB | 21.5 kB |
 | data/myanmar.gen.js                          |  99.3 kB | 17.6 kB | 15.7 kB |
 | data/chile.gen.js                            |  76.2 kB | 16.4 kB | 15.0 kB |
@@ -118,35 +118,35 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | data/south-korea.gen.js                      | 100.8 kB | 16.1 kB | 14.3 kB |
 | data/madagascar.gen.js                       |  87.8 kB | 15.5 kB | 14.1 kB |
 | data/canada.gen.js                           |  87.5 kB | 15.2 kB | 13.6 kB |
-| data/azerbaijan.gen.js                       |  66.3 kB | 14.6 kB | 13.2 kB |
 | data/kosovo.gen.js                           |  69.4 kB | 13.5 kB | 12.1 kB |
+| data/azerbaijan.gen.js                       |  64.0 kB | 12.9 kB | 11.7 kB |
 | data/thailand.gen.js                         |  64.0 kB | 12.9 kB | 11.7 kB |
 | data/tanzania.gen.js                         |  66.0 kB | 12.2 kB | 11.0 kB |
 | data/kenya.gen.js                            |  69.9 kB | 12.0 kB | 10.8 kB |
-| data/ukraine.gen.js                          |  63.3 kB | 11.8 kB | 10.6 kB |
 | data/cote-divoire.gen.js                     |  61.8 kB | 11.8 kB | 10.6 kB |
 | data/united-states.gen.js                    |  74.0 kB | 11.2 kB |  9.8 kB |
-| data/greenland.gen.js                        |  74.1 kB | 11.2 kB | 10.0 kB |
+| data/greenland.gen.js                        |  73.9 kB | 11.1 kB |  9.9 kB |
+| data/ukraine.gen.js                          |  62.5 kB | 11.1 kB | 10.1 kB |
 | data/puerto-rico-us.gen.js                   |  55.4 kB | 11.1 kB |  9.9 kB |
 | data/estonia.gen.js                          |  70.1 kB | 11.1 kB |  9.9 kB |
 | data/vietnam.gen.js                          |  62.5 kB | 11.0 kB |  9.7 kB |
-| data/moldova.gen.js                          |  52.3 kB | 10.6 kB |  9.6 kB |
+| data/moldova.gen.js                          |  51.6 kB | 10.4 kB |  9.4 kB |
 | data/india.gen.js                            |  54.7 kB | 10.3 kB |  9.3 kB |
-| data/latvia.gen.js                           |  52.3 kB | 10.3 kB |  9.2 kB |
 | data/tunisia.gen.js                          |  53.3 kB | 10.2 kB |  9.2 kB |
-| data/seychelles.gen.js                       |  55.3 kB | 10.1 kB |  9.0 kB |
 | data/curacao.gen.js                          |  49.9 kB | 10.1 kB |  9.0 kB |
-| data/montenegro.gen.js                       |  49.3 kB |  9.9 kB |  8.9 kB |
+| data/latvia.gen.js                           |  51.7 kB | 10.0 kB |  9.0 kB |
 | data/democratic-republic-of-congo.gen.js     |  52.2 kB |  9.9 kB |  9.0 kB |
-| data/bahamas.gen.js                          |  53.7 kB |  9.6 kB |  8.4 kB |
-| data/panama.gen.js                           |  49.6 kB |  9.5 kB |  8.5 kB |
+| data/seychelles.gen.js                       |  54.6 kB |  9.5 kB |  8.5 kB |
+| data/bahamas.gen.js                          |  53.1 kB |  9.4 kB |  8.2 kB |
+| data/montenegro.gen.js                       |  48.5 kB |  9.3 kB |  8.4 kB |
 | data/papua-new-guinea.gen.js                 |  53.1 kB |  9.2 kB |  8.1 kB |
+| data/panama.gen.js                           |  49.1 kB |  9.1 kB |  8.2 kB |
 | data/ghana.gen.js                            |  43.8 kB |  9.0 kB |  8.2 kB |
 | data/sierra-leone.gen.js                     |  56.9 kB |  9.0 kB |  8.1 kB |
-| data/north-korea.gen.js                      |  45.1 kB |  9.0 kB |  8.1 kB |
 | data/sweden.gen.js                           |  45.6 kB |  8.9 kB |  8.1 kB |
 | data/angola.gen.js                           |  50.0 kB |  8.9 kB |  8.0 kB |
 | data/turkiye.gen.js                          |  44.0 kB |  8.7 kB |  7.8 kB |
+| data/north-korea.gen.js                      |  44.7 kB |  8.7 kB |  7.8 kB |
 | data/algeria.gen.js                          |  42.8 kB |  8.6 kB |  7.8 kB |
 | data/colombia.gen.js                         |  40.1 kB |  8.5 kB |  7.7 kB |
 | data/kazakhstan.gen.js                       |  48.1 kB |  8.2 kB |  7.4 kB |
@@ -160,7 +160,7 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | data/mexico.gen.js                           |  35.3 kB |  7.3 kB |  6.6 kB |
 | data/luxembourg.gen.js                       |  33.0 kB |  7.2 kB |  6.6 kB |
 | data/brazil.gen.js                           |  35.1 kB |  7.1 kB |  6.4 kB |
-| data/serbia.gen.js                           |  33.1 kB |  7.1 kB |  6.5 kB |
+| data/serbia.gen.js                           |  33.0 kB |  7.1 kB |  6.4 kB |
 | data/china.gen.js                            |  31.6 kB |  7.0 kB |  6.3 kB |
 | data/faroe-islands.gen.js                    |  35.7 kB |  6.9 kB |  6.2 kB |
 | data/nigeria.gen.js                          |  30.9 kB |  6.8 kB |  6.2 kB |
@@ -171,74 +171,73 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | data/slovenia.gen.js                         |  32.0 kB |  6.5 kB |  5.8 kB |
 | data/peru.gen.js                             |  29.2 kB |  6.4 kB |  5.8 kB |
 | data/burundi.gen.js                          |  34.0 kB |  6.2 kB |  5.6 kB |
-| data/iraq.gen.js                             |  29.7 kB |  6.2 kB |  5.6 kB |
 | data/argentina.gen.js                        |  28.8 kB |  6.2 kB |  5.6 kB |
-| data/united-arab-emirates.gen.js             |  30.8 kB |  6.1 kB |  5.5 kB |
 | data/portugal.gen.js                         |  27.5 kB |  6.1 kB |  5.6 kB |
+| data/united-arab-emirates.gen.js             |  30.6 kB |  6.1 kB |  5.4 kB |
 | data/spain.gen.js                            |  29.4 kB |  6.0 kB |  5.4 kB |
 | data/ethiopia.gen.js                         |  27.9 kB |  5.9 kB |  5.3 kB |
 | data/central-african-republic.gen.js         |  28.5 kB |  5.9 kB |  5.3 kB |
 | data/guam.gen.js                             |  25.1 kB |  5.9 kB |  5.3 kB |
 | data/malaysia.gen.js                         |  34.9 kB |  5.9 kB |  5.2 kB |
 | data/new-zealand.gen.js                      |  26.8 kB |  5.9 kB |  5.3 kB |
+| data/afghanistan.gen.js                      |  27.1 kB |  5.8 kB |  5.3 kB |
 | data/ecuador.gen.js                          |  27.0 kB |  5.8 kB |  5.3 kB |
-| data/afghanistan.gen.js                      |  27.2 kB |  5.8 kB |  5.3 kB |
+| data/iraq.gen.js                             |  29.1 kB |  5.8 kB |  5.2 kB |
 | data/italy.gen.js                            |  26.1 kB |  5.8 kB |  5.2 kB |
-| data/morocco.gen.js                          |  29.7 kB |  5.8 kB |  5.1 kB |
 | data/iran.gen.js                             |  25.4 kB |  5.7 kB |  5.2 kB |
 | data/croatia.gen.js                          |  24.7 kB |  5.7 kB |  5.1 kB |
 | data/venezuela.gen.js                        |  25.3 kB |  5.6 kB |  5.1 kB |
 | data/yemen-rep.gen.js                        |  28.5 kB |  5.6 kB |  5.0 kB |
 | data/timor-leste.gen.js                      |  34.2 kB |  5.6 kB |  5.0 kB |
+| data/morocco.gen.js                          |  29.4 kB |  5.5 kB |  4.9 kB |
 | data/kyrgyzstan.gen.js                       |  27.7 kB |  5.4 kB |  4.8 kB |
 | data/bulgaria.gen.js                         |  23.8 kB |  5.4 kB |  4.9 kB |
 | data/switzerland.gen.js                      |  23.4 kB |  5.3 kB |  4.8 kB |
-| data/equatorial-guinea.gen.js                |  32.9 kB |  5.1 kB |  4.5 kB |
 | data/british-virgin-islands.gen.js           |  30.7 kB |  5.0 kB |  4.4 kB |
+| data/equatorial-guinea.gen.js                |  32.7 kB |  4.9 kB |  4.4 kB |
 | data/australia-states.gen.js                 |  24.0 kB |  4.9 kB |  4.4 kB |
-| data/guinea.gen.js                           |  21.2 kB |  4.8 kB |  4.4 kB |
-| data/south-sudan.gen.js                      |  23.3 kB |  4.8 kB |  4.3 kB |
+| data/guinea.gen.js                           |  21.1 kB |  4.8 kB |  4.4 kB |
 | data/norway.gen.js                           |  23.2 kB |  4.8 kB |  4.3 kB |
 | data/mali.gen.js                             |  20.7 kB |  4.7 kB |  4.2 kB |
-| data/malawi.gen.js                           |  19.6 kB |  4.6 kB |  4.2 kB |
+| data/malawi.gen.js                           |  19.5 kB |  4.7 kB |  4.2 kB |
 | data/sudan.gen.js                            |  20.2 kB |  4.6 kB |  4.1 kB |
-| data/bahrain.gen.js                          |  19.3 kB |  4.6 kB |  4.2 kB |
 | data/south-africa.gen.js                     |  21.5 kB |  4.6 kB |  4.2 kB |
 | data/nepal.gen.js                            |  21.6 kB |  4.6 kB |  4.1 kB |
+| data/bahrain.gen.js                          |  19.2 kB |  4.5 kB |  4.1 kB |
+| data/south-sudan.gen.js                      |  23.0 kB |  4.5 kB |  4.1 kB |
 | data/albania.gen.js                          |  18.5 kB |  4.4 kB |  4.0 kB |
 | data/poland.gen.js                           |  18.2 kB |  4.4 kB |  4.0 kB |
 | data/uruguay.gen.js                          |  18.3 kB |  4.3 kB |  4.0 kB |
 | data/syria.gen.js                            |  18.3 kB |  4.3 kB |  3.9 kB |
 | data/iceland.gen.js                          |  18.5 kB |  4.3 kB |  3.9 kB |
 | data/north-macedonia.gen.js                  |  17.3 kB |  4.2 kB |  3.8 kB |
-| data/cyprus.gen.js                           |  25.2 kB |  4.2 kB |  3.7 kB |
-| data/chad.gen.js                             |  16.1 kB |  4.2 kB |  3.7 kB |
 | data/mozambique.gen.js                       |  17.6 kB |  4.2 kB |  3.8 kB |
+| data/chad.gen.js                             |  16.1 kB |  4.2 kB |  3.7 kB |
+| data/cyprus.gen.js                           |  25.1 kB |  4.1 kB |  3.7 kB |
 | data/egypt.gen.js                            |  17.7 kB |  4.1 kB |  3.7 kB |
 | data/bosnia-and-herzegovina.gen.js           |  16.5 kB |  4.1 kB |  3.7 kB |
 | data/hungary.gen.js                          |  16.9 kB |  4.0 kB |  3.6 kB |
-| data/cuba.gen.js                             |  18.1 kB |  4.0 kB |  3.6 kB |
+| data/cuba.gen.js                             |  18.0 kB |  4.0 kB |  3.6 kB |
 | data/guatemala.gen.js                        |  17.1 kB |  4.0 kB |  3.7 kB |
 | data/dominican-republic.gen.js               |  16.8 kB |  4.0 kB |  3.6 kB |
 | data/namibia.gen.js                          |  16.8 kB |  4.0 kB |  3.5 kB |
-| data/mauritius.gen.js                        |  16.2 kB |  3.9 kB |  3.6 kB |
 | data/sri-lanka.gen.js                        |  15.2 kB |  3.9 kB |  3.6 kB |
 | data/uganda.gen.js                           |  19.1 kB |  3.9 kB |  3.5 kB |
 | data/czechia.gen.js                          |  16.6 kB |  3.9 kB |  3.5 kB |
+| data/mauritius.gen.js                        |  16.0 kB |  3.9 kB |  3.5 kB |
 | data/netherlands.gen.js                      |  15.7 kB |  3.8 kB |  3.5 kB |
-| data/mongolia.gen.js                         |  16.6 kB |  3.8 kB |  3.5 kB |
 | data/zimbabwe.gen.js                         |  16.3 kB |  3.8 kB |  3.5 kB |
 | data/cameroon.gen.js                         |  16.9 kB |  3.8 kB |  3.5 kB |
-| data/lebanon.gen.js                          |  14.6 kB |  3.8 kB |  3.4 kB |
-| data/bangladesh.gen.js                       |  14.0 kB |  3.8 kB |  3.4 kB |
+| data/mongolia.gen.js                         |  16.6 kB |  3.8 kB |  3.5 kB |
 | data/belarus.gen.js                          |  16.1 kB |  3.8 kB |  3.4 kB |
+| data/lebanon.gen.js                          |  14.5 kB |  3.8 kB |  3.4 kB |
+| data/bangladesh.gen.js                       |  13.8 kB |  3.7 kB |  3.4 kB |
 | data/honduras.gen.js                         |  15.8 kB |  3.7 kB |  3.3 kB |
 | data/belgium.gen.js                          |  14.8 kB |  3.7 kB |  3.3 kB |
 | data/cayman-islands.gen.js                   |  17.3 kB |  3.7 kB |  3.3 kB |
-| data/bhutan.gen.js                           |  15.5 kB |  3.6 kB |  3.3 kB |
+| data/bhutan.gen.js                           |  15.4 kB |  3.6 kB |  3.3 kB |
 | data/paraguay.gen.js                         |  15.0 kB |  3.6 kB |  3.3 kB |
-| data/botswana.gen.js                         |  14.0 kB |  3.5 kB |  3.2 kB |
-| data/liberia.gen.js                          |  14.9 kB |  3.5 kB |  3.2 kB |
+| data/liberia.gen.js                          |  14.9 kB |  3.6 kB |  3.2 kB |
 | data/denmark.gen.js                          |  15.5 kB |  3.5 kB |  3.2 kB |
 | data/senegal.gen.js                          |  14.5 kB |  3.5 kB |  3.2 kB |
 | data/gabon.gen.js                            |  15.1 kB |  3.5 kB |  3.2 kB |
@@ -249,59 +248,60 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | data/macao.gen.js                            |  12.5 kB |  3.3 kB |  3.0 kB |
 | data/guyana.gen.js                           |  12.9 kB |  3.2 kB |  3.0 kB |
 | data/mauritania.gen.js                       |  13.2 kB |  3.2 kB |  2.9 kB |
-| data/turkmenistan.gen.js                     |  12.7 kB |  3.2 kB |  2.9 kB |
 | data/lesotho.gen.js                          |  12.8 kB |  3.2 kB |  2.9 kB |
+| data/botswana.gen.js                         |  13.4 kB |  3.2 kB |  2.8 kB |
 | data/saudi-arabia.gen.js                     |  13.2 kB |  3.2 kB |  2.9 kB |
 | data/slovakia.gen.js                         |  14.0 kB |  3.1 kB |  2.8 kB |
-| data/pakistan.gen.js                         |  12.4 kB |  3.1 kB |  2.8 kB |
 | data/guinea-bissau.gen.js                    |  12.4 kB |  3.1 kB |  2.8 kB |
+| data/pakistan.gen.js                         |  12.3 kB |  3.1 kB |  2.7 kB |
+| data/turkmenistan.gen.js                     |  12.5 kB |  3.1 kB |  2.7 kB |
 | data/bolivia.gen.js                          |  12.1 kB |  3.0 kB |  2.7 kB |
-| data/st-lucia.gen.js                         |  10.4 kB |  3.0 kB |  2.7 kB |
-| data/somalia-fed-rep.gen.js                  |  11.0 kB |  2.9 kB |  2.6 kB |
-| data/tuvalu.gen.js                           |  17.7 kB |  2.9 kB |  2.6 kB |
+| data/st-lucia.gen.js                         |  10.2 kB |  2.9 kB |  2.6 kB |
 | data/georgia.gen.js                          |  12.3 kB |  2.9 kB |  2.6 kB |
 | data/uzbekistan.gen.js                       |  11.7 kB |  2.8 kB |  2.6 kB |
 | data/austria.gen.js                          |  11.4 kB |  2.8 kB |  2.5 kB |
-| data/israel.gen.js                           |   9.7 kB |  2.7 kB |  2.4 kB |
+| data/somalia-fed-rep.gen.js                  |  10.7 kB |  2.8 kB |  2.5 kB |
+| data/tuvalu.gen.js                           |  17.4 kB |  2.7 kB |  2.4 kB |
+| data/israel.gen.js                           |   9.6 kB |  2.7 kB |  2.4 kB |
 | data/el-salvador.gen.js                      |  10.2 kB |  2.7 kB |  2.4 kB |
 | data/armenia.gen.js                          |  10.4 kB |  2.6 kB |  2.4 kB |
-| data/northern-mariana-islands.gen.js         |  13.7 kB |  2.6 kB |  2.3 kB |
 | data/haiti.gen.js                            |  10.5 kB |  2.6 kB |  2.4 kB |
+| data/northern-mariana-islands.gen.js         |  13.7 kB |  2.6 kB |  2.3 kB |
 | data/tajikistan.gen.js                       |   9.9 kB |  2.5 kB |  2.3 kB |
-| data/benin.gen.js                            |   9.3 kB |  2.5 kB |  2.2 kB |
+| data/benin.gen.js                            |   9.2 kB |  2.5 kB |  2.3 kB |
 | data/costa-rica.gen.js                       |   9.3 kB |  2.4 kB |  2.2 kB |
 | data/suriname.gen.js                         |   9.3 kB |  2.4 kB |  2.1 kB |
 | data/belize.gen.js                           |   8.9 kB |  2.4 kB |  2.1 kB |
-| data/oman.gen.js                             |  10.5 kB |  2.3 kB |  2.1 kB |
+| data/oman.gen.js                             |  10.4 kB |  2.4 kB |  2.1 kB |
 | data/monaco.gen.js                           |   7.8 kB |  2.3 kB |  2.1 kB |
 | data/togo.gen.js                             |   9.1 kB |  2.3 kB |  2.1 kB |
-| data/vanuatu.gen.js                          |   9.7 kB |  2.2 kB |  2.1 kB |
+| data/vanuatu.gen.js                          |   9.7 kB |  2.3 kB |  2.1 kB |
 | data/hong-kong-sar-china.gen.js              |   8.5 kB |  2.2 kB |  2.0 kB |
 | data/malta.gen.js                            |   8.0 kB |  2.2 kB |  2.0 kB |
 | data/new-caledonia.gen.js                    |   9.2 kB |  2.1 kB |  1.9 kB |
-| data/maldives.gen.js                         |   7.2 kB |  2.1 kB |  1.8 kB |
+| data/trinidad-and-tobago.gen.js              |   8.1 kB |  2.1 kB |  1.8 kB |
 | data/fiji.gen.js                             |   8.0 kB |  2.1 kB |  1.8 kB |
-| data/solomon-islands.gen.js                  |   8.4 kB |  2.0 kB |  1.8 kB |
-| data/trinidad-and-tobago.gen.js              |   8.1 kB |  2.0 kB |  1.8 kB |
+| data/solomon-islands.gen.js                  |   8.4 kB |  2.1 kB |  1.8 kB |
 | data/west-bank-and-gaza.gen.js               |   7.4 kB |  2.0 kB |  1.8 kB |
 | data/rwanda.gen.js                           |   7.7 kB |  2.0 kB |  1.8 kB |
-| data/jordan.gen.js                           |   7.6 kB |  1.9 kB |  1.7 kB |
 | data/eritrea.gen.js                          |   7.2 kB |  1.9 kB |  1.7 kB |
-| data/marshall-islands.gen.js                 |   7.1 kB |  1.9 kB |  1.6 kB |
-| data/cabo-verde.gen.js                       |   7.5 kB |  1.8 kB |  1.6 kB |
-| data/sao-tome-and-principe.gen.js            |   7.7 kB |  1.8 kB |  1.6 kB |
-| data/jamaica.gen.js                          |   7.0 kB |  1.8 kB |  1.6 kB |
+| data/jordan.gen.js                           |   7.6 kB |  1.9 kB |  1.7 kB |
+| data/maldives.gen.js                         |   6.7 kB |  1.9 kB |  1.7 kB |
+| data/cabo-verde.gen.js                       |   7.4 kB |  1.9 kB |  1.7 kB |
+| data/sao-tome-and-principe.gen.js            |   7.6 kB |  1.8 kB |  1.6 kB |
+| data/jamaica.gen.js                          |   6.9 kB |  1.8 kB |  1.6 kB |
 | data/niger.gen.js                            |   6.7 kB |  1.8 kB |  1.6 kB |
-| data/eswatini.gen.js                         |   6.0 kB |  1.6 kB |  1.5 kB |
+| data/marshall-islands.gen.js                 |   6.7 kB |  1.7 kB |  1.5 kB |
+| data/eswatini.gen.js                         |   6.0 kB |  1.7 kB |  1.5 kB |
 | data/french-polynesia.gen.js                 |   8.9 kB |  1.5 kB |  1.3 kB |
-| data/barbados.gen.js                         |   5.0 kB |  1.4 kB |  1.2 kB |
-| data/dominica.gen.js                         |   4.6 kB |  1.4 kB |  1.2 kB |
+| data/barbados.gen.js                         |   4.9 kB |  1.4 kB |  1.2 kB |
+| data/dominica.gen.js                         |   4.5 kB |  1.4 kB |  1.2 kB |
 | data/liechtenstein.gen.js                    |   4.4 kB |  1.3 kB |  1.2 kB |
 | data/gambia-the.gen.js                       |   4.7 kB |  1.3 kB |  1.2 kB |
-| data/palau.gen.js                            |   4.8 kB |  1.3 kB |  1.2 kB |
+| data/palau.gen.js                            |   4.7 kB |  1.3 kB |  1.2 kB |
 | data/djibouti.gen.js                         |   4.3 kB |  1.3 kB |  1.1 kB |
-| data/saint-kitts-and-nevis.gen.js            |   4.3 kB |  1.2 kB |  1.0 kB |
 | data/samoa.gen.js                            |   4.2 kB |  1.2 kB |  1.1 kB |
+| data/saint-kitts-and-nevis.gen.js            |   4.3 kB |  1.2 kB |  1.0 kB |
 | data/kuwait.gen.js                           |   3.8 kB |  1.2 kB |  1.1 kB |
 | data/andorra.gen.js                          |   3.8 kB |  1.1 kB |  1.0 kB |
 | data/san-marino.gen.js                       |   3.6 kB |  1.1 kB |  1.0 kB |
@@ -313,7 +313,7 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | data/turks-and-caicos-islands.gen.js         |   3.2 kB |  1.0 kB |  0.9 kB |
 | data/singapore.gen.js                        |   3.4 kB |  1.0 kB |  0.9 kB |
 | data/micronesia.gen.js                       |   4.2 kB |  1.0 kB |  0.8 kB |
-| data/kiribati.gen.js                         |   3.3 kB |  1.0 kB |  0.8 kB |
+| data/kiribati.gen.js                         |   3.3 kB |  0.9 kB |  0.8 kB |
 | data/grenada.gen.js                          |   2.9 kB |  0.9 kB |  0.8 kB |
 | data/naoero.gen.js                           |   2.4 kB |  0.9 kB |  0.8 kB |
 | data/channel-islands.gen.js                  |   2.7 kB |  0.8 kB |  0.7 kB |

@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "ZWE-524",
+    code: "ZW-MC",
     name: "Mashonaland Central",
     outline: [
       [
@@ -22,7 +22,7 @@ const areas = [
     ],
   },
   {
-    code: "ZWE-525",
+    code: "ZW-HA",
     name: "Harare",
     outline: [
       [
@@ -33,7 +33,7 @@ const areas = [
     ],
   },
   {
-    code: "ZWE-526",
+    code: "ZW-MN",
     name: "Matabeleland North",
     outline: [
       [
@@ -58,7 +58,7 @@ const areas = [
     ],
   },
   {
-    code: "ZWE-527",
+    code: "ZW-MI",
     name: "Midlands",
     outline: [
       [
@@ -82,7 +82,7 @@ const areas = [
     ],
   },
   {
-    code: "ZWE-528",
+    code: "ZW-ME",
     name: "Mashonaland East",
     outline: [
       [
@@ -103,7 +103,7 @@ const areas = [
     ],
   },
   {
-    code: "ZWE-529",
+    code: "ZW-MA",
     name: "Manicaland",
     outline: [
       [
@@ -125,7 +125,7 @@ const areas = [
     ],
   },
   {
-    code: "ZWE-530",
+    code: "ZW-MS",
     name: "Matabeleland South",
     outline: [
       [
@@ -150,7 +150,7 @@ const areas = [
     ],
   },
   {
-    code: "ZWE-531",
+    code: "ZW-BU",
     name: "Bulawayo",
     outline: [
       [
@@ -160,7 +160,7 @@ const areas = [
     ],
   },
   {
-    code: "ZWE-532",
+    code: "ZW-MV",
     name: "Masvingo",
     outline: [
       [
@@ -181,7 +181,7 @@ const areas = [
     ],
   },
   {
-    code: "ZWE-533",
+    code: "ZW-MW",
     name: "Mashonaland West",
     outline: [
       [
@@ -226,7 +226,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "ZWE-531",
+        code: "ZW-BU",
         name: "Bulawayo",
         outline: [
           [

@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "ATG-5091",
+    code: "AG-10",
     name: "Barbuda",
     outline: [
       [
@@ -15,12 +15,12 @@ const areas = [
     ],
   },
   {
-    code: "ATG-5092",
+    code: "AG-11",
     name: "Redonda",
     outline: [[14, 1196, 1, -2, 3, -1, -1, 9, -2, 4, -3, 1, -2, -3, 1, -5]],
   },
   {
-    code: "ATG-5093",
+    code: "AG-03",
     name: "Saint George",
     outline: [
       [
@@ -30,7 +30,7 @@ const areas = [
     ],
   },
   {
-    code: "ATG-5094",
+    code: "AG-07",
     name: "Saint Peter",
     outline: [
       [
@@ -40,7 +40,7 @@ const areas = [
     ],
   },
   {
-    code: "ATG-5095",
+    code: "AG-08",
     name: "Saint Philip",
     outline: [
       [
@@ -50,7 +50,7 @@ const areas = [
     ],
   },
   {
-    code: "ATG-5096",
+    code: "AG-06",
     name: "Saint Paul",
     outline: [
       [
@@ -60,7 +60,7 @@ const areas = [
     ],
   },
   {
-    code: "ATG-5097",
+    code: "AG-05",
     name: "Saint Mary",
     outline: [
       [
@@ -70,7 +70,7 @@ const areas = [
     ],
   },
   {
-    code: "ATG-5098",
+    code: "AG-04",
     name: "Saint John",
     outline: [
       [
@@ -91,7 +91,7 @@ const insets: Sheet["insets"] = [
     outline: [[120, 40, 17, -23, 27, -9, 3, 46, -3, 61, -24, 47, -46, 10, -21, -31, 17, -68]],
     areas: [
       {
-        code: "ATG-5092",
+        code: "AG-11",
         name: "Redonda",
         outline: [[120, 40, 17, -23, 27, -9, 3, 46, -3, 61, -24, 47, -46, 10, -21, -31, 17, -68]],
       },

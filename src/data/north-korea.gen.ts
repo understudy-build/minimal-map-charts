@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "0cc375a2-02ea-4880-b9db-95a63d8c797b",
+    code: "KP-09",
     name: "North Hamgyong",
     outline: [
       [
@@ -54,7 +54,7 @@ const areas = [
     ],
   },
   {
-    code: "29ed95c7-2288-4df8-a027-db4dc8428910",
+    code: "KP-04",
     name: "Chagang",
     outline: [
       [
@@ -90,7 +90,7 @@ const areas = [
     ],
   },
   {
-    code: "312016e1-4073-4d8e-8de4-fe527070987e",
+    code: "KP-03",
     name: "North Pyongan",
     outline: [
       [
@@ -158,7 +158,7 @@ const areas = [
     ],
   },
   {
-    code: "364f7ea0-a669-4fbb-a9df-96ce3ae6e519",
+    code: "KP-15",
     name: "Kaesong",
     outline: [
       [
@@ -172,7 +172,7 @@ const areas = [
     ],
   },
   {
-    code: "735892b6-c99a-4f2f-9bbc-bb540ceeb134",
+    code: "KP-14",
     name: "Nampo",
     outline: [
       [
@@ -191,7 +191,7 @@ const areas = [
     ],
   },
   {
-    code: "88261f62-853b-474b-a736-f07e631e5dd0",
+    code: "KP-05",
     name: "South Hwanghae",
     outline: [
       [
@@ -249,7 +249,7 @@ const areas = [
     ],
   },
   {
-    code: "89b9bf53-e5d1-4b2c-aca9-635e1af9f642",
+    code: "KP-07",
     name: "Kangwon",
     outline: [
       [
@@ -285,7 +285,7 @@ const areas = [
     ],
   },
   {
-    code: "9bc10ad7-7739-424b-bce9-e5bfd77f43e3",
+    code: "KP-13",
     name: "Rason",
     outline: [
       [
@@ -306,7 +306,7 @@ const areas = [
     ],
   },
   {
-    code: "9cd6f9cf-b676-46a6-aa38-848304d583eb",
+    code: "KP-10",
     name: "Ryanggang",
     outline: [
       [
@@ -350,7 +350,7 @@ const areas = [
     ],
   },
   {
-    code: "9dd5dcd9-cb7d-4375-80a6-d2bc8fa55ca1",
+    code: "KP-06",
     name: "North Hwanghae",
     outline: [
       [
@@ -382,7 +382,7 @@ const areas = [
     ],
   },
   {
-    code: "d5a81630-1a91-4af3-a905-83b136fae45d",
+    code: "KP-02",
     name: "South Pyongan",
     outline: [
       [
@@ -420,7 +420,7 @@ const areas = [
     ],
   },
   {
-    code: "ed66dc8a-6c26-457f-9caf-aeca1f7dbfc0",
+    code: "KP-08",
     name: "South Hamgyong",
     outline: [
       [
@@ -469,7 +469,7 @@ const areas = [
     ],
   },
   {
-    code: "fc8a1202-ee5b-4ba6-bfe1-2fcbe8ab4dda",
+    code: "KP-01",
     name: "P'yŏngyang",
     outline: [
       [
@@ -536,7 +536,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "9bc10ad7-7739-424b-bce9-e5bfd77f43e3",
+        code: "KP-13",
         name: "Rason",
         outline: [
           [

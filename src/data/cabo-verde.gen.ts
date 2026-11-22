@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "CPV-5041",
+    code: "CV-BR",
     name: "Brava",
     outline: [
       [
@@ -13,7 +13,7 @@ const areas = [
     ],
   },
   {
-    code: "CPV-5042",
+    code: "CV-SF",
     name: "São Filipe",
     outline: [
       [
@@ -23,17 +23,17 @@ const areas = [
     ],
   },
   {
-    code: "CPV-5043",
+    code: "CV-MO",
     name: "Mosteiros",
     outline: [[346, 835, 16, -7, 8, -1, 8, 2, 5, 5, 3, 6, 7, 22, -13, 0, -13, 4]],
   },
   {
-    code: "CPV-5044",
+    code: "CV-CF",
     name: "Santa Catarina do Fogo",
     outline: [[393, 862, 2, 9, 0, 5, -2, 4, 1, 4, -8, 9, -12, 1, -7, -6, -4, -8, 4, -14, 13, -4]],
   },
   {
-    code: "CPV-5045",
+    code: "CV-TA",
     name: "Tarrafal",
     outline: [
       [
@@ -43,7 +43,7 @@ const areas = [
     ],
   },
   {
-    code: "CPV-5046",
+    code: "CV-CA",
     name: "Santa Catarina",
     outline: [
       [
@@ -54,12 +54,12 @@ const areas = [
     ],
   },
   {
-    code: "CPV-5047",
+    code: "CV-SM",
     name: "São Miguel",
     outline: [[630, 757, 9, 4, 6, 10, 8, 9, -12, 15, -8, 4, -1, -6, -14, -12, 1, -6]],
   },
   {
-    code: "CPV-5048",
+    code: "CV-CR",
     name: "Santa Cruz",
     outline: [
       [
@@ -69,17 +69,17 @@ const areas = [
     ],
   },
   {
-    code: "CPV-5049",
+    code: "CV-SS",
     name: "São Salvador do Mundo",
     outline: [[644, 805, 13, 2, 1, 7, -2, 9, -7, 6, -3, 0, -6, 1, -6, -9, -1, -7]],
   },
   {
-    code: "CPV-5050",
+    code: "CV-SO",
     name: "São Lourenço dos Órgãos",
     outline: [[646, 829, 3, 0, 7, -6, 2, -9, 5, 2, 6, -1, 8, 7, -6, 2, -12, 12, -7, 4, -6, -5]],
   },
   {
-    code: "CPV-5051",
+    code: "CV-SD",
     name: "São Domingos",
     outline: [
       [
@@ -89,7 +89,7 @@ const areas = [
     ],
   },
   {
-    code: "CPV-5052",
+    code: "CV-RS",
     name: "Ribeira Grande de Santiago",
     outline: [
       [
@@ -99,14 +99,14 @@ const areas = [
     ],
   },
   {
-    code: "CPV-5053",
+    code: "CV-PR",
     name: "Praia",
     outline: [
       [698, 855, -3, 1, 3, 3, -9, 16, -16, 5, -3, -7, -5, -6, -1, -7, 10, -3, 9, -6, 7, -1],
     ],
   },
   {
-    code: "CPV-5054",
+    code: "CV-MA",
     name: "Maio",
     outline: [
       [
@@ -117,7 +117,7 @@ const areas = [
     ],
   },
   {
-    code: "CPV-5055",
+    code: "CV-BV",
     name: "Boa Vista",
     outline: [
       [
@@ -128,7 +128,7 @@ const areas = [
     ],
   },
   {
-    code: "CPV-5056",
+    code: "CV-SL",
     name: "Sal",
     outline: [
       [
@@ -138,7 +138,7 @@ const areas = [
     ],
   },
   {
-    code: "CPV-5057",
+    code: "CV-RB",
     name: "Ribeira Brava",
     outline: [
       [
@@ -149,7 +149,7 @@ const areas = [
     ],
   },
   {
-    code: "CPV-5058",
+    code: "CV-TS",
     name: "Tarrafal de São Nicolau",
     outline: [
       [
@@ -159,7 +159,7 @@ const areas = [
     ],
   },
   {
-    code: "CPV-5059",
+    code: "CV-SV",
     name: "São Vicente",
     outline: [
       [
@@ -175,7 +175,7 @@ const areas = [
     ],
   },
   {
-    code: "CPV-5060",
+    code: "CV-PN",
     name: "Porto Novo",
     outline: [
       [
@@ -186,7 +186,7 @@ const areas = [
     ],
   },
   {
-    code: "CPV-5061",
+    code: "CV-RG",
     name: "Ribeira Grande",
     outline: [
       [
@@ -196,7 +196,7 @@ const areas = [
     ],
   },
   {
-    code: "CPV-5062",
+    code: "CV-PA",
     name: "Paul",
     outline: [[132, 30, 12, 5, 6, 6, 1, 7, -5, 7, -15, -10, -17, -3, 13, -10]],
   },
@@ -216,7 +216,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "CPV-5050",
+        code: "CV-SO",
         name: "São Lourenço dos Órgãos",
         outline: [
           [

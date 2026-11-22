@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "SGP-4871",
+    code: "SG-01",
     name: "Central Singapore",
     outline: [
       [
@@ -15,7 +15,7 @@ const areas = [
     ],
   },
   {
-    code: "SGP-4872",
+    code: "SG-05",
     name: "South West",
     outline: [
       [
@@ -27,7 +27,7 @@ const areas = [
     ],
   },
   {
-    code: "SGP-4873",
+    code: "SG-03",
     name: "North West",
     outline: [
       [
@@ -39,7 +39,7 @@ const areas = [
     ],
   },
   {
-    code: "SGP-4874",
+    code: "SG-02",
     name: "North East",
     outline: [
       [
@@ -49,7 +49,7 @@ const areas = [
     ],
   },
   {
-    code: "SGP-4875",
+    code: "SG-04",
     name: "South East",
     outline: [
       [
@@ -75,7 +75,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "SGP-4874",
+        code: "SG-02",
         name: "North East",
         outline: [
           [

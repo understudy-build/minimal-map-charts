@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "SRB-1059",
+    code: "RS-06",
     name: "Južno-Backi",
     outline: [
       [
@@ -21,7 +21,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-1060",
+    code: "RS-04",
     name: "Južno-Banatski",
     outline: [
       [
@@ -38,7 +38,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-1061",
+    code: "RS-02",
     name: "Srednje-Banatski",
     outline: [
       [
@@ -56,7 +56,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-121",
+    code: "RS-22",
     name: "Pirotski",
     outline: [
       [
@@ -71,7 +71,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-125",
+    code: "RS-14",
     name: "Borski",
     outline: [
       [
@@ -91,7 +91,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-1505",
+    code: "RS-16",
     name: "Zlatiborski",
     outline: [
       [
@@ -113,7 +113,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-273",
+    code: "RS-05",
     name: "Zapadno-Backi",
     outline: [
       [
@@ -129,7 +129,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-274",
+    code: "RS-01",
     name: "Severno-Backi",
     outline: [
       [
@@ -143,7 +143,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-275",
+    code: "RS-03",
     name: "Severno-Banatski",
     outline: [
       [
@@ -158,7 +158,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-279",
+    code: "RS-11",
     name: "Branicevski",
     outline: [
       [
@@ -177,7 +177,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-281",
+    code: "RS-07",
     name: "Sremski",
     outline: [
       [
@@ -195,7 +195,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-829",
+    code: "RS-17",
     name: "Moravicki",
     outline: [
       [
@@ -216,7 +216,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-830",
+    code: "RS-20",
     name: "Nišavski",
     outline: [
       [
@@ -237,7 +237,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-831",
+    code: "RS-10",
     name: "Podunavski",
     outline: [
       [
@@ -252,7 +252,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-832",
+    code: "RS-13",
     name: "Pomoravski",
     outline: [
       [
@@ -271,7 +271,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-833",
+    code: "RS-19",
     name: "Pomoravski",
     outline: [
       [
@@ -291,7 +291,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-834",
+    code: "RS-18",
     name: "Raški",
     outline: [
       [
@@ -312,7 +312,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-835",
+    code: "RS-21",
     name: "Toplicki",
     outline: [
       [
@@ -328,7 +328,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-836",
+    code: "RS-00",
     name: "Grad Beograd",
     outline: [
       [
@@ -347,7 +347,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-837",
+    code: "RS-09",
     name: "Kolubarski",
     outline: [
       [
@@ -367,7 +367,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-838",
+    code: "RS-08",
     name: "Macvanski",
     outline: [
       [
@@ -386,7 +386,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-839",
+    code: "RS-12",
     name: "Šumadijski",
     outline: [
       [
@@ -404,7 +404,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-841",
+    code: "RS-24",
     name: "Pcinjski",
     outline: [
       [
@@ -419,7 +419,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-843",
+    code: "RS-23",
     name: "Jablanicki",
     outline: [
       [
@@ -435,7 +435,7 @@ const areas = [
     ],
   },
   {
-    code: "SRB-844",
+    code: "RS-15",
     name: "Zajecarski",
     outline: [
       [
@@ -483,7 +483,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "SRB-831",
+        code: "RS-10",
         name: "Podunavski",
         outline: [
           [

@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "JAM-1370",
+    code: "JM-13",
     name: "Clarendon",
     outline: [
       [
@@ -15,7 +15,7 @@ const areas = [
     ],
   },
   {
-    code: "JAM-1371",
+    code: "JM-09",
     name: "Hanover",
     outline: [
       [
@@ -26,7 +26,7 @@ const areas = [
     ],
   },
   {
-    code: "JAM-1372",
+    code: "JM-12",
     name: "Manchester",
     outline: [
       [
@@ -36,7 +36,7 @@ const areas = [
     ],
   },
   {
-    code: "JAM-1373",
+    code: "JM-11",
     name: "Saint Elizabeth",
     outline: [
       [
@@ -46,7 +46,7 @@ const areas = [
     ],
   },
   {
-    code: "JAM-1374",
+    code: "JM-08",
     name: "Saint James",
     outline: [
       [
@@ -57,7 +57,7 @@ const areas = [
     ],
   },
   {
-    code: "JAM-1375",
+    code: "JM-07",
     name: "Trelawny",
     outline: [
       [
@@ -67,7 +67,7 @@ const areas = [
     ],
   },
   {
-    code: "JAM-1376",
+    code: "JM-10",
     name: "Westmoreland",
     outline: [
       [
@@ -78,14 +78,14 @@ const areas = [
     ],
   },
   {
-    code: "JAM-1377",
+    code: "JM-01",
     name: "Kingston",
     outline: [
       [748, 279, -3, -3, -6, -1, -23, 0, -6, -4, 2, -6, 3, -2, 9, -3, 11, -1, 11, 4, 5, 15],
     ],
   },
   {
-    code: "JAM-1378",
+    code: "JM-04",
     name: "Portland",
     outline: [
       [
@@ -97,7 +97,7 @@ const areas = [
     ],
   },
   {
-    code: "JAM-1379",
+    code: "JM-06",
     name: "Saint Ann",
     outline: [
       [
@@ -108,7 +108,7 @@ const areas = [
     ],
   },
   {
-    code: "JAM-1380",
+    code: "JM-14",
     name: "Saint Catherine",
     outline: [
       [
@@ -120,7 +120,7 @@ const areas = [
     ],
   },
   {
-    code: "JAM-1381",
+    code: "JM-05",
     name: "Saint Mary",
     outline: [
       [
@@ -131,7 +131,7 @@ const areas = [
     ],
   },
   {
-    code: "JAM-1382",
+    code: "JM-02",
     name: "Saint Andrew",
     outline: [
       [
@@ -143,7 +143,7 @@ const areas = [
     ],
   },
   {
-    code: "JAM-1383",
+    code: "JM-03",
     name: "Saint Thomas",
     outline: [
       [
@@ -170,7 +170,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "JAM-1377",
+        code: "JM-01",
         name: "Kingston",
         outline: [
           [

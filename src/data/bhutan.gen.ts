@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "BTN-2433",
+    code: "BT-12",
     name: "Chhukha",
     outline: [
       [
@@ -17,7 +17,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2434",
+    code: "BT-22",
     name: "Daga",
     outline: [
       [
@@ -30,7 +30,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2435",
+    code: "BT-13",
     name: "Ha",
     outline: [
       [
@@ -43,7 +43,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2436",
+    code: "BT-11",
     name: "Paro",
     outline: [
       [
@@ -55,7 +55,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2437",
+    code: "BT-GA",
     name: "Gasa",
     outline: [
       [
@@ -71,7 +71,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2438",
+    code: "BT-14",
     name: "Samchi",
     outline: [
       [
@@ -85,7 +85,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2439",
+    code: "BT-15",
     name: "Thimphu",
     outline: [
       [
@@ -100,7 +100,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2440",
+    code: "BT-23",
     name: "Punakha",
     outline: [
       [
@@ -112,7 +112,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2480",
+    code: "BT-33",
     name: "Bumthang",
     outline: [
       [
@@ -127,7 +127,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2481",
+    code: "BT-21",
     name: "Chirang",
     outline: [
       [
@@ -138,7 +138,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2482",
+    code: "BT-31",
     name: "Geylegphug",
     outline: [
       [
@@ -153,7 +153,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2483",
+    code: "BT-44",
     name: "Lhuntshi",
     outline: [
       [
@@ -167,7 +167,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2484",
+    code: "BT-TY",
     name: "Tashi Yangtse",
     outline: [
       [
@@ -179,7 +179,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2485",
+    code: "BT-34",
     name: "Shemgang",
     outline: [
       [
@@ -193,7 +193,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2486",
+    code: "BT-32",
     name: "Tongsa",
     outline: [
       [
@@ -206,7 +206,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2487",
+    code: "BT-24",
     name: "Wangdi Phodrang",
     outline: [
       [
@@ -223,7 +223,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2490",
+    code: "BT-42",
     name: "Mongar",
     outline: [
       [
@@ -236,7 +236,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2491",
+    code: "BT-43",
     name: "Pemagatsel",
     outline: [
       [
@@ -247,7 +247,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2492",
+    code: "BT-45",
     name: "Samdrup Jongkhar",
     outline: [
       [
@@ -262,7 +262,7 @@ const areas = [
     ],
   },
   {
-    code: "BTN-2493",
+    code: "BT-41",
     name: "Tashigang",
     outline: [
       [
@@ -293,7 +293,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "BTN-2491",
+        code: "BT-43",
         name: "Pemagatsel",
         outline: [
           [

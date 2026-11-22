@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "70912109B12169979015230",
+    code: "PK-PB",
     name: "Punjab",
     outline: [
       [
@@ -29,7 +29,7 @@ const areas = [
     ],
   },
   {
-    code: "70912109B38683933016378",
+    code: "PK-IS",
     name: "Islamabad Capital Territory",
     outline: [
       [
@@ -39,7 +39,7 @@ const areas = [
     ],
   },
   {
-    code: "70912109B54485417915534",
+    code: "PK-GB",
     name: "Gilgit-Baltistan",
     outline: [
       [
@@ -56,7 +56,7 @@ const areas = [
     ],
   },
   {
-    code: "70912109B7720427584286",
+    code: "PK-JK",
     name: "Azad Kashmir",
     outline: [
       [
@@ -70,7 +70,7 @@ const areas = [
     ],
   },
   {
-    code: "70912109B8393927546319",
+    code: "PK-SD",
     name: "Sindh",
     outline: [
       [
@@ -89,7 +89,7 @@ const areas = [
     ],
   },
   {
-    code: "70912109B89717923239242",
+    code: "PK-KP",
     name: "Khyber Pakhtunkhwa",
     outline: [
       [
@@ -114,7 +114,7 @@ const areas = [
     ],
   },
   {
-    code: "70912109B90439427603182",
+    code: "PK-BA",
     name: "Balochistan",
     outline: [
       [
@@ -163,7 +163,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "70912109B38683933016378",
+        code: "PK-IS",
         name: "Islamabad Capital Territory",
         outline: [
           [

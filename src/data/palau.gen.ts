@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "PLW-5244",
+    code: "PW-002",
     name: "Aimeliik",
     outline: [
       [
@@ -13,7 +13,7 @@ const areas = [
     ],
   },
   {
-    code: "PLW-5245",
+    code: "PW-004",
     name: "Airai",
     outline: [
       [
@@ -23,17 +23,17 @@ const areas = [
     ],
   },
   {
-    code: "PLW-5246",
+    code: "PW-010",
     name: "Angaur",
     outline: [[48, 2041, -24, -25, -14, -33, 5, -25, 33, -2, 23, 17, 7, 27, -7, 26]],
   },
   {
-    code: "PLW-5248",
+    code: "PW-100",
     name: "Kayangel",
     outline: [[961, 10, 21, 0, 8, 23, -15, 41, -28, 14, -15, -18, 1, -25]],
   },
   {
-    code: "PLW-5249",
+    code: "PW-150",
     name: "Koror",
     outline: [
       [
@@ -48,24 +48,24 @@ const areas = [
     ],
   },
   {
-    code: "PLW-5250",
+    code: "PW-212",
     name: "Melekeok",
     outline: [
       [822, 959, -1, 11, 18, 24, 0, 10, -7, 8, -6, 16, -15, -5, -15, 7, -8, -18, -17, -23, 21, -50],
     ],
   },
   {
-    code: "PLW-5251",
+    code: "PW-214",
     name: "Ngaraard",
     outline: [[879, 698, 6, 79, -9, 80, -57, -15, -1, -43, 20, -6, 9, -28, -9, -64]],
   },
   {
-    code: "PLW-5252",
+    code: "PW-218",
     name: "Ngarchelong",
     outline: [[838, 701, -4, -23, -15, -34, -4, -19, 6, -8, 15, 4, 15, 9, 8, 12, 20, 56]],
   },
   {
-    code: "PLW-5253",
+    code: "PW-222",
     name: "Ngardmau",
     outline: [
       [
@@ -75,7 +75,7 @@ const areas = [
     ],
   },
   {
-    code: "PLW-5254",
+    code: "PW-224",
     name: "Ngatpang",
     outline: [
       [
@@ -85,14 +85,14 @@ const areas = [
     ],
   },
   {
-    code: "PLW-5255",
+    code: "PW-226",
     name: "Ngchesar",
     outline: [
       [826, 1028, -8, 27, -39, 51, -9, 36, -47, -18, 25, -71, 23, -64, 17, 23, 8, 18, 15, -7],
     ],
   },
   {
-    code: "PLW-5256",
+    code: "PW-227",
     name: "Ngeremlengui",
     outline: [
       [
@@ -102,12 +102,12 @@ const areas = [
     ],
   },
   {
-    code: "PLW-5257",
+    code: "PW-228",
     name: "Ngiwal",
     outline: [[876, 857, -21, 56, -33, 46, -30, -20, 21, -52, 6, -45]],
   },
   {
-    code: "PLW-5258",
+    code: "PW-350",
     name: "Peleliu",
     outline: [
       [
@@ -130,7 +130,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "PLW-5247",
+        code: "PW-050",
         name: "Hatohobei",
         outline: [
           [12, 76, 6, -4, 7, 0, 3, 3, -4, 6, -6, 3, -8, 1, -2, -3],
@@ -146,7 +146,7 @@ const insets: Sheet["insets"] = [
     height: 180,
     outline: [[121, 172, -59, -135, 57, -29, 59, 54]],
     areas: [
-      { code: "PLW-5259", name: "Sonsorol", outline: [[121, 172, -59, -135, 57, -29, 59, 54]] },
+      { code: "PW-370", name: "Sonsorol", outline: [[121, 172, -59, -135, 57, -29, 59, 54]] },
     ],
   },
 ]

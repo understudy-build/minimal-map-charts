@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "LIE-4892",
+    code: "LI-10",
     name: "Triesenberg",
     outline: [
       [979, 1575, 11, 41, -48, 268, -26, 32, -32, -49, -20, -86, 4, -85, -47, -126, 59, 5],
@@ -15,7 +15,7 @@ const areas = [
     ],
   },
   {
-    code: "LIE-4893",
+    code: "LI-09",
     name: "Triesen",
     outline: [
       [
@@ -26,7 +26,7 @@ const areas = [
     ],
   },
   {
-    code: "LIE-4894",
+    code: "LI-01",
     name: "Balzers",
     outline: [
       [649, 1060, 103, 61, 167, 232, 27, 102, -74, 12, -62, -103, -67, -75, -54, -57, -66, -40],
@@ -38,7 +38,7 @@ const areas = [
     ],
   },
   {
-    code: "LIE-4895",
+    code: "LI-11",
     name: "Vaduz",
     outline: [
       [
@@ -49,7 +49,7 @@ const areas = [
     ],
   },
   {
-    code: "LIE-4896",
+    code: "LI-07",
     name: "Schaan",
     outline: [
       [916, 1916, -118, 151, -27, -125, -12, -120, 105, -41, 20, 86],
@@ -64,7 +64,7 @@ const areas = [
     ],
   },
   {
-    code: "LIE-4897",
+    code: "LI-03",
     name: "Gamprin",
     outline: [
       [
@@ -74,7 +74,7 @@ const areas = [
     ],
   },
   {
-    code: "LIE-4898",
+    code: "LI-06",
     name: "Ruggell",
     outline: [
       [
@@ -84,17 +84,17 @@ const areas = [
     ],
   },
   {
-    code: "LIE-4899",
+    code: "LI-08",
     name: "Schellenberg",
     outline: [[419, 130, 90, 83, -28, 85, -92, 30, -70, 68, -4, -63, 47, -68, 23, -69]],
   },
   {
-    code: "LIE-4900",
+    code: "LI-04",
     name: "Mauren",
     outline: [[481, 298, -19, 59, 31, 90, 66, 90, -85, 8, -120, -63, -35, -86, 70, -68]],
   },
   {
-    code: "LIE-4901",
+    code: "LI-05",
     name: "Planken",
     outline: [
       [544, 997, 105, 63, -26, 132, -55, -57, -51, -75],
@@ -102,7 +102,7 @@ const areas = [
     ],
   },
   {
-    code: "LIE-4902",
+    code: "LI-02",
     name: "Eschen",
     outline: [
       [
@@ -122,7 +122,7 @@ const insets: Sheet["insets"] = [
     outline: [[124, 8, 56, 52, -17, 52, -57, 18, -43, 42, -3, -39, 29, -42, 14, -42]],
     areas: [
       {
-        code: "LIE-4899",
+        code: "LI-08",
         name: "Schellenberg",
         outline: [[124, 8, 56, 52, -17, 52, -57, 18, -43, 42, -3, -39, 29, -42, 14, -42]],
       },

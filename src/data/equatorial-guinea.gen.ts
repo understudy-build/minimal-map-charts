@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "0c816fa9-4670-404b-8fa4-1a47517ea1a2",
+    code: "GQ-LI",
     name: "Litoral Province",
     outline: [
       [
@@ -40,7 +40,7 @@ const areas = [
     ],
   },
   {
-    code: "1711b08b-7bb5-48a3-8c7e-80df3eaa480f",
+    code: "GQ-DJ",
     name: "Djibloho",
     outline: [
       [
@@ -53,7 +53,7 @@ const areas = [
     ],
   },
   {
-    code: "1b573344-9fe2-432b-8824-7e533c704ab3",
+    code: "GQ-CS",
     name: "Centro Sur Province",
     outline: [
       [
@@ -80,7 +80,7 @@ const areas = [
     ],
   },
   {
-    code: "2c047763-a8b3-45cf-8af7-69355ed87df1",
+    code: "GQ-KN",
     name: "Kié-Ntem Province",
     outline: [
       [
@@ -100,7 +100,7 @@ const areas = [
     ],
   },
   {
-    code: "abb17bae-59db-48c9-b627-f2896193d4d2",
+    code: "GQ-WN",
     name: "Wele-Nzas Province",
     outline: [
       [
@@ -171,7 +171,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "81db48c4-54d3-4588-90b0-2b2a3f477f0e",
+        code: "GQ-BN",
         name: "Bioko Norte",
         outline: [
           [
@@ -257,7 +257,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "19b2b0be-e34a-4170-9087-72a1c553eae5",
+        code: "GQ-BS",
         name: "Bioko Sur",
         outline: [
           [42, 108, -1, 0, 1, -1],
@@ -352,7 +352,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "9ae762c8-2b50-4b91-944e-2b78e675d363",
+        code: "GQ-AN",
         name: "Annobón Province",
         outline: [
           [132, 172, -1, 0, 0, -1, 1, -1, 1, 0, -1, 1],

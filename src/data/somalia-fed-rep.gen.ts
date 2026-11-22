@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "83879307B11376444747055",
+    code: "SO-AW",
     name: "Awdal",
     outline: [
       [248, 58, 1, -1, -1, 2],
@@ -18,7 +18,7 @@ const areas = [
     ],
   },
   {
-    code: "83879307B13610404434600",
+    code: "SO-SA",
     name: "Sanaag",
     outline: [
       [
@@ -30,7 +30,7 @@ const areas = [
     ],
   },
   {
-    code: "83879307B19000204873860",
+    code: "SO-BR",
     name: "Bari",
     outline: [
       [
@@ -49,7 +49,7 @@ const areas = [
     ],
   },
   {
-    code: "83879307B20044253365087",
+    code: "SO-GA",
     name: "Galgaduud",
     outline: [
       [
@@ -60,7 +60,7 @@ const areas = [
     ],
   },
   {
-    code: "83879307B26517451678825",
+    code: "SO-MU",
     name: "Mudug",
     outline: [
       [
@@ -71,12 +71,12 @@ const areas = [
     ],
   },
   {
-    code: "83879307B32896531038690",
+    code: "SO-BN",
     name: "Banadir",
     outline: [[416, 960, 11, -15, 21, -3, -6, 2, -4, 4, -14, 7, 0, 0, -2, 2, 1, 0, -5, 1, 0, 0]],
   },
   {
-    code: "83879307B33420401553888",
+    code: "SO-JD",
     name: "Middle Juba",
     outline: [
       [
@@ -86,7 +86,7 @@ const areas = [
     ],
   },
   {
-    code: "83879307B34714219035659",
+    code: "SO-GE",
     name: "Gedo",
     outline: [
       [
@@ -97,7 +97,7 @@ const areas = [
     ],
   },
   {
-    code: "83879307B35519599536274",
+    code: "SO-SH",
     name: "Lower Shebelle",
     outline: [
       [
@@ -108,7 +108,7 @@ const areas = [
     ],
   },
   {
-    code: "83879307B35818532110087",
+    code: "SO-JH",
     name: "Lower Juba",
     outline: [
       [137, 1208, 1, 0, -1, -1, 2, -1, -1, 2, -1, 2, 0, 1, -1, -2],
@@ -127,7 +127,7 @@ const areas = [
     ],
   },
   {
-    code: "83879307B42572798770371",
+    code: "SO-WO",
     name: "Woqooyi Galbeed",
     outline: [
       [
@@ -141,7 +141,7 @@ const areas = [
     ],
   },
   {
-    code: "83879307B5242146898757",
+    code: "SO-SD",
     name: "Middle Shebelle",
     outline: [
       [
@@ -151,7 +151,7 @@ const areas = [
     ],
   },
   {
-    code: "83879307B58207540839705",
+    code: "SO-BK",
     name: "Bakool",
     outline: [
       [
@@ -162,7 +162,7 @@ const areas = [
     ],
   },
   {
-    code: "83879307B65026001570916",
+    code: "SO-SO",
     name: "Sool",
     outline: [
       [
@@ -172,7 +172,7 @@ const areas = [
     ],
   },
   {
-    code: "83879307B66585548815331",
+    code: "SO-NU",
     name: "Nugaal",
     outline: [
       [
@@ -184,7 +184,7 @@ const areas = [
     ],
   },
   {
-    code: "83879307B66756469447496",
+    code: "SO-HI",
     name: "Hiiraan",
     outline: [
       [
@@ -194,7 +194,7 @@ const areas = [
     ],
   },
   {
-    code: "83879307B67196763494499",
+    code: "SO-BY",
     name: "Bay",
     outline: [
       [
@@ -205,7 +205,7 @@ const areas = [
     ],
   },
   {
-    code: "83879307B67680758004346",
+    code: "SO-TO",
     name: "Togdheer",
     outline: [
       [
@@ -232,7 +232,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "83879307B32896531038690",
+        code: "SO-BN",
         name: "Banadir",
         outline: [
           [

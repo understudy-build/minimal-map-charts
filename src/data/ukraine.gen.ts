@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "023b4a68-4b51-4669-a303-8ee5279def28",
+    code: "UA-32",
     name: "Kyiv Oblast",
     outline: [
       [
@@ -42,7 +42,7 @@ const areas = [
     ],
   },
   {
-    code: "08adf6d4-c6c4-4f3f-b939-436391855eb1",
+    code: "UA-65",
     name: "Kherson Oblast",
     outline: [
       [
@@ -98,7 +98,7 @@ const areas = [
     ],
   },
   {
-    code: "11971df7-c7cd-40a5-b611-c1048d259388",
+    code: "UA-63",
     name: "Kharkiv Oblast",
     outline: [
       [
@@ -126,7 +126,7 @@ const areas = [
     ],
   },
   {
-    code: "19eec934-29e8-45ab-ba2c-fb370505d776",
+    code: "UA-26",
     name: "Ivano-Frankivsk Oblast",
     outline: [
       [
@@ -148,7 +148,7 @@ const areas = [
     ],
   },
   {
-    code: "1bf80ab0-05af-41f4-9316-2e32d4b11fdf",
+    code: "UA-48",
     name: "Mykolaiv Oblast",
     outline: [
       [
@@ -180,7 +180,7 @@ const areas = [
     ],
   },
   {
-    code: "274edf73-8ea5-4b6f-8597-8048f1720e93",
+    code: "UA-12",
     name: "Dnipropetrovsk Oblast",
     outline: [
       [
@@ -213,7 +213,7 @@ const areas = [
     ],
   },
   {
-    code: "2b52e271-63e2-450f-8e74-ff8887d4eccb",
+    code: "UA-61",
     name: "Ternopil Oblast",
     outline: [
       [
@@ -236,7 +236,7 @@ const areas = [
     ],
   },
   {
-    code: "2b7c3993-19ca-4dee-8b7c-59ed78e2e488",
+    code: "UA-71",
     name: "Cherkasy Oblast",
     outline: [
       [
@@ -264,7 +264,7 @@ const areas = [
     ],
   },
   {
-    code: "30a57e98-d708-4af5-a42b-8330edeae8f4",
+    code: "UA-77",
     name: "Chernivtsi Oblast",
     outline: [
       [
@@ -284,7 +284,7 @@ const areas = [
     ],
   },
   {
-    code: "3699b11f-3453-4d70-a8b6-ba20fa3c7fb4",
+    code: "UA-14",
     name: "Donetsk Oblast",
     outline: [
       [
@@ -313,7 +313,7 @@ const areas = [
     ],
   },
   {
-    code: "3789efcc-ba7a-4201-8b7d-a75f7e51d8f9",
+    code: "UA-40",
     name: "Sevastopol",
     outline: [
       [
@@ -325,7 +325,7 @@ const areas = [
     ],
   },
   {
-    code: "3b185956-301e-46a8-817e-77988985bf77",
+    code: "UA-43",
     name: "Autonomous Republic of Crimea",
     outline: [
       [
@@ -353,7 +353,7 @@ const areas = [
     ],
   },
   {
-    code: "3e1a3521-7262-4c3a-85a4-cbc936672e67",
+    code: "UA-05",
     name: "Vinnytsia Oblast",
     outline: [
       [
@@ -379,7 +379,7 @@ const areas = [
     ],
   },
   {
-    code: "4e2f428d-94cf-4d00-82a7-24b508331202",
+    code: "UA-35",
     name: "Kirovohrad Oblast",
     outline: [
       [
@@ -408,7 +408,7 @@ const areas = [
     ],
   },
   {
-    code: "4e6c0331-8c65-4ccf-88e2-00e5fdf3a2ce",
+    code: "UA-18",
     name: "Zhytomyr Oblast",
     outline: [
       [
@@ -435,7 +435,7 @@ const areas = [
     ],
   },
   {
-    code: "5865c141-5162-4246-b12b-a3972838421d",
+    code: "UA-74",
     name: "Chernihiv Oblast",
     outline: [
       [
@@ -467,7 +467,7 @@ const areas = [
     ],
   },
   {
-    code: "66e34a08-2cc9-4648-9030-681bfea7bb2a",
+    code: "UA-30",
     name: "Kyiv",
     outline: [
       [
@@ -481,7 +481,7 @@ const areas = [
     ],
   },
   {
-    code: "6acaeb31-9aa8-4190-b041-1a5124e76de9",
+    code: "UA-21",
     name: "Zakarpattia Oblast",
     outline: [
       [
@@ -500,7 +500,7 @@ const areas = [
     ],
   },
   {
-    code: "7c057a98-bd0b-4c19-9f3f-d704dff98c8c",
+    code: "UA-09",
     name: "Luhansk Oblast",
     outline: [
       [894, 312, -1, 1, 0, -1, 1, 0],
@@ -528,7 +528,7 @@ const areas = [
     ],
   },
   {
-    code: "8e9bd166-ea48-4522-bc82-f948d182daa0",
+    code: "UA-53",
     name: "Poltava Oblast",
     outline: [
       [
@@ -556,7 +556,7 @@ const areas = [
     ],
   },
   {
-    code: "ba2b4d54-2b04-4984-b238-b1c5dfdacbbd",
+    code: "UA-68",
     name: "Khmelnytskyi Oblast",
     outline: [
       [
@@ -581,7 +581,7 @@ const areas = [
     ],
   },
   {
-    code: "c3b0dabd-da21-4b6b-a0bf-16502f7d8e0c",
+    code: "UA-51",
     name: "Odesa Oblast",
     outline: [
       [
@@ -617,7 +617,7 @@ const areas = [
     ],
   },
   {
-    code: "d52a1371-19e4-484b-a939-191d919cfc8d",
+    code: "UA-23",
     name: "Zaporizhia Oblast",
     outline: [
       [
@@ -644,7 +644,7 @@ const areas = [
     ],
   },
   {
-    code: "e23f2f76-0c6d-4682-8630-8de3851edf45",
+    code: "UA-46",
     name: "Lviv Oblast",
     outline: [
       [
@@ -667,7 +667,7 @@ const areas = [
     ],
   },
   {
-    code: "f8369ae5-cc25-4108-8f23-a91a29871647",
+    code: "UA-56",
     name: "Rivne Oblast",
     outline: [
       [
@@ -693,7 +693,7 @@ const areas = [
     ],
   },
   {
-    code: "f8f3a92d-13c9-4492-a277-fc00cb36b635",
+    code: "UA-07",
     name: "Volyn Oblast",
     outline: [
       [
@@ -719,7 +719,7 @@ const areas = [
     ],
   },
   {
-    code: "fa508034-945c-4d35-a809-437107168f42",
+    code: "UA-59",
     name: "Sumy Oblast",
     outline: [
       [
@@ -785,7 +785,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "3789efcc-ba7a-4201-8b7d-a75f7e51d8f9",
+        code: "UA-40",
         name: "Sevastopol",
         outline: [
           [

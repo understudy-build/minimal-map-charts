@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "CUB-1319",
+    code: "CU-06",
     name: "Cienfuegos",
     outline: [
       [
@@ -16,7 +16,7 @@ const areas = [
     ],
   },
   {
-    code: "CUB-1320",
+    code: "CU-99",
     name: "Isla de la Juventud",
     outline: [
       [332, 161, -14, 10, -3, 0, 1, -3, 2, 1, 3, -3, 2, 1, 8, -7, 1, 1],
@@ -31,7 +31,7 @@ const areas = [
     ],
   },
   {
-    code: "CUB-1321",
+    code: "CU-01",
     name: "Pinar del Río",
     outline: [
       [
@@ -50,7 +50,7 @@ const areas = [
     ],
   },
   {
-    code: "CUB-1322",
+    code: "CU-07",
     name: "Sancti Spíritus",
     outline: [
       [547, 71, -9, -3, 10, 0, 1, 2],
@@ -66,7 +66,7 @@ const areas = [
     ],
   },
   {
-    code: "CUB-1363",
+    code: "CU-08",
     name: "Ciego de Ávila",
     outline: [
       [562, 254, 7, 3, -4, 1],
@@ -90,7 +90,7 @@ const areas = [
     ],
   },
   {
-    code: "CUB-1364",
+    code: "CU-09",
     name: "Camagüey",
     outline: [
       [607, 273, 1, 4, -6, -2, -7, -6, 3, -1, 4, 5, 2, 1, 0, -2, 2, 0],
@@ -127,7 +127,7 @@ const areas = [
     ],
   },
   {
-    code: "CUB-1365",
+    code: "CU-14",
     name: "Guantánamo",
     outline: [
       [
@@ -141,7 +141,7 @@ const areas = [
     ],
   },
   {
-    code: "CUB-1366",
+    code: "CU-12",
     name: "Granma",
     outline: [
       [
@@ -156,7 +156,7 @@ const areas = [
     ],
   },
   {
-    code: "CUB-1367",
+    code: "CU-11",
     name: "Holguín",
     outline: [
       [863, 246, 3, 5, -5, 0, -4, -2, 0, -2],
@@ -177,7 +177,7 @@ const areas = [
     ],
   },
   {
-    code: "CUB-1368",
+    code: "CU-10",
     name: "Las Tunas",
     outline: [
       [
@@ -195,7 +195,7 @@ const areas = [
     ],
   },
   {
-    code: "CUB-1369",
+    code: "CU-13",
     name: "Santiago de Cuba",
     outline: [
       [
@@ -209,7 +209,7 @@ const areas = [
     ],
   },
   {
-    code: "CUB-1428",
+    code: "CU-03",
     name: "Ciudad de la Habana",
     outline: [
       [
@@ -219,7 +219,7 @@ const areas = [
     ],
   },
   {
-    code: "CUB-1429",
+    code: "CU-15",
     name: "Artemisa",
     outline: [
       [
@@ -230,7 +230,7 @@ const areas = [
     ],
   },
   {
-    code: "CUB-1430",
+    code: "CU-04",
     name: "Matanzas",
     outline: [
       [382, 18, 2, 4, -3, 1, -5, -1, -7, 3, 7, -5, 5, 1, -1, -3, 2, 2],
@@ -253,7 +253,7 @@ const areas = [
     ],
   },
   {
-    code: "CUB-1431",
+    code: "CU-05",
     name: "Villa Clara",
     outline: [
       [514, 72, -7, -6, -4, 0, -3, -2, -5, -7, -6, -1, 6, -1, 4, 6, 13, 7, 4, 4, 0, 2, -2, -2],
@@ -277,7 +277,7 @@ const areas = [
     ],
   },
   {
-    code: "CUB-5489",
+    code: "CU-16",
     name: "Mayabeque",
     outline: [
       [
@@ -309,7 +309,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "CUB-1428",
+        code: "CU-03",
         name: "Ciudad de la Habana",
         outline: [
           [

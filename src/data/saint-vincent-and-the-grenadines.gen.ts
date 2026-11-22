@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "VCT-5063",
+    code: "VC-01",
     name: "Charlotte",
     outline: [
       [
@@ -14,7 +14,7 @@ const areas = [
     ],
   },
   {
-    code: "VCT-5064",
+    code: "VC-06",
     name: "Grenadines",
     outline: [
       [
@@ -33,7 +33,7 @@ const areas = [
     ],
   },
   {
-    code: "VCT-5065",
+    code: "VC-02",
     name: "Saint Andrew",
     outline: [
       [
@@ -43,7 +43,7 @@ const areas = [
     ],
   },
   {
-    code: "VCT-5066",
+    code: "VC-03",
     name: "Saint David",
     outline: [
       [
@@ -54,7 +54,7 @@ const areas = [
     ],
   },
   {
-    code: "VCT-5067",
+    code: "VC-04",
     name: "Saint George",
     outline: [
       [
@@ -64,7 +64,7 @@ const areas = [
     ],
   },
   {
-    code: "VCT-5068",
+    code: "VC-05",
     name: "Saint Patrick",
     outline: [
       [
@@ -89,7 +89,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "VCT-5065",
+        code: "VC-02",
         name: "Saint Andrew",
         outline: [
           [

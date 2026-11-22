@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "WSM-4984",
+    code: "WS-TU",
     name: "Tuamasaga",
     outline: [
       [
@@ -14,7 +14,7 @@ const areas = [
     ],
   },
   {
-    code: "WSM-4985",
+    code: "WS-AA",
     name: "A'ana",
     outline: [
       [
@@ -25,12 +25,12 @@ const areas = [
     ],
   },
   {
-    code: "WSM-4986",
+    code: "WS-AL",
     name: "Aiga-i-le-Tai",
     outline: [[560, 293, 26, -9, 15, 34, -50, 31, -15, -6, -2, -16, 6, -18, 18, 7, 10, -5]],
   },
   {
-    code: "WSM-4987",
+    code: "WS-AT",
     name: "Atua",
     outline: [
       [
@@ -41,7 +41,7 @@ const areas = [
     ],
   },
   {
-    code: "WSM-4988",
+    code: "WS-VF",
     name: "Va'a-o-Fonoti",
     outline: [
       [883, 326, 13, 10, -15, 9, -8, -1],
@@ -49,7 +49,7 @@ const areas = [
     ],
   },
   {
-    code: "WSM-4989",
+    code: "WS-FA",
     name: "Fa'asaleleaga",
     outline: [
       [
@@ -59,7 +59,7 @@ const areas = [
     ],
   },
   {
-    code: "WSM-4990",
+    code: "WS-GE",
     name: "Gaga'emauga",
     outline: [
       [314, 10, 16, 0, 16, 3, 15, 7, 15, 13, 42, 49, -54, 2, -10, 59, -27, -1, -31, -1, -17, 0],
@@ -68,7 +68,7 @@ const areas = [
     ],
   },
   {
-    code: "WSM-4991",
+    code: "WS-GI",
     name: "Gaga'ifomauga",
     outline: [
       [
@@ -78,7 +78,7 @@ const areas = [
     ],
   },
   {
-    code: "WSM-4992",
+    code: "WS-VS",
     name: "Vaisigano",
     outline: [
       [
@@ -88,7 +88,7 @@ const areas = [
     ],
   },
   {
-    code: "WSM-4993",
+    code: "WS-SA",
     name: "Satupa'itea",
     outline: [
       [137, 183, -18, -8, -15, -25, -10, -11, -19, -8, -7, -5, 34, -24, 18, 11, 39, 25],
@@ -96,7 +96,7 @@ const areas = [
     ],
   },
   {
-    code: "WSM-4994",
+    code: "WS-PA",
     name: "Palauli",
     outline: [
       [
@@ -120,7 +120,7 @@ const insets: Sheet["insets"] = [
     outline: [[102, 32, 64, -24, 38, 84, -126, 80, -37, -17, -5, -40, 15, -43, 44, 16, 25, -13]],
     areas: [
       {
-        code: "WSM-4986",
+        code: "WS-AL",
         name: "Aiga-i-le-Tai",
         outline: [
           [102, 32, 64, -24, 38, 84, -126, 80, -37, -17, -5, -40, 15, -43, 44, 16, 25, -13],

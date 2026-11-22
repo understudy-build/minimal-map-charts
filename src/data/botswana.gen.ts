@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "29d8862f-47b6-4652-9890-70c545feb118",
+    code: "BW-SE",
     name: "South-East District",
     outline: [
       [
@@ -17,7 +17,7 @@ const areas = [
     ],
   },
   {
-    code: "30a82ad8-9c4a-4d7f-b8d8-cd65d4fca862",
+    code: "BW-CH",
     name: "Chobe District",
     outline: [
       [
@@ -35,13 +35,9 @@ const areas = [
       ],
     ],
   },
+  { code: "BW-SP", name: "Selebi Phikwe", outline: [[835, 491, -11, -1, 1, -9, 10, 1]] },
   {
-    code: "64cfadb3-dc9b-4aba-b638-918498e43a0a",
-    name: "Selebi Phikwe",
-    outline: [[835, 491, -11, -1, 1, -9, 10, 1]],
-  },
-  {
-    code: "65541975-f2a1-48ca-9403-a0d3a2e97950",
+    code: "BW-SO",
     name: "Southern District",
     outline: [
       [
@@ -54,13 +50,9 @@ const areas = [
       [501, 786, 6, -1, 0, -7, -6, -1, -2, 2, -3, -1, -2, 1, 0, 7, 7, 0],
     ],
   },
+  { code: "BW-ST", name: "Sowa Town", outline: [[667, 313, 0, 15, -12, -2, 4, -10]] },
   {
-    code: "66a4e35a-75b2-49fe-8d5d-abab8bc88451",
-    name: "Sowa Town",
-    outline: [[667, 313, 0, 15, -12, -2, 4, -10]],
-  },
-  {
-    code: "66d46771-391d-41e5-bf76-325e45031d01",
+    code: "BW-KW",
     name: "Kweneng District",
     outline: [
       [
@@ -72,7 +64,7 @@ const areas = [
     ],
   },
   {
-    code: "67097241-6fc4-4190-8fc9-a53af719c080",
+    code: "BW-KL",
     name: "Kgatleng District",
     outline: [
       [
@@ -88,14 +80,14 @@ const areas = [
     ],
   },
   {
-    code: "7ec91b96-6fe7-4a2d-887c-beacfa175b4f",
+    code: "BW-GH",
     name: "Ghanzi District",
     outline: [
       [14, 640, -4, -149, 105, -2, -3, -114, 304, -2, 163, 220, -22, 42, -226, 0, -194, 2, -123, 3],
     ],
   },
   {
-    code: "7f4efeab-ce9e-49cc-8164-303de078788b",
+    code: "BW-KG",
     name: "Kgalagadi District",
     outline: [
       [
@@ -125,7 +117,7 @@ const areas = [
     ],
   },
   {
-    code: "87c3aac6-5b8a-4453-bb62-009f4df77645",
+    code: "BW-GA",
     name: "Gaborone",
     outline: [
       [
@@ -135,7 +127,7 @@ const areas = [
     ],
   },
   {
-    code: "b0bb84f0-8f11-4d3f-9e5f-2405206d2490",
+    code: "BW-FR",
     name: "Francistown",
     outline: [
       [
@@ -145,7 +137,7 @@ const areas = [
     ],
   },
   {
-    code: "c16e5f05-0140-4d4e-8e22-b543c96082cb",
+    code: "BW-CE",
     name: "Central District",
     outline: [
       [
@@ -177,7 +169,7 @@ const areas = [
     ],
   },
   {
-    code: "c68a3554-62d2-4847-acf8-d79241811432",
+    code: "BW-NW",
     name: "North-West District",
     outline: [
       [
@@ -193,7 +185,7 @@ const areas = [
     ],
   },
   {
-    code: "e7e55d53-d7f8-4f37-9ff8-d5ed61800aea",
+    code: "BW-NE",
     name: "North-East District",
     outline: [
       [
@@ -211,13 +203,9 @@ const areas = [
       ],
     ],
   },
+  { code: "BW-LO", name: "Lobatse", outline: [[602, 852, -4, 2, -1, -9, 2, 1, 4, -1]] },
   {
-    code: "f5848740-481a-483c-93bd-c8d4196370c8",
-    name: "Lobatse",
-    outline: [[602, 852, -4, 2, -1, -9, 2, 1, 4, -1]],
-  },
-  {
-    code: "f9a92ba1-f851-44e4-9fa2-148b32d8797b",
+    code: "BW-JW",
     name: "Jwaneng Town",
     outline: [[501, 786, -7, 0, 0, -7, 2, -1, 3, 1, 2, -2, 6, 1, 0, 7, -6, 1]],
   },
@@ -231,11 +219,7 @@ const insets: Sheet["insets"] = [
     height: 180,
     outline: [[181, 8, 3, 164, -128, -27, 6, -15, 32, -88]],
     areas: [
-      {
-        code: "66a4e35a-75b2-49fe-8d5d-abab8bc88451",
-        name: "Sowa Town",
-        outline: [[181, 8, 3, 164, -128, -27, 6, -15, 32, -88]],
-      },
+      { code: "BW-ST", name: "Sowa Town", outline: [[181, 8, 3, 164, -128, -27, 6, -15, 32, -88]] },
     ],
   },
 ]

@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "DJI-1566",
+    code: "DJ-AS",
     name: "Ali Sabieh",
     outline: [
       [
@@ -13,7 +13,7 @@ const areas = [
     ],
   },
   {
-    code: "DJI-1567",
+    code: "DJ-DJ",
     name: "Djibouti",
     outline: [
       [
@@ -23,7 +23,7 @@ const areas = [
     ],
   },
   {
-    code: "DJI-1568",
+    code: "DJ-AR",
     name: "Arta",
     outline: [
       [
@@ -35,7 +35,7 @@ const areas = [
     ],
   },
   {
-    code: "DJI-1569",
+    code: "DJ-DI",
     name: "Dikhil",
     outline: [
       [
@@ -48,7 +48,7 @@ const areas = [
     ],
   },
   {
-    code: "DJI-1570",
+    code: "DJ-OB",
     name: "Obock",
     outline: [
       [
@@ -61,7 +61,7 @@ const areas = [
     ],
   },
   {
-    code: "DJI-1571",
+    code: "DJ-TA",
     name: "Tadjourah",
     outline: [
       [
@@ -90,7 +90,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "DJI-1567",
+        code: "DJ-DJ",
         name: "Djibouti",
         outline: [
           [

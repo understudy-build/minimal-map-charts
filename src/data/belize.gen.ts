@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "BLZ-1323",
+    code: "BZ-BZ",
     name: "Belize",
     outline: [
       [
@@ -37,7 +37,7 @@ const areas = [
     ],
   },
   {
-    code: "BLZ-1324",
+    code: "BZ-CY",
     name: "Cayo",
     outline: [
       [
@@ -53,7 +53,7 @@ const areas = [
     ],
   },
   {
-    code: "BLZ-1325",
+    code: "BZ-CZL",
     name: "Corozal",
     outline: [
       [
@@ -68,7 +68,7 @@ const areas = [
     ],
   },
   {
-    code: "BLZ-1326",
+    code: "BZ-OW",
     name: "Orange Walk",
     outline: [
       [
@@ -83,7 +83,7 @@ const areas = [
     ],
   },
   {
-    code: "BLZ-1355",
+    code: "BZ-SC",
     name: "Stann Creek",
     outline: [
       [
@@ -100,7 +100,7 @@ const areas = [
     ],
   },
   {
-    code: "BLZ-1356",
+    code: "BZ-TOL",
     name: "Toledo",
     outline: [
       [
@@ -137,7 +137,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "BLZ-1325",
+        code: "BZ-CZL",
         name: "Corozal",
         outline: [
           [

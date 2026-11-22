@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "COM-4934",
+    code: "KM-M",
     name: "Moûhîlî",
     outline: [
       [
@@ -13,7 +13,7 @@ const areas = [
     ],
   },
   {
-    code: "COM-4935",
+    code: "KM-G",
     name: "Andjazîdja",
     outline: [
       [
@@ -25,7 +25,7 @@ const areas = [
     ],
   },
   {
-    code: "COM-4936",
+    code: "KM-A",
     name: "Andjouân",
     outline: [
       [
@@ -52,7 +52,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "COM-4934",
+        code: "KM-M",
         name: "Moûhîlî",
         outline: [
           [

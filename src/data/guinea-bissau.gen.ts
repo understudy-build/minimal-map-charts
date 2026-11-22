@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "GNB-5500",
+    code: "GW-BM",
     name: "Biombo",
     outline: [
       [
@@ -19,14 +19,14 @@ const areas = [
     ],
   },
   {
-    code: "GNB-769",
+    code: "GW-BS",
     name: "Bissau",
     outline: [
       [388, 266, -3, 1, -12, 16, -7, 2, -20, 11, -1, -8, 3, -17, 15, -28, 3, 7, 3, 3, 7, 2, 6, 7],
     ],
   },
   {
-    code: "GNB-770",
+    code: "GW-BL",
     name: "Bolama",
     outline: [
       [
@@ -75,7 +75,7 @@ const areas = [
     ],
   },
   {
-    code: "GNB-771",
+    code: "GW-CA",
     name: "Cacheu",
     outline: [
       [
@@ -94,7 +94,7 @@ const areas = [
     ],
   },
   {
-    code: "GNB-772",
+    code: "GW-OI",
     name: "Oio",
     outline: [
       [
@@ -110,7 +110,7 @@ const areas = [
     ],
   },
   {
-    code: "GNB-773",
+    code: "GW-QU",
     name: "Quinara",
     outline: [
       [
@@ -135,7 +135,7 @@ const areas = [
     ],
   },
   {
-    code: "GNB-776",
+    code: "GW-BA",
     name: "Bafatá",
     outline: [
       [
@@ -154,7 +154,7 @@ const areas = [
     ],
   },
   {
-    code: "GNB-777",
+    code: "GW-GA",
     name: "Gabú",
     outline: [
       [
@@ -173,7 +173,7 @@ const areas = [
     ],
   },
   {
-    code: "GNB-778",
+    code: "GW-TO",
     name: "Tombali",
     outline: [
       [
@@ -206,7 +206,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "GNB-769",
+        code: "GW-BS",
         name: "Bissau",
         outline: [
           [

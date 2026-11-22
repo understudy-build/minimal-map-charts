@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "ERI-1560",
+    code: "ER-GB",
     name: "Gash Barka",
     outline: [
       [
@@ -19,14 +19,14 @@ const areas = [
     ],
   },
   {
-    code: "ERI-1561",
+    code: "ER-AN",
     name: "Anseba",
     outline: [
       [354, 439, 0, -60, 1, -2, 2, 0, 5, 3, 7, -3, 10, -1, 2, 7, 17, 27, 15, 15, 19, 11, -3, 3],
     ],
   },
   {
-    code: "ERI-1562",
+    code: "ER-DU",
     name: "Debub",
     outline: [
       [
@@ -59,7 +59,7 @@ const areas = [
     ],
   },
   {
-    code: "ERI-1563",
+    code: "ER-SK",
     name: "Semenawi Keyih Bahri",
     outline: [
       [
@@ -75,7 +75,7 @@ const areas = [
     ],
   },
   {
-    code: "ERI-1564",
+    code: "ER-MA",
     name: "Maekel",
     outline: [
       [
@@ -87,7 +87,7 @@ const areas = [
     ],
   },
   {
-    code: "ERI-1565",
+    code: "ER-DK",
     name: "Debubawi Keyih Bahri",
     outline: [
       [
@@ -121,7 +121,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "ERI-1561",
+        code: "ER-AN",
         name: "Anseba",
         outline: [
           [

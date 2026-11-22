@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "0179a79d-87af-435d-9b07-aff38fa02bd8",
+    code: "ME-08",
     name: "Herceg Novi Municipality",
     outline: [
       [
@@ -28,7 +28,7 @@ const areas = [
     ],
   },
   {
-    code: "19dc3ad8-b993-4d1d-8828-136889f1af50",
+    code: "ME-16",
     name: "Podgorica Capital City",
     outline: [
       [
@@ -57,7 +57,7 @@ const areas = [
     ],
   },
   {
-    code: "242813a8-cbb5-498a-8c19-808c7718da7f",
+    code: "ME-01",
     name: "Andrijevica Municipality",
     outline: [
       [
@@ -76,7 +76,7 @@ const areas = [
     ],
   },
   {
-    code: "2553f3d9-d666-4d36-a10f-fb8426604a58",
+    code: "ME-25",
     name: "Zeta Municipality",
     outline: [
       [
@@ -90,7 +90,7 @@ const areas = [
     ],
   },
   {
-    code: "259b4497-9040-45d0-a9f2-e92873568a81",
+    code: "ME-09",
     name: "Kolašin Municipality",
     outline: [
       [
@@ -114,7 +114,7 @@ const areas = [
     ],
   },
   {
-    code: "3032252b-c928-4058-82c9-818a1613ed29",
+    code: "ME-18",
     name: "Šavnik Municipality",
     outline: [
       [
@@ -135,7 +135,7 @@ const areas = [
     ],
   },
   {
-    code: "35b9a19c-f213-4094-a7da-4939b6716c56",
+    code: "ME-06",
     name: "Old Royal Capital Cetinje",
     outline: [
       [
@@ -161,7 +161,7 @@ const areas = [
     ],
   },
   {
-    code: "3a9b8804-4ac1-4ccd-be7e-d3beef08126a",
+    code: "ME-21",
     name: "Žabljak Municipality",
     outline: [
       [
@@ -180,7 +180,7 @@ const areas = [
     ],
   },
   {
-    code: "4264cfde-7bc7-4764-9822-804942d34933",
+    code: "ME-10",
     name: "Kotor Municipality",
     outline: [
       [
@@ -207,7 +207,7 @@ const areas = [
     ],
   },
   {
-    code: "4c85af56-9def-4490-88fd-ecced9d207d1",
+    code: "ME-03",
     name: "Berane Municipality",
     outline: [
       [
@@ -227,7 +227,7 @@ const areas = [
     ],
   },
   {
-    code: "61c5061b-cf17-4f6b-bb39-f0422c46b194",
+    code: "ME-11",
     name: "Mojkovac Municipality",
     outline: [
       [
@@ -243,7 +243,7 @@ const areas = [
     ],
   },
   {
-    code: "62be2ae9-a6f8-49ff-8f26-e01dccdbee29",
+    code: "ME-24",
     name: "Tuzi Municipality",
     outline: [
       [
@@ -261,7 +261,7 @@ const areas = [
     ],
   },
   {
-    code: "77b28bd2-d668-4bd5-b3b6-55dea5dd4826",
+    code: "ME-15",
     name: "Plužine Municipality",
     outline: [
       [
@@ -282,7 +282,7 @@ const areas = [
     ],
   },
   {
-    code: "803da6b1-4472-4f4c-a721-e09d16696e44",
+    code: "ME-12",
     name: "Nikšić Municipality",
     outline: [
       [
@@ -313,7 +313,7 @@ const areas = [
     ],
   },
   {
-    code: "8408007b-0567-44f8-a921-cf8c2dacf227",
+    code: "ME-19",
     name: "Tivat Municipality",
     outline: [
       [147, 809, 2, 0, 0, 1, -2, -1],
@@ -332,7 +332,7 @@ const areas = [
     ],
   },
   {
-    code: "92d07b80-b486-4fc3-a82b-14ee9c8bfdd1",
+    code: "ME-20",
     name: "Ulcinj Municipality",
     outline: [
       [
@@ -354,7 +354,7 @@ const areas = [
     ],
   },
   {
-    code: "978b0ae6-f7a4-4748-9941-1813be0190d6",
+    code: "ME-02",
     name: "Bar Municipality",
     outline: [
       [478, 1025, 0, 1, -1, 1, 0, -1],
@@ -394,7 +394,7 @@ const areas = [
     ],
   },
   {
-    code: "9b604214-4e7e-4088-9609-435eb67ccf66",
+    code: "ME-22",
     name: "Gusinje Municipality",
     outline: [
       [
@@ -409,7 +409,7 @@ const areas = [
     ],
   },
   {
-    code: "a5d3ddc4-ce12-4fbe-959f-6b21ce157aad",
+    code: "ME-23",
     name: "Petnjica Municipality",
     outline: [
       [
@@ -423,7 +423,7 @@ const areas = [
     ],
   },
   {
-    code: "b945b594-ecac-4736-b6dc-bcb1386d2823",
+    code: "ME-04",
     name: "Bijelo Polje Municipality",
     outline: [
       [
@@ -449,7 +449,7 @@ const areas = [
     ],
   },
   {
-    code: "c02fd398-d122-4bd1-8172-6349c2159d48",
+    code: "ME-17",
     name: "Rožaje Municipality",
     outline: [
       [
@@ -467,7 +467,7 @@ const areas = [
     ],
   },
   {
-    code: "d3b5df53-d295-48cc-823c-5a661623f885",
+    code: "ME-07",
     name: "Danilovgrad Municipality",
     outline: [
       [
@@ -490,7 +490,7 @@ const areas = [
     ],
   },
   {
-    code: "d8910a90-7203-4210-bd6d-46867ed56a6a",
+    code: "ME-05",
     name: "Budva Municipality",
     outline: [
       [
@@ -508,7 +508,7 @@ const areas = [
     ],
   },
   {
-    code: "efdbde83-edad-48c2-86b2-f36d554902a3",
+    code: "ME-14",
     name: "Pljevlja Municipality",
     outline: [
       [
@@ -537,7 +537,7 @@ const areas = [
     ],
   },
   {
-    code: "fb7f39e2-07c7-4163-aa7d-62e29f751067",
+    code: "ME-13",
     name: "Plav Municipality",
     outline: [
       [
@@ -607,7 +607,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "8408007b-0567-44f8-a921-cf8c2dacf227",
+        code: "ME-19",
         name: "Tivat Municipality",
         outline: [
           [142, 111, -2, 0, 0, -1, 1, -1, 3, 0, 1, 1, 0, 1, -1, 0, 0, 1, -2, 0],

@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "LSO-1202",
+    code: "LS-D",
     name: "Berea",
     outline: [
       [
@@ -18,7 +18,7 @@ const areas = [
     ],
   },
   {
-    code: "LSO-1203",
+    code: "LS-A",
     name: "Maseru",
     outline: [
       [
@@ -36,7 +36,7 @@ const areas = [
     ],
   },
   {
-    code: "LSO-1204",
+    code: "LS-F",
     name: "Mohale's Hoek",
     outline: [
       [
@@ -56,7 +56,7 @@ const areas = [
     ],
   },
   {
-    code: "LSO-1205",
+    code: "LS-G",
     name: "Quthing",
     outline: [
       [
@@ -72,7 +72,7 @@ const areas = [
     ],
   },
   {
-    code: "LSO-1211",
+    code: "LS-B",
     name: "Butha-Buthe",
     outline: [
       [
@@ -86,7 +86,7 @@ const areas = [
     ],
   },
   {
-    code: "LSO-1212",
+    code: "LS-C",
     name: "Leribe",
     outline: [
       [
@@ -104,7 +104,7 @@ const areas = [
     ],
   },
   {
-    code: "LSO-1213",
+    code: "LS-J",
     name: "Mokhotlong",
     outline: [
       [
@@ -120,7 +120,7 @@ const areas = [
     ],
   },
   {
-    code: "LSO-1214",
+    code: "LS-H",
     name: "Qacha's Nek",
     outline: [
       [
@@ -135,7 +135,7 @@ const areas = [
     ],
   },
   {
-    code: "LSO-1215",
+    code: "LS-K",
     name: "Thaba-Tseka",
     outline: [
       [
@@ -155,7 +155,7 @@ const areas = [
     ],
   },
   {
-    code: "LSO-3453",
+    code: "LS-E",
     name: "Mafeteng",
     outline: [
       [
@@ -196,7 +196,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "LSO-1211",
+        code: "LS-B",
         name: "Butha-Buthe",
         outline: [
           [

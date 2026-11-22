@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "FJI-2617",
+    code: "FJ-C",
     name: "Central",
     outline: [
       [488, 335, 0, -3, 3, 1, 1, 6, -2, 2, -4, -1],
@@ -20,7 +20,7 @@ const areas = [
     ],
   },
   {
-    code: "FJI-2618",
+    code: "FJ-E",
     name: "Eastern",
     outline: [
       [938, 449, 3, 4, 5, 1, -1, 3, -7, -3, -1, -2, 0, -3, 2, -2, 4, 0],
@@ -59,7 +59,7 @@ const areas = [
     ],
   },
   {
-    code: "FJI-2619",
+    code: "FJ-N",
     name: "Northern",
     outline: [
       [517, 106, 0, 5, -6, 1, -1, -7],
@@ -90,7 +90,7 @@ const areas = [
     ],
   },
   {
-    code: "FJI-2620",
+    code: "FJ-W",
     name: "Western",
     outline: [
       [422, 353, 2, 13, -5, -6, -1, -5, 2, -3],
@@ -134,7 +134,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "FJI-2658",
+        code: "FJ-R",
         name: "Rotuma",
         outline: [
           [

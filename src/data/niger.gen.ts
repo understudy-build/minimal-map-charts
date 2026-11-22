@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "NER-4859",
+    code: "NE-6",
     name: "Tillabéri",
     outline: [
       [
@@ -21,7 +21,7 @@ const areas = [
     ],
   },
   {
-    code: "NER-796",
+    code: "NE-2",
     name: "Diffa",
     outline: [
       [
@@ -35,7 +35,7 @@ const areas = [
     ],
   },
   {
-    code: "NER-800",
+    code: "NE-1",
     name: "Agadez",
     outline: [
       [
@@ -49,7 +49,7 @@ const areas = [
     ],
   },
   {
-    code: "NER-91",
+    code: "NE-4",
     name: "Maradi",
     outline: [
       [
@@ -61,7 +61,7 @@ const areas = [
     ],
   },
   {
-    code: "NER-92",
+    code: "NE-7",
     name: "Zinder",
     outline: [
       [
@@ -75,7 +75,7 @@ const areas = [
     ],
   },
   {
-    code: "NER-93",
+    code: "NE-3",
     name: "Dosso",
     outline: [
       [
@@ -89,14 +89,14 @@ const areas = [
     ],
   },
   {
-    code: "NER-94",
+    code: "NE-8",
     name: "Niamey",
     outline: [
       [133, 657, 7, 0, 0, 3, 2, -1, 1, 1, 0, 4, -5, 9, -2, -3, -8, -1, -5, -7, 2, -5, 2, -1],
     ],
   },
   {
-    code: "NER-95",
+    code: "NE-5",
     name: "Tahoua",
     outline: [
       [
@@ -125,7 +125,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "NER-94",
+        code: "NE-8",
         name: "Niamey",
         outline: [
           [

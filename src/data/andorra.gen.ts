@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "AND-4876",
+    code: "AD-07",
     name: "Andorra la Vella",
     outline: [
       [
@@ -13,7 +13,7 @@ const areas = [
     ],
   },
   {
-    code: "AND-4877",
+    code: "AD-04",
     name: "La Massana",
     outline: [
       [
@@ -24,7 +24,7 @@ const areas = [
     ],
   },
   {
-    code: "AND-4878",
+    code: "AD-05",
     name: "Ordino",
     outline: [
       [
@@ -34,7 +34,7 @@ const areas = [
     ],
   },
   {
-    code: "AND-4879",
+    code: "AD-02",
     name: "Canillo",
     outline: [
       [
@@ -45,7 +45,7 @@ const areas = [
     ],
   },
   {
-    code: "AND-4880",
+    code: "AD-03",
     name: "Encamp",
     outline: [
       [
@@ -56,7 +56,7 @@ const areas = [
     ],
   },
   {
-    code: "AND-4881",
+    code: "AD-08",
     name: "Escaldes-Engordany",
     outline: [
       [
@@ -67,7 +67,7 @@ const areas = [
     ],
   },
   {
-    code: "AND-4882",
+    code: "AD-06",
     name: "Sant Julià de Lòria",
     outline: [
       [
@@ -93,7 +93,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "AND-4876",
+        code: "AD-07",
         name: "Andorra la Vella",
         outline: [
           [

@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "GUY-671",
+    code: "GY-MA",
     name: "Mahaica-Berbice",
     outline: [
       [
@@ -32,7 +32,7 @@ const areas = [
     ],
   },
   {
-    code: "GUY-672",
+    code: "GY-PT",
     name: "Potaro-Siparuni",
     outline: [
       [
@@ -50,7 +50,7 @@ const areas = [
     ],
   },
   {
-    code: "GUY-673",
+    code: "GY-UT",
     name: "Upper Takutu-Upper Essequibo",
     outline: [
       [
@@ -64,7 +64,7 @@ const areas = [
     ],
   },
   {
-    code: "GUY-674",
+    code: "GY-UD",
     name: "Upper Demerara-Berbice",
     outline: [
       [
@@ -86,7 +86,7 @@ const areas = [
     ],
   },
   {
-    code: "GUY-675",
+    code: "GY-BA",
     name: "Barima-Waini",
     outline: [
       [
@@ -104,7 +104,7 @@ const areas = [
     ],
   },
   {
-    code: "GUY-676",
+    code: "GY-PM",
     name: "Pomeroon-Supenaam",
     outline: [
       [
@@ -125,7 +125,7 @@ const areas = [
     ],
   },
   {
-    code: "GUY-677",
+    code: "GY-EB",
     name: "East Berbice-Corentyne",
     outline: [
       [
@@ -137,7 +137,7 @@ const areas = [
     ],
   },
   {
-    code: "GUY-678",
+    code: "GY-DE",
     name: "Demerara-Mahaica",
     outline: [
       [610, 327, 9, 3, -11, 8, -10, 3, -4, 4, -1, -3, 2, -5, 7, -10],
@@ -153,7 +153,7 @@ const areas = [
     ],
   },
   {
-    code: "GUY-679",
+    code: "GY-ES",
     name: "Essequibo Islands-West Demerara",
     outline: [
       [
@@ -165,7 +165,7 @@ const areas = [
     ],
   },
   {
-    code: "GUY-680",
+    code: "GY-CU",
     name: "Cuyuni-Mazaruni",
     outline: [
       [
@@ -196,7 +196,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "GUY-677",
+        code: "GY-EB",
         name: "East Berbice-Corentyne",
         outline: [
           [

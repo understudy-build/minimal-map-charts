@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "f7c4a714-734d-4697-9b5b-c2850fc772ad",
+    code: "TV-FUN",
     name: "Funafuti",
     outline: [
       [10, 1459, 10, -27, 4, -1, 1, -5, 2, 12, -6, 11, 1, 6, 3, 7, 2, 2, 3, 0, 2, 3, -10, 20],
@@ -56,7 +56,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "5b08650a-fbc9-4f36-a8b7-23c7ccdfc398",
+        code: "TV-NMA",
         name: "Nanumea",
         outline: [
           [9, 8, 52, 15, 2, 10],
@@ -78,13 +78,7 @@ const insets: Sheet["insets"] = [
     width: 240,
     height: 180,
     outline: [[78, 104, 38, -96, 46, 44, -32, 120]],
-    areas: [
-      {
-        code: "d389d543-9058-420d-bb6c-102bb4c2a5a6",
-        name: "Nanumanga",
-        outline: [[78, 104, 38, -96, 46, 44, -32, 120]],
-      },
-    ],
+    areas: [{ code: "TV-NMG", name: "Nanumanga", outline: [[78, 104, 38, -96, 46, 44, -32, 120]] }],
   },
   {
     name: "Nui",
@@ -115,7 +109,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "125260d9-e1cd-4864-a965-540c0348e788",
+        code: "TV-NUI",
         name: "Nui",
         outline: [
           [
@@ -177,7 +171,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "ffef6b8b-2e97-4bd8-824b-4257da3c16f6",
+        code: "TV-NKF",
         name: "Nukufetau",
         outline: [
           [46, 123, 4, -2, 1, 1, 0, 2, 1, 0, 1, 3],
@@ -233,7 +227,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "8950d372-6e3b-4845-97aa-b528811da62e",
+        code: "TV-VAI",
         name: "Vaitupu",
         outline: [
           [
@@ -264,7 +258,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "10d373ed-b8f4-4eb2-aca3-7dbfff691162",
+        code: "TV-NIT",
         name: "Niutao",
         outline: [
           [8, 24, 61, 3, 30, 7, 14, 2, 10, 1, 14, 0, 13, -1, 27, 0, 5, -1, 12, 0, 38, 85, -177, 36],
@@ -295,7 +289,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "8f5800a7-2291-4de1-ace6-769a1fe23adf",
+        code: "TV-NKL",
         name: "Nukulaelae",
         outline: [
           [60, 55, 2, -6, 4, 20, 0, -1, -3, -6, 0, -1, -1, -1, 0, -1, -1, -1, 0, -2],

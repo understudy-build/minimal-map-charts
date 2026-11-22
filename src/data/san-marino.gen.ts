@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "SMR-4883",
+    code: "SM-06",
     name: "Borgo Maggiore",
     outline: [
       [
@@ -14,7 +14,7 @@ const areas = [
     ],
   },
   {
-    code: "SMR-4884",
+    code: "SM-07",
     name: "San Marino",
     outline: [
       [
@@ -24,7 +24,7 @@ const areas = [
     ],
   },
   {
-    code: "SMR-4885",
+    code: "SM-01",
     name: "Acquaviva",
     outline: [
       [
@@ -34,7 +34,7 @@ const areas = [
     ],
   },
   {
-    code: "SMR-4886",
+    code: "SM-09",
     name: "Serravalle",
     outline: [
       [
@@ -44,7 +44,7 @@ const areas = [
     ],
   },
   {
-    code: "SMR-4887",
+    code: "SM-03",
     name: "Domagnano",
     outline: [
       [
@@ -54,7 +54,7 @@ const areas = [
     ],
   },
   {
-    code: "SMR-4888",
+    code: "SM-04",
     name: "Faetano",
     outline: [
       [
@@ -64,14 +64,14 @@ const areas = [
     ],
   },
   {
-    code: "SMR-4889",
+    code: "SM-08",
     name: "Montegiardino",
     outline: [
       [858, 767, -5, 40, 8, 38, -128, 217, -11, -91, 7, -79, 10, -48, 23, -38, 5, -31, 34, -14],
     ],
   },
   {
-    code: "SMR-4890",
+    code: "SM-05",
     name: "Fiorentino",
     outline: [
       [
@@ -81,7 +81,7 @@ const areas = [
     ],
   },
   {
-    code: "SMR-4891",
+    code: "SM-02",
     name: "Chiesanuova",
     outline: [
       [
@@ -101,7 +101,7 @@ const insets: Sheet["insets"] = [
     outline: [[157, 11, -3, 22, 4, 21, -70, 118, -6, -50, 4, -43, 6, -26, 12, -21, 2, -16, 19, -8]],
     areas: [
       {
-        code: "SMR-4889",
+        code: "SM-08",
         name: "Montegiardino",
         outline: [
           [157, 11, -3, 22, 4, 21, -70, 118, -6, -50, 4, -43, 6, -26, 12, -21, 2, -16, 19, -8],

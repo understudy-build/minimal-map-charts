@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "BLR-2338",
+    code: "BY-BR",
     name: "Brest",
     outline: [
       [
@@ -28,7 +28,7 @@ const areas = [
     ],
   },
   {
-    code: "BLR-2339",
+    code: "BY-HO",
     name: "Gomel",
     outline: [
       [
@@ -58,7 +58,7 @@ const areas = [
     ],
   },
   {
-    code: "BLR-2340",
+    code: "BY-MA",
     name: "Mogilev",
     outline: [
       [
@@ -89,7 +89,7 @@ const areas = [
     ],
   },
   {
-    code: "BLR-2341",
+    code: "BY-VI",
     name: "Vitebsk",
     outline: [
       [
@@ -119,7 +119,7 @@ const areas = [
     ],
   },
   {
-    code: "BLR-2344",
+    code: "BY-HR",
     name: "Grodno",
     outline: [
       [
@@ -144,7 +144,7 @@ const areas = [
     ],
   },
   {
-    code: "BLR-2345",
+    code: "BY-MI",
     name: "Minsk",
     outline: [
       [
@@ -181,7 +181,7 @@ const areas = [
     ],
   },
   {
-    code: "BLR-4825",
+    code: "BY-HM",
     name: "City of Minsk",
     outline: [
       [
@@ -208,7 +208,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "BLR-4825",
+        code: "BY-HM",
         name: "City of Minsk",
         outline: [
           [

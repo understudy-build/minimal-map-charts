@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "06f9fc96-aba5-487e-b192-0894db2d8acf",
+    code: "PA-KY",
     name: "Guna Yala",
     outline: [
       [
@@ -45,7 +45,7 @@ const areas = [
     ],
   },
   {
-    code: "13bfea2b-6716-4e7f-be9e-79dfeed7f654",
+    code: "PA-9",
     name: "Veraguas",
     outline: [
       [
@@ -138,7 +138,7 @@ const areas = [
     ],
   },
   {
-    code: "27a344b3-aa7a-4673-be71-71d18a3d8c85",
+    code: "PA-NB",
     name: "Ngäbe-Buglé",
     outline: [
       [
@@ -201,7 +201,7 @@ const areas = [
     ],
   },
   {
-    code: "2dd889f5-d64d-4ec3-a75c-3490e7f117ac",
+    code: "PA-7",
     name: "Los Santos",
     outline: [
       [
@@ -219,7 +219,7 @@ const areas = [
     ],
   },
   {
-    code: "3349188b-77d4-4d1f-a388-3cbef8d1b8d6",
+    code: "PA-8",
     name: "Panamá Province",
     outline: [
       [
@@ -290,7 +290,7 @@ const areas = [
     ],
   },
   {
-    code: "45f1e7d5-d257-41f4-911f-f13b7a0ff031",
+    code: "PA-1",
     name: "Bocas del Toro",
     outline: [
       [
@@ -362,7 +362,7 @@ const areas = [
     ],
   },
   {
-    code: "58d829ea-424a-49a2-9706-01709d50b63f",
+    code: "PA-NT",
     name: "Naso Tjër Di",
     outline: [
       [
@@ -375,7 +375,7 @@ const areas = [
     ],
   },
   {
-    code: "600e107e-f009-4931-851c-5203855cf3ff",
+    code: "PA-5",
     name: "Darién",
     outline: [
       [
@@ -446,7 +446,7 @@ const areas = [
     ],
   },
   {
-    code: "7184d210-2fab-4156-ab40-47a49f375d50",
+    code: "PA-10",
     name: "Panamá Oeste",
     outline: [
       [
@@ -466,7 +466,7 @@ const areas = [
     ],
   },
   {
-    code: "763e6248-d132-4c79-bfb8-bde82d5fe67d",
+    code: "PA-2",
     name: "Coclé",
     outline: [
       [
@@ -488,7 +488,7 @@ const areas = [
     ],
   },
   {
-    code: "a6521e53-18ea-4034-8aac-edab66c957ce",
+    code: "PA-3",
     name: "Colón",
     outline: [
       [
@@ -521,7 +521,7 @@ const areas = [
     ],
   },
   {
-    code: "b7e27543-42f1-403a-9d59-d83fd537ae0a",
+    code: "PA-6",
     name: "Herrera",
     outline: [
       [
@@ -538,7 +538,7 @@ const areas = [
     ],
   },
   {
-    code: "eab84315-5be5-4c51-824d-fa84ce217092",
+    code: "PA-EM",
     name: "Emberá-Wounaan",
     outline: [
       [
@@ -565,7 +565,7 @@ const areas = [
     ],
   },
   {
-    code: "f0f1b3ec-ac64-49f3-a998-822c6422829f",
+    code: "PA-4",
     name: "Chiriquí",
     outline: [
       [
@@ -656,7 +656,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "58d829ea-424a-49a2-9706-01709d50b63f",
+        code: "PA-NT",
         name: "Naso Tjër Di",
         outline: [
           [

@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "SUR-37",
+    code: "SR-NI",
     name: "Nickerie",
     outline: [
       [
@@ -16,7 +16,7 @@ const areas = [
     ],
   },
   {
-    code: "SUR-66",
+    code: "SR-BR",
     name: "Brokopondo",
     outline: [
       [
@@ -29,7 +29,7 @@ const areas = [
     ],
   },
   {
-    code: "SUR-67",
+    code: "SR-MA",
     name: "Marowijne",
     outline: [
       [
@@ -40,7 +40,7 @@ const areas = [
     ],
   },
   {
-    code: "SUR-68",
+    code: "SR-PR",
     name: "Para",
     outline: [
       [
@@ -55,7 +55,7 @@ const areas = [
     ],
   },
   {
-    code: "SUR-69",
+    code: "SR-SI",
     name: "Sipaliwini",
     outline: [
       [
@@ -93,7 +93,7 @@ const areas = [
     ],
   },
   {
-    code: "SUR-70",
+    code: "SR-CM",
     name: "Commewijne",
     outline: [
       [
@@ -105,7 +105,7 @@ const areas = [
     ],
   },
   {
-    code: "SUR-71",
+    code: "SR-CR",
     name: "Coronie",
     outline: [
       [
@@ -118,14 +118,14 @@ const areas = [
     ],
   },
   {
-    code: "SUR-72",
+    code: "SR-PM",
     name: "Paramaribo",
     outline: [
       [691, 37, 10, 1, 10, -3, 4, 3, 7, 7, -3, 7, -4, 4, 1, 0, -7, 5, 3, 9, -16, -8, -4, -12],
     ],
   },
   {
-    code: "SUR-73",
+    code: "SR-SA",
     name: "Saramacca",
     outline: [
       [
@@ -138,7 +138,7 @@ const areas = [
     ],
   },
   {
-    code: "SUR-74",
+    code: "SR-WA",
     name: "Wanica",
     outline: [
       [
@@ -164,7 +164,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "SUR-72",
+        code: "SR-PM",
         name: "Paramaribo",
         outline: [
           [

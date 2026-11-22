@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "BRB-1989",
+    code: "BB-01",
     name: "Christ Church",
     outline: [
       [
@@ -14,7 +14,7 @@ const areas = [
     ],
   },
   {
-    code: "BRB-1990",
+    code: "BB-02",
     name: "Saint Andrew",
     outline: [
       [
@@ -25,14 +25,14 @@ const areas = [
     ],
   },
   {
-    code: "BRB-1991",
+    code: "BB-03",
     name: "Saint George",
     outline: [
       [501, 728, 91, 83, 8, 10, 37, 69, -19, 73, -247, 94, -72, -235, 102, -41, 9, -5, 31, -38],
     ],
   },
   {
-    code: "BRB-1992",
+    code: "BB-04",
     name: "Saint James",
     outline: [
       [
@@ -43,7 +43,7 @@ const areas = [
     ],
   },
   {
-    code: "BRB-1993",
+    code: "BB-05",
     name: "Saint John",
     outline: [
       [
@@ -53,7 +53,7 @@ const areas = [
     ],
   },
   {
-    code: "BRB-1994",
+    code: "BB-06",
     name: "Saint Joseph",
     outline: [
       [
@@ -63,7 +63,7 @@ const areas = [
     ],
   },
   {
-    code: "BRB-1995",
+    code: "BB-07",
     name: "Saint Lucy",
     outline: [
       [
@@ -73,7 +73,7 @@ const areas = [
     ],
   },
   {
-    code: "BRB-1996",
+    code: "BB-08",
     name: "Saint Michael",
     outline: [
       [
@@ -83,7 +83,7 @@ const areas = [
     ],
   },
   {
-    code: "BRB-1997",
+    code: "BB-09",
     name: "Saint Peter",
     outline: [
       [
@@ -94,7 +94,7 @@ const areas = [
     ],
   },
   {
-    code: "BRB-1998",
+    code: "BB-10",
     name: "Saint Philip",
     outline: [
       [
@@ -105,7 +105,7 @@ const areas = [
     ],
   },
   {
-    code: "BRB-1999",
+    code: "BB-11",
     name: "Saint Thomas",
     outline: [
       [
@@ -131,7 +131,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "BRB-1994",
+        code: "BB-06",
         name: "Saint Joseph",
         outline: [
           [

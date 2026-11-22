@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "GMB-2151",
+    code: "GM-M",
     name: "Central River",
     outline: [
       [
@@ -17,7 +17,7 @@ const areas = [
     ],
   },
   {
-    code: "GMB-2152",
+    code: "GM-U",
     name: "Upper River",
     outline: [
       [
@@ -29,7 +29,7 @@ const areas = [
     ],
   },
   {
-    code: "GMB-2153",
+    code: "GM-B",
     name: "Banjul",
     outline: [
       [
@@ -39,7 +39,7 @@ const areas = [
     ],
   },
   {
-    code: "GMB-2154",
+    code: "GM-L",
     name: "Lower River",
     outline: [
       [
@@ -53,7 +53,7 @@ const areas = [
     ],
   },
   {
-    code: "GMB-5512",
+    code: "GM-W",
     name: "West Coast",
     outline: [
       [
@@ -67,7 +67,7 @@ const areas = [
     ],
   },
   {
-    code: "GMB-5513",
+    code: "GM-N",
     name: "North Bank",
     outline: [
       [
@@ -95,7 +95,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "GMB-2153",
+        code: "GM-B",
         name: "Banjul",
         outline: [
           [

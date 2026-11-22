@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "GIN-5627",
+    code: "GN-BE",
     name: "Beyla",
     outline: [
       [
@@ -18,7 +18,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5628",
+    code: "GN-BF",
     name: "Boffa",
     outline: [
       [
@@ -32,7 +32,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5629",
+    code: "GN-BK",
     name: "Boke",
     outline: [
       [
@@ -49,9 +49,9 @@ const areas = [
       ],
     ],
   },
-  { code: "GIN-5630", name: "Conakry", outline: [[198, 430, -11, 5, 0, -2, 3, -1, 4, -6]] },
+  { code: "GN-C", name: "Conakry", outline: [[198, 430, -11, 5, 0, -2, 3, -1, 4, -6]] },
   {
-    code: "GIN-5631",
+    code: "GN-CO",
     name: "Coyah",
     outline: [
       [
@@ -61,7 +61,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5632",
+    code: "GN-DB",
     name: "Dabola",
     outline: [
       [
@@ -73,7 +73,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5633",
+    code: "GN-DL",
     name: "Dalaba",
     outline: [
       [
@@ -85,7 +85,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5634",
+    code: "GN-DI",
     name: "Dinguiraye",
     outline: [
       [
@@ -100,7 +100,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5635",
+    code: "GN-DU",
     name: "Dubréka",
     outline: [
       [
@@ -113,7 +113,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5636",
+    code: "GN-FA",
     name: "Faranah",
     outline: [
       [
@@ -128,7 +128,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5637",
+    code: "GN-FO",
     name: "Forécariah",
     outline: [
       [
@@ -142,7 +142,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5638",
+    code: "GN-FR",
     name: "Fria",
     outline: [
       [
@@ -152,7 +152,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5639",
+    code: "GN-GA",
     name: "Gaoual",
     outline: [
       [
@@ -168,7 +168,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5640",
+    code: "GN-GU",
     name: "Guéckédou",
     outline: [
       [
@@ -181,7 +181,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5641",
+    code: "GN-K",
     name: "Kankan",
     outline: [
       [
@@ -194,7 +194,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5642",
+    code: "GN-KE",
     name: "Kérouané",
     outline: [
       [
@@ -205,7 +205,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5643",
+    code: "GN-KD",
     name: "Kindia",
     outline: [
       [
@@ -218,7 +218,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5644",
+    code: "GN-KS",
     name: "Kissidougou",
     outline: [
       [
@@ -230,7 +230,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5645",
+    code: "GN-KB",
     name: "Koubia",
     outline: [
       [
@@ -241,7 +241,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5646",
+    code: "GN-KN",
     name: "Koundara",
     outline: [
       [
@@ -255,7 +255,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5647",
+    code: "GN-KO",
     name: "Kouroussa",
     outline: [
       [
@@ -271,7 +271,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5648",
+    code: "GN-LA",
     name: "Labé",
     outline: [
       [
@@ -281,7 +281,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5649",
+    code: "GN-LE",
     name: "Lélouma",
     outline: [
       [
@@ -292,7 +292,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5650",
+    code: "GN-LO",
     name: "Lola",
     outline: [
       [
@@ -303,7 +303,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5651",
+    code: "GN-MC",
     name: "Macenta",
     outline: [
       [
@@ -316,7 +316,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5652",
+    code: "GN-ML",
     name: "Mali",
     outline: [
       [
@@ -328,7 +328,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5653",
+    code: "GN-MM",
     name: "Mamou",
     outline: [
       [
@@ -340,7 +340,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5654",
+    code: "GN-MD",
     name: "Mandiana",
     outline: [
       [
@@ -355,7 +355,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5655",
+    code: "GN-NZ",
     name: "Nzérékoré",
     outline: [
       [
@@ -366,7 +366,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5656",
+    code: "GN-PI",
     name: "Pita",
     outline: [
       [
@@ -379,7 +379,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5657",
+    code: "GN-SI",
     name: "Siguiri",
     outline: [
       [
@@ -393,7 +393,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5658",
+    code: "GN-TO",
     name: "Tougué",
     outline: [
       [
@@ -404,7 +404,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5659",
+    code: "GN-YO",
     name: "Yomou",
     outline: [
       [
@@ -416,7 +416,7 @@ const areas = [
     ],
   },
   {
-    code: "GIN-5660",
+    code: "GN-TE",
     name: "Télimélé",
     outline: [
       [
@@ -444,7 +444,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "GIN-5630",
+        code: "GN-C",
         name: "Conakry",
         outline: [
           [

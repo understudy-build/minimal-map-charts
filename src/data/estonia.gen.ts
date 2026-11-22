@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "0037",
+    code: "EE-37",
     name: "Harju",
     outline: [
       [565, 100, 2, 3, -1, 2, -2, -3, 1, -2],
@@ -69,7 +69,7 @@ const areas = [
     ],
   },
   {
-    code: "0039",
+    code: "EE-39",
     name: "Hiiu",
     outline: [
       [207, 254, -1, 0, 1, -1],
@@ -125,7 +125,7 @@ const areas = [
     ],
   },
   {
-    code: "0045",
+    code: "EE-45",
     name: "Ida-Viru",
     outline: [
       [
@@ -161,7 +161,7 @@ const areas = [
     ],
   },
   {
-    code: "0050",
+    code: "EE-50",
     name: "Jõgeva",
     outline: [
       [
@@ -185,7 +185,7 @@ const areas = [
     ],
   },
   {
-    code: "0052",
+    code: "EE-52",
     name: "Järva",
     outline: [
       [
@@ -211,7 +211,7 @@ const areas = [
     ],
   },
   {
-    code: "0056",
+    code: "EE-56",
     name: "Lääne",
     outline: [
       [
@@ -275,7 +275,7 @@ const areas = [
     ],
   },
   {
-    code: "0060",
+    code: "EE-60",
     name: "Lääne-Viru",
     outline: [
       [738, 58, -1, 1, 0, -1],
@@ -309,7 +309,7 @@ const areas = [
     ],
   },
   {
-    code: "0064",
+    code: "EE-64",
     name: "Põlva",
     outline: [
       [
@@ -333,7 +333,7 @@ const areas = [
     ],
   },
   {
-    code: "0068",
+    code: "EE-68",
     name: "Pärnu",
     outline: [
       [426, 496, 1, 0, 0, 1, -1, 0, 0, -1],
@@ -406,7 +406,7 @@ const areas = [
     ],
   },
   {
-    code: "0071",
+    code: "EE-71",
     name: "Rapla",
     outline: [
       [
@@ -431,7 +431,7 @@ const areas = [
     ],
   },
   {
-    code: "0074",
+    code: "EE-74",
     name: "Saare",
     outline: [
       [
@@ -553,7 +553,7 @@ const areas = [
     ],
   },
   {
-    code: "0079",
+    code: "EE-79",
     name: "Tartu",
     outline: [
       [
@@ -583,7 +583,7 @@ const areas = [
     ],
   },
   {
-    code: "0081",
+    code: "EE-81",
     name: "Valga",
     outline: [
       [
@@ -611,7 +611,7 @@ const areas = [
     ],
   },
   {
-    code: "0084",
+    code: "EE-84",
     name: "Viljandi",
     outline: [
       [666, 427, 0, 1, -1, 0],
@@ -643,7 +643,7 @@ const areas = [
     ],
   },
   {
-    code: "0087",
+    code: "EE-87",
     name: "Võru",
     outline: [
       [
@@ -804,7 +804,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "0039",
+        code: "EE-39",
         name: "Hiiu",
         outline: [
           [195, 54, 0, -1, 2, 0, -1, 1],

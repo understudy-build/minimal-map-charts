@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "TON-4945",
+    code: "TO-04",
     name: "Tongatapu",
     outline: [
       [
@@ -34,7 +34,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "TON-4946",
+        code: "TO-05",
         name: "Vava'u",
         outline: [
           [
@@ -60,7 +60,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "TON-4949",
+        code: "TO-01",
         name: "Eua",
         outline: [
           [
@@ -87,7 +87,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "TON-4948",
+        code: "TO-02",
         name: "Ha'apai",
         outline: [
           [201, 116, 4, -1, 3, -3, 2, -3, 1, -4, 1, 0, 3, 1, 1, 1, -2, 5, -2, 9, -5, 1, -4, -2],
@@ -112,7 +112,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "TON-4947",
+        code: "TO-03",
         name: "Niuas",
         outline: [
           [14, 65, 2, 2, 0, 3, -3, 3, -3, -1, -2, -2, 0, -2, 3, -2],

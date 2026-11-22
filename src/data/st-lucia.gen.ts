@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "63095687B12253142447206",
+    code: "LC-08",
     name: "Micoud",
     outline: [
       [
@@ -23,7 +23,7 @@ const areas = [
     ],
   },
   {
-    code: "63095687B32971577162412",
+    code: "LC-10",
     name: "Soufrière",
     outline: [
       [
@@ -36,7 +36,7 @@ const areas = [
     ],
   },
   {
-    code: "63095687B33875357323526",
+    code: "LC-02",
     name: "Castries",
     outline: [
       [
@@ -56,7 +56,7 @@ const areas = [
     ],
   },
   {
-    code: "63095687B3915284984293",
+    code: "LC-01",
     name: "Anse la Raya",
     outline: [
       [
@@ -69,7 +69,7 @@ const areas = [
     ],
   },
   {
-    code: "63095687B42817258586373",
+    code: "LC-07",
     name: "Laborie",
     outline: [
       [
@@ -80,7 +80,7 @@ const areas = [
     ],
   },
   {
-    code: "63095687B49372508754012",
+    code: "LC-03",
     name: "Choiseul",
     outline: [
       [
@@ -91,7 +91,7 @@ const areas = [
     ],
   },
   {
-    code: "63095687B63570319440385",
+    code: "LC-11",
     name: "Vieux Fort",
     outline: [
       [712, 1900, -4, -15, 7, -4, 5, 11],
@@ -107,7 +107,7 @@ const areas = [
     ],
   },
   {
-    code: "63095687B77911403325027",
+    code: "LC-06",
     name: "Gros Islet",
     outline: [
       [
@@ -126,7 +126,7 @@ const areas = [
     ],
   },
   {
-    code: "63095687B90177859016877",
+    code: "LC-12",
     name: "Canaries",
     outline: [
       [
@@ -137,7 +137,7 @@ const areas = [
     ],
   },
   {
-    code: "63095687B97045845903589",
+    code: "LC-05",
     name: "Dennery",
     outline: [
       [
@@ -170,7 +170,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "63095687B90177859016877",
+        code: "LC-12",
         name: "Canaries",
         outline: [
           [

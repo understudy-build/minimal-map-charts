@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "CMR-1462",
+    code: "CM-EN",
     name: "Extrême-Nord",
     outline: [
       [
@@ -22,7 +22,7 @@ const areas = [
     ],
   },
   {
-    code: "CMR-1476",
+    code: "CM-LT",
     name: "Littoral",
     outline: [
       [
@@ -47,7 +47,7 @@ const areas = [
     ],
   },
   {
-    code: "CMR-1477",
+    code: "CM-NW",
     name: "Nord-Ouest",
     outline: [
       [
@@ -61,7 +61,7 @@ const areas = [
     ],
   },
   {
-    code: "CMR-1480",
+    code: "CM-CE",
     name: "Centre",
     outline: [
       [
@@ -84,7 +84,7 @@ const areas = [
     ],
   },
   {
-    code: "CMR-1481",
+    code: "CM-ES",
     name: "Est",
     outline: [
       [
@@ -110,7 +110,7 @@ const areas = [
     ],
   },
   {
-    code: "CMR-1482",
+    code: "CM-AD",
     name: "Adamaoua",
     outline: [
       [
@@ -129,7 +129,7 @@ const areas = [
     ],
   },
   {
-    code: "CMR-1483",
+    code: "CM-NO",
     name: "Nord",
     outline: [
       [
@@ -148,7 +148,7 @@ const areas = [
     ],
   },
   {
-    code: "CMR-798",
+    code: "CM-OU",
     name: "Ouest",
     outline: [
       [
@@ -163,7 +163,7 @@ const areas = [
     ],
   },
   {
-    code: "CMR-799",
+    code: "CM-SW",
     name: "Sud-Ouest",
     outline: [
       [
@@ -183,7 +183,7 @@ const areas = [
     ],
   },
   {
-    code: "CMR-803",
+    code: "CM-SU",
     name: "Sud",
     outline: [
       [
@@ -227,7 +227,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "CMR-798",
+        code: "CM-OU",
         name: "Ouest",
         outline: [
           [

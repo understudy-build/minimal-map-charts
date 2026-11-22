@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "GAB-2168",
+    code: "GA-1",
     name: "Estuaire",
     outline: [
       [
@@ -24,7 +24,7 @@ const areas = [
     ],
   },
   {
-    code: "GAB-2186",
+    code: "GA-6",
     name: "Ogooué-Ivindo",
     outline: [
       [
@@ -41,7 +41,7 @@ const areas = [
     ],
   },
   {
-    code: "GAB-2187",
+    code: "GA-9",
     name: "Wouleu-Ntem",
     outline: [
       [
@@ -57,7 +57,7 @@ const areas = [
     ],
   },
   {
-    code: "GAB-2621",
+    code: "GA-3",
     name: "Moyen-Ogooué",
     outline: [
       [
@@ -74,7 +74,7 @@ const areas = [
     ],
   },
   {
-    code: "GAB-2622",
+    code: "GA-4",
     name: "Ngounié",
     outline: [
       [
@@ -92,7 +92,7 @@ const areas = [
     ],
   },
   {
-    code: "GAB-2623",
+    code: "GA-5",
     name: "Nyanga",
     outline: [
       [
@@ -106,7 +106,7 @@ const areas = [
     ],
   },
   {
-    code: "GAB-2624",
+    code: "GA-8",
     name: "Ogooué-Maritime",
     outline: [
       [
@@ -139,7 +139,7 @@ const areas = [
     ],
   },
   {
-    code: "GAB-2627",
+    code: "GA-2",
     name: "Haut-Ogooué",
     outline: [
       [
@@ -159,7 +159,7 @@ const areas = [
     ],
   },
   {
-    code: "GAB-2628",
+    code: "GA-7",
     name: "Ogooué-Lolo",
     outline: [
       [
@@ -200,7 +200,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "GAB-2621",
+        code: "GA-3",
         name: "Moyen-Ogooué",
         outline: [
           [

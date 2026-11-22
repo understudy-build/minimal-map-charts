@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "VUT-560",
+    code: "VU-TOB",
     name: "Torba",
     outline: [
       [
@@ -29,7 +29,7 @@ const areas = [
     ],
   },
   {
-    code: "VUT-561",
+    code: "VU-SAM",
     name: "Sanma",
     outline: [
       [
@@ -54,7 +54,7 @@ const areas = [
     ],
   },
   {
-    code: "VUT-562",
+    code: "VU-TAE",
     name: "Tafea",
     outline: [
       [
@@ -74,7 +74,7 @@ const areas = [
     ],
   },
   {
-    code: "VUT-563",
+    code: "VU-MAP",
     name: "Malampa",
     outline: [
       [544, 1063, -4, -1, -6, -11, 12, -2, 4, 2, 3, 5, 0, 4, -3, 3],
@@ -97,7 +97,7 @@ const areas = [
     ],
   },
   {
-    code: "VUT-564",
+    code: "VU-PAM",
     name: "Penama",
     outline: [
       [
@@ -115,7 +115,7 @@ const areas = [
     ],
   },
   {
-    code: "VUT-565",
+    code: "VU-SEE",
     name: "Shefa",
     outline: [
       [
@@ -167,7 +167,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "VUT-560",
+        code: "VU-TOB",
         name: "Torba",
         outline: [
           [

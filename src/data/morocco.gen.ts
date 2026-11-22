@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "0a281d3f-b277-4b35-8085-5d6661fb2c18",
+    code: "MA-11",
     name: "Laâyoune-Sakia El Hamra",
     outline: [
       [12, 881, -1, 3, 0, -1, 0, -1, 1, 0, 0, -1],
@@ -36,7 +36,7 @@ const areas = [
     ],
   },
   {
-    code: "309a7bdf-e66a-4db5-9d42-d8aea4f535cf",
+    code: "MA-06",
     name: "Casablanca-Settat",
     outline: [
       [
@@ -56,7 +56,7 @@ const areas = [
     ],
   },
   {
-    code: "5159a60a-6e41-4b95-8886-3e73a3e4198f",
+    code: "MA-07",
     name: "Marrakech-Safi",
     outline: [
       [
@@ -76,7 +76,7 @@ const areas = [
     ],
   },
   {
-    code: "8fbeae46-aede-4e20-b382-74c51d5f7e99",
+    code: "MA-02",
     name: "Oriental",
     outline: [
       [
@@ -108,7 +108,7 @@ const areas = [
     ],
   },
   {
-    code: "9977fc11-f968-4c99-9a24-be79053466b4",
+    code: "MA-09",
     name: "Souss-Massa",
     outline: [
       [
@@ -132,7 +132,7 @@ const areas = [
     ],
   },
   {
-    code: "9e295115-7464-4a72-8882-603e7ee2b8b5",
+    code: "MA-01",
     name: "Tangier-Tetouan-Al Hoceima",
     outline: [
       [
@@ -152,7 +152,7 @@ const areas = [
     ],
   },
   {
-    code: "bd4fd8f7-1cd3-4ed2-a7ff-ebb41ca16844",
+    code: "MA-04",
     name: "Rabat-Salé-Kénitra",
     outline: [
       [
@@ -172,7 +172,7 @@ const areas = [
     ],
   },
   {
-    code: "d1153146-3ab1-471d-bf73-adbbcfaa21ae",
+    code: "MA-05",
     name: "Béni Mellal-Khénifra",
     outline: [
       [
@@ -192,7 +192,7 @@ const areas = [
     ],
   },
   {
-    code: "f1c5e174-fdd7-46a7-ae21-6bd5c8d99e7e",
+    code: "MA-08",
     name: "Drâa-Tafilalet",
     outline: [
       [
@@ -218,7 +218,7 @@ const areas = [
     ],
   },
   {
-    code: "f3010623-dfe9-4f3f-b385-237ead00e254",
+    code: "MA-10",
     name: "Guelmim-Oued Noun",
     outline: [
       [
@@ -234,7 +234,7 @@ const areas = [
     ],
   },
   {
-    code: "f8c80b7a-96d6-409c-b6b7-d1f88caf3a9e",
+    code: "MA-03",
     name: "Fez-Meknes",
     outline: [
       [
@@ -313,7 +313,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "5159a60a-6e41-4b95-8886-3e73a3e4198f",
+        code: "MA-07",
         name: "Marrakech-Safi",
         outline: [
           [

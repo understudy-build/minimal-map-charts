@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "57655419B10554343974074",
+    code: "BS-CS",
     name: "Central Andros",
     outline: [
       [
@@ -61,7 +61,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B1305095208594",
+    code: "BS-SW",
     name: "Spanish Wells",
     outline: [
       [470, 251, -2, 2, 0, -1, -2, 1, 1, -1, -2, 1, 1, 0, -3, 1, 0, 0, 2, -1, 2, -1, 1, 0, 2, -1],
@@ -70,7 +70,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B18095522454644",
+    code: "BS-CE",
     name: "Central Eleuthera",
     outline: [
       [
@@ -81,7 +81,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B2318826838910",
+    code: "BS-LI",
     name: "Long Island",
     outline: [
       [
@@ -118,7 +118,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B2538538242492",
+    code: "BS-NE",
     name: "North Eleuthera",
     outline: [
       [
@@ -140,7 +140,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B29435673895959",
+    code: "BS-SA",
     name: "South Andros",
     outline: [
       [371, 429, 0, 1, -1, 0],
@@ -230,7 +230,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B31009871091546",
+    code: "BS-CI",
     name: "Cat Island",
     outline: [
       [
@@ -245,7 +245,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B31239819863643",
+    code: "BS-MG",
     name: "Mayaguana",
     outline: [
       [
@@ -257,7 +257,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B38120742943128",
+    code: "BS-MI",
     name: "Moore's Island",
     outline: [
       [379, 148, -1, 0, 0, 3, -1, -1, -1, 1, 0, -2, 1, 0, 1, -1, -2, -8, 5, 3, 0, 3],
@@ -267,7 +267,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B39711376309473",
+    code: "BS-SO",
     name: "South Abaco",
     outline: [
       [
@@ -285,7 +285,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B42503330785161",
+    code: "BS-RC",
     name: "Rum Cay",
     outline: [
       [685, 481, 0, 2, -2, 1, 1, 2, -3, -2, 1, -4],
@@ -294,7 +294,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B45053914770402",
+    code: "BS-CK",
     name: "Crooked Island",
     outline: [
       [855, 584, -2, 1, -6, -3, 16, -2, 4, 2, -9, 3],
@@ -316,7 +316,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B49483307836090",
+    code: "BS-MC",
     name: "Mangrove Cay",
     outline: [
       [
@@ -339,7 +339,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B55305756041974",
+    code: "BS-EG",
     name: "East Grand Bahama",
     outline: [
       [299, 50, 0, 4, 0, -5, -1, -1, -1, 2, 0, -1, 2, -2, 4, -2, 1, -2, -1, 3],
@@ -383,7 +383,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B57652232258076",
+    code: "BS-SE",
     name: "South Eleuthera",
     outline: [
       [
@@ -395,7 +395,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B6063467597350",
+    code: "BS-CO",
     name: "Central Abaco",
     outline: [
       [409, 91, 0, -2, 3, 4, 3, -1, -2, 2, 0, -1, -1, 1, -1, 0, 0, 1],
@@ -506,7 +506,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B62023626616016",
+    code: "BS-BP",
     name: "Black Point",
     outline: [
       [505, 420, -1, 1, 0, -1, 0, -1],
@@ -548,7 +548,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B62229097939124",
+    code: "BS-AK",
     name: "Acklins",
     outline: [
       [842, 632, 2, -1, 1, 1, 0, 0, -1, 4, -3, -1, 1, -1, 1, 0, -1, -1],
@@ -579,7 +579,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B63031142172255",
+    code: "BS-BY",
     name: "Berry Islands",
     outline: [
       [332, 210, 1, 0, 0, -1, 1, 0, 3, 1, -1, 0, -1, -1, -1, 1, -2, 0],
@@ -616,7 +616,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B63159467904865",
+    code: "BS-NS",
     name: "North Andros",
     outline: [
       [306, 278, 0, 1, 1, 2, -2, 0, 1, -1, 0, 0, -1, -1, 1, 0, -1, -1, 1, 0],
@@ -658,7 +658,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B6447054147513",
+    code: "BS-SS",
     name: "San Salvador",
     outline: [
       [
@@ -671,7 +671,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B64917905581576",
+    code: "BS-HI",
     name: "Harbour Island",
     outline: [
       [475, 246, 1, 1, -1, 0],
@@ -679,7 +679,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B65085412826087",
+    code: "BS-WG",
     name: "West Grand Bahama",
     outline: [
       [250, 58, 1, 1, -2, -1],
@@ -750,7 +750,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B75676267470758",
+    code: "BS-NP",
     name: "New Providence",
     outline: [
       [442, 298, -1, 1, -1, 0],
@@ -771,13 +771,9 @@ const areas = [
       [392, 326, 1, 1, -1, 0],
     ],
   },
+  { code: "BS-FP", name: "City of Freeport", outline: [[252, 111, -12, 6, 1, -4, 5, -3, 2, -1]] },
   {
-    code: "57655419B78426284582077",
-    name: "City of Freeport",
-    outline: [[252, 111, -12, 6, 1, -4, 5, -3, 2, -1]],
-  },
-  {
-    code: "57655419B79428110843392",
+    code: "BS-NO",
     name: "North Abaco",
     outline: [
       [352, 57, 0, 0, -1, 0, 0, 0, 0, -1],
@@ -814,7 +810,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B81962321006014",
+    code: "BS-IN",
     name: "Inagua",
     outline: [
       [
@@ -833,7 +829,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B82083755348588",
+    code: "BS-BI",
     name: "Biminis",
     outline: [
       [
@@ -867,7 +863,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B87015583910143",
+    code: "BS-EX",
     name: "Exuma",
     outline: [
       [475, 331, 1, 0, -2, 2, 1, -2],
@@ -963,7 +959,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B91019969534321",
+    code: "BS-HT",
     name: "Hope Town",
     outline: [
       [299, 23, 1, 1, -1, 0],
@@ -1009,7 +1005,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B94344627065554",
+    code: "BS-GC",
     name: "Grand Cay",
     outline: [
       [276, 11, -1, -1, 0, 1],
@@ -1021,7 +1017,7 @@ const areas = [
     ],
   },
   {
-    code: "57655419B98686837957667",
+    code: "BS-RI",
     name: "Ragged Island",
     outline: [
       [626, 580, 0, 1, -3, 1, 1, 0],
@@ -1073,7 +1069,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "57655419B1305095208594",
+        code: "BS-SW",
         name: "Spanish Wells",
         outline: [
           [116, 18, -4, 9, -2, -7],

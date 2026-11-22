@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "GRD-5069",
+    code: "GD-10",
     name: "Carriacou and Petite Martinique",
     outline: [
       [
@@ -13,7 +13,7 @@ const areas = [
     ],
   },
   {
-    code: "GRD-5070",
+    code: "GD-01",
     name: "Saint Andrew",
     outline: [
       [
@@ -23,7 +23,7 @@ const areas = [
     ],
   },
   {
-    code: "GRD-5071",
+    code: "GD-02",
     name: "Saint David",
     outline: [
       [
@@ -33,7 +33,7 @@ const areas = [
     ],
   },
   {
-    code: "GRD-5072",
+    code: "GD-03",
     name: "Saint George",
     outline: [
       [
@@ -44,7 +44,7 @@ const areas = [
     ],
   },
   {
-    code: "GRD-5073",
+    code: "GD-04",
     name: "Saint John",
     outline: [
       [
@@ -54,12 +54,12 @@ const areas = [
     ],
   },
   {
-    code: "GRD-5074",
+    code: "GD-05",
     name: "Saint Mark",
     outline: [[211, 950, 87, -107, 35, 26, 26, 39, 9, 55, -18, 56, -39, -31, -50, -25]],
   },
   {
-    code: "GRD-5075",
+    code: "GD-06",
     name: "Saint Patrick",
     outline: [
       [
@@ -79,7 +79,7 @@ const insets: Sheet["insets"] = [
     outline: [[47, 108, 81, -100, 33, 24, 24, 36, 8, 52, -16, 52, -37, -29, -47, -23]],
     areas: [
       {
-        code: "GRD-5074",
+        code: "GD-05",
         name: "Saint Mark",
         outline: [[47, 108, 81, -100, 33, 24, 24, 36, 8, 52, -16, 52, -37, -29, -47, -23]],
       },

@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "32408957B27409320841034",
+    code: "BD-E",
     name: "Rajshahi",
     outline: [
       [
@@ -22,7 +22,7 @@ const areas = [
     ],
   },
   {
-    code: "32408957B31852228482374",
+    code: "BD-A",
     name: "Barishal",
     outline: [
       [536, 1098, -3, 1, -4, -2, -2, -6, 10, -16, 3, 14],
@@ -51,7 +51,7 @@ const areas = [
     ],
   },
   {
-    code: "32408957B3859287816056",
+    code: "BD-D",
     name: "Khulna",
     outline: [
       [283, 1134, -6, -2, -2, -3, 0, -9, 3, 0, 3, 4, 3, 6],
@@ -76,7 +76,7 @@ const areas = [
     ],
   },
   {
-    code: "32408957B58397560032916",
+    code: "BD-G",
     name: "Sylhet",
     outline: [
       [
@@ -94,7 +94,7 @@ const areas = [
     ],
   },
   {
-    code: "32408957B77489436868882",
+    code: "BD-F",
     name: "Rangpur",
     outline: [
       [
@@ -118,7 +118,7 @@ const areas = [
     ],
   },
   {
-    code: "32408957B77718829177955",
+    code: "BD-C",
     name: "Dhaka",
     outline: [
       [
@@ -142,7 +142,7 @@ const areas = [
     ],
   },
   {
-    code: "32408957B83626866084602",
+    code: "BD-H",
     name: "Mymensingh",
     outline: [
       [
@@ -158,7 +158,7 @@ const areas = [
     ],
   },
   {
-    code: "32408957B94023193097291",
+    code: "BD-B",
     name: "Chattogram",
     outline: [
       [912, 1363, -1, 10, -5, -7, 3, -5],

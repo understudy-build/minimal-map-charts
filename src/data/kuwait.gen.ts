@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "KWT-1663",
+    code: "KW-KU",
     name: "Al Asimah",
     outline: [
       [
@@ -17,14 +17,14 @@ const areas = [
     ],
   },
   {
-    code: "KWT-1664",
+    code: "KW-FA",
     name: "Al Farwaniyah",
     outline: [
       [697, 476, 22, -7, 43, -5, 9, 20, 7, 19, 6, 32, -81, 14, -1, -25, -7, -12, -10, -11, 2, -24],
     ],
   },
   {
-    code: "KWT-1665",
+    code: "KW-AH",
     name: "Al Ahmadi",
     outline: [
       [
@@ -37,12 +37,12 @@ const areas = [
     ],
   },
   {
-    code: "KWT-1666",
+    code: "KW-MU",
     name: "Mubarak Al-Kabeer",
     outline: [[814, 475, -1, 14, 2, 18, 6, 26, -37, 2, -6, -32, -7, -19, 21, 0]],
   },
   {
-    code: "KWT-1667",
+    code: "KW-JA",
     name: "Al Jahrah",
     outline: [
       [
@@ -63,7 +63,7 @@ const areas = [
     ],
   },
   {
-    code: "KWT-3506",
+    code: "KW-HA",
     name: "Hawalli",
     outline: [[770, 441, 9, 8, 20, 7, 19, -4, -4, 23, -22, 9, -21, 0, -9, -20, -6, -13]],
   },
@@ -80,7 +80,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "KWT-3506",
+        code: "KW-HA",
         name: "Hawalli",
         outline: [
           [

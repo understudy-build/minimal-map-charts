@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest"
 
+import { subdivision } from "../scripts/build-maps/iso.ts"
 import { despike, flat, spikes } from "../scripts/build-maps/tidy.ts"
+import { uncoded } from "../scripts/build-maps/uncoded.gen.ts"
 import { draw, sheetIds } from "../src/index.ts"
-import { load, type Steps } from "../src/sheet.ts"
+import { load, nations, type Steps } from "../src/sheet.ts"
 
 // Every outline a sheet draws, named for the failure message.
 const outlines = async (id: (typeof sheetIds)[number]) => {
@@ -51,6 +53,32 @@ describe("sheets", () => {
     const sheet = await load(id)
 
     expect(Object.keys(sheet.dots ?? {}).filter((code) => code in sheet.outlines)).toEqual([])
+  })
+})
+
+// The code of every area a national sheet draws, on the map or in an inset.
+const codes = async (country: (typeof nations)[number]) => {
+  const sheet = await load(country)
+
+  return [
+    ...(sheet.subdivisions?.areas ?? []),
+    ...sheet.insets.flatMap((inset) => inset.areas ?? []),
+  ].map((area) => area.code)
+}
+
+describe("subdivisions", () => {
+  it.each(nations)("%s codes each area in ISO 3166-2, or lists it as uncoded", async (country) => {
+    const outside = (await codes(country)).filter(
+      (code) => subdivision(country, code) === undefined,
+    )
+
+    expect(outside.toSorted()).toEqual((uncoded[country] ?? []).toSorted())
+  })
+
+  it.each(nations)("%s gives no two areas the same code", async (country) => {
+    const all = await codes(country)
+
+    expect(all.filter((code, index) => all.indexOf(code) !== index)).toEqual([])
   })
 })
 

@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "77969171B15122701338463",
+    code: "MH-ALK",
     name: "Ailuk",
     outline: [
       [
@@ -13,13 +13,13 @@ const areas = [
     ],
   },
   {
-    code: "77969171B260410775552",
+    code: "MH-JAB",
     name: "Jabat",
     outline: [[691, 618, 1, -7, 5, -7, 14, -4, 8, 3, 5, 5, 3, 8, 0, 6, -2, 5, -34, -6]],
   },
-  { code: "77969171B26181209823953", name: "Lib", outline: [[569, 569, 0, -1, 1, 0, 0, 1]] },
+  { code: "MH-LIB", name: "Lib", outline: [[569, 569, 0, -1, 1, 0, 0, 1]] },
   {
-    code: "77969171B34066116483983",
+    code: "MH-ARN",
     name: "Arno",
     outline: [
       [
@@ -35,7 +35,7 @@ const areas = [
     ],
   },
   {
-    code: "77969171B35666329157800",
+    code: "MH-NMU",
     name: "Namu",
     outline: [
       [644, 618, 1, 0, 2, -1, -1, 1, -1, 0, -1, 0, -1, 0, 0, -1, 1, 1],
@@ -43,7 +43,7 @@ const areas = [
     ],
   },
   {
-    code: "77969171B37424980791701",
+    code: "MH-MAL",
     name: "Maloelap",
     outline: [
       [906, 534, 0, -1, 1, 0, 0, 1],
@@ -51,7 +51,7 @@ const areas = [
     ],
   },
   {
-    code: "77969171B38536087618645",
+    code: "MH-MIL",
     name: "Mili",
     outline: [
       [990, 783, -1, 0, 0, -1],
@@ -63,7 +63,7 @@ const areas = [
     ],
   },
   {
-    code: "77969171B38591821482466",
+    code: "MH-EBO",
     name: "Ebon",
     outline: [
       [686, 899, -1, 0, -1, 0, -1, 0, 0, -1, 1, 0, 0, 1, 1, 0, 2, 0, 0, -1, 1, 0],
@@ -71,7 +71,7 @@ const areas = [
     ],
   },
   {
-    code: "77969171B4211054760807",
+    code: "MH-KWA",
     name: "Kwajalein",
     outline: [
       [600, 533, -1, 0, 0, -1, 1, 0, 1, 0, 0, -1, 0, -1, 0, 2],
@@ -81,16 +81,16 @@ const areas = [
     ],
   },
   {
-    code: "77969171B5098285569707",
+    code: "MH-MAJ",
     name: "Majuro",
     outline: [
       [919, 675, 1, 0, 0, 1],
       [889, 672, 1, -2, 1, 4],
     ],
   },
-  { code: "77969171B53385125256121", name: "Mejit", outline: [[874, 394, 0, 0, 0, 2, -1, -1]] },
+  { code: "MH-MEJ", name: "Mejit", outline: [[874, 394, 0, 0, 0, 2, -1, -1]] },
   {
-    code: "77969171B54378659360174",
+    code: "MH-NMK",
     name: "Namdrik",
     outline: [
       [634, 807, -2, 2, 0, 0, 2, -2, -1, -1, 2, -1, -1, 2],
@@ -98,7 +98,7 @@ const areas = [
     ],
   },
   {
-    code: "77969171B57525149952276",
+    code: "MH-ALL",
     name: "Ailinglaplap",
     outline: [
       [
@@ -111,9 +111,9 @@ const areas = [
       [707, 636, 1, -1, 0, -1, 0, -1, -1, -1, 1, 0, 0, 1, 0, 1],
     ],
   },
-  { code: "77969171B58043664047812", name: "Wotje", outline: [[819, 467, 1, 1, -1, 1, 0, -2]] },
+  { code: "MH-WTJ", name: "Wotje", outline: [[819, 467, 1, 1, -1, 1, 0, -2]] },
   {
-    code: "77969171B58637068818674",
+    code: "MH-JAL",
     name: "Jaluit",
     outline: [
       [760, 790, 0, -1, 1, 1],
@@ -126,21 +126,21 @@ const areas = [
     ],
   },
   {
-    code: "77969171B60065562167569",
+    code: "MH-KIL",
     name: "Kili",
     outline: [
       [414, 283, 0, 1, -1, 0, 0, -1],
       [413, 275, -2, -2, 2, 0, 0, 2],
     ],
   },
-  { code: "77969171B60639821987115", name: "Ujae", outline: [[429, 512, -1, 1, 0, -1, 1, 0]] },
+  { code: "MH-UJA", name: "Ujae", outline: [[429, 512, -1, 1, 0, -1, 1, 0]] },
   {
-    code: "77969171B69777139929553",
+    code: "MH-RON",
     name: "Rongelap",
     outline: [[525, 317, 1, -1, 2, 0, 1, 0, 0, -1, 0, 2, -1, -1, -2, 0, -2, 1, 1, 0]],
   },
   {
-    code: "77969171B75968789186626",
+    code: "MH-LAE",
     name: "Lae",
     outline: [
       [
@@ -149,9 +149,9 @@ const areas = [
       ],
     ],
   },
-  { code: "77969171B77738089577037", name: "Aur", outline: [[900, 569, -1, -1, 2, 1, -1, 1]] },
+  { code: "MH-AUR", name: "Aur", outline: [[900, 569, -1, -1, 2, 1, -1, 1]] },
   {
-    code: "77969171B78565267382439",
+    code: "MH-UTI",
     name: "Utirik",
     outline: [
       [784, 312, 1, -1, 1, 0, 0, 1, -1, 0],
@@ -159,7 +159,7 @@ const areas = [
     ],
   },
   {
-    code: "77969171B80728608262829",
+    code: "MH-ENI",
     name: "Enewetak",
     outline: [
       [13, 431, -2, 0, -1, -1, 2, 1],
@@ -168,12 +168,12 @@ const areas = [
     ],
   },
   {
-    code: "77969171B89836250003833",
+    code: "MH-WTH",
     name: "Wotho",
     outline: [[451, 403, -1, 0, 0, -1, 1, 0, 0, 1, 1, 0, 0, 1, -1, 0]],
   },
   {
-    code: "77969171B95504405890016",
+    code: "MH-LIK",
     name: "Likiep",
     outline: [
       [737, 436, -1, -1, 3, 0],
@@ -191,7 +191,7 @@ const insets: Sheet["insets"] = [
     outline: [[228, 108, -51, 62, -75, 2, -90, -64, 8, -88, 9, -12, 90, 60, 41, -20, 58, 14]],
     areas: [
       {
-        code: "77969171B60639821987115",
+        code: "MH-UJA",
         name: "Ujae",
         outline: [[228, 108, -51, 62, -75, 2, -90, -64, 8, -88, 9, -12, 90, 60, 41, -20, 58, 14]],
       },

@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "96831152B51101341403775",
+    code: "CY-05",
     name: "Paphos",
     outline: [
       [
@@ -33,7 +33,7 @@ const areas = [
     ],
   },
   {
-    code: "96831152B734989497708",
+    code: "CY-03",
     name: "Larnaca",
     outline: [
       [
@@ -59,7 +59,7 @@ const areas = [
     ],
   },
   {
-    code: "96831152B93704515643255",
+    code: "CY-02",
     name: "Limassol",
     outline: [
       [
@@ -124,7 +124,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "96831152B68245934251938",
+        code: "CY-01",
         name: "Nicosia",
         outline: [
           [
@@ -204,7 +204,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "96831152B8781315468855",
+        code: "CY-04",
         name: "Famagusta",
         outline: [
           [65, 163, 0, -1, 3, 1, 2, 0, 1, 2, -3, 0, -2, -1, 0, -1],
@@ -276,7 +276,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "96831152B33829437974548",
+        code: "CY-06",
         name: "Kyrenia",
         outline: [
           [

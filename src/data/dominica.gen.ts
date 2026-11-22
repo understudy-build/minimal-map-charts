@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "DMA-1432",
+    code: "DM-02",
     name: "Saint Andrew",
     outline: [
       [
@@ -16,7 +16,7 @@ const areas = [
     ],
   },
   {
-    code: "DMA-1433",
+    code: "DM-03",
     name: "Saint David",
     outline: [
       [
@@ -28,7 +28,7 @@ const areas = [
     ],
   },
   {
-    code: "DMA-1434",
+    code: "DM-04",
     name: "Saint George",
     outline: [
       [
@@ -39,7 +39,7 @@ const areas = [
     ],
   },
   {
-    code: "DMA-1435",
+    code: "DM-05",
     name: "Saint John",
     outline: [
       [
@@ -50,7 +50,7 @@ const areas = [
     ],
   },
   {
-    code: "DMA-1436",
+    code: "DM-06",
     name: "Saint Joseph",
     outline: [
       [
@@ -60,14 +60,14 @@ const areas = [
       ],
     ],
   },
-  { code: "DMA-1437", name: "Saint Luke", outline: [[485, 1693, -2, -98, 68, 28, 4, 42, -71, 33]] },
+  { code: "DM-07", name: "Saint Luke", outline: [[485, 1693, -2, -98, 68, 28, 4, 42, -71, 33]] },
   {
-    code: "DMA-1438",
+    code: "DM-08",
     name: "Saint Mark",
     outline: [[593, 1801, -18, 28, -50, 14, -46, -13, -8, -34, 14, -103, -1, 5, 71, -33]],
   },
   {
-    code: "DMA-1439",
+    code: "DM-09",
     name: "Saint Patrick",
     outline: [
       [
@@ -78,7 +78,7 @@ const areas = [
     ],
   },
   {
-    code: "DMA-1440",
+    code: "DM-10",
     name: "Saint Paul",
     outline: [
       [
@@ -88,7 +88,7 @@ const areas = [
     ],
   },
   {
-    code: "DMA-1441",
+    code: "DM-11",
     name: "Saint Peter",
     outline: [
       [
@@ -108,7 +108,7 @@ const insets: Sheet["insets"] = [
     outline: [[66, 163, -3, -155, 108, 44, 6, 67, -112, 53]],
     areas: [
       {
-        code: "DMA-1437",
+        code: "DM-07",
         name: "Saint Luke",
         outline: [[66, 163, -3, -155, 108, 44, 6, 67, -112, 53]],
       },

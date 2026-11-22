@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "86790563B13183784590468",
+    code: "AE-RK",
     name: "Ras al-Khaimah",
     outline: [
       [911, 58, 2, -3, 1, -4, -1, -1, 2, 1, -1, 1, -1, 2, -1, 4],
@@ -34,7 +34,7 @@ const areas = [
     ],
   },
   {
-    code: "86790563B19626210530202",
+    code: "AE-FU",
     name: "Fujairah",
     outline: [
       [
@@ -59,7 +59,7 @@ const areas = [
     ],
   },
   {
-    code: "86790563B34058819691262",
+    code: "AE-DU",
     name: "Dubai",
     outline: [
       [930, 306, 0, -6, 3, -3, 3, -9, 20, -1, -1, 9, -4, 1, -5, 4, -2, 5, -11, 1],
@@ -93,7 +93,7 @@ const areas = [
     ],
   },
   {
-    code: "86790563B60151525742092",
+    code: "AE-UQ",
     name: "Umm al-Quwain",
     outline: [
       [827, 128, 2, -2, 2, 1, -2, 3],
@@ -118,7 +118,7 @@ const areas = [
     ],
   },
   {
-    code: "86790563B63760912918903",
+    code: "AE-SH",
     name: "Sharjah",
     outline: [
       [
@@ -150,7 +150,7 @@ const areas = [
     ],
   },
   {
-    code: "86790563B64154191217223",
+    code: "AE-AJ",
     name: "Ajman",
     outline: [
       [
@@ -162,7 +162,7 @@ const areas = [
     ],
   },
   {
-    code: "86790563B99975224300185",
+    code: "AE-AZ",
     name: "Abu Dhabi",
     outline: [
       [481, 455, -1, -3, 2, 0, 1, 2],
@@ -379,7 +379,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "86790563B64154191217223",
+        code: "AE-AJ",
         name: "Ajman",
         outline: [
           [
@@ -434,7 +434,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "86790563B60151525742092",
+        code: "AE-UQ",
         name: "Umm al-Quwain",
         outline: [
           [62, 57, 0, -1, 1, -3, 2, 0, 0, -1, 3, 2, 0, 3, -2, 1, -1, 2],

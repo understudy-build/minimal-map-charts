@@ -3,28 +3,28 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "NRU-4970",
+    code: "NR-07",
     name: "Buada",
     outline: [
       [567, 675, -13, 88, -194, 87, -100, 85, -41, -71, -34, -114, 14, -94, 67, -67, 154, 40],
     ],
   },
-  { code: "NRU-4971", name: "Boe", outline: [[189, 1102, -83, -202, 113, -36, 41, 71, -34, 30]] },
-  { code: "NRU-4972", name: "Aiwo", outline: [[106, 900, -96, -232, 189, -12, -14, 94, 34, 114]] },
-  { code: "NRU-4973", name: "Denigomodu", outline: [[10, 668, 63, -243, 193, 164, -67, 67]] },
+  { code: "NR-06", name: "Boe", outline: [[189, 1102, -83, -202, 113, -36, 41, 71, -34, 30]] },
+  { code: "NR-01", name: "Aiwo", outline: [[106, 900, -96, -232, 189, -12, -14, 94, 34, 114]] },
+  { code: "NR-08", name: "Denigomodu", outline: [[10, 668, 63, -243, 193, 164, -67, 67]] },
   {
-    code: "NRU-4974",
+    code: "NR-12",
     name: "Nibok",
     outline: [[73, 425, 60, -228, 447, 382, -13, 96, -147, -46, -154, -40]],
   },
-  { code: "NRU-4975", name: "Uaboe", outline: [[133, 197, 89, -34, 366, 346, -8, 70]] },
-  { code: "NRU-4976", name: "Baiti", outline: [[222, 163, 135, -52, 247, 283, -16, 115]] },
-  { code: "NRU-4977", name: "Ewa", outline: [[357, 111, 116, -45, 149, 207, -18, 121]] },
-  { code: "NRU-4978", name: "Anetan", outline: [[473, 66, 145, -56, 4, 263]] },
-  { code: "NRU-4979", name: "Anabar", outline: [[618, 10, 321, 145, -317, 118]] },
-  { code: "NRU-4980", name: "Ijuw", outline: [[939, 155, 34, 255, -204, -49, -147, -88]] },
+  { code: "NR-13", name: "Uaboe", outline: [[133, 197, 89, -34, 366, 346, -8, 70]] },
+  { code: "NR-05", name: "Baiti", outline: [[222, 163, 135, -52, 247, 283, -16, 115]] },
+  { code: "NR-09", name: "Ewa", outline: [[357, 111, 116, -45, 149, 207, -18, 121]] },
+  { code: "NR-03", name: "Anetan", outline: [[473, 66, 145, -56, 4, 263]] },
+  { code: "NR-02", name: "Anabar", outline: [[618, 10, 321, 145, -317, 118]] },
+  { code: "NR-10", name: "Ijuw", outline: [[939, 155, 34, 255, -204, -49, -147, -88]] },
   {
-    code: "NRU-4981",
+    code: "NR-04",
     name: "Anibare",
     outline: [
       [
@@ -34,15 +34,11 @@ const areas = [
     ],
   },
   {
-    code: "NRU-4982",
+    code: "NR-11",
     name: "Meneng",
     outline: [[893, 831, -35, 111, -240, 242, -118, -22, -140, -312, 194, -87, 188, 47]],
   },
-  {
-    code: "NRU-4983",
-    name: "Yaren",
-    outline: [[500, 1162, -311, -60, 37, -137, 34, -30, 100, -85]],
-  },
+  { code: "NR-14", name: "Yaren", outline: [[500, 1162, -311, -60, 37, -137, 34, -30, 100, -85]] },
 ]
 
 const insets: Sheet["insets"] = [
@@ -53,7 +49,7 @@ const insets: Sheet["insets"] = [
     height: 180,
     outline: [[124, 172, -57, -139, 78, -25, 28, 49, -24, 20]],
     areas: [
-      { code: "NRU-4971", name: "Boe", outline: [[124, 172, -57, -139, 78, -25, 28, 49, -24, 20]] },
+      { code: "NR-06", name: "Boe", outline: [[124, 172, -57, -139, 78, -25, 28, 49, -24, 20]] },
     ],
   },
 ]

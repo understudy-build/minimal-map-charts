@@ -3,7 +3,7 @@ import type { Sheet } from "../sheet.ts"
 
 const areas = [
   {
-    code: "0085aa2d-22cb-47c2-b787-d0664a05eb77",
+    code: "RU-KO",
     name: "Komi Republic",
     outline: [
       [
@@ -25,7 +25,7 @@ const areas = [
     ],
   },
   {
-    code: "02b57477-5330-46dc-83cb-807d7d12876f",
+    code: "RU-KDA",
     name: "Krasnodar Krai",
     outline: [
       [
@@ -48,7 +48,7 @@ const areas = [
     ],
   },
   {
-    code: "07162c21-a476-4729-8097-a844bb9b1858",
+    code: "RU-KC",
     name: "Karachay-Cherkessia",
     outline: [
       [
@@ -59,7 +59,7 @@ const areas = [
     ],
   },
   {
-    code: "0a4cb653-b482-4bcd-8410-507db9eaef2a",
+    code: "RU-NGR",
     name: "Novgorod Oblast",
     outline: [
       [
@@ -76,7 +76,7 @@ const areas = [
     ],
   },
   {
-    code: "0d93e97b-5881-48b8-8192-06da426597a0",
+    code: "RU-ROS",
     name: "Rostov Oblast",
     outline: [
       [
@@ -93,7 +93,7 @@ const areas = [
     ],
   },
   {
-    code: "0dcb400b-67a1-4e1d-8577-2a03c732414e",
+    code: "RU-NIZ",
     name: "Nizhny Novgorod Oblast",
     outline: [
       [
@@ -110,7 +110,7 @@ const areas = [
     ],
   },
   {
-    code: "0fd6cd88-4556-44bb-ba94-55e75445c21f",
+    code: "RU-KRS",
     name: "Kursk Oblast",
     outline: [
       [
@@ -124,7 +124,7 @@ const areas = [
     ],
   },
   {
-    code: "19075784-1d95-4518-90ad-fab4b7862ab4",
+    code: "RU-KLU",
     name: "Kaluga Oblast",
     outline: [
       [
@@ -138,7 +138,7 @@ const areas = [
     ],
   },
   {
-    code: "19dad181-c3ba-439f-8927-98974ed2b323",
+    code: "RU-YAN",
     name: "Yamalo-Nenets Autonomous Okrug",
     outline: [
       [
@@ -230,7 +230,7 @@ const areas = [
     ],
   },
   {
-    code: "1d27c0c7-6dab-4b91-a21d-473674ef1904",
+    code: "RU-TOM",
     name: "Tomsk Oblast",
     outline: [
       [
@@ -248,7 +248,7 @@ const areas = [
     ],
   },
   {
-    code: "1d8c820b-7f37-4c67-9e6e-6a0112f8e792",
+    code: "RU-KGN",
     name: "Kurgan Oblast",
     outline: [
       [
@@ -262,7 +262,7 @@ const areas = [
     ],
   },
   {
-    code: "26fa09c8-84b8-42c5-bf53-e9d70ed6dccb",
+    code: "RU-IVA",
     name: "Ivanovo Oblast",
     outline: [
       [
@@ -275,7 +275,7 @@ const areas = [
     ],
   },
   {
-    code: "279e779b-382f-498d-9e5d-dda28efb9483",
+    code: "RU-PER",
     name: "Perm Krai",
     outline: [
       [
@@ -293,7 +293,7 @@ const areas = [
     ],
   },
   {
-    code: "2802cf32-a18c-4ea1-ab31-bed31fac17c1",
+    code: "RU-LEN",
     name: "Leningrad Oblast",
     outline: [
       [
@@ -320,7 +320,7 @@ const areas = [
     ],
   },
   {
-    code: "29934787-2bae-433d-bb6b-034e4680c367",
+    code: "RU-VGG",
     name: "Volgograd Oblast",
     outline: [
       [
@@ -336,7 +336,7 @@ const areas = [
     ],
   },
   {
-    code: "2d97ed62-9596-470e-91ee-3593627c89b6",
+    code: "RU-VOR",
     name: "Voronezh Oblast",
     outline: [
       [
@@ -350,7 +350,7 @@ const areas = [
     ],
   },
   {
-    code: "2ddad765-436c-445d-aa9c-80a01b823d89",
+    code: "RU-TA",
     name: "Tatarstan",
     outline: [
       [
@@ -372,7 +372,7 @@ const areas = [
     ],
   },
   {
-    code: "31097b4d-480f-45ad-8dd2-4317503d1ffc",
+    code: "RU-TUL",
     name: "Tula Oblast",
     outline: [
       [
@@ -385,7 +385,7 @@ const areas = [
     ],
   },
   {
-    code: "32f32d8e-d2b6-4fba-b26f-f2ec90a3c336",
+    code: "RU-VLA",
     name: "Vladimir Oblast",
     outline: [
       [
@@ -399,7 +399,7 @@ const areas = [
     ],
   },
   {
-    code: "34295a58-39ce-4890-97e0-645096e554c9",
+    code: "RU-CE",
     name: "Chechnya",
     outline: [
       [
@@ -411,7 +411,7 @@ const areas = [
     ],
   },
   {
-    code: "37daa93e-3ee6-42a9-925c-a63f09fc5c1c",
+    code: "RU-TY",
     name: "Tuva Republic",
     outline: [
       [
@@ -431,7 +431,7 @@ const areas = [
     ],
   },
   {
-    code: "3979c3df-fcd8-4170-a7a5-d6785c49d45a",
+    code: "RU-ULY",
     name: "Ulyanovsk Oblast",
     outline: [
       [168, 826, -1, 1, 0, -1, 1, 0],
@@ -448,7 +448,7 @@ const areas = [
     ],
   },
   {
-    code: "3aa00133-0d68-43d1-ab4b-1b475c13073d",
+    code: "RU-PRI",
     name: "Primorsky Krai",
     outline: [
       [
@@ -472,7 +472,7 @@ const areas = [
     ],
   },
   {
-    code: "3d231f71-b836-4eff-ba61-6415b9241285",
+    code: "RU-ARK",
     name: "Arkhangelsk Oblast",
     outline: [
       [
@@ -596,7 +596,7 @@ const areas = [
     ],
   },
   {
-    code: "459b962f-c4eb-49d0-aa58-dc4782c183f2",
+    code: "RU-PNZ",
     name: "Penza Oblast",
     outline: [
       [
@@ -610,7 +610,7 @@ const areas = [
     ],
   },
   {
-    code: "4fc55986-db25-403e-b206-3fa352591ff0",
+    code: "RU-ORL",
     name: "Oryol Oblast",
     outline: [
       [
@@ -623,7 +623,7 @@ const areas = [
     ],
   },
   {
-    code: "52208837-3b5d-4831-ba2b-e43c8c05023b",
+    code: "RU-RYA",
     name: "Ryazan Oblast",
     outline: [
       [
@@ -638,7 +638,7 @@ const areas = [
     ],
   },
   {
-    code: "5392c19a-cb32-49af-94b0-4fc9e71ed794",
+    code: "RU-KEM",
     name: "Kemerovo Oblast–Kuzbass",
     outline: [
       [
@@ -654,7 +654,7 @@ const areas = [
     ],
   },
   {
-    code: "53c9eef7-c9fc-4447-abf4-beaca1a684a1",
+    code: "RU-KB",
     name: "Kabardino-Balkaria",
     outline: [
       [
@@ -665,7 +665,7 @@ const areas = [
     ],
   },
   {
-    code: "58c93ba5-287b-4653-87ac-4aa7b299e725",
+    code: "RU-CHE",
     name: "Chelyabinsk Oblast",
     outline: [
       [
@@ -684,7 +684,7 @@ const areas = [
     ],
   },
   {
-    code: "5ca7c94d-b07a-466f-8a75-b6ef90ebea0b",
+    code: "RU-SAM",
     name: "Samara Oblast",
     outline: [
       [
@@ -701,7 +701,7 @@ const areas = [
     ],
   },
   {
-    code: "5d483f29-1ab7-4211-a971-df5f2feca646",
+    code: "RU-ALT",
     name: "Altai Krai",
     outline: [
       [
@@ -719,7 +719,7 @@ const areas = [
     ],
   },
   {
-    code: "5f108f30-10dd-434e-a4a5-74defa674d77",
+    code: "RU-YAR",
     name: "Yaroslavl Oblast",
     outline: [
       [
@@ -733,7 +733,7 @@ const areas = [
     ],
   },
   {
-    code: "626b5d36-278c-4b85-a8f3-84ebd7181e3f",
+    code: "RU-ME",
     name: "Mari El Republic",
     outline: [
       [
@@ -747,7 +747,7 @@ const areas = [
     ],
   },
   {
-    code: "64f91f27-c762-4b83-90ec-7d12e99630e1",
+    code: "RU-AD",
     name: "Republic of Adygea",
     outline: [
       [
@@ -760,7 +760,7 @@ const areas = [
     ],
   },
   {
-    code: "664ee4c9-06be-4d59-802e-8131982bdc33",
+    code: "RU-SMO",
     name: "Smolensk Oblast",
     outline: [
       [
@@ -775,7 +775,7 @@ const areas = [
     ],
   },
   {
-    code: "6a4abb0d-cd11-4fbc-9842-3308fd1b29e8",
+    code: "RU-SPE",
     name: "Saint Petersburg",
     outline: [
       [
@@ -786,7 +786,7 @@ const areas = [
     ],
   },
   {
-    code: "6c053311-c760-4f05-99c8-7e506321e6ef",
+    code: "RU-KYA",
     name: "Krasnoyarsk Krai",
     outline: [
       [482, 402, -1, 2, 0, 1, -1, 2, -2, 2, -2, -4, 1, -2, 3, 0, -1, -2, 2, 1],
@@ -944,7 +944,7 @@ const areas = [
     ],
   },
   {
-    code: "6cbe5283-65a0-4542-b4cb-d5a78b7fe143",
+    code: "RU-MOS",
     name: "Moscow Oblast",
     outline: [
       [
@@ -963,7 +963,7 @@ const areas = [
     ],
   },
   {
-    code: "70bc19df-0ff9-406c-9e68-82d1500173c1",
+    code: "RU-MAG",
     name: "Magadan Oblast",
     outline: [
       [
@@ -997,7 +997,7 @@ const areas = [
     ],
   },
   {
-    code: "728c13bf-3a77-47df-ab5d-50b88c1b31b9",
+    code: "RU-TAM",
     name: "Tambov Oblast",
     outline: [
       [
@@ -1010,7 +1010,7 @@ const areas = [
     ],
   },
   {
-    code: "75e78dab-29b8-4dba-a08b-a6a0ff21396d",
+    code: "RU-MOW",
     name: "Moscow",
     outline: [
       [82, 753, 0, 1, -1, -1],
@@ -1023,7 +1023,7 @@ const areas = [
     ],
   },
   {
-    code: "7a51f3f5-ba52-4c9e-8e39-ccecc8da6081",
+    code: "RU-ZAB",
     name: "Zabaykalsky Krai",
     outline: [
       [
@@ -1047,7 +1047,7 @@ const areas = [
     ],
   },
   {
-    code: "7f06d13f-a6ad-431e-82ba-ee65d1019173",
+    code: "RU-KR",
     name: "Karelia",
     outline: [
       [
@@ -1070,7 +1070,7 @@ const areas = [
     ],
   },
   {
-    code: "82f00020-be98-4409-8e30-21acc3dbdc02",
+    code: "RU-AL",
     name: "Altai Republic",
     outline: [
       [
@@ -1086,7 +1086,7 @@ const areas = [
     ],
   },
   {
-    code: "83827b52-396c-44d2-8f67-dcaa480317ce",
+    code: "RU-SAR",
     name: "Saratov Oblast",
     outline: [
       [
@@ -1105,7 +1105,7 @@ const areas = [
     ],
   },
   {
-    code: "86e10952-ae31-4de9-98c7-6aad70391a78",
+    code: "RU-AMU",
     name: "Amur Oblast",
     outline: [
       [
@@ -1131,7 +1131,7 @@ const areas = [
     ],
   },
   {
-    code: "8790c63b-1a6d-4c18-982e-74c9909e52e7",
+    code: "RU-OMS",
     name: "Omsk Oblast",
     outline: [
       [
@@ -1152,7 +1152,7 @@ const areas = [
     ],
   },
   {
-    code: "88fbdff1-2a1d-44b4-a2b7-fde63b2af348",
+    code: "RU-IN",
     name: "Ingushetia",
     outline: [
       [
@@ -1162,7 +1162,7 @@ const areas = [
     ],
   },
   {
-    code: "8afb747e-53da-4a8b-88f6-3b020afdff8c",
+    code: "RU-SVE",
     name: "Sverdlovsk Oblast",
     outline: [
       [
@@ -1180,7 +1180,7 @@ const areas = [
     ],
   },
   {
-    code: "91b1c2b9-34c5-432a-97e6-17e2cad2543b",
+    code: "RU-DA",
     name: "Dagestan",
     outline: [
       [
@@ -1197,7 +1197,7 @@ const areas = [
     ],
   },
   {
-    code: "94c948a6-9eaa-4cc7-976c-b2795b59a6d1",
+    code: "RU-UD",
     name: "Udmurtia",
     outline: [
       [232, 770, -2, 0, 1, -1, 1, 0],
@@ -1214,7 +1214,7 @@ const areas = [
     ],
   },
   {
-    code: "9a2d2438-7061-40f4-93f8-b9b0a9441206",
+    code: "RU-CU",
     name: "Chuvashia",
     outline: [
       [168, 793, 1, 1, -1, 0, 0, -1],
@@ -1228,7 +1228,7 @@ const areas = [
     ],
   },
   {
-    code: "9e243a0f-1f91-427a-a51f-a551940c9ce3",
+    code: "RU-SE",
     name: "Republic of North Ossetia – Alania",
     outline: [
       [
@@ -1239,7 +1239,7 @@ const areas = [
     ],
   },
   {
-    code: "9ee890c4-335f-4806-94a7-f853818a9ddf",
+    code: "RU-TYU",
     name: "Tyumen Oblast",
     outline: [
       [385, 765, 0, 1, -1, 0],
@@ -1259,7 +1259,7 @@ const areas = [
     ],
   },
   {
-    code: "9f2bd493-6049-467c-acc3-7a58e675e8cd",
+    code: "RU-KOS",
     name: "Kostroma Oblast",
     outline: [
       [
@@ -1274,7 +1274,7 @@ const areas = [
     ],
   },
   {
-    code: "9f6730d0-316b-4244-969e-e9592c073ac8",
+    code: "RU-CHU",
     name: "Chukotka Autonomous Okrug",
     outline: [
       [
@@ -1330,7 +1330,7 @@ const areas = [
     ],
   },
   {
-    code: "a44f2532-8e88-4bd4-888a-58855e099f66",
+    code: "RU-KAM",
     name: "Kamchatka Krai",
     outline: [
       [
@@ -1364,7 +1364,7 @@ const areas = [
     ],
   },
   {
-    code: "a740f1bb-f629-494f-ae68-eceeec107325",
+    code: "RU-MUR",
     name: "Murmansk Oblast",
     outline: [
       [116, 579, 0, 1, 1, 1, -2, -1, 0, -1],
@@ -1388,7 +1388,7 @@ const areas = [
     ],
   },
   {
-    code: "a7b8a868-dfe8-414c-8a6c-f484241475ac",
+    code: "RU-IRK",
     name: "Irkutsk Oblast",
     outline: [
       [
@@ -1426,7 +1426,7 @@ const areas = [
     ],
   },
   {
-    code: "b2a2385a-0682-4e62-9de4-1488cd99e762",
+    code: "RU-KL",
     name: "Republic of Kalmykia",
     outline: [
       [144, 928, 0, 1, -1, 0, -1, 0, 0, -1, 1, 0, 1, 0],
@@ -1442,7 +1442,7 @@ const areas = [
     ],
   },
   {
-    code: "ba1269d2-4e46-46e6-80db-501db3f7cac3",
+    code: "RU-BEL",
     name: "Belgorod Oblast",
     outline: [
       [
@@ -1455,7 +1455,7 @@ const areas = [
     ],
   },
   {
-    code: "bfa1580e-842f-43c9-9113-85f261021366",
+    code: "RU-SA",
     name: "Sakha Republic",
     outline: [
       [
@@ -1673,7 +1673,7 @@ const areas = [
     ],
   },
   {
-    code: "c16f7377-cb53-4f92-a004-6d340ffb515c",
+    code: "RU-BRY",
     name: "Bryansk Oblast",
     outline: [
       [
@@ -1687,7 +1687,7 @@ const areas = [
     ],
   },
   {
-    code: "c6c23d04-f2b3-4202-8fb5-ed2bf33345c7",
+    code: "RU-BU",
     name: "Buryatia",
     outline: [
       [
@@ -1712,7 +1712,7 @@ const areas = [
     ],
   },
   {
-    code: "d025ef34-d37f-4cf8-a9af-e0994b9db99d",
+    code: "RU-KHA",
     name: "Khabarovsk Krai",
     outline: [
       [
@@ -1761,7 +1761,7 @@ const areas = [
     ],
   },
   {
-    code: "d1bf70e7-f0cd-4bfa-a173-2a44ac961cf2",
+    code: "RU-TVE",
     name: "Tver Oblast",
     outline: [
       [
@@ -1780,7 +1780,7 @@ const areas = [
     ],
   },
   {
-    code: "d2c9f53b-0128-478e-86c3-312f73a67830",
+    code: "RU-NEN",
     name: "Nenets Autonomous Okrug",
     outline: [
       [
@@ -1820,7 +1820,7 @@ const areas = [
     ],
   },
   {
-    code: "daed98af-a2dd-492d-87f5-007922d6578b",
+    code: "RU-MO",
     name: "Republic of Mordovia",
     outline: [
       [
@@ -1835,7 +1835,7 @@ const areas = [
     ],
   },
   {
-    code: "dc1fae72-e4ee-445b-b132-8c700736d2a9",
+    code: "RU-KK",
     name: "Khakassia",
     outline: [
       [
@@ -1849,7 +1849,7 @@ const areas = [
     ],
   },
   {
-    code: "de9a50f9-7cdd-433f-ade2-af3e03e3ad81",
+    code: "RU-LIP",
     name: "Lipetsk Oblast",
     outline: [
       [
@@ -1862,7 +1862,7 @@ const areas = [
     ],
   },
   {
-    code: "df81f49c-5441-4bac-afed-5eb151b28da2",
+    code: "RU-BA",
     name: "Bashkortostan",
     outline: [
       [
@@ -1883,7 +1883,7 @@ const areas = [
     ],
   },
   {
-    code: "df8a8024-4505-43e2-a511-3f58cbb112e4",
+    code: "RU-VLG",
     name: "Vologda Oblast",
     outline: [
       [
@@ -1902,7 +1902,7 @@ const areas = [
     ],
   },
   {
-    code: "e314009f-3564-4182-94a5-9d1d1ce1f442",
+    code: "RU-SAK",
     name: "Sakhalin Oblast",
     outline: [
       [963, 427, 0, -1, 1, 1],
@@ -1942,7 +1942,7 @@ const areas = [
     ],
   },
   {
-    code: "e507e6e2-ece4-42d3-9988-73fafaf7806b",
+    code: "RU-NVS",
     name: "Novosibirsk Oblast",
     outline: [
       [
@@ -1960,7 +1960,7 @@ const areas = [
     ],
   },
   {
-    code: "e794499f-f0ac-4366-ac8a-05915bbecd75",
+    code: "RU-KHM",
     name: "Khanty-Mansiysk Autonomous Okrug – Ugra",
     outline: [
       [
@@ -1981,7 +1981,7 @@ const areas = [
     ],
   },
   {
-    code: "ea40d2a9-0a01-4837-bbc0-8bc9d85f50e7",
+    code: "RU-KIR",
     name: "Kirov Oblast",
     outline: [
       [
@@ -2002,7 +2002,7 @@ const areas = [
     ],
   },
   {
-    code: "f25f73cb-e5a8-49a0-af1a-1c05334ae080",
+    code: "RU-STA",
     name: "Stavropol Krai",
     outline: [
       [
@@ -2016,7 +2016,7 @@ const areas = [
     ],
   },
   {
-    code: "f48a4b57-ba73-4bcc-9436-6e3704bbaccd",
+    code: "RU-PSK",
     name: "Pskov Oblast",
     outline: [
       [
@@ -2031,7 +2031,7 @@ const areas = [
     ],
   },
   {
-    code: "f5dadfaf-ac93-4f13-8245-00452e0f8e81",
+    code: "RU-AST",
     name: "Astrakhan Oblast",
     outline: [
       [139, 938, -1, -1, -1, 0, -1, 1, 0, -1, 1, 0, 1, -1, 0, 1, 1, 0],
@@ -2054,7 +2054,7 @@ const areas = [
     ],
   },
   {
-    code: "f8fdbc21-cec1-4620-8cc1-9afc3c3b95d5",
+    code: "RU-YEV",
     name: "Jewish Autonomous Oblast",
     outline: [
       [
@@ -2067,7 +2067,7 @@ const areas = [
     ],
   },
   {
-    code: "fa6b6095-29bf-48ac-a401-32bf108a4905",
+    code: "RU-ORE",
     name: "Orenburg Oblast",
     outline: [
       [
@@ -2154,7 +2154,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "6a4abb0d-cd11-4fbc-9842-3308fd1b29e8",
+        code: "RU-SPE",
         name: "Saint Petersburg",
         outline: [
           [116, 160, 2, 0, 0, 1, -1, 2, -1, 0],
@@ -2293,7 +2293,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "75e78dab-29b8-4dba-a08b-a6a0ff21396d",
+        code: "RU-MOW",
         name: "Moscow",
         outline: [
           [70, 139, 0, -1, 0, 0, 1, 0, 0, 1, -1, 0, 0, 1, -1, 0, 0, -1],
@@ -2420,7 +2420,7 @@ const insets: Sheet["insets"] = [
     ],
     areas: [
       {
-        code: "979c9610-b52a-4e8d-a10c-979250943c01",
+        code: "RU-KGD",
         name: "Kaliningrad",
         outline: [
           [
