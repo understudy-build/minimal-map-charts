@@ -43,7 +43,10 @@ export const DerivedWorld: Story = {
   args: {
     spec: {
       title: "Adding one country outside Europe widens the frame",
-      fill: { kind: "choropleth", values: { ...illustrative(europe.slice(0, 8), 2), USA: 6.1 } },
+      fill: {
+        kind: "choropleth",
+        values: [...illustrative(europe.slice(0, 8), 2), { country: "USA", value: 6.1 }],
+      },
     },
   },
 }
@@ -90,7 +93,16 @@ export const TooSmallToDraw: Story = {
     spec: {
       fill: {
         kind: "choropleth",
-        values: { SGP: 88, BHR: 61, USA: 74, BRA: 55, IND: 31, CHN: 49, NGA: 28, FRA: 70 },
+        values: [
+          { country: "SGP", value: 88 },
+          { country: "BHR", value: 61 },
+          { country: "USA", value: 74 },
+          { country: "BRA", value: 55 },
+          { country: "IND", value: 31 },
+          { country: "CHN", value: 49 },
+          { country: "NGA", value: 28 },
+          { country: "FRA", value: 70 },
+        ],
       },
     },
   },

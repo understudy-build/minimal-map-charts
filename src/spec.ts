@@ -3,6 +3,7 @@ import { type Country, countries, names } from "./countries.ts"
 import { frames, isSheet, members } from "./frame.ts"
 import type { Layout, Panel, Place } from "./layout.ts"
 import { isRegion } from "./regions.ts"
+import { schema } from "./schema.ts"
 import type { SheetId } from "./sheet.ts"
 
 // What a map shows. Every field is optional: `{}` draws the world, blank.
@@ -20,6 +21,8 @@ export interface Spec {
 export type Fill =
   | {
       readonly kind: "choropleth"
+      // One number per country, each country once. Countries left out show
+      // as no data.
       readonly values: Values
       readonly scale?: Scale
       readonly better?: "higher" | "lower"
@@ -31,7 +34,12 @@ export type Fill =
       readonly colour?: Colour
     }
 
-export type Values = Readonly<Partial<Record<Country, number>>>
+export interface Value {
+  readonly country: Country
+  readonly value: number
+}
+
+export type Values = ReadonlyArray<Value>
 
 // A colour gives only its hue and chroma: the palette sets each class's
 // lightness for the surface the map sits on.
@@ -266,24 +274,45 @@ const scale = (input: unknown, path: Path): Checked<Scale> => {
   return invalid(at("kind"), '"quantile", "breaks" or "diverging"')
 }
 
+const pair = (input: unknown, path: Path): Checked<Value> => {
+  if (!isRecord(input)) return invalid(path, "a { country, value } object")
+
+  const code = country(input["country"], [...path, "country"])
+  const number = input["value"]
+  const issues = [
+    ...keys(path, ["country", "value"])(input),
+    ...code.issues,
+    ...(isNumber(number) ? [] : invalid([...path, "value"], "a finite number").issues),
+  ]
+
+  return issues.length > 0 || code.value === undefined || !isNumber(number)
+    ? { value: undefined, issues }
+    : { value: { country: code.value, value: number }, issues }
+}
+
 const values = (input: unknown, path: Path): Checked<Values> => {
-  if (!isRecord(input))
-    return {
-      value: undefined,
-      issues: [{ kind: "Invalid", path, expected: "an object of numbers keyed by country code" }],
-    }
+  if (!Array.isArray(input)) return invalid(path, "an array of { country, value } objects")
 
   const issues: Array<Issue> = []
-  const parsed: Partial<Record<Country, number>> = {}
+  const parsed: Array<Value> = []
 
-  for (const [key, value] of Object.entries(input)) {
-    const at = path.concat(key)
-    const code = country(key, at)
+  for (const [index, each] of input.entries()) {
+    const at = path.concat(index)
+    const checked = pair(each, at)
 
-    issues.push(...code.issues)
+    issues.push(...checked.issues)
 
-    if (!isNumber(value)) issues.push({ kind: "Invalid", path: at, expected: "a finite number" })
-    else if (code.value !== undefined) parsed[code.value] = value
+    const listed = checked.value
+
+    if (listed === undefined) continue
+
+    if (parsed.some((other) => other.country === listed.country))
+      issues.push({
+        kind: "Invalid",
+        path: [...at, "country"],
+        expected: "a country not listed before",
+      })
+    else parsed.push(listed)
   }
 
   return { value: issues.length === 0 ? parsed : undefined, issues }
@@ -379,8 +408,11 @@ export const named = (input: Fill | undefined): ReadonlyArray<Country> => {
   if (input === undefined) return []
 
   switch (input.kind) {
-    case "choropleth":
-      return countries.flatMap(({ code }) => (input.values[code] === undefined ? [] : [code]))
+    case "choropleth": {
+      const listed = new Set(input.values.map((each) => each.country))
+
+      return countries.flatMap(({ code }) => (listed.has(code) ? [code] : []))
+    }
     case "highlight":
       return input.countries
   }
@@ -389,21 +421,14 @@ export const named = (input: Fill | undefined): ReadonlyArray<Country> => {
 // Each country the fill names that the sheet does not frame.
 const placed = (sheet: SheetId, input: Fill): ReadonlyArray<Issue> => {
   const framed = new Set(members(sheet))
-  const all = named(input)
-  const path = input.kind === "choropleth" ? ["fill", "values"] : ["fill", "countries"]
+  const sheets = frames(named(input))
+  const listed =
+    input.kind === "choropleth"
+      ? input.values.map((each, index) => ({ code: each.country, path: ["fill", "values", index] }))
+      : input.countries.map((code, index) => ({ code, path: ["fill", "countries", index] }))
 
-  return all.flatMap((code, index): ReadonlyArray<Issue> =>
-    framed.has(code)
-      ? []
-      : [
-          {
-            kind: "NotOnSheet",
-            path: [...path, input.kind === "choropleth" ? code : index],
-            country: code,
-            sheet,
-            sheets: frames(all),
-          },
-        ],
+  return listed.flatMap(({ code, path }): ReadonlyArray<Issue> =>
+    framed.has(code) ? [] : [{ kind: "NotOnSheet", path, country: code, sheet, sheets }],
   )
 }
 
@@ -524,9 +549,23 @@ const layout = (input: Readonly<Record<string, unknown>>, path: Path): Checked<L
   }
 }
 
+// A key set to null is a key left out: strict structured output, such as
+// OpenAI's, writes every key and sets the ones it has no value for to null.
+// No field takes null as a value, so reading it as absent loses nothing.
+const absent = (input: unknown): unknown => {
+  if (Array.isArray(input)) return input.map(absent)
+  if (!isRecord(input)) return input
+
+  return Object.fromEntries(
+    Object.entries(input).flatMap(([key, each]) => (each === null ? [] : [[key, absent(each)]])),
+  )
+}
+
 // Reads untrusted input, from a model, a form or a URL, into a spec, or every
 // reason it is not one.
-export const parse = (input: unknown): Parsed => {
+export const parse = (raw: unknown): Parsed => {
+  const input = absent(raw)
+
   if (!isRecord(input))
     return { ok: false, issues: [{ kind: "Invalid", path: [], expected: "a spec object" }] }
 
@@ -587,24 +626,29 @@ export const parse = (input: unknown): Parsed => {
 
 const at = (path: Path) => (path.length === 0 ? "spec" : path.join("."))
 
-// One line a person or a model can act on.
-export const describe = (issue: Issue): string => {
+// What is wrong, without where.
+const explain = (issue: Issue): string => {
   switch (issue.kind) {
     case "Invalid":
-      return `${at(issue.path)}: expected ${issue.expected}.`
+      return `expected ${issue.expected}.`
     case "UnknownKey":
-      return `${at(issue.path)}: unknown key "${issue.key}".`
+      return `unknown key "${issue.key}".`
     case "UnknownCountry":
       return issue.suggestion === undefined
-        ? `${at(issue.path)}: "${issue.input}" is not a country code. Use ISO 3166-1 alpha-3.`
-        : `${at(issue.path)}: "${issue.input}" is not a country code. Did you mean "${issue.suggestion}"?`
+        ? `"${issue.input}" is not a country code. Use ISO 3166-1 alpha-3.`
+        : `"${issue.input}" is not a country code. Did you mean "${issue.suggestion}"?`
     case "NotOnSheet":
-      return `${at(issue.path)}: ${issue.country} is not on the "${issue.sheet}" sheet. Sheets that hold every country: ${issue.sheets.join(", ")}.`
+      return `${issue.country} is not on the "${issue.sheet}" sheet. Sheets that hold every country: ${issue.sheets.join(", ")}.`
   }
 }
 
-// The Standard Schema interface (standardschema.dev), so the spec plugs into
-// model tool definitions, form libraries and anything else that accepts one.
+// One line a person or a model can act on.
+export const describe = (issue: Issue): string => `${at(issue.path)}: ${explain(issue)}`
+
+// The Standard Schema interface (standardschema.dev), with its JSON Schema
+// extension, so the spec plugs into anything that takes one: an MCP server's
+// tool input, a form library, a model tool definition. Messages leave out the
+// path, which a consumer prints from `path`.
 interface Standard<Output> {
   readonly "~standard": {
     readonly version: 1
@@ -614,8 +658,22 @@ interface Standard<Output> {
       | {
           readonly issues: ReadonlyArray<{ readonly message: string; readonly path: Path }>
         }
+    readonly jsonSchema: {
+      readonly input: (options: { readonly target: string }) => Record<string, unknown>
+      readonly output: (options: { readonly target: string }) => Record<string, unknown>
+    }
     readonly types?: { readonly input: unknown; readonly output: Output }
   }
+}
+
+// The schema reads the same in both drafts. Any other target, such as
+// OpenAPI 3.0, has no `$defs` or `const`, so it is refused, as the standard
+// asks.
+const json = ({ target }: { readonly target: string }) => {
+  if (target !== "draft-2020-12" && target !== "draft-07")
+    throw new Error(`The map spec has no JSON Schema for the "${target}" target.`)
+
+  return schema
 }
 
 export const Spec: Standard<Spec> = {
@@ -627,7 +685,8 @@ export const Spec: Standard<Spec> = {
 
       return parsed.ok
         ? { value: parsed.spec }
-        : { issues: parsed.issues.map((issue) => ({ message: describe(issue), path: issue.path })) }
+        : { issues: parsed.issues.map((issue) => ({ message: explain(issue), path: issue.path })) }
     },
+    jsonSchema: { input: json, output: json },
   },
 }

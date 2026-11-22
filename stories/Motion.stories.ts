@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/html-vite"
 import { animate, hover, motionValue, stagger } from "motion"
+import { Allow, parse as heal } from "partial-json"
 
 import {
   countries,
@@ -7,6 +8,8 @@ import {
   draw,
   light,
   paint,
+  parse,
+  partial,
   regions,
   type Scene,
   type Spec,
@@ -184,9 +187,10 @@ export const HoverDetails: StoryObj = {
         source: "Illustrative values",
         fill: {
           kind: "choropleth",
-          values: Object.fromEntries(
-            Object.entries(illustrative(europe, 11)).map(([code, value]) => [code, 70 + value]),
-          ),
+          values: illustrative(europe, 11).map(({ country, value }) => ({
+            country,
+            value: 70 + value,
+          })),
           better: "higher",
         },
       }),
@@ -238,35 +242,32 @@ export const HoverDetails: StoryObj = {
 // The spec a model streams, written key by key in schema order: title and
 // source, then how to colour, then the values. With the scale before the
 // values, a country keeps its shade as the rest arrive.
-const streamedFill = {
-  kind: "choropleth",
-  scale: { kind: "breaks", at: [4, 6, 8, 10] },
-  better: "lower",
-  values: illustrative(europe, 5),
-} as const
+const streamed: Spec = {
+  title: "Unemployment rate, %",
+  source: "Illustrative values",
+  fill: {
+    kind: "choropleth",
+    scale: { kind: "breaks", at: [4, 6, 8, 10] },
+    better: "lower",
+    values: illustrative(europe, 5),
+  },
+}
 
-// The partial objects a structured-output stream yields, one per step.
-const partials: ReadonlyArray<Spec> = [
-  { title: "Unemployment rate, %" },
-  { title: "Unemployment rate, %", source: "Illustrative values" },
-  ...Object.entries(streamedFill.values).map((_, index): Spec => ({
-    title: "Unemployment rate, %",
-    source: "Illustrative values",
-    fill: {
-      ...streamedFill,
-      values: Object.fromEntries(Object.entries(streamedFill.values).slice(0, index + 1)),
-    },
-  })),
-]
+// The JSON text as a model writes it, a few characters per chunk.
+const json = JSON.stringify(streamed)
+const chunk = 24
 
 const wait = (milliseconds: number) =>
   new Promise((resolve) => setTimeout(resolve, reduced() ? 0 : milliseconds))
 
-// A map drawn while a model writes its spec. The host waits for the first
-// country before drawing: the frame depends on the countries, and drawing the
-// world first would only swap it out. From then on each value colours its
-// country as it arrives. A later country outside Europe would widen the frame;
-// a host that needs a stable frame asks the model to write `sheet` first.
+// A map drawn while a model writes its spec. Each chunk is healed as hosts
+// heal a stream, its open brackets closed, and `partial` reads the spec so
+// far: a number that may still gain digits and a code half written wait for
+// the next chunk. The host waits for the first country before drawing: the
+// frame depends on the countries, and drawing the world first would only swap
+// it out. From then on each value colours its country as it arrives. A later
+// country outside Europe would widen the frame; a host that needs a stable
+// frame asks the model to write `sheet` first.
 export const StreamingFromAModel: StoryObj = {
   render: () => {
     const root = document.createElement("div")
@@ -280,8 +281,8 @@ export const StreamingFromAModel: StoryObj = {
     root.style.cssText =
       "display:grid;grid-template-columns:minmax(220px,1fr) 2fr;gap:16px;font-family:system-ui,sans-serif;max-width:1100px"
     output.style.cssText =
-      "margin:0;padding:12px;background:#f0efec;border-radius:6px;font-size:12px;max-height:640px;overflow:auto"
-    output.setAttribute("aria-label", "The spec as the model writes it")
+      "margin:0;padding:12px;background:#f0efec;border-radius:6px;font-size:12px;max-height:640px;overflow:auto;white-space:pre-wrap;word-break:break-all"
+    output.setAttribute("aria-label", "The JSON as the model writes it")
     title.style.margin = "0 0 8px"
     stage.style.cssText = "min-height:420px;display:grid;place-items:center;color:#52514e"
     replay.textContent = "Replay"
@@ -299,18 +300,24 @@ export const StreamingFromAModel: StoryObj = {
       stage.replaceChildren("Waiting for the first country…")
       title.textContent = ""
 
-      for (const partial of partials) {
+      for (let end = chunk; end < json.length + chunk; end += chunk) {
         if (mine !== run || !root.isConnected) return
 
-        output.textContent = JSON.stringify(partial, null, 2)
-        title.textContent = partial.title ?? ""
+        const written = json.slice(0, end)
+        const finished = written.length === json.length
+        const parsed = finished ? parse(JSON.parse(written)) : undefined
+        const spec =
+          parsed === undefined ? partial(heal(written, Allow.ALL)) : parsed.ok ? parsed.spec : {}
 
-        const named = partial.fill?.kind === "choropleth" ? Object.keys(partial.fill.values) : []
+        output.textContent = written
+        title.textContent = spec.title ?? ""
 
-        if (named.length > 0) {
+        const arrived = spec.fill?.kind === "choropleth" ? spec.fill.values : []
+
+        if (arrived.length > 0) {
           // Each step waits for its draw, so the stream applies in order.
           // oxlint-disable-next-line no-await-in-loop
-          const scene = await draw(partial)
+          const scene = await draw(spec)
 
           if (map === undefined || scene.sheet !== sheet) {
             map = bare(scene)
@@ -340,7 +347,7 @@ export const StreamingFromAModel: StoryObj = {
         }
 
         // oxlint-disable-next-line no-await-in-loop
-        await wait(named.length > 0 ? 140 : 500)
+        await wait(60)
       }
     }
 
@@ -348,7 +355,9 @@ export const StreamingFromAModel: StoryObj = {
     onRemove(root, () => {
       run += 1
     })
-    void play()
+    // Storybook attaches the root after `render` returns, so the stream
+    // starts on the next frame, once the root is on the page.
+    requestAnimationFrame(() => void play())
 
     return root
   },

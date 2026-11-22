@@ -16,7 +16,8 @@ export type { Frame } from "./compose.ts"
 export type { Layout, Panel, Place } from "./layout.ts"
 export { type Region, regions } from "./regions.ts"
 export type { Bin, Shade } from "./scale.ts"
-export { schema } from "./schema.ts"
+export { partial } from "./partial.ts"
+export { schema, strict } from "./schema.ts"
 export { type Credit, type SheetId, sheetIds } from "./sheet.ts"
 export {
   type Classes,
@@ -28,6 +29,7 @@ export {
   type Path,
   type Scale,
   Spec,
+  type Value,
   type Values,
 } from "./spec.ts"
 export {

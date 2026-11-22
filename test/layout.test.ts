@@ -1,13 +1,14 @@
 import { describe, expect, it } from "vitest"
 
 import { describe as explain, draw, type Layout, parse, type Spec } from "../src/index.ts"
+import { values } from "./values.ts"
 
 // A choropleth of the United States and Western Europe, laid out as given.
 const comparison = (sheet: Layout = {}): Spec => ({
   sheet,
   fill: {
     kind: "choropleth",
-    values: {
+    values: values({
       USA: 2.8,
       GBR: 1.1,
       FRA: 1.1,
@@ -17,7 +18,7 @@ const comparison = (sheet: Layout = {}): Spec => ({
       LUX: 0.4,
       DEU: -0.2,
       ITA: 0.7,
-    },
+    }),
   },
 })
 

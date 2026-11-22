@@ -1,4 +1,14 @@
-import { dark, light, paint, type Palette, range, type Scene, svg } from "../src/index.ts"
+import {
+  type Country,
+  dark,
+  light,
+  paint,
+  type Palette,
+  range,
+  type Scene,
+  svg,
+  type Values,
+} from "../src/index.ts"
 
 export interface FigureOptions {
   readonly palette?: Palette
@@ -32,14 +42,12 @@ export const palettes = { light, dark } as const
 
 // Illustrative numbers, not real statistics: stories need believable values
 // without implying a source.
-export const illustrative = (codes: ReadonlyArray<string>, seed: number) =>
-  Object.fromEntries(
-    codes.map((code, index) => {
-      const wave = Math.sin(seed * 0.9 + index * 1.7) + Math.cos(seed * 0.4 + index * 0.6)
+export const illustrative = (codes: ReadonlyArray<Country>, seed: number): Values =>
+  codes.map((country, index) => {
+    const wave = Math.sin(seed * 0.9 + index * 1.7) + Math.cos(seed * 0.4 + index * 0.6)
 
-      return [code, Math.round((5 + wave * 2.4 + (index % 5)) * 10) / 10]
-    }),
-  )
+    return { country, value: Math.round((5 + wave * 2.4 + (index % 5)) * 10) / 10 }
+  })
 
 const escape = (text: string) =>
   text.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll('"', "&quot;")

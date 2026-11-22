@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite"
 import type { ReactElement } from "react"
 
-import { draw, type Layout } from "../src/index.ts"
+import { type Country as Code, draw, type Layout } from "../src/index.ts"
 import { figure, illustrative } from "./figure.ts"
 import { Country, Panel, Region, Sheet, layout } from "./sheet.tsx"
 
@@ -9,7 +9,17 @@ interface LayoutArgs {
   readonly sheet: Layout
 }
 
-const compared = ["USA", "GBR", "FRA", "ESP", "BEL", "NLD", "LUX", "DEU", "ITA"]
+const compared: ReadonlyArray<Code> = [
+  "USA",
+  "GBR",
+  "FRA",
+  "ESP",
+  "BEL",
+  "NLD",
+  "LUX",
+  "DEU",
+  "ITA",
+]
 
 // Each story writes its layout in JSX, draws it, and prints the layout as the
 // JSON a model would send in `sheet`.

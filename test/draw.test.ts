@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest"
 
-import { draw, type Fill, parse, sheetIds, type Spec, svg } from "../src/index.ts"
+import { type Country, draw, parse, sheetIds, type Spec, svg } from "../src/index.ts"
+import { values } from "./values.ts"
 
-const choropleth = (values: Extract<Fill, { kind: "choropleth" }>["values"]): Spec => ({
-  fill: { kind: "choropleth", values },
+const choropleth = (record: Readonly<Partial<Record<Country, number>>>): Spec => ({
+  fill: { kind: "choropleth", values: values(record) },
 })
 
 describe("draw", () => {
@@ -94,7 +95,7 @@ describe("svg", () => {
     const result = parse({
       title: "Growth <2024>",
       source: "World Bank",
-      fill: { kind: "choropleth", values: { FRA: 1, DEU: 2 }, better: "higher" },
+      fill: { kind: "choropleth", values: values({ FRA: 1, DEU: 2 }), better: "higher" },
     })
 
     if (!result.ok) throw new Error("spec should parse")

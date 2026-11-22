@@ -16,7 +16,13 @@ export const output: unknown = {
   title: "Internet users, % of population",
   fill: {
     kind: "choropleth",
-    values: { JPN: 83, KOR: 97, CHN: 76, MNG: 84, PRK: 0.1 },
+    values: [
+      { country: "JPN", value: 83 },
+      { country: "KOR", value: 97 },
+      { country: "CHN", value: 76 },
+      { country: "MNG", value: 84 },
+      { country: "PRK", value: 0.1 },
+    ],
     better: "higher",
   },
 }

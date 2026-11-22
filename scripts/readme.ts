@@ -43,7 +43,16 @@ const examples: Readonly<Record<string, unknown>> = {
     source: "Illustrative values",
     fill: {
       kind: "choropleth",
-      values: { USA: 2.8, GBR: 1.1, FRA: 1.1, ESP: 3.2, BEL: 1, NLD: 0.9, DEU: -0.2, ITA: 0.7 },
+      values: [
+        { country: "USA", value: 2.8 },
+        { country: "GBR", value: 1.1 },
+        { country: "FRA", value: 1.1 },
+        { country: "ESP", value: 3.2 },
+        { country: "BEL", value: 1 },
+        { country: "NLD", value: 0.9 },
+        { country: "DEU", value: -0.2 },
+        { country: "ITA", value: 0.7 },
+      ],
       better: "higher",
     },
   },

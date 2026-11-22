@@ -240,13 +240,7 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
 
   const { fill } = spec
   const values = new Map<Country, number>(
-    fill?.kind === "choropleth"
-      ? countries.flatMap(({ code }) => {
-          const value = fill.values[code]
-
-          return value === undefined ? [] : [[code, value] as const]
-        })
-      : [],
+    fill?.kind === "choropleth" ? fill.values.map((each) => [each.country, each.value]) : [],
   )
 
   const picked = new Set<Country>(fill?.kind === "highlight" ? fill.countries : [])

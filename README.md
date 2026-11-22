@@ -51,6 +51,7 @@ A few things:
 
 For example, to compare GDP growth in the United States and Western Europe, list the countries in a layout. There is no projection to pick:
 
+<!-- prettier-ignore -->
 ```json
 {
   "sheet": { "places": ["USA", "GBR", "FRA", "ESP", "BEL", "NLD", "DEU", "ITA"], "insets": false },
@@ -58,16 +59,16 @@ For example, to compare GDP growth in the United States and Western Europe, list
   "source": "Illustrative values",
   "fill": {
     "kind": "choropleth",
-    "values": {
-      "USA": 2.8,
-      "GBR": 1.1,
-      "FRA": 1.1,
-      "ESP": 3.2,
-      "BEL": 1,
-      "NLD": 0.9,
-      "DEU": -0.2,
-      "ITA": 0.7
-    },
+    "values": [
+      { "country": "USA", "value": 2.8 },
+      { "country": "GBR", "value": 1.1 },
+      { "country": "FRA", "value": 1.1 },
+      { "country": "ESP", "value": 3.2 },
+      { "country": "BEL", "value": 1 },
+      { "country": "NLD", "value": 0.9 },
+      { "country": "DEU", "value": -0.2 },
+      { "country": "ITA", "value": 0.7 }
+    ],
     "better": "higher"
   }
 }
@@ -90,7 +91,15 @@ import { draw, parse, svg } from "@nicolastoulemont/minimal-map-charts"
 const parsed = parse({
   title: "GDP growth, 2024 (%)",
   source: "World Bank",
-  fill: { kind: "choropleth", values: { FRA: 1.1, DEU: -0.2, ESP: 3.2 }, better: "higher" },
+  fill: {
+    kind: "choropleth",
+    values: [
+      { country: "FRA", value: 1.1 },
+      { country: "DEU", value: -0.2 },
+      { country: "ESP", value: 3.2 },
+    ],
+    better: "higher",
+  },
 })
 
 if (parsed.ok) document.body.innerHTML = svg(await draw(parsed.spec))
@@ -107,26 +116,63 @@ The spec describes what to show, not how to draw it: countries, values and what 
 
 A model picks colours as `"#rrggbb"`: green for forests, red for losses, blue for gains. The renderer keeps each colour's hue and chroma and sets its lightness for the page, so one spec reads on a light or a dark surface, with the lowest values nearest the surface.
 
-1. Tool schema: `schema` is the spec as JSON Schema, for a tool's input or for structured output.
+1. Tool schema: `schema` is the spec as JSON Schema, for a tool's input or for structured output. It keeps to what strict structured output accepts: `anyOf`, closed objects, and values as `{ country, value }` pairs rather than a map keyed by country. `strict` is the same spec with every key required and null for the ones left out, for OpenAI's strict mode; `parse` reads a null key as left out.
 2. Validation: `parse` returns typed issues, and `describe` turns each into a line the model can fix on its next turn:
 
    ```
-   fill.values.France: "France" is not a country code. Did you mean "FRA"?
-   fill.values.BRA: BRA is not on the "europe" sheet. Sheets that hold every country: world.
+   fill.values.0.country: "France" is not a country code. Did you mean "FRA"?
+   fill.values.2: BRA is not on the "europe" sheet. Sheets that hold every country: world.
    spec: unknown key "titel".
    ```
 
-3. Standard Schema: `Spec` implements it, so libraries that accept one validate with it directly.
-4. Streaming: a spec can be drawn while it streams. Once the first country arrives the map is known, and each later value only colours its country.
+3. Standard Schema: `Spec` implements it with its JSON Schema extension, so a library that takes one gets both the validator and the JSON Schema from it. An MCP server registers the spec as a tool's input with `inputSchema: Spec`, and a model that sends a bad spec gets `describe`'s lines back.
+4. Streaming: `partial(input)` reads a spec from a stream cut short, the JSON written so far with its brackets closed, as tool-call and structured-output streams yield it. It never fails: a number that may still gain digits and a code half written wait for the next chunk. Draw each chunk with `partial` and the finished input with `parse`. Once the first country arrives the map is known, and each later value only colours its country.
 
 Let the model pick the map and the host supply the numbers. A model should not invent the values it charts.
+
+### In an MCP App
+
+[examples/mcp-app](examples/mcp-app) is an MCP server with one tool, `show_map`, whose map shows in the host's chat as an [MCP App](https://modelcontextprotocol.io/seps/1865-mcp-apps-interactive-user-interfaces-for-mcp):
+
+```ts
+registerAppTool(
+  mcp,
+  "show_map",
+  {
+    description: "Draw a map of countries",
+    inputSchema: Spec,
+    _meta: { ui: { resourceUri: view } },
+  },
+  async (spec) => {
+    const scene = await draw(spec)
+
+    return { content: [{ type: "text", text: scene.description }], structuredContent: { ...scene } }
+  },
+)
+```
+
+A few things:
+
+1. No glue: `Spec` is the tool's input schema as it is. The SDK lists its JSON Schema to the model and refuses a bad call with `parse`'s issues.
+2. The server draws, the view paints: an MCP App's default CSP blocks network requests, so the view cannot load sheets. It gets the scene, paints it with `svg` in the host's theme, and paints it again when the theme changes.
+3. The model reads one sentence, `scene.description`. The scene goes to the view in `structuredContent`, which the model does not see.
+4. `pnpm mcp` builds the view into one HTML file and starts the server over stdio.
+
+### In json-render and A2UI
+
+Both take a catalog of components and let the model compose them. The map is one component, its props the spec. The recipes in `stories/standards/` are the whole integration:
+
+1. json-render: `props: z.fromJSONSchema(schema)`. Zod reads the JSON Schema as it is, so the catalog's prompt lists every key and code, and `catalog.validate` refuses what the schema refuses.
+2. A2UI: `catalog` in `stories/standards/a2ui.ts` is an A2UI v1.0 catalog with one `Map` component. It adds the component name, the catalog id and the unions every catalog declares to the spec's schema; a test checks it against A2UI's own catalog schema. The renderer builds its component from the same document with `Catalog.fromJson`, so it checks an agent's message against the schema the agent was given.
+3. Both components still run `parse`, which holds the rules no schema states, and show its lines when a spec does not parse.
 
 ## API
 
 | Export                     | What it does                                                                          |
 | -------------------------- | ------------------------------------------------------------------------------------- |
 | `parse(input)`             | Reads untrusted input into a `Spec`, or returns every issue.                          |
-| `schema`, `Spec`           | The spec as JSON Schema and as Standard Schema.                                       |
+| `partial(input)`           | Reads a spec from a stream cut short. Never fails.                                    |
+| `schema`, `strict`, `Spec` | The spec as JSON Schema, as JSON Schema for strict mode, and as Standard Schema.      |
 | `draw(spec, { locale })`   | Picks and loads the sheet, groups the values into colour bands and returns a `Scene`. |
 | `svg(scene, { palette })`  | Turns a scene into a standalone SVG document with its legend and credits.             |
 | `paint(tone, { palette })` | The colour of a shape's tone. `light` and `dark` are the built-in palettes.           |
@@ -149,6 +195,7 @@ Run the Storybook stories with `pnpm storybook`:
 - Colour scales: a sequential scale in one colour, a diverging scale around zero, and a coloured highlight, each in light and dark.
 - Layouts: layouts written in JSX.
 - Frameworks: React, Vue, Svelte and Solid recipes to copy into an app, in `stories/frameworks/`. Each is a set of parts (`Figure.Root`, `Figure.Map`, `Figure.Legend`…) that share one context.
+- Standards: the map as a json-render component and as an A2UI component, with the prompt and the catalog each gives a model.
 
 ## The spec
 
@@ -160,7 +207,7 @@ Run the Storybook stories with `pnpm storybook`:
 
 A few things:
 
-1. Values: `values` maps ISO 3166-1 alpha-3 codes to numbers.
+1. Values: `values` lists `{ country, value }` pairs, each country an ISO 3166-1 alpha-3 code listed once.
 2. Colour bands, called classes: `scale` is `{ kind: "quantile", classes?: 3–7, colour? }`, `{ kind: "breaks", at: [...], colour? }` or `{ kind: "diverging", at: [...], mid, below, above }`. Quantile is the default, with 5 classes of about as many countries each. Breaks set fixed boundaries.
 3. Diverging: bands below `mid` take `below`'s hue and bands above take `above`'s, stronger the further from `mid`. A band holding `mid` is neutral; with `mid` on a break, none is. The hues must be at least 60° apart, and `mid` must lie between the first and last breaks.
 4. Colours: `"#rrggbb"`, not a grey. Without one, the palette's colour applies.

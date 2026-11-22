@@ -54,7 +54,14 @@ export const Valid: Story = {
       source: "Illustrative values",
       fill: {
         kind: "choropleth",
-        values: { JPN: 83, KOR: 97, CHN: 76, MNG: 84, PRK: 0.1, TWN: 90 },
+        values: [
+          { country: "JPN", value: 83 },
+          { country: "KOR", value: 97 },
+          { country: "CHN", value: 76 },
+          { country: "MNG", value: 84 },
+          { country: "PRK", value: 0.1 },
+          { country: "TWN", value: 90 },
+        ],
         scale: { kind: "quantile", classes: 4 },
         better: "higher",
       },
@@ -69,7 +76,14 @@ export const Mistakes: Story = {
     input: {
       sheet: "europe",
       titel: "GDP",
-      fill: { kind: "choropleth", values: { France: 1.2, DE: 0.3, BRA: 2.9 } },
+      fill: {
+        kind: "choropleth",
+        values: [
+          { country: "France", value: 1.2 },
+          { country: "DE", value: 0.3 },
+          { country: "BRA", value: 2.9 },
+        ],
+      },
     },
   },
 }
@@ -87,7 +101,7 @@ export const ToolSchema: StoryObj = {
 
     block.style.cssText = "font-size:12px;max-height:80vh;overflow:auto"
     block.textContent = JSON.stringify(
-      { ...schema, definitions: { country: { ...schema.definitions.country, enum: ["…"] } } },
+      { ...schema, $defs: { ...schema.$defs, country: { ...schema.$defs.country, enum: ["…"] } } },
       null,
       2,
     )

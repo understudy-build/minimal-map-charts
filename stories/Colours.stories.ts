@@ -43,12 +43,10 @@ export const Sequential: Story = {
 
 // Values either side of zero: red for losses, blue for gains, and a neutral
 // band holding zero. Each band is stronger the further it sits from zero.
-const change = Object.fromEntries(
-  Object.entries(illustrative(europe, 4)).map(([code, value]) => [
-    code,
-    Math.round((value - 7) * 10) / 10,
-  ]),
-)
+const change = illustrative(europe, 4).map(({ country, value }) => ({
+  country,
+  value: Math.round((value - 7) * 10) / 10,
+}))
 
 export const Diverging: Story = {
   args: {

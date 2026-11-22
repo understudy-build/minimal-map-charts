@@ -22,5 +22,5 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["src", "test", "stories", ".storybook", "scripts"]
+  "include": ["src", "test", "stories", ".storybook", "scripts", "examples"]
 }
