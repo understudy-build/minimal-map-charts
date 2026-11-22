@@ -1,6 +1,6 @@
 {
   "name": "@understudy-build/minimal-map-charts",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Small map primitives for generative UI: a JSON spec of countries and values, checked and drawn as SVG from pre-projected sheets.",
   "keywords": [
     "choropleth",
