@@ -52,14 +52,24 @@ export const dark: Palette = {
   muted: "#c3c2b7",
 }
 
-export interface PaintOptions {
-  readonly palette?: Palette
+// A palette for each colour scheme. Colours become CSS `light-dark()` pairs,
+// and the page's `color-scheme` picks one.
+export interface Schemes {
+  readonly light: Palette
+  readonly dark: Palette
 }
 
-// The colour of a tone in a palette. A shade keeps its colour's hue and
-// chroma and takes its lightness from its strength, so a ramp reads in order
-// on any surface.
-export const paint = (tone: Tone, { palette = light }: PaintOptions = {}): string => {
+// A colour from one palette, or a `light-dark()` pair when the two schemes
+// differ.
+const pick = (palette: Palette | Schemes, colour: (palette: Palette) => string) => {
+  if (!("dark" in palette)) return colour(palette)
+
+  const [day, night] = [colour(palette.light), colour(palette.dark)]
+
+  return day === night ? day : `light-dark(${day},${night})`
+}
+
+const tint = (tone: Tone, palette: Palette): string => {
   switch (tone.kind) {
     case "blank":
       return palette.blank
@@ -79,6 +89,16 @@ export const paint = (tone: Tone, { palette = light }: PaintOptions = {}): strin
     }
   }
 }
+
+export interface PaintOptions {
+  readonly palette?: Palette | Schemes
+}
+
+// The colour of a tone in a palette. A shade keeps its colour's hue and
+// chroma and takes its lightness from its strength, so a ramp reads in order
+// on any surface.
+export const paint = (tone: Tone, { palette = light }: PaintOptions = {}): string =>
+  pick(palette, (each) => tint(tone, each))
 
 const escape = (text: string) =>
   text
@@ -128,21 +148,32 @@ const insetRows = (insets: ReadonlyArray<Inset>, width: number) => {
   })
 }
 
-const legendItems = (legend: Legend, palette: Palette) =>
+const legendItems = (legend: Legend, palette: Palette | Schemes) =>
   legend.bins.map((bin) => ({
     colour: paint(bin.shade, { palette }),
     text: range(bin),
   }))
 
 export interface SvgOptions {
-  readonly palette?: Palette
+  readonly palette?: Palette | Schemes
 }
 
 // A scene as one standalone SVG document: title, map, insets, legend and
 // credits. Use it for server rendering, link-preview images, email, or any
 // page without a framework.
+//
+// With one palette the document paints its own surface. With `{ light, dark }`
+// it has no background and follows the page: inline, it takes the page's
+// `color-scheme` and text colour; as a file or an `<img>`, the reader's
+// preference, where the browser passes it on.
 export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string => {
   const { width } = scene
+  const themed = "dark" in palette
+  const ink = themed ? "currentColor" : palette.ink
+  const muted = pick(palette, (each) => each.muted)
+  const land = pick(palette, (each) => each.land)
+  const stroke = pick(palette, (each) => each.stroke)
+  const blank = pick(palette, (each) => each.blank)
   const size = units(width)
   const lines: Array<string> = []
   let y = 0
@@ -152,21 +183,21 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
   if (scene.title !== undefined) {
     y += size.title
     lines.push(
-      `<text x="0" y="${y}" ${font} font-size="${size.title}" font-weight="600" fill="${palette.ink}">${escape(scene.title)}</text>`,
+      `<text x="0" y="${y}" ${font} font-size="${size.title}" font-weight="600" fill="${ink}">${escape(scene.title)}</text>`,
     )
     y += size.gap
   }
 
   lines.push(
     `<g transform="translate(0 ${y})">`,
-    `<path d="${scene.land}" fill="${palette.land}"/>`,
+    `<path d="${scene.land}" fill="${land}"/>`,
     ...scene.shapes.map(
       (shape) =>
-        `<path d="${shape.path}" data-country="${shape.country}" fill="${paint(shape.tone, { palette })}" stroke="${palette.stroke}" stroke-width="0.5"><title>${escape(shape.label)}</title></path>`,
+        `<path d="${shape.path}" data-country="${shape.country}" fill="${paint(shape.tone, { palette })}" stroke="${stroke}" stroke-width="0.5"><title>${escape(shape.label)}</title></path>`,
     ),
     ...scene.borders.map(
       (border) =>
-        `<path d="${border.path}" data-area="${escape(border.code)}" fill="none" stroke="${palette.stroke}" stroke-width="1.5"><title>${escape(border.name)}</title></path>`,
+        `<path d="${border.path}" data-area="${escape(border.code)}" fill="none" stroke="${stroke}" stroke-width="1.5"><title>${escape(border.name)}</title></path>`,
     ),
     `</g>`,
   )
@@ -185,14 +216,14 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
 
       lines.push(
         `<svg x="${each.x}" y="${top}" width="${each.width}" height="${each.height}" viewBox="0 0 ${each.inset.width} ${each.inset.height}">`,
-        `<rect width="${each.inset.width}" height="${each.inset.height}" fill="none" stroke="${palette.blank}"/>`,
-        `<path d="${each.inset.path}" data-country="${each.inset.country}" data-inset="${escape(each.inset.name)}" fill="${paint(each.inset.tone, { palette })}" stroke="${palette.stroke}" stroke-width="1.5"><title>${escape(each.inset.label)}</title></path>`,
+        `<rect width="${each.inset.width}" height="${each.inset.height}" fill="none" stroke="${blank}"/>`,
+        `<path d="${each.inset.path}" data-country="${each.inset.country}" data-inset="${escape(each.inset.name)}" fill="${paint(each.inset.tone, { palette })}" stroke="${stroke}" stroke-width="1.5"><title>${escape(each.inset.label)}</title></path>`,
         ...each.inset.borders.map(
           (border) =>
-            `<path d="${border.path}" data-area="${escape(border.code)}" fill="none" stroke="${palette.stroke}" stroke-width="1.5"><title>${escape(border.name)}</title></path>`,
+            `<path d="${border.path}" data-area="${escape(border.code)}" fill="none" stroke="${stroke}" stroke-width="1.5"><title>${escape(border.name)}</title></path>`,
         ),
         `</svg>`,
-        `<text x="${each.x}" y="${top + each.height + each.label * 1.2}" ${font} font-size="${each.label}" fill="${palette.muted}">${escape(each.inset.name)}</text>`,
+        `<text x="${each.x}" y="${top + each.height + each.label * 1.2}" ${font} font-size="${each.label}" fill="${muted}">${escape(each.inset.name)}</text>`,
       )
     }
 
@@ -208,7 +239,7 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
       const text = scene.legend.better === "higher" ? "Higher is better" : "Lower is better"
 
       lines.push(
-        `<text x="${x}" y="${baseline}" ${font} font-size="${size.text}" fill="${palette.ink}">${text}</text>`,
+        `<text x="${x}" y="${baseline}" ${font} font-size="${size.text}" fill="${ink}">${text}</text>`,
       )
       x += text.length * size.text * 0.55 + size.gap * 2
     }
@@ -216,14 +247,14 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
     const items = [
       ...legendItems(scene.legend, palette),
       ...(scene.shapes.some((shape) => shape.tone.kind === "blank")
-        ? [{ colour: palette.blank, text: "No data" }]
+        ? [{ colour: blank, text: "No data" }]
         : []),
     ]
 
     for (const item of items) {
       lines.push(
         `<rect x="${x}" y="${y}" width="${size.swatch}" height="${size.swatch}" rx="${size.swatch * 0.2}" fill="${item.colour}"/>`,
-        `<text x="${x + size.swatch * 1.4}" y="${baseline}" ${font} font-size="${size.text}" fill="${palette.muted}">${escape(item.text)}</text>`,
+        `<text x="${x + size.swatch * 1.4}" y="${baseline}" ${font} font-size="${size.text}" fill="${muted}">${escape(item.text)}</text>`,
       )
       x += size.swatch * 1.4 + item.text.length * size.text * 0.55 + size.gap * 1.5
     }
@@ -249,7 +280,7 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
   for (const note of notes) {
     y += size.small * 1.5
     lines.push(
-      `<text x="0" y="${y}" ${font} font-size="${size.small}" fill="${palette.muted}">${escape(note)}</text>`,
+      `<text x="0" y="${y}" ${font} font-size="${size.small}" fill="${muted}">${escape(note)}</text>`,
     )
   }
 
@@ -259,7 +290,10 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" role="img">`,
     `<title>${escape(scene.title ?? scene.description)}</title>`,
     `<desc>${escape(scene.description)}</desc>`,
-    `<rect width="${width}" height="${height}" fill="${palette.surface}"/>`,
+    // Inline, `svg:root` matches nothing and the page's scheme holds.
+    themed
+      ? `<style>svg:root{color-scheme:light dark}</style>`
+      : `<rect width="${width}" height="${height}" fill="${palette.surface}"/>`,
     ...lines,
     `</svg>`,
   ].join("")

@@ -86,7 +86,7 @@ A few things:
 ## Quick start
 
 ```ts
-import { draw, parse, svg } from "@nicolastoulemont/minimal-map-charts"
+import { dark, draw, light, parse, svg } from "@nicolastoulemont/minimal-map-charts"
 
 const parsed = parse({
   title: "GDP growth, 2024 (%)",
@@ -102,13 +102,14 @@ const parsed = parse({
   },
 })
 
-if (parsed.ok) document.body.innerHTML = svg(await draw(parsed.spec))
+if (parsed.ok) document.body.innerHTML = svg(await draw(parsed.spec), { palette: { light, dark } })
 ```
 
 A few things:
 
 1. The map is inferred: every country in the fill is in Europe, so it draws Europe. Add the United States and it draws the world.
 2. `sheet` overrides it: `"sheet": "FRA"` draws France with its regions and overseas insets. `scene.choice` is `"Given"` or `"Derived"`.
+3. The map follows the page's theme with no script: `{ light, dark }` writes each colour as a CSS `light-dark()` pair, leaves out the background and takes the title's colour from the page's text. The page's `color-scheme` picks the colours, so declare it: `:root { color-scheme: light dark }` follows the reader's setting, and a theme toggle sets `color-scheme` to `light` or `dark`. A page that only swaps colours in a `prefers-color-scheme` query, without `color-scheme`, gets the light map. As a file or an `<img>`, the map follows the reader's setting in Chrome and Firefox; WebKit draws it light. Give one palette, `{ palette: dark }`, for a map that paints its own background: images for link previews, email, or a rasterizer that does not know `light-dark()`.
 
 ## Use it with a model
 
@@ -168,15 +169,15 @@ Both take a catalog of components and let the model compose them. The map is one
 
 ## API
 
-| Export                     | What it does                                                                          |
-| -------------------------- | ------------------------------------------------------------------------------------- |
-| `parse(input)`             | Reads untrusted input into a `Spec`, or returns every issue.                          |
-| `partial(input)`           | Reads a spec from a stream cut short. Never fails.                                    |
-| `schema`, `strict`, `Spec` | The spec as JSON Schema, as JSON Schema for strict mode, and as Standard Schema.      |
-| `draw(spec, { locale })`   | Picks and loads the sheet, groups the values into colour bands and returns a `Scene`. |
-| `svg(scene, { palette })`  | Turns a scene into a standalone SVG document with its legend and credits.             |
-| `paint(tone, { palette })` | The colour of a shape's tone. `light` and `dark` are the built-in palettes.           |
-| `range(bin)`               | A legend band as text: "4 to 6", "10 and above".                                      |
+| Export                     | What it does                                                                                                                   |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `parse(input)`             | Reads untrusted input into a `Spec`, or returns every issue.                                                                   |
+| `partial(input)`           | Reads a spec from a stream cut short. Never fails.                                                                             |
+| `schema`, `strict`, `Spec` | The spec as JSON Schema, as JSON Schema for strict mode, and as Standard Schema.                                               |
+| `draw(spec, { locale })`   | Picks and loads the sheet, groups the values into colour bands and returns a `Scene`.                                          |
+| `svg(scene, { palette })`  | Turns a scene into a standalone SVG document with its legend and credits. `{ light, dark }` follows the page's `color-scheme`. |
+| `paint(tone, { palette })` | The colour of a shape's tone. `light` and `dark` are the built-in palettes; `{ light, dark }` gives a `light-dark()` pair.     |
+| `range(bin)`               | A legend band as text: "4 to 6", "10 and above".                                                                               |
 
 A scene is plain data, so you can draw it however your interface needs:
 
@@ -192,7 +193,7 @@ Run the Storybook stories with `pnpm storybook`:
 - From a model: a spec playground, typical model mistakes and the tool schema.
 - Motion: values revealed in order, years played over a slider, a highlight tour, hover details, a spec drawn while it streams, zoom and drag.
 - Regions: one story per region.
-- Colour scales: a sequential scale in one colour, a diverging scale around zero, and a coloured highlight, each in light and dark.
+- Colour scales: a sequential scale in one colour, a diverging scale around zero, and a coloured highlight, each in light and dark, and one map that follows its page's `color-scheme`.
 - Layouts: layouts written in JSX.
 - Frameworks: React, Vue, Svelte and Solid recipes to copy into an app, in `stories/frameworks/`. Each is a set of parts (`Figure.Root`, `Figure.Map`, `Figure.Legend`…) that share one context.
 - Standards: the map as a json-render component and as an A2UI component, with the prompt and the catalog each gives a model.

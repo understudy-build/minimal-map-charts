@@ -1,6 +1,16 @@
 import { describe, expect, it } from "vitest"
 
-import { type Country, draw, parse, sheetIds, type Spec, svg } from "../src/index.ts"
+import {
+  type Country,
+  dark,
+  draw,
+  light,
+  paint,
+  parse,
+  sheetIds,
+  type Spec,
+  svg,
+} from "../src/index.ts"
 import { values } from "./values.ts"
 
 const choropleth = (record: Readonly<Partial<Record<Country, number>>>): Spec => ({
@@ -108,5 +118,41 @@ describe("svg", () => {
     expect(markup).toContain("Higher is better")
     expect(markup).toContain("Data: World Bank.")
     expect(markup).toContain("Boundaries: Natural Earth, v5.1.2. Public domain.")
+  })
+
+  it("paints its own surface with one palette", async () => {
+    const scene = await draw(choropleth({ FRA: 1, DEU: 2 }))
+
+    for (const palette of [light, dark]) {
+      const markup = svg(scene, { palette })
+
+      expect(markup).toMatch(
+        new RegExp(`<rect width="1000" height="\\d+" fill="${palette.surface}"/>`),
+      )
+      expect(markup).not.toContain("light-dark(")
+    }
+  })
+
+  it("follows the page's colour scheme with a palette for each", async () => {
+    const scene = await draw({
+      title: "Growth",
+      ...choropleth({ FRA: 1, DEU: 2, ITA: 3, ESP: 4 }),
+    })
+    const markup = svg(scene, { palette: { light, dark } })
+    const colours = [...markup.matchAll(/ (?:fill|stroke)="([^"]*)"/g)].map(
+      ([attribute]) => attribute,
+    )
+
+    expect(markup).not.toMatch(/<rect width="1000"/)
+    expect(markup).toContain('font-weight="600" fill="currentColor">Growth</text>')
+    expect(
+      colours.filter((colour) => !/="(light-dark\(.*|none|currentColor)"$/.test(colour)),
+    ).toEqual([])
+
+    for (const shape of scene.shapes) {
+      const pair = `light-dark(${paint(shape.tone, { palette: light })},${paint(shape.tone, { palette: dark })})`
+
+      expect(markup).toContain(`data-country="${shape.country}" fill="${pair}"`)
+    }
   })
 })

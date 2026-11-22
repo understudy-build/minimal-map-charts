@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/html-vite"
 
-import { draw, regions, type Spec } from "../src/index.ts"
+import { dark, draw, light, regions, type Scene, type Spec, svg } from "../src/index.ts"
 import { figure, illustrative, palettes } from "./figure.ts"
 
 interface ColourArgs {
@@ -90,6 +90,47 @@ export const DivergingOnABreak: Story = {
 }
 
 export const DarkDiverging: Story = { args: { ...Diverging.args, palette: "dark" } }
+
+const schemes = ["light", "dark", "light dark"] as const
+
+// A page that sets its own `color-scheme`, and the map written once inside
+// it. The buttons change only the page's `color-scheme`; nothing repaints
+// the map. "light dark" follows the reader's system setting.
+const page = (scene: Scene) => {
+  const root = document.createElement("div")
+  const bar = document.createElement("div")
+
+  root.style.cssText = `color-scheme:light;max-width:900px;padding:16px;background:light-dark(${light.surface},${dark.surface});color:light-dark(${light.ink},${dark.ink});font-family:system-ui,sans-serif`
+  bar.style.cssText = "display:flex;gap:8px;margin-bottom:12px"
+
+  const buttons = schemes.map((scheme) => {
+    const button = document.createElement("button")
+
+    button.type = "button"
+    button.textContent = `color-scheme: ${scheme}`
+    button.setAttribute("aria-pressed", String(scheme === "light"))
+    button.addEventListener("click", () => {
+      root.style.colorScheme = scheme
+
+      for (const each of buttons) each.setAttribute("aria-pressed", String(each === button))
+    })
+
+    return button
+  })
+
+  bar.append(...buttons)
+  root.append(bar)
+  root.insertAdjacentHTML("beforeend", svg(scene, { palette: { light, dark } }))
+
+  return root
+}
+
+// One SVG for both schemes, on the page's own background.
+export const FollowsThePage: Story = {
+  args: { ...Diverging.args },
+  argTypes: { palette: { table: { disable: true } } },
+  render: (_, { loaded }) => page(loaded["scene"]),
+}
 
 // A highlight in a colour of the spec's choosing.
 export const Highlight: Story = {

@@ -34,4 +34,13 @@ describe("paint", () => {
     expect(oklch(paint({ kind: "accent", colour: undefined })).h).toBeCloseTo(hue, 0)
     expect(oklch(paint({ kind: "shade", strength: 1, colour: undefined })).h).toBeCloseTo(hue, 0)
   })
+
+  it("pairs a tone's colour in each scheme, or gives one when they match", () => {
+    const tone = shade(0.5)
+
+    expect(paint(tone, { palette: { light, dark } })).toBe(
+      `light-dark(${paint(tone, { palette: light })},${paint(tone, { palette: dark })})`,
+    )
+    expect(paint(tone, { palette: { light, dark: light } })).toBe(paint(tone))
+  })
 })

@@ -39,6 +39,7 @@ export {
   type PaintOptions,
   type Palette,
   range,
+  type Schemes,
   svg,
   type SvgOptions,
 } from "./svg.ts"

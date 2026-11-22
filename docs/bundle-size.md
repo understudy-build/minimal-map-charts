@@ -11,8 +11,8 @@ Importing the package loads the entry point and every module it imports statical
 | Entry point        |     Raw |    gzip |  Brotli |
 | ------------------ | ------: | ------: | ------: |
 | spec.js            | 20.0 kB |  5.0 kB |  4.4 kB |
+| svg.js             |  9.0 kB |  3.0 kB |  2.6 kB |
 | schema.js          | 10.2 kB |  2.8 kB |  2.4 kB |
-| svg.js             |  8.0 kB |  2.6 kB |  2.3 kB |
 | data/sheets.gen.js | 11.4 kB |  2.5 kB |  2.0 kB |
 | draw.js            |  7.3 kB |  2.3 kB |  2.0 kB |
 | regions.js         |  6.9 kB |  2.3 kB |  1.8 kB |
@@ -23,7 +23,7 @@ Importing the package loads the entry point and every module it imports statical
 | scale.js           |  3.2 kB |  1.2 kB |  1.0 kB |
 | frame.js           |  1.0 kB |  0.5 kB |  0.4 kB |
 | index.js           |  0.4 kB |  0.2 kB |  0.1 kB |
-| **Total**          | 85.8 kB | 24.7 kB | 20.7 kB |
+| **Total**          | 86.8 kB | 25.1 kB | 21.1 kB |
 
 A bundler may merge these modules and minify them, so a bundled page usually sends less than this.
 
@@ -35,22 +35,22 @@ The code an app imports:
 
 | Imports       | Names                            | Minified |    gzip |  Brotli |
 | ------------- | -------------------------------- | -------: | ------: | ------: |
-| Render        | `draw`, `svg`                    |  36.2 kB | 13.0 kB | 10.7 kB |
-| Generative UI | `parse`, `schema`, `draw`, `svg` |  49.4 kB | 17.2 kB | 14.3 kB |
+| Render        | `draw`, `svg`                    |  36.4 kB | 13.2 kB | 10.8 kB |
+| Generative UI | `parse`, `schema`, `draw`, `svg` |  49.6 kB | 17.4 kB | 14.4 kB |
 
 Each map adds its sheet. The totals are that code plus the sheet:
 
 | Map              | Sheet           | Sheet, gzip | Render, gzip | Generative UI, gzip | Render, Brotli | Generative UI, Brotli |
 | ---------------- | --------------- | ----------: | -----------: | ------------------: | -------------: | --------------------: |
-| World            | `world`         |      8.3 kB |      21.3 kB |             25.5 kB |        18.1 kB |               21.7 kB |
-| North America    | `north-america` |     10.5 kB |      23.5 kB |             27.7 kB |        20.2 kB |               23.8 kB |
-| Europe           | `europe`        |      9.8 kB |      22.8 kB |             27.0 kB |        19.4 kB |               23.1 kB |
-| Asia (East Asia) | `east-asia`     |      3.9 kB |      16.9 kB |             21.1 kB |        14.2 kB |               17.9 kB |
-| United States    | `USA`           |      8.8 kB |      21.8 kB |             26.0 kB |        18.2 kB |               21.8 kB |
-| France           | `FRA`           |      6.0 kB |      19.0 kB |             23.2 kB |        16.0 kB |               19.6 kB |
-| Germany          | `DEU`           |      6.9 kB |      19.9 kB |             24.1 kB |        16.9 kB |               20.5 kB |
-| China            | `CHN`           |      6.1 kB |      19.1 kB |             23.3 kB |        16.2 kB |               19.8 kB |
-| Japan            | `JPN`           |      6.7 kB |      19.7 kB |             23.9 kB |        16.6 kB |               20.3 kB |
+| World            | `world`         |      8.3 kB |      21.4 kB |             25.6 kB |        18.2 kB |               21.9 kB |
+| North America    | `north-america` |     10.5 kB |      23.6 kB |             27.8 kB |        20.4 kB |               24.0 kB |
+| Europe           | `europe`        |      9.8 kB |      22.9 kB |             27.1 kB |        19.6 kB |               23.2 kB |
+| Asia (East Asia) | `east-asia`     |      3.9 kB |      17.1 kB |             21.3 kB |        14.4 kB |               18.0 kB |
+| United States    | `USA`           |      8.8 kB |      22.0 kB |             26.2 kB |        18.4 kB |               22.0 kB |
+| France           | `FRA`           |      6.0 kB |      19.2 kB |             23.4 kB |        16.1 kB |               19.8 kB |
+| Germany          | `DEU`           |      6.9 kB |      20.1 kB |             24.3 kB |        17.0 kB |               20.7 kB |
+| China            | `CHN`           |      6.1 kB |      19.3 kB |             23.5 kB |        16.3 kB |               19.9 kB |
+| Japan            | `JPN`           |      6.7 kB |      19.9 kB |             24.1 kB |        16.8 kB |               20.4 kB |
 
 "Asia" draws the East Asia sheet: no sheet holds the whole continent, and a fill across it draws the world.
 
@@ -334,4 +334,4 @@ Modules the entry point does not import.
 
 ## Type declarations
 
-259 `.d.ts` files, 123.1 kB raw. They are used by editors and type checkers, never downloaded by a page.
+259 `.d.ts` files, 123.3 kB raw. They are used by editors and type checkers, never downloaded by a page.
