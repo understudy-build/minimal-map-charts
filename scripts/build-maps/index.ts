@@ -45,6 +45,7 @@ import { type Country, countries } from "../../src/countries.ts"
 import { type Region, regions } from "../../src/regions.ts"
 import { restore } from "./archive.ts"
 import { subdivision } from "./iso.ts"
+import { mapped } from "./mapped.ts"
 import { nations, type Nation } from "./nations.ts"
 import { type Group, simplify, type Ring } from "./simplify.ts"
 import { file, read } from "./sources.ts"
@@ -575,28 +576,53 @@ const metadata = Schema.Struct({
 // Natural Earth numbers Iran's provinces as ISO did before it renumbered them.
 const misnumbered = new Set(["iran"])
 
-// The ISO 3166-2 code each area is published under, by its source code: the
-// code its source gives it, if the reference lists it for the country and no
-// other area on the sheet claims it. An area missing here keeps its source
-// code.
+// The ISO 3166-2 code each area is published under, by its source code:
+// the one mapped.ts gives it, or else the one its source gives it, if the
+// reference lists it for the country and mapped.ts gives it to no other area.
+// A code two areas' sources claim goes to neither. An area missing here keeps
+// its source code.
 const isoCodes = (
   nation: Nation,
   divisions: ReadonlyArray<{ readonly code: string; readonly claims: ReadonlyArray<string> }>,
 ) => {
-  if (misnumbered.has(nation.id)) return new Map<string, string>()
+  const table = Object.entries(mapped[nation.country] ?? {})
 
-  const valid = divisions.flatMap(({ code, claims }) => {
-    const listed = new Set(
-      claims.filter((claim) => subdivision(nation.country, claim) !== undefined),
-    )
+  for (const [code, iso] of table) {
+    if (!divisions.some((division) => division.code === code))
+      throw new Error(`${nation.id}: mapped.ts names ${code}, which the sheet does not draw`)
 
-    if (listed.size > 1)
-      throw new Error(`${nation.id}: ${code} has the ISO codes ${[...listed].join(", ")}`)
+    if (subdivision(nation.country, iso) === undefined)
+      throw new Error(
+        `${nation.id}: mapped.ts gives ${code} ${iso}, which is not a code of ${nation.country}`,
+      )
+  }
 
-    return [...listed].map((iso) => ({ code, iso }))
-  })
+  const stated = misnumbered.has(nation.id)
+    ? []
+    : divisions.flatMap(({ code, claims }) => {
+        if (table.some(([each]) => each === code)) return []
+
+        const listed = new Set(
+          claims.filter((claim) => subdivision(nation.country, claim) !== undefined),
+        )
+
+        if (listed.size > 1)
+          throw new Error(`${nation.id}: ${code} has the ISO codes ${[...listed].join(", ")}`)
+
+        return [...listed].map((iso) => ({ code, iso }))
+      })
+
+  // A source's claim to a code the table gives another area is wrong.
+  const valid = [
+    ...table.map(([code, iso]) => ({ code, iso })),
+    ...stated.filter(({ iso }) => !table.some(([, each]) => each === iso)),
+  ]
 
   const claimants = (iso: string) => valid.filter((each) => each.iso === iso).length
+
+  for (const [code, iso] of table)
+    if (claimants(iso) > 1)
+      throw new Error(`${nation.id}: mapped.ts gives ${iso} to ${code} and another area`)
 
   return new Map(
     valid.flatMap(({ code, iso }) => (claimants(iso) === 1 ? [[code, iso] as const] : [])),

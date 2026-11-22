@@ -6,79 +6,9 @@ import type { Country } from "../../src/countries.ts"
 // reference does not list for the country, gives one to two areas, or numbers
 // its areas as ISO no longer does.
 export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
-  // france
-  FRA: [
-    "FR-COR", // Corse
-    "FR-GUA", // Guadeloupe
-    "FR-GUF", // Guyane française
-    "FR-LRE", // Réunion
-    "FR-MAY", // Mayotte
-    "FR-MTQ", // Martinique
-  ],
-  // spain
-  ESP: [
-    "ES.AN", // Andalucía
-    "ES.AR", // Aragón
-    "ES.AS", // Asturias
-    "ES.CB", // Cantabria
-    "ES.CL", // Castilla y León
-    "ES.CM", // Castilla-La Mancha
-    "ES.CN", // Canary Is.
-    "ES.CT", // Cataluña
-    "ES.EX", // Extremadura
-    "ES.GA", // Galicia
-    "ES.LO", // La Rioja
-    "ES.MD", // Madrid
-    "ES.MU", // Murcia
-    "ES.NA", // Foral de Navarra
-    "ES.PM", // Islas Baleares
-    "ES.PV", // País Vasco
-    "ES.VC", // Valenciana
-  ],
   // australia-states
   AUS: [
     "AU-X02~", // Jervis Bay Territory
-  ],
-  // poland
-  POL: [
-    "PL-DS", // Lower Silesian
-    "PL-KP", // Kuyavian-Pomeranian
-    "PL-LB", // Lubusz
-    "PL-LD", // Łódź
-    "PL-LU", // Lublin
-    "PL-MA", // Lesser Poland
-    "PL-MZ", // Masovian
-    "PL-OP", // Opole
-    "PL-PD", // Podlachian
-    "PL-PK", // Subcarpathian
-    "PL-PM", // Pomeranian
-    "PL-SK", // Świętokrzyskie
-    "PL-SL", // Silesian
-    "PL-WN", // Warmian-Masurian
-    "PL-WP", // Greater Poland
-    "PL-ZP", // West Pomeranian
-  ],
-  // south-africa
-  ZAF: [
-    "ZA-GT", // Gauteng
-    "ZA-NL", // KwaZulu-Natal
-  ],
-  // czechia
-  CZE: [
-    "CZ-JC", // Jihočeský
-    "CZ-JM", // Jihomoravský
-    "CZ-KA", // Karlovarský
-    "CZ-KR", // Královéhradecký
-    "CZ-LI", // Liberecký
-    "CZ-MO", // Moravskoslezský
-    "CZ-OL", // Olomoucký
-    "CZ-PA", // Pardubický
-    "CZ-PL", // Plzeňský
-    "CZ-PR", // Prague
-    "CZ-ST", // Středočeský
-    "CZ-US", // Ústecký
-    "CZ-VY", // Vysočina
-    "CZ-ZL", // Zlínský
   ],
   // united-kingdom
   GBR: [
@@ -91,131 +21,27 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
     "TLI", // London
     "TLJ", // South East (England)
     "TLK", // South West (England)
-    "TLL", // Wales
-    "TLM", // Scotland
-    "TLN", // Northern Ireland
-  ],
-  // mexico
-  MEX: [
-    "MX-DIF", // Ciudad de México
-  ],
-  // greece
-  GRC: [
-    "GR-A1", // Attica
   ],
   // ireland
   IRL: [
-    "CARLOW COUNTY COUNCIL", // Carlow County
-    "CAVAN COUNTY COUNCIL", // Cavan County
-    "CLARE COUNTY COUNCIL", // Clare County
     "CORK CITY COUNCIL", // Cork City
     "CORK COUNTY COUNCIL", // Cork County
-    "DONEGAL COUNTY COUNCIL", // Donegal County
     "DUBLIN CITY COUNCIL", // Dublin City
     "DUN LAOGHAIRE-RATHDOWN COUNTY COUNCIL", // Dún Laoghaire-Rathdown County
     "FINGAL COUNTY COUNCIL", // Fingal County
     "GALWAY CITY COUNCIL", // Galway City
     "GALWAY COUNTY COUNCIL", // Galway County
-    "KERRY COUNTY COUNCIL", // Kerry County
-    "KILDARE COUNTY COUNCIL", // Kildare County
-    "KILKENNY COUNTY COUNCIL", // Kilkenny County
-    "LAOIS COUNTY COUNCIL", // Laois County
-    "LEITRIM COUNTY COUNCIL", // Leitrim County
-    "LIMERICK CITY AND COUNTY COUNCIL", // Limerick City and County
-    "LONGFORD COUNTY COUNCIL", // Longford County
-    "LOUTH COUNTY COUNCIL", // Louth County
-    "MAYO COUNTY COUNCIL", // Mayo County
-    "MEATH COUNTY COUNCIL", // Meath County
-    "MONAGHAN COUNTY COUNCIL", // Monaghan County
-    "OFFALY COUNTY COUNCIL", // Offaly County
-    "ROSCOMMON COUNTY COUNCIL", // Roscommon County
-    "SLIGO COUNTY COUNCIL", // Sligo County
     "SOUTH DUBLIN COUNTY COUNCIL", // South Dublin County
-    "TIPPERARY COUNTY COUNCIL", // Tipperary County
-    "WATERFORD CITY AND COUNTY COUNCIL", // Waterford City and County
-    "WESTMEATH COUNTY COUNCIL", // Westmeath County
-    "WEXFORD COUNTY COUNCIL", // Wexford County
-    "WICKLOW COUNTY COUNCIL", // Wicklow County
-  ],
-  // guatemala
-  GTM: [
-    "GT-AV", // Alta Verapaz
-    "GT-BV", // Baja Verapaz
-    "GT-CM", // Chimaltenango
-    "GT-CQ", // Chiquimula
-    "GT-ES", // Escuintla
-    "GT-GU", // Guatemala
-    "GT-HU", // Huehuetenango
-    "GT-IZ", // Izabal
-    "GT-JA", // Jalapa
-    "GT-JU", // Jutiapa
-    "GT-PE", // Petén
-    "GT-PR", // El Progreso
-    "GT-QC", // Quiché
-    "GT-QZ", // Quetzaltenango
-    "GT-RE", // Retalhuleu
-    "GT-SA", // Sacatepéquez
-    "GT-SM", // San Marcos
-    "GT-SO", // Sololá
-    "GT-SR", // Santa Rosa
-    "GT-SU", // Suchitepéquez
-    "GT-TO", // Totonicapán
-    "GT-ZA", // Zacapa
   ],
   // norway
   NOR: [
-    "03", // Oslo
-    "11", // Rogaland
-    "15", // Møre og Romsdal
-    "18", // Nordland
     "31", // Østfold
     "32", // Akershus
     "33", // Buskerud
-    "34", // Innlandet
     "39", // Vestfold
     "40", // Telemark
-    "42", // Agder
-    "46", // Vestland
-    "50", // Trøndelag
     "55", // Troms
     "56", // Finnmark
-  ],
-  // finland
-  FIN: [
-    "01", // Uusimaa
-    "02", // Southwest Finland
-    "04", // Satakunta
-    "05", // Kanta-Häme
-    "06", // Pirkanmaa
-    "07", // Päijät-Häme
-    "08", // Kymenlaakso
-    "09", // South Karelia
-    "10", // South Savo
-    "11", // North Savo
-    "12", // North Karelia
-    "13", // Central Finland
-    "14", // South Ostrobothnia
-    "15", // Ostrobothnia
-    "16", // Central Ostrobothnia
-    "17", // North Ostrobothnia
-    "18", // Kainuu
-    "19", // Lapland
-    "21", // Åland
-  ],
-  // luxembourg
-  LUX: [
-    "01", // Capellen
-    "02", // Esch-sur-Alzette
-    "03", // Luxembourg
-    "04", // Mersch
-    "05", // Clervaux
-    "06", // Diekirch
-    "07", // Redange
-    "08", // Wiltz
-    "09", // Vianden
-    "10", // Echternach
-    "11", // Grevenmacher
-    "12", // Remich
   ],
   // slovenia
   SVN: [
@@ -243,12 +69,6 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
     "19869673B59759079390778", // Vardar
     "19869673B93268339583324", // Pelagonia
   ],
-  // latvia
-  LVA: [
-    "71098776B20667457444759", // Preiļu novads
-    "71098776B63357041229203", // Madonas novads
-    "71098776B8434036234200", // Rēzeknes novads
-  ],
   // malta
   MLT: [
     "Eastern Region", // Eastern Region
@@ -258,39 +78,17 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
     "Southern Region", // Southern Region
     "Western Region", // Western Region
   ],
-  // india
-  IND: [
-    "IN-CT", // Chhattisgarh
-    "IN-OR", // Odisha
-    "IN-TG", // Telangana
-    "IN-UT", // Uttarakhand
-  ],
-  // tajikistan
-  TJK: [
-    "TJ-X01~", // Districts of Republican Subordination
-  ],
   // vietnam
   VNM: [
-    "VN01", // Ha Noi
-    "VN04", // Cao Bang
     "VN08", // Tuyen Quang
-    "VN11", // Dien Bien
-    "VN12", // Lai Chau
-    "VN14", // Son La
     "VN15", // Lao Cai
     "VN19", // Thai Nguyen
-    "VN20", // Lang Son
-    "VN22", // Quang Ninh
     "VN24", // Bac Ninh
     "VN25", // Phu Tho
     "VN31", // Hai Phong city
     "VN33", // Hung Yen
     "VN37", // Ninh Binh
-    "VN38", // Thanh Hoa
-    "VN40", // Nghe An
-    "VN42", // Ha Tinh
     "VN44", // Quang Tri
-    "VN46", // Hue
     "VN48", // Da Nang city
     "VN51", // Quang Ngai
     "VN52", // Gia Lai
@@ -306,263 +104,9 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
     "VN92", // Can Tho city
     "VN96", // Ca Mau
   ],
-  // nepal
-  NPL: [
-    "NP01", // Koshi
-    "NP02", // Madhesh
-    "NP03", // Bagmati
-    "NP04", // Gandaki
-    "NP05", // Lumbini
-    "NP06", // Karnali
-    "NP07", // Sudur Paschim
-  ],
-  // kyrgyzstan
-  KGZ: [
-    "KG02000000000", // Issyk-Kul
-    "KG03000000000", // Jalal-Abad
-    "KG04000000000", // Naryn
-    "KG05000000000", // Batken
-    "KG06000000000", // Osh
-    "KG07000000000", // Talas
-    "KG08000000000", // Chui
-    "KG11000000000", // Bishkek (city)
-    "KG21000000000", // Osh (city)
-  ],
-  // kenya
-  KEN: [
-    "KE001", // Mombasa
-    "KE002", // Kwale
-    "KE003", // Kilifi
-    "KE004", // Tana River
-    "KE005", // Lamu
-    "KE006", // Taita Taveta
-    "KE007", // Garissa
-    "KE008", // Wajir
-    "KE009", // Mandera
-    "KE010", // Marsabit
-    "KE011", // Isiolo
-    "KE012", // Meru
-    "KE013", // Tharaka-Nithi
-    "KE014", // Embu
-    "KE015", // Kitui
-    "KE016", // Machakos
-    "KE017", // Makueni
-    "KE018", // Nyandarua
-    "KE019", // Nyeri
-    "KE020", // Kirinyaga
-    "KE021", // Murang'a
-    "KE022", // Kiambu
-    "KE023", // Turkana
-    "KE024", // West Pokot
-    "KE025", // Samburu
-    "KE026", // Trans Nzoia
-    "KE027", // Uasin Gishu
-    "KE028", // Elgeyo-Marakwet
-    "KE029", // Nandi
-    "KE030", // Baringo
-    "KE031", // Laikipia
-    "KE032", // Nakuru
-    "KE033", // Narok
-    "KE034", // Kajiado
-    "KE035", // Kericho
-    "KE036", // Bomet
-    "KE037", // Kakamega
-    "KE038", // Vihiga
-    "KE039", // Bungoma
-    "KE040", // Busia
-    "KE041", // Siaya
-    "KE042", // Kisumu
-    "KE043", // Homa Bay
-    "KE044", // Migori
-    "KE045", // Kisii
-    "KE046", // Nyamira
-    "KE047", // Nairobi
-  ],
-  // ghana
-  GHA: [
-    "GH01", // Ahafo
-    "GH02", // Ashanti
-    "GH03", // Bono
-    "GH04", // Bono East
-    "GH05", // Central
-    "GH06", // Eastern
-    "GH07", // Greater Accra
-    "GH08", // Northern
-    "GH09", // Northern East
-    "GH10", // Oti
-    "GH11", // Savannah
-    "GH12", // Upper East
-    "GH13", // Upper West
-    "GH14", // Volta
-    "GH15", // Western
-    "GH16", // Western North
-  ],
-  // namibia
-  NAM: [
-    "NA01", // Zambezi
-    "NA02", // Erongo
-    "NA03", // Hardap
-    "NA04", // Karas
-    "NA05", // Kavango East
-    "NA06", // Khomas
-    "NA07", // Kunene
-    "NA08", // Ohangwena
-    "NA09", // Omaheke
-    "NA10", // Omusati
-    "NA11", // Oshana
-    "NA12", // Oshikoto
-    "NA13", // Otjozondjupa
-    "NA14", // Kavango West
-  ],
-  // tunisia
-  TUN: [
-    "TN11", // Tunis
-    "TN12", // Ariana
-    "TN13", // Ben Arous
-    "TN14", // Manubah
-    "TN15", // Nabeul
-    "TN16", // Zaghouan
-    "TN17", // Bizerte
-    "TN21", // Béja
-    "TN22", // Jendouba
-    "TN23", // Le Kef
-    "TN24", // Siliana
-    "TN31", // Sousse
-    "TN32", // Monastir
-    "TN33", // Mahdia
-    "TN34", // Sfax
-    "TN41", // Kairouan
-    "TN42", // Kassérine
-    "TN43", // Sidi Bou Zid
-    "TN51", // Gabès
-    "TN52", // Médenine
-    "TN53", // Tataouine
-    "TN61", // Gafsa
-    "TN62", // Tozeur
-    "TN63", // Kebili
-  ],
-  // kazakhstan
-  KAZ: [
-    "KAZ001", // Abay Region
-    "KAZ002", // Akmola Region
-    "KAZ003", // Aktobe Region
-    "KAZ004", // Almaty
-    "KAZ005", // Almaty Region
-    "KAZ006", // Astana
-    "KAZ007", // Atyrau Region
-    "KAZ008", // East Kazakhstan Region
-    "KAZ009", // Jambyl Region
-    "KAZ010", // Jetisu Region
-    "KAZ011", // Karaganda Region
-    "KAZ012", // Kostanay Region
-    "KAZ013", // Kyzylorda Region
-    "KAZ014", // Mangystau Region
-    "KAZ015", // North Kazakhstan Region
-    "KAZ016", // Pavlodar Region
-    "KAZ017", // Shymkent
-    "KAZ018", // Turkistan Region
-    "KAZ019", // Ulytau Region
-    "KAZ020", // West Kazakhstan Region
-  ],
-  // indonesia
-  IDN: [
-    "11", // Aceh
-    "12", // Sumatera Utara
-    "13", // Sumatera Barat
-    "14", // Riau
-    "15", // Jambi
-    "16", // Sumatera Selatan
-    "17", // Bengkulu
-    "18", // Lampung
-    "19", // Kepulauan Bangka Belitung
-    "21", // Kepulauan Riau
-    "31", // Dki Jakarta
-    "32", // Jawa Barat
-    "33", // Jawa Tengah
-    "34", // Daerah Istimewa Yogyakarta
-    "35", // Jawa Timur
-    "36", // Banten
-    "51", // Bali
-    "52", // Nusa Tenggara Barat
-    "53", // Nusa Tenggara Timur
-    "61", // Kalimantan Barat
-    "62", // Kalimantan Tengah
-    "63", // Kalimantan Selatan
-    "64", // Kalimantan Timur
-    "65", // Kalimantan Utara
-    "71", // Sulawesi Utara
-    "72", // Sulawesi Tengah
-    "73", // Sulawesi Selatan
-    "74", // Sulawesi Tenggara
-    "75", // Gorontalo
-    "76", // Sulawesi Barat
-    "81", // Maluku
-    "82", // Maluku Utara
-    "91", // Papua
-    "92", // Papua Barat
-    "93", // Papua Selatan
-    "94", // Papua Tengah
-    "95", // Papua Pegunungan
-    "96", // Papua Barat Daya
-  ],
   // algeria
   DZA: [
-    "1", // Adrar
-    "10", // Bouira
-    "11", // Tamanrasset
-    "12", // Tébessa
-    "13", // Tlemcen
-    "14", // Tiaret
-    "15", // Tizi Ouzou
-    "16", // Alger
-    "17", // Djelfa
-    "18", // Jijel
-    "19", // Sétif
-    "2", // Chlef
-    "20", // Saïda
-    "21", // Skikda
-    "22", // Sidi Bel Abbès
-    "23", // Annaba
-    "24", // Guelma
-    "25", // Constantine
-    "26", // Médéa
-    "27", // Mostaganem
-    "28", // M'Sila
-    "29", // Mascara
-    "3", // Laghouat
-    "30", // Ouargla
-    "31", // Oran
-    "32", // El Bayadh
-    "33", // Illizi
-    "34", // Bordj Bou Arreridj
-    "35", // Boumerdès
-    "36", // El Tarf
-    "37", // Tindouf
-    "38", // Tissemsilt
-    "39", // El Oued
-    "4", // Oum El Bouaghi
-    "40", // Khenchela
-    "41", // Souk Ahras
-    "42", // Tipaza
-    "43", // Mila
-    "44", // Aïn Defla
-    "45", // Naâma
-    "46", // Aïn Témouchent
-    "47", // Ghardaïa
-    "48", // Relizane
-    "49", // Timimoun
-    "5", // Batna
-    "50", // Bordj Badji Mokhtar
-    "51", // Ouled Djellal
-    "52", // Béni Abbès
-    "53", // In Salah
-    "54", // In Guezzam
-    "55", // Touggourt
-    "56", // Djanet
-    "57", // El M'Ghair
-    "58", // El Meniaa
     "59", // Aflou
-    "6", // Béjaïa
     "60", // Barika
     "61", // El Kantara
     "62", // Bir El Ater
@@ -573,90 +117,27 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
     "67", // Ksar El Boukhari
     "68", // Bou Saâda
     "69", // El Abiodh Sidi Cheikh
-    "7", // Biskra
-    "8", // Béchar
-    "9", // Blida
   ],
   // philippines
   PHL: [
-    "PH01028", // Ilocos Norte
-    "PH01029", // Ilocos Sur
-    "PH01033", // La Union
-    "PH01055", // Pangasinan
     "PH0105518", // Dagupan City
-    "PH02009", // Batanes
-    "PH02015", // Cagayan
-    "PH02031", // Isabela
     "PH0203135", // City of Santiago
-    "PH02050", // Nueva Vizcaya
-    "PH02057", // Quirino
-    "PH03008", // Bataan
-    "PH03014", // Bulacan
-    "PH03049", // Nueva Ecija
-    "PH03054", // Pampanga
     "PH0305401", // Angeles City
-    "PH03069", // Tarlac
-    "PH03071", // Zambales
     "PH0307107", // Olongapo City
-    "PH03077", // Aurora
-    "PH04010", // Batangas
-    "PH04021", // Cavite
-    "PH04034", // Laguna
-    "PH04056", // Quezon
     "PH0405624", // Lucena City (Capital)
-    "PH04058", // Rizal
-    "PH05005", // Albay
-    "PH05016", // Camarines Norte
-    "PH05017", // Camarines Sur
     "PH0501724", // Naga City
-    "PH05020", // Catanduanes
-    "PH05041", // Masbate
-    "PH05062", // Sorsogon
-    "PH06004", // Aklan
-    "PH06006", // Antique
-    "PH06019", // Capiz
-    "PH06030", // Iloilo
     "PH0603022", // Iloilo City (Capital)
-    "PH06045", // Negros Occidental
     "PH0604501", // Bacolod City (Capital)
-    "PH06079", // Guimaras
-    "PH07012", // Bohol
-    "PH07022", // Cebu
     "PH0702217", // Cebu City (Capital)
     "PH0702226", // Lapu-Lapu City (Opon)
     "PH0702230", // Mandaue City
-    "PH07046", // Negros Oriental
-    "PH07061", // Siquijor
-    "PH08026", // Eastern Samar
-    "PH08037", // Leyte
     "PH0803738", // Ormoc City
     "PH0803747", // Tacloban City (Capital)
-    "PH08048", // Northern Samar
-    "PH08060", // Samar (Western Samar)
-    "PH08064", // Southern Leyte
-    "PH08078", // Biliran
-    "PH09072", // Zamboanga del Norte
-    "PH09073", // Zamboanga del Sur
     "PH0907332", // Zamboanga City
-    "PH09083", // Zamboanga Sibugay
-    "PH10013", // Bukidnon
-    "PH10018", // Camiguin
-    "PH10035", // Lanao del Norte
     "PH1003504", // Iligan City
-    "PH10042", // Misamis Occidental
-    "PH10043", // Misamis Oriental
     "PH1004305", // Cagayan de Oro City (Capital)
-    "PH11023", // Davao del Norte
-    "PH11024", // Davao del Sur
     "PH1102402", // Davao City
-    "PH11025", // Davao Oriental
-    "PH11082", // Davao de Oro (Compostela Valley)
-    "PH11086", // Davao Occidental
-    "PH12047", // Cotabato (North Cotabato)
-    "PH12063", // South Cotabato
     "PH1206303", // General Santos City (Dadiangas)
-    "PH12065", // Sultan Kudarat
-    "PH12080", // Sarangani
     "PH1303901", // City of Manila
     "PH1307401", // City of Mandaluyong
     "PH1307402", // City of Marikina
@@ -674,52 +155,15 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
     "PH1307605", // Pasay City
     "PH1307606", // Pateros
     "PH1307607", // Taguig City
-    "PH14001", // Abra
-    "PH14011", // Benguet
     "PH1401102", // Baguio City
-    "PH14027", // Ifugao
-    "PH14032", // Kalinga
-    "PH14044", // Mountain Province
-    "PH14081", // Apayao
-    "PH16002", // Agusan del Norte
     "PH1600202", // Butuan City (Capital)
-    "PH16003", // Agusan del Sur
-    "PH16067", // Surigao del Norte
-    "PH16068", // Surigao del Sur
-    "PH16085", // Dinagat Islands
-    "PH17040", // Marinduque
-    "PH17051", // Occidental Mindoro
-    "PH17052", // Oriental Mindoro
-    "PH17053", // Palawan
     "PH1705316", // Puerto Princesa City (Capital)
-    "PH17059", // Romblon
-    "PH19007", // Basilan
-    "PH19036", // Lanao del Sur
-    "PH19066", // Sulu
-    "PH19070", // Tawi-Tawi
-    "PH19087", // Maguindanao del Norte
     "PH1908703", // Cotabato City
-    "PH19088", // Maguindanao del Sur
     "PH19099", // Special Geographic Area
   ],
   // south-korea
   KOR: [
-    "11", // Seoul
     "12", // Jeonnam-Gwangju
-    "26", // Busan
-    "27", // Daegu
-    "28", // Incheon
-    "30", // Daejeon
-    "31", // Ulsan
-    "36", // Sejong
-    "41", // Gyeonggi
-    "43", // North Chungcheong
-    "44", // South Chungcheong
-    "47", // North Gyeongsang
-    "48", // South Gyeongsang
-    "50", // Jeju
-    "51", // Gangwon
-    "52", // Jeonbuk
   ],
   // american-samoa
   ASM: [
@@ -764,69 +208,11 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
     "HKG-5169", // Tai Po
     "HKG-5170", // Islands
   ],
-  // iran
-  IRN: [
-    "IRN-3209", // Kohgiluyeh and Buyer Ahmad
-    "IRN-3210", // Bushehr
-    "IRN-3211", // Esfahan
-    "IRN-3212", // Fars
-    "IRN-3213", // Golestan
-    "IRN-3214", // Mazandaran
-    "IRN-3215", // Semnan
-    "IRN-3216", // Tehran
-    "IRN-3217", // Yazd
-    "IRN-3218", // Chahar Mahall and Bakhtiari
-    "IRN-3219", // Khuzestan
-    "IRN-3220", // Lorestan
-    "IRN-3221", // Ilam
-    "IRN-3228", // Hormozgan
-    "IRN-3230", // Ardebil
-    "IRN-3231", // Markazi
-    "IRN-3232", // Qom
-    "IRN-3233", // Hamadan
-    "IRN-3234", // Zanjan
-    "IRN-3235", // Qazvin
-    "IRN-3237", // West Azarbaijan
-    "IRN-3238", // East Azarbaijan
-    "IRN-3239", // Kermanshah
-    "IRN-3240", // Gilan
-    "IRN-3241", // Kordestan
-    "IRN-3244", // South Khorasan
-    "IRN-3245", // Razavi Khorasan
-    "IRN-3246", // North Khorasan
-    "IRN-3247", // Sistan and Baluchestan
-    "IRN-3248", // Kerman
-    "IRN-5490", // Alborz
-  ],
-  // saint-kitts-and-nevis
-  KNA: [
-    "KNA-5112", // Trinity Palmetto Point
-  ],
-  // liberia
-  LBR: [
-    "LBR-1458", // River Gee
-    "LBR-1459", // Gbapolu
-  ],
-  // mozambique
-  MOZ: [
-    "MOZ-1927", // Maputo Province
-    "MOZ-5854", // Maputo City
-  ],
-  // malawi
-  MWI: [
-    "MWI-1194", // Karonga
-    "MWI-1873", // Chitipa
-  ],
   // new-caledonia
   NCL: [
     "NCL-1258", // Îles Loyauté
     "NCL-1259", // Sud
     "NCL-559", // Nord
-  ],
-  // oman
-  OMN: [
-    "OMN-2406", // Ash Sharqiyah South
-    "OMN-2424", // Al Batnah North
   ],
   // french-polynesia
   PYF: [
@@ -835,11 +221,6 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
     "PYF-4965", // Tuamotu-Gambier
     "PYF-4966", // Austral Islands
     "PYF-4967", // Marquesas Islands
-  ],
-  // solomon-islands
-  SLB: [
-    "SLB-3507", // Western
-    "SLB-3508", // Choiseul
   ],
   // turks-and-caicos-islands
   TCA: [
@@ -886,26 +267,13 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
   ],
   // central-african-republic
   CAF: [
-    "CF11", // Ombella M'Poko
-    "CF12", // Lobaye
     "CF21", // Mambéré-Kadéï
     "CF22", // Nana-Mambéré
-    "CF23", // Sangha-Mbaéré
     "CF24", // Mambéré
     "CF31", // Ouham Pendé
     "CF32", // Ouham
     "CF33", // Ouham-Fafa
     "CF34", // Lim-pendé
-    "CF41", // Kémo
-    "CF42", // Nana-Gribizi
-    "CF43", // Ouaka
-    "CF51", // Bamingui-Bangoran
-    "CF52", // Haute-Kotto
-    "CF53", // Vakaga
-    "CF61", // Basse-Kotto
-    "CF62", // Mbomou
-    "CF63", // Haut-Mbomou
-    "CF71", // Bangui
   ],
   // cote-divoire
   CIV: [
@@ -943,100 +311,10 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
     "CI32", // Tonkpi
     "CI33", // Worodougou
   ],
-  // democratic-republic-of-congo
-  COD: [
-    "CD10", // Kinshasa
-    "CD20", // Kongo-Central
-    "CD31", // Kwango
-    "CD32", // Kwilu
-    "CD33", // Maï-Ndombe
-    "CD41", // Equateur
-    "CD42", // Sud-Ubangi
-    "CD43", // Nord-Ubangi
-    "CD44", // Mongala
-    "CD45", // Tshuapa
-    "CD51", // Tshopo
-    "CD52", // Bas-Uele
-    "CD53", // Haut-Uele
-    "CD54", // Ituri
-    "CD61", // Nord-Kivu
-    "CD62", // Sud-Kivu
-    "CD63", // Maniema
-    "CD71", // Haut-Katanga
-    "CD72", // Lualaba
-    "CD73", // Haut-Lomami
-    "CD74", // Tanganyika
-    "CD81", // Lomami
-    "CD82", // Kasaï-Oriental
-    "CD83", // Sankuru
-    "CD91", // Kasaï-Central
-    "CD92", // Kasaï
-  ],
   // ethiopia
   ETH: [
-    "ET01", // Tigray
-    "ET02", // Afar
-    "ET03", // Amhara
-    "ET04", // Oromia
-    "ET05", // Somali
-    "ET06", // Benishangul-Gumuz
     "ET07", // Central Ethiopia
     "ET08", // South Ethiopia
-    "ET11", // South West Ethiopia
-    "ET12", // Gambela
-    "ET13", // Harari
-    "ET14", // Addis Ababa
-    "ET15", // Dire Dawa
-    "ET16", // Sidama
-  ],
-  // cambodia
-  KHM: [
-    "KH01", // Banteay Meanchey
-    "KH02", // Battambang
-    "KH03", // Kampong Cham
-    "KH04", // Kampong Chhnang
-    "KH05", // Kampong Speu
-    "KH06", // Kampong Thom
-    "KH07", // Kampot
-    "KH08", // Kandal
-    "KH09", // Koh Kong
-    "KH10", // Kratie
-    "KH11", // Mondul Kiri
-    "KH12", // Phnom Penh
-    "KH13", // Preah Vihear
-    "KH14", // Prey Veng
-    "KH15", // Pursat
-    "KH16", // Ratanak Kiri
-    "KH17", // Siemreap
-    "KH18", // Preah Sihanouk
-    "KH19", // Stung Treng
-    "KH20", // Svay Rieng
-    "KH21", // Takeo
-    "KH22", // Oddar Meanchey
-    "KH23", // Kep
-    "KH24", // Pailin
-    "KH25", // Tboung Khmum
-  ],
-  // laos
-  LAO: [
-    "LA01", // Vientiane Capital
-    "LA02", // Phongsaly
-    "LA03", // Louangnamtha
-    "LA04", // Oudomxai
-    "LA05", // Bokeo
-    "LA06", // Louangphabang
-    "LA07", // Houaphan
-    "LA08", // Xaignabouly
-    "LA09", // Xiengkhouang
-    "LA10", // Vientiane
-    "LA11", // Bolikhamxai
-    "LA12", // Khammouan
-    "LA13", // Savannakhet
-    "LA14", // Salavan
-    "LA15", // Sekong
-    "LA16", // Champasack
-    "LA17", // Attapeu
-    "LA18", // Xaisomboon
   ],
   // mali
   MLI: [
@@ -1060,165 +338,6 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
     "ML18", // Douentza
     "ML19", // Bandiagara
     "ML20", // Bamako
-  ],
-  // mauritania
-  MRT: [
-    "MR01", // Hodh Chargui
-    "MR02", // Hodh El Gharbi
-    "MR03", // Assaba
-    "MR04", // Gorgol
-    "MR05", // Brakna
-    "MR06", // Trarza
-    "MR07", // Adrar
-    "MR08", // Dakhlet Nouadhibou
-    "MR09", // Tagant
-    "MR10", // Guidimagha
-    "MR11", // Tiris Zemmour
-    "MR12", // Inchiri
-    "MR13", // Nouakchott Ouest
-    "MR14", // Nouakchott Nord
-    "MR15", // Nouakchott Sud
-  ],
-  // myanmar
-  MMR: [
-    "MMR001", // Kachin
-    "MMR002", // Kayah
-    "MMR003", // Kayin
-    "MMR004", // Chin
-    "MMR005", // Sagaing
-    "MMR006", // Tanintharyi
-    "MMR007", // Bago
-    "MMR009", // Magway
-    "MMR010", // Mandalay
-    "MMR011", // Mon
-    "MMR012", // Rakhine
-    "MMR013", // Yangon
-    "MMR014", // Shan
-    "MMR017", // Ayeyarwady
-    "MMR018", // Nay Pyi Taw
-  ],
-  // papua-new-guinea
-  PNG: [
-    "PG01", // Western Province
-    "PG02", // Gulf Province
-    "PG03", // Central Province
-    "PG04", // National Capital District
-    "PG05", // Milne Bay Province
-    "PG06", // Northern (Oro) Province
-    "PG07", // Southern Highlands Province
-    "PG08", // Enga Province
-    "PG09", // Western Highlands Province
-    "PG10", // Chimbu (Simbu) Province
-    "PG11", // Eastern Highlands Province
-    "PG12", // Morobe Province
-    "PG13", // Madang Province
-    "PG14", // East Sepik Province
-    "PG15", // West Sepik (Sandaun) Province
-    "PG16", // Manus Province
-    "PG17", // New Ireland Province
-    "PG18", // East New Britain Province
-    "PG19", // West New Britain Province
-    "PG20", // Autonomous Region of Bougainville
-    "PG21", // Hela Province
-    "PG22", // Jiwaka Province
-  ],
-  // qatar
-  QAT: [
-    "QAT001", // Al Daayen Municipality
-    "QAT002", // Al Khor and Al Thakhira Municipality
-    "QAT003", // Al Rayyan Municipality
-    "QAT004", // Al Shamal Municipality
-    "QAT005", // Al Wakra Municipality
-    "QAT006", // Doha Municipality
-    "QAT007", // Umm Slal Municipality
-    "QAT008", // Al Sheehaniya Municipality
-  ],
-  // sudan
-  SDN: [
-    "SD01", // Khartoum
-    "SD02", // North Darfur
-    "SD03", // South Darfur
-    "SD04", // West Darfur
-    "SD05", // East Darfur
-    "SD06", // Central Darfur
-    "SD07", // South Kordofan
-    "SD08", // Blue Nile
-    "SD09", // White Nile
-    "SD10", // Red Sea
-    "SD11", // Kassala
-    "SD12", // Gedaref
-    "SD13", // North Kordofan
-    "SD14", // Sennar
-    "SD15", // Aj Jazirah
-    "SD16", // River Nile
-    "SD17", // Northern
-    "SD18", // West Kordofan
-  ],
-  // sierra-leone
-  SLE: [
-    "SL01", // Eastern
-    "SL02", // Northern
-    "SL03", // Southern
-    "SL04", // Western
-    "SL05", // North Western
-  ],
-  // chad
-  TCD: [
-    "TCD01", // BATHA
-    "TCD02", // BORKOU
-    "TCD03", // CHARI BAGUIRMI
-    "TCD04", // GUÉRA
-    "TCD05", // HADJER LAMIS
-    "TCD06", // KANEM
-    "TCD07", // LAC
-    "TCD08", // LOGONE OCCIDENTAL
-    "TCD09", // LOGONE ORIENTAL
-    "TCD10", // MANDOUL
-    "TCD11", // MAYO KEBBI EST
-    "TCD12", // MAYO KEBBI OUEST
-    "TCD13", // MOYEN CHARI
-    "TCD14", // OUADDAÏ
-    "TCD15", // SALAMAT
-    "TCD16", // TANDJILÉ
-    "TCD17", // WADI FIRA
-    "TCD18", // N'DJAMENA
-    "TCD19", // BARH EL GAZEL
-    "TCD20", // ENNEDI EST
-    "TCD21", // SILA
-    "TCD22", // TIBESTI
-    "TCD23", // ENNEDI OUEST
-  ],
-  // uganda
-  UGA: [
-    "UG1", // Central
-    "UG2", // Eastern
-    "UG3", // Northern
-    "UG4", // Western
-  ],
-  // yemen-rep
-  YEM: [
-    "YE11", // Ibb
-    "YE12", // Abyan
-    "YE13", // Sana'a City
-    "YE14", // Al Bayda
-    "YE15", // Ta'iz
-    "YE16", // Al Jawf
-    "YE17", // Hajjah
-    "YE18", // Al Hodeidah
-    "YE19", // Hadramawt
-    "YE20", // Dhamar
-    "YE21", // Shabwah
-    "YE22", // Sa'dah
-    "YE23", // Sana'a
-    "YE24", // Aden
-    "YE25", // Lahj
-    "YE26", // Ma'rib
-    "YE27", // Al Mahwit
-    "YE28", // Al Maharah
-    "YE29", // Amran
-    "YE30", // Ad Dali'
-    "YE31", // Raymah
-    "YE32", // Socotra
   ],
   // madagascar
   MDG: [
@@ -1247,104 +366,14 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
     "MG71", // Diana
     "MG72", // Sava
   ],
-  // tanzania
-  TZA: [
-    "TZ01", // Dodoma
-    "TZ02", // Arusha
-    "TZ03", // Kilimanjaro
-    "TZ04", // Tanga
-    "TZ05", // Morogoro
-    "TZ06", // Pwani
-    "TZ07", // Dar-es-salaam
-    "TZ08", // Lindi
-    "TZ09", // Mtwara
-    "TZ10", // Ruvuma
-    "TZ11", // Iringa
-    "TZ12", // Mbeya
-    "TZ13", // Singida
-    "TZ14", // Tabora
-    "TZ15", // Rukwa
-    "TZ16", // Kigoma
-    "TZ17", // Shinyanga
-    "TZ18", // Kagera
-    "TZ19", // Mwanza
-    "TZ20", // Mara
-    "TZ21", // Manyara
-    "TZ22", // Njombe
-    "TZ23", // Katavi
-    "TZ24", // Simiyu
-    "TZ25", // Geita
-    "TZ26", // Songwe
-    "TZ51", // Kaskazini Unguja
-    "TZ52", // Kusini Unguja
-    "TZ53", // Mjini Magharibi
-    "TZ54", // Kaskazini Pemba
-    "TZ55", // Kusini Pemba
-  ],
   // timor-leste
   TLS: [
-    "TL01", // Ainaro
-    "TL02", // Aileu
-    "TL03", // Baucau
-    "TL04", // Bobonaro
-    "TL05", // Covalima
     "TL06", // Dili
-    "TL07", // Ermera
-    "TL08", // Liquiçá
-    "TL09", // Lautém
-    "TL10", // Manufahi
-    "TL11", // Manatuto
-    "TL12", // Oecussi
-    "TL13", // Viqueque
     "TLS-Atauro", // Atauro
-  ],
-  // bosnia-and-herzegovina
-  BIH: [
-    "54001226B17629474923252", // Federation of Bosnia and Herzegovina
-    "54001226B66267900922909", // Republika Srpska
-    "54001226B82378099338701", // Brčko District
-  ],
-  // china
-  CHN: [
-    "43563684B11053367304830", // Gansu Province
-    "43563684B14397599951889", // Sichuan Province
-    "43563684B17418114845297", // Beijing Municipality
-    "43563684B19802372559419", // Tibet Autonomous Region
-    "43563684B26929678147954", // Liaoning Province
-    "43563684B30737817496648", // Fujian Province
-    "43563684B32591653033375", // Shanghai Municipality
-    "43563684B34303967365755", // Shanxi Province
-    "43563684B38891657012300", // Guangdong Province
-    "43563684B3982601277390", // Jilin Province
-    "43563684B41908353419915", // Hubei Province
-    "43563684B46172434476792", // Qinghai Province
-    "43563684B50492231896073", // Xinjiang Uyghur Autonomous Region
-    "43563684B55920014778896", // Heilongjiang Province
-    "43563684B58229551045164", // Hebei Province
-    "43563684B58995436924100", // Shandong Province
-    "43563684B59914390554750", // Guangxi Zhuang Autonomous Region
-    "43563684B62959128536432", // Shaanxi Province
-    "43563684B64367354813847", // Jiangsu Province
-    "43563684B64666899633249", // Ningxia Hui Autonomous Region
-    "43563684B64987462919315", // Hunan Province
-    "43563684B67556328368055", // Hainan Province
-    "43563684B73528730180553", // Zhejiang Province
-    "43563684B75549295130005", // Anhui Province
-    "43563684B78583622565599", // Guizhou Province
-    "43563684B84540832148656", // Yunnan Province
-    "43563684B84701301190484", // Tianjin Municipality
-    "43563684B87813050901813", // Jiangxi Province
-    "43563684B95381459098578", // Inner Mongolia Autonomous Region
-    "43563684B96917371447908", // Henan Province
-    "43563684B97743196909507", // Chongqing Municipality
   ],
   // lebanon
   LBN: [
     "68408151B4671352582534", // Keserwan-Jbeil
-  ],
-  // mauritius
-  MUS: [
-    "65221844B53255720811613", // Port Louis
   ],
   // west-bank-and-gaza
   PSE: [
@@ -1355,38 +384,9 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
   STP: [
     "19237168B40253326356618", // São Tomé
   ],
-  // syria
-  SYR: [
-    "8384693B20094101885952", // Lattakia
-    "8384693B23566608622518", // Dar'a
-    "8384693B24866558579919", // Damascus
-    "8384693B30882548325909", // Quneitra
-    "8384693B3351094574159", // Al-Hasakeh
-    "8384693B38455082445791", // Idleb
-    "8384693B44556209506703", // Ar-Raqqa
-    "8384693B50697642267539", // Tartous
-    "8384693B56550821124428", // Deir-ez-Zor
-    "8384693B61807023607014", // As-Sweida
-    "8384693B67178658489877", // Aleppo
-    "8384693B76753285616287", // Hama
-    "8384693B89451039606890", // Rural Damascus
-    "8384693B93490606690779", // Homs
-  ],
   // greenland
   GRL: [
     "42512837B15316814347491", // Northeast Greenland National Park
-  ],
-  // afghanistan
-  AFG: [
-    "AFG-1752", // Uruzgan
-    "AFG-1753", // Daykundi
-    "AFG-1769", // Parwan
-    "AFG-1772", // Panjshir
-  ],
-  // trinidad-and-tobago
-  TTO: [
-    "TTO-50", // Tobago
-    "TTO-55", // Rio Claro-Mayaro
   ],
   // channel-islands
   CHI: [
@@ -1395,7 +395,6 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
   ],
   // azerbaijan
   AZE: [
-    "2e8276a1-06fb-4905-bd96-ce4e5718bb9d", // Baku
     "42ff595c-4ed7-482d-9714-d728089bf3c8", // Agdere District
   ],
   // cayman-islands
@@ -1705,23 +704,8 @@ export const uncoded: Partial<Record<Country, ReadonlyArray<string>>> = {
   ],
   // angola
   AGO: [
-    "AGO001", // Bengo
-    "AGO002", // Benguela
-    "AGO003", // Bié
-    "AGO004", // Cabinda
-    "AGO006", // Cuanza Norte
-    "AGO007", // Cuanza Sul
-    "AGO008", // Cunene
-    "AGO009", // Huambo
-    "AGO010", // Huíla
     "AGO011", // Luanda
-    "AGO012", // Lunda Norte
-    "AGO013", // Lunda Sul
-    "AGO014", // Malanje
     "AGO015", // Moxico
-    "AGO016", // Namibe
-    "AGO017", // Uíge
-    "AGO018", // Zaire
     "AGO019", // Cuando
     "AGO020", // Cubango
     "AGO021", // Icolo e Bengo
