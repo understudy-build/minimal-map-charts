@@ -72,8 +72,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Salt Cay",
     country: "TCA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-71.2072, 21.327953],
+      scale: 305459.32,
+      at: [113.35, 79.56],
+    },
     outline: [[100, 8, 49, 2, 37, 32, -43, 64, -62, 66, -27, -20, 24, -98]],
     areas: [
       {
@@ -88,6 +95,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 542,
+  projection: {
+    kind: "azimuthal",
+    centre: [-71.634, 21.669],
+    scale: 44645.51,
+    at: [623.74, 236.47],
+  },
   outlines: { TCA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

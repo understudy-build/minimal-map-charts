@@ -226,8 +226,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Nouakchott Nord",
     country: "MRT",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-15.900226, 18.100476],
+      scale: 37845.36,
+      at: [117.62, 93.17],
+    },
     outline: [
       [
         123, 8, 0, 35, -1, 3, 3, 2, 7, 8, 5, 5, 5, 7, 21, 34, 1, 3, -11, 16, 0, 21, -1, 30, -35,
@@ -258,6 +265,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1125,
+  projection: { kind: "azimuthal", centre: [-13.578, 21.003], scale: 5009.5, at: [295.49, 565.68] },
   outlines: { MRT: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -551,8 +551,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Federal Capital Territory",
     country: "NGA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [7.14248, 8.861243],
+      scale: 9923.82,
+      at: [112.08, 92.94],
+    },
     outline: [
       [
         84, 171, -2, 0, -6, 1, -6, -1, -11, 1, -7, -1, -5, -8, -1, -3, -1, -123, 1, -5, 4, -2, 31,
@@ -581,6 +588,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 819,
+  projection: { kind: "azimuthal", centre: [8, 9], scale: 4760.43, at: [448.41, 416.13] },
   outlines: { NGA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

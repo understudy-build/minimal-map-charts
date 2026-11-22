@@ -65,8 +65,15 @@ const insets: Sheet["insets"] = [
   {
     name: "North East",
     country: "SGP",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [103.926971, 1.383237],
+      scale: 160355.3,
+      at: [106.73, 90.21],
+    },
     outline: [
       [
         58, 8, 64, 32, 79, 28, 14, 3, -9, 19, -22, 19, -25, 10, 0, 22, -9, 31, -20, 0, -15, -13,
@@ -91,6 +98,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 518,
+  projection: {
+    kind: "azimuthal",
+    centre: [103.843, 1.358],
+    scale: 154709.35,
+    at: [556.94, 254.73],
+  },
   outlines: { SGP: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

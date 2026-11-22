@@ -45,8 +45,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Boe",
     country: "NRU",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [166.916065, -0.539821],
+      scale: 754315.49,
+      at: [120.29, 70.38],
+    },
     outline: [[124, 172, -57, -139, 78, -25, 28, 49, -24, 20]],
     areas: [
       { code: "NR-06", name: "Boe", outline: [[124, 172, -57, -139, 78, -25, 28, 49, -24, 20]] },
@@ -57,6 +64,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1195,
+  projection: {
+    kind: "azimuthal",
+    centre: [166.93, -0.517],
+    scale: 1095224.98,
+    at: [449.77, 518.26],
+  },
   outlines: { NRU: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

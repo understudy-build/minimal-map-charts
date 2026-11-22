@@ -163,8 +163,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Nippes",
     country: "HTI",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-73.393639, 18.432156],
+      scale: 17198.95,
+      at: [119.18, 81.71],
+    },
     outline: [
       [
         21, 48, 4, -3, 4, -5, 2, -1, 7, 0, 16, -4, 10, 3, 0, 5, -5, 4, -8, -2, 0, 2, -6, -2, -5, -1,
@@ -199,6 +206,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 769,
+  projection: {
+    kind: "azimuthal",
+    centre: [-72.768, 18.938],
+    scale: 20805.28,
+    at: [602.91, 428.23],
+  },
   outlines: { HTI: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

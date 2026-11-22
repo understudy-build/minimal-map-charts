@@ -866,8 +866,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Alger",
     country: "DZA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [3.053859, 36.706323],
+      scale: 27596.86,
+      at: [106.09, 87.2],
+    },
     outline: [
       [
         224, 51, -4, 12, 12, -4, 0, 19, -25, 3, -17, 10, -6, -9, 0, 14, -14, 8, -6, -1, 0, 9, -9, 2,
@@ -898,8 +905,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Oran",
     country: "DZA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-0.600285, 35.649528],
+      scale: 16333.72,
+      at: [117.26, 82.05],
+    },
     outline: [
       [
         230, 42, -1, 1, -7, 13, -10, 8, 0, 5, -3, 1, -1, -4, -6, -1, -6, -8, -9, 17, 7, 0, -28, 24,
@@ -940,6 +954,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 979,
+  projection: { kind: "azimuthal", centre: [3, 28], scale: 3022, at: [555.25, 492.24] },
   outlines: { DZA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

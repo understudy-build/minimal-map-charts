@@ -171,8 +171,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Muharraq Governorate",
     country: "BHR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [50.643061, 26.259585],
+      scale: 62031.89,
+      at: [114.92, 85.48],
+    },
     outline: [
       [
         97, 87, 9, -4, -11, -2, 1, 2, -1, 3, 2, 1, -2, 4, -2, 7, 1, 2, 0, 0, -2, -1, 0, 5, 0, 0, -1,
@@ -242,6 +249,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1858,
+  projection: {
+    kind: "azimuthal",
+    centre: [50.585, 25.951],
+    scale: 138691.09,
+    at: [471.19, 930.22],
+  },
   outlines: { BHR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

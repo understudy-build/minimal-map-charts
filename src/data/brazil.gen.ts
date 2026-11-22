@@ -531,8 +531,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Distrito Federal",
     country: "BRA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-47.787739, -15.771382],
+      scale: 13683.84,
+      at: [120.62, 91.25],
+    },
     outline: [
       [
         232, 156, -127, 0, -75, -1, -16, -2, 0, -4, 4, -11, 0, -2, -1, -3, -4, -2, -1, -1, -1, -7,
@@ -563,6 +570,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 875,
+  projection: { kind: "azimuthal", centre: [-53, -14], scale: 1264.16, at: [467.61, 431.49] },
   outlines: { BRA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

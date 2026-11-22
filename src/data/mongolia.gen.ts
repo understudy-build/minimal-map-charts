@@ -300,8 +300,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Ulaanbaatar",
     country: "MNG",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [106.951586, 47.934763],
+      scale: 15108.21,
+      at: [116.84, 93.19],
+    },
     outline: [
       [
         105, 31, 6, -1, 14, -4, 18, -8, 4, 10, 4, 7, 9, 10, 11, 18, 13, 16, 3, 3, 9, 4, 12, 2, 11,
@@ -332,6 +339,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 507,
+  projection: { kind: "azimuthal", centre: [104, 46], scale: 2621.2, at: [495.2, 294.97] },
   outlines: { MNG: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

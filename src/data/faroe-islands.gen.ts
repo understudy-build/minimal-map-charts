@@ -341,8 +341,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Sandoy region",
     country: "FRO",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-6.784231, 61.833171],
+      scale: 40437.32,
+      at: [122.91, 65.25],
+    },
     outline: [
       [
         131, 172, -1, 0, 0, -3, 0, -1, 0, -2, -1, -2, 0, -2, -1, -1, 1, -2, 1, 0, -1, -1, 0, -3, 1,
@@ -444,6 +451,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1567,
+  projection: { kind: "azimuthal", centre: [-6.891, 61.865], scale: 83873.13, at: [558.61, 785.4] },
   outlines: { FRO: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

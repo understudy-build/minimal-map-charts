@@ -377,8 +377,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Likoma",
     country: "MWI",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [34.6623, -12.044349],
+      scale: 59494.14,
+      at: [130.39, 86.69],
+    },
     outline: [
       [
         163, 41, 22, 1, 23, 9, 16, 11, 8, 21, -3, 26, -11, 26, -16, 19, -22, 12, -23, 4, -20, -7,
@@ -411,6 +418,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 2437,
+  projection: {
+    kind: "azimuthal",
+    centre: [34.505, -14.023],
+    scale: 17868.85,
+    at: [568.25, 1455.83],
+  },
   outlines: { MWI: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

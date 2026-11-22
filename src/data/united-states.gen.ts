@@ -799,6 +799,12 @@ const insets: Sheet["insets"] = [
     country: "USA",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-152.460313, 63.98522],
+      scale: 391.89,
+      at: [146.04, 81.65],
+    },
     outline: [
       [
         174, 42, 0, 5, 1, 1, 0, 4, 1, 1, 0, 5, 1, 1, 0, 4, 1, 1, 0, 5, 1, 1, 0, 4, 1, 1, 0, 5, 1, 1,
@@ -1188,6 +1194,12 @@ const insets: Sheet["insets"] = [
     country: "USA",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-156.332612, 20.250519],
+      scale: 2533.7,
+      at: [168.7, 104.79],
+    },
     outline: [
       [
         228, 135, 3, 1, 1, 0, 0, 3, -1, 0, -1, 3, -2, 0, -3, 3, -2, 0, 0, 1, -1, 0, -6, 3, -2, -1,
@@ -1282,8 +1294,15 @@ const insets: Sheet["insets"] = [
   {
     name: "District of Columbia",
     country: "USA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-77.014221, 38.909715],
+      scale: 48593.18,
+      at: [120.2, 81.3],
+    },
     outline: [
       [
         114, 172, -3, -15, 4, -14, 3, -7, 1, -8, -2, -6, -5, -9, -6, -6, -9, -8, -7, -9, -6, -2,
@@ -1308,6 +1327,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 644,
+  projection: { kind: "azimuthal", centre: [-96, 38], scale: 1360.49, at: [512.46, 335.89] },
   outlines: { USA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

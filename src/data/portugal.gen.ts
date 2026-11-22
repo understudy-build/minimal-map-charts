@@ -349,6 +349,12 @@ const insets: Sheet["insets"] = [
     country: "PRT",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-27.310152, 38.374009],
+      scale: 2615.8,
+      at: [148.16, 89.95],
+    },
     outline: [
       [230, 151, 1, 0, 0, 1, 1, 1, 0, 1, -1, 1, -1, 0, -2, -1, -2, 0, 0, -1, -1, 0, 0, -1, 1, -1],
       [
@@ -410,6 +416,12 @@ const insets: Sheet["insets"] = [
     country: "PRT",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-16.947718, 32.764989],
+      scale: 15159.76,
+      at: [79.3, 99.91],
+    },
     outline: [
       [182, 172, -8, -13, -2, -2, -2, -5, 0, -3, 3, 3, 5, 6, 3, 7],
       [
@@ -448,6 +460,12 @@ const insets: Sheet["insets"] = [
     country: "PRT",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-15.873769, 30.135636],
+      scale: 76266.09,
+      at: [198.04, 30.49],
+    },
     outline: [
       [20, 166, 6, 2, 0, 4, -5, 0],
       [209, 8, 10, 7, 1, 10, -6, 9, -4, -2, -8, -2, -5, -3, 1, -2, 0, -5],
@@ -458,6 +476,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 2046,
+  projection: { kind: "azimuthal", centre: [-8, 39.5], scale: 22375.13, at: [465.8, 1046.28] },
   outlines: { PRT: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

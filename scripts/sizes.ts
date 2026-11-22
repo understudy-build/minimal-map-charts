@@ -39,13 +39,17 @@ const measure = (file: string): Size => {
 const all = files(dist).map(measure)
 const scripts = all.filter((size) => size.path.endsWith(".js"))
 const declarations = all.filter((size) => size.path.endsWith(".d.ts"))
-// The registry of sheets and the layouts' country table are data, not sheets.
+// Each country's places, loaded when a spec names a place there.
+const places = scripts.filter((size) => size.path.startsWith("data/places/"))
+// The registries of sheets and places and the layouts' country table are
+// data, not sheets.
 const sheets = scripts.filter(
   (size) =>
     size.path.startsWith("data/") &&
-    !["data/sheets.gen.js", "data/globe.gen.js"].includes(size.path),
+    !places.includes(size) &&
+    !["data/sheets.gen.js", "data/globe.gen.js", "data/places.gen.js"].includes(size.path),
 )
-const core = scripts.filter((size) => !sheets.includes(size))
+const core = scripts.filter((size) => !sheets.includes(size) && !places.includes(size))
 
 // The modules a page loads with the entry point: every file index.js reaches
 // through static imports. Sheets load later through import(), so they are not
@@ -212,6 +216,12 @@ ${caseTable}
 ${summary(sheets)}
 
 ${kindSections}
+
+## Places
+
+Each country's places are one module, loaded with \`import()\` the first time a point names a place in that country, through the registry \`data/places.gen.js\`. A map whose points all give coordinates loads none. ${places.length} countries, ${kb(total(places).gzip)} gzipped in total. The median country is ${kb(byGzip(places)[Math.floor(places.length / 2)]?.gzip ?? 0)} gzipped. The ten largest:
+
+${table(byGzip(places).slice(0, 10), "Country")}
 
 ${others.length === 0 ? "" : `## Other modules\n\nModules the entry point does not import.\n\n${table(others, "Module")}\n\n`}## Type declarations\n\n${declarations.length} \`.d.ts\` files, ${kb(total(declarations).raw)} raw. They are used by editors and type checkers, never downloaded by a page.
 `

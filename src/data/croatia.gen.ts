@@ -408,8 +408,15 @@ const insets: Sheet["insets"] = [
   {
     name: "City of Zagreb",
     country: "HRV",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [15.979465, 45.819204],
+      scale: 26995.16,
+      at: [114.46, 79.27],
+    },
     outline: [
       [
         166, 8, 9, 17, 4, 13, 2, 4, 12, 16, 2, 4, 1, 3, -7, 8, -1, 5, 0, 4, -1, 0, -2, 5, -1, 5, -1,
@@ -442,6 +449,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 989,
+  projection: { kind: "azimuthal", centre: [16, 45], scale: 13526.13, at: [423.36, 375.32] },
   outlines: { HRV: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

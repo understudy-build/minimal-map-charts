@@ -126,6 +126,12 @@ const insets: Sheet["insets"] = [
     country: "FJI",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [177.07312, -12.497273],
+      scale: 106692.73,
+      at: [130.27, 92.25],
+    },
     outline: [
       [
         224, 71, 8, 29, -28, 19, -41, 9, -32, 1, -25, -9, -29, -7, -30, -2, -29, 4, -9, -27, -1,
@@ -150,6 +156,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 834,
+  projection: {
+    kind: "azimuthal",
+    centre: [177.879, -18.009],
+    scale: 8317.63,
+    at: [453.98, 282.28],
+  },
   outlines: { FJI: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

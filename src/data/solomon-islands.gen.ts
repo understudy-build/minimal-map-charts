@@ -169,8 +169,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Capital Territory (Honiara)",
     country: "SLB",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [159.999342, -9.445013],
+      scale: 127132.92,
+      at: [138.53, 90.5],
+    },
     outline: [
       [
         8, 64, 46, 4, 86, -4, 22, -3, 21, -9, 18, -12, 31, 20, -12, 43, 1, 24, -33, 13, -20, -21,
@@ -195,6 +202,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 452,
+  projection: {
+    kind: "azimuthal",
+    centre: [160.753, -9.672],
+    scale: 4291.61,
+    at: [399.55, 238.27],
+  },
   outlines: { SLB: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

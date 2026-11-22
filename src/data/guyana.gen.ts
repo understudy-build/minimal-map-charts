@@ -182,8 +182,15 @@ const insets: Sheet["insets"] = [
   {
     name: "East Berbice-Corentyne",
     country: "GUY",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-58.11524, 6.493923],
+      scale: 12489.39,
+      at: [115.45, 81.74],
+    },
     outline: [
       [
         103, 12, 1, 0, 1, -1, 0, -2, 2, -1, 19, 2, 13, 7, 11, 8, 9, 9, 0, 12, 2, 6, 3, 6, 0, 2, -1,
@@ -217,6 +224,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1495,
+  projection: { kind: "azimuthal", centre: [-58.678, 5.597], scale: 11459.76, at: [550.8, 602.51] },
   outlines: { GUY: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

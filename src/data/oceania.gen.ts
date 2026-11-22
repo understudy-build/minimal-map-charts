@@ -7,6 +7,7 @@ const sheet: Sheet = {
   dots: { NRU: [462, 192.5] },
   width: 1000,
   height: 744,
+  projection: { kind: "azimuthal", centre: [175, -15], scale: 575.31, at: [543.76, 336.27] },
   outlines: {
     VUT: [
       [464, 336, 0, 3, 2, 0, 1, -2, 1, 2, 0, 3, -2, 2, -2, 0, -1, -2, -1, -8],

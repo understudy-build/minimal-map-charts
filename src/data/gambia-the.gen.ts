@@ -85,8 +85,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Banjul",
     country: "GMB",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-16.672798, 13.411305],
+      scale: 58175.55,
+      at: [121.32, 94.16],
+    },
     outline: [
       [
         32, 101, 58, -72, 25, -21, 2, 10, 6, 8, 8, 5, 11, 5, 17, -9, 18, -1, 15, 6, 10, 11, 6, 19,
@@ -111,6 +118,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 272,
+  projection: {
+    kind: "azimuthal",
+    centre: [-15.641, 13.429],
+    scale: 19170.42,
+    at: [396.99, 141.01],
+  },
   outlines: { GMB: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

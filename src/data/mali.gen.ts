@@ -332,8 +332,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Bamako",
     country: "MLI",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-7.967689, 12.60185],
+      scale: 32320.49,
+      at: [126.16, 92.16],
+    },
     outline: [
       [
         165, 15, 28, -3, 12, 30, -18, 8, -10, 3, -1, 39, 19, -2, 4, 3, -5, 33, 9, 15, -6, 12, -10,
@@ -360,6 +367,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 939,
+  projection: { kind: "azimuthal", centre: [-4.711, 17.572], scale: 3547.27, at: [460.44, 469.98] },
   outlines: { MLI: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

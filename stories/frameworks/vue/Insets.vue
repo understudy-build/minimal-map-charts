@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { paint } from "../../../src/index.ts"
+import { insetScale } from "../text.ts"
+import Circle from "./Circle.vue"
 import { useFigure } from "./context.ts"
 
 const { state } = useFigure()
@@ -24,6 +26,12 @@ const { state } = useFigure()
           :fill="paint(inset.tone, { palette: state.palette })"
           :stroke="state.palette.stroke"
           stroke-width="1.5"
+        />
+        <Circle
+          v-for="mark in inset.marks"
+          :key="mark.name"
+          :mark="mark"
+          :scale="insetScale(state.scene, inset)"
         />
       </svg>
       <span class="text-xs" :style="{ color: state.palette.muted }">{{ inset.name }}</span>

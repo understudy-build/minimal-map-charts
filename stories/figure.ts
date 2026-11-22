@@ -38,6 +38,19 @@ export const figure = (scene: Scene, { palette = light }: FigureOptions = {}) =>
     root.append(details)
   }
 
+  if (scene.points !== undefined) {
+    const details = document.createElement("details")
+    const rows = scene.points.sites
+      .map(
+        (site) =>
+          `<tr><td>${escape(site.name)}</td><td style="text-align:right">${site.value ?? ""}</td><td style="text-align:right">${site.lat}</td><td style="text-align:right">${site.lon}</td></tr>`,
+      )
+      .join("")
+
+    details.innerHTML = `<summary style="cursor:pointer;color:${palette.muted}">Points</summary><table style="border-collapse:collapse;margin-top:8px"><thead><tr><th style="text-align:left">Site</th><th>${escape(scene.points.label ?? "Value")}</th><th>Latitude</th><th>Longitude</th></tr></thead><tbody>${rows}</tbody></table>`
+    root.append(details)
+  }
+
   return root
 }
 

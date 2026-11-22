@@ -181,8 +181,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Butha-Buthe",
     country: "LSO",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [28.563746, -28.799706],
+      scale: 18722.81,
+      at: [131.31, 82.81],
+    },
     outline: [
       [
         207, 70, -3, 20, 0, 7, 1, 2, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, -2, 4, -2, 2, -8, 3, -7, 2, -4,
@@ -217,6 +224,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 987,
+  projection: {
+    kind: "azimuthal",
+    centre: [28.275, -29.548],
+    scale: 26511.97,
+    at: [521.75, 461.96],
+  },
   outlines: { LSO: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -769,8 +769,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Rīga",
     country: "LVA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [24.122519, 56.978045],
+      scale: 41088.14,
+      at: [117.51, 85.54],
+    },
     outline: [
       [
         177, 163, 14, 8, -7, 1, -4, -1, -7, -1, -1, 1, -7, -7, -14, -9, -3, -3, -6, -11, -6, -4, -2,
@@ -812,6 +819,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 604,
+  projection: { kind: "azimuthal", centre: [25, 57], scale: 13927.45, at: [552.74, 273.91] },
   outlines: { LVA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

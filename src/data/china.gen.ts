@@ -508,8 +508,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Shanghai Municipality",
     country: "CHN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [121.516546, 31.231699],
+      scale: 8336.63,
+      at: [119.27, 96.11],
+    },
     outline: [
       [185, 83, -7, 5, -36, -13, -13, -9, 1, -4, 32, 14],
       [
@@ -538,6 +545,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 827,
+  projection: { kind: "azimuthal", centre: [109.031, 35.872], scale: 1284.03, at: [607.5, 421.34] },
   outlines: { CHN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

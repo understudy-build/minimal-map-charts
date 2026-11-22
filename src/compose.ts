@@ -1,6 +1,7 @@
 import { type Country, countries } from "./countries.ts"
 import { globe } from "./data/globe.gen.ts"
 import { type Group, groups as grouped, type Layout } from "./layout.ts"
+import { type Degrees, inInsets, type Located, type Projection, project } from "./project.ts"
 import { type Credit, credits, type Inset, load, type Sheet, type Steps } from "./sheet.ts"
 
 type Point = readonly [number, number]
@@ -30,6 +31,10 @@ export interface Composed {
   readonly members: ReadonlySet<Country>
   readonly insets: ReadonlyArray<Inset>
   readonly credits: ReadonlyArray<Credit>
+  // Where a place shows: in every panel whose crop holds it, and in every
+  // inset that does, in that inset's units. A place in an inset that is not
+  // a zoom shows only there.
+  readonly locate: (point: Degrees) => Located
 }
 
 const width = 1000
@@ -156,6 +161,7 @@ const tenth = (value: number) => Math.round(value * 10) / 10
 
 interface Cropped {
   readonly view: Rect
+  readonly projection: Projection
   // Sheet units per kilometre.
   readonly unit: number
   readonly outlines: ReadonlyMap<Country, ReadonlyArray<Ring>>
@@ -190,6 +196,7 @@ const crop = async (group: Group, context: boolean): Promise<Cropped> => {
 
   return {
     view,
+    projection: sheet.projection,
     unit: scaleOf(sheet),
     outlines: new Map(
       countries.flatMap(({ code }) => {
@@ -246,6 +253,7 @@ export const compose = async (layout: Layout, named: ReadonlyArray<Country>): Pr
   let x = (width - used) / 2
 
   const panels: Array<Frame> = []
+  const moves: Array<(point: Point) => Point> = []
   const outlines = new Map<Country, Array<ReadonlyArray<number>>>()
   const land: Array<ReadonlyArray<number>> = []
   const dots = new Map<Country, Point>()
@@ -260,6 +268,7 @@ export const compose = async (layout: Layout, named: ReadonlyArray<Country>): Pr
     ]
 
     panels.push(frame)
+    moves.push(move)
     land.push(...encode(each.land, move))
 
     const members = new Set(groups[index]?.members.map((member) => member.country))
@@ -298,6 +307,29 @@ export const compose = async (layout: Layout, named: ReadonlyArray<Country>): Pr
     ),
   )
 
+  const insets = cropped.flatMap((each) => each.insets)
+
+  const locate = (point: Degrees): Located => {
+    const held = inInsets(insets, point)
+    const map = held.away
+      ? []
+      : cropped.flatMap(({ projection, view: [left, top, right, bottom] }, index) => {
+          const spot = project(projection, point)
+          const move = moves[index]
+
+          return spot === undefined ||
+            move === undefined ||
+            spot[0] < left ||
+            spot[0] > right ||
+            spot[1] < top ||
+            spot[1] > bottom
+            ? []
+            : [move(spot)]
+        })
+
+    return { map, insets: held.insets }
+  }
+
   return {
     width,
     height,
@@ -306,7 +338,8 @@ export const compose = async (layout: Layout, named: ReadonlyArray<Country>): Pr
     outlines,
     dots,
     members: new Set(groups.flatMap((group) => group.members.map((member) => member.country))),
-    insets: cropped.flatMap((each) => each.insets),
+    insets,
     credits: [...credited.values()],
+    locate,
   }
 }

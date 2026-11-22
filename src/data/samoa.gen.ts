@@ -115,8 +115,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Aiga-i-le-Tai",
     country: "WSM",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-172.019045, -13.873862],
+      scale: 107998.98,
+      at: [118, 94.05],
+    },
     outline: [[102, 32, 64, -24, 38, 84, -126, 80, -37, -17, -5, -40, 15, -43, 44, 16, 25, -13]],
     areas: [
       {
@@ -133,6 +140,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 464,
+  projection: {
+    kind: "azimuthal",
+    centre: [-172.11, -13.799],
+    scale: 42985.33,
+    at: [500.61, 262.11],
+  },
   outlines: { WSM: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

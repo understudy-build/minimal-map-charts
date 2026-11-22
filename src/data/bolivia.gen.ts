@@ -184,6 +184,7 @@ const insets: Sheet["insets"] = []
 const sheet: Sheet = {
   width: 1000,
   height: 1131,
+  projection: { kind: "azimuthal", centre: [-64, -17], scale: 4805.71, at: [469.73, 623.17] },
   outlines: { BOL: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

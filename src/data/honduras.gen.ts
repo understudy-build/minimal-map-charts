@@ -266,6 +266,12 @@ const insets: Sheet["insets"] = [
     country: "HND",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-86.376725, 16.352727],
+      scale: 4353.95,
+      at: [53.32, 120.19],
+    },
     outline: [
       [17, 137, 0, 1, -1, 1, 1, 1, -3, 0, -4, 2, -1, -1, -1, 0, 4, -3, 3, 0, 1, -1],
       [
@@ -302,6 +308,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 517,
+  projection: { kind: "azimuthal", centre: [-87, 15], scale: 9318.26, at: [382.25, 178.4] },
   outlines: { HND: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

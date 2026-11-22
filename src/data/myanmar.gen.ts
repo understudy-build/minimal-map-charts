@@ -1252,8 +1252,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Nay Pyi Taw",
     country: "MMR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [96.153422, 19.844799],
+      scale: 10279.13,
+      at: [113.1, 95.24],
+    },
     outline: [
       [
         47, 12, 4, 3, 2, 0, 0, -1, 1, -1, 2, -1, 1, 0, 0, 1, 2, 0, 0, 3, 1, 0, 0, 2, 1, 1, 1, 0, 0,
@@ -1353,6 +1360,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 2234,
+  projection: {
+    kind: "azimuthal",
+    centre: [96.394, 19.119],
+    scale: 6703.72,
+    at: [470.53, 1112.14],
+  },
   outlines: { MMR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -294,8 +294,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Ciudad de la Habana",
     country: "CUB",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-82.307563, 23.08],
+      scale: 30167.69,
+      at: [119.98, 85.3],
+    },
     outline: [
       [
         8, 89, 3, -2, 14, -5, 4, -8, 3, -1, 6, -1, 12, -6, 14, -12, 8, -4, 19, -3, 22, -10, 34, -5,
@@ -330,6 +337,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 354,
+  projection: {
+    kind: "azimuthal",
+    centre: [-79.513, 21.775],
+    scale: 5565.24,
+    at: [499.78, 155.35],
+  },
   outlines: { CUB: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

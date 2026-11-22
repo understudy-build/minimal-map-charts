@@ -1114,8 +1114,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Prince Edward Island",
     country: "CAN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-63.246187, 46.401442],
+      scale: 7651.17,
+      at: [115.24, 104.6],
+    },
     outline: [
       [
         177, 132, 1, 0, 0, 1, -1, -1, -1, 1, -2, 0, 2, 1, 5, 1, 0, 2, -1, 1, 0, 3, 5, 0, 2, 1, -1,
@@ -1188,6 +1195,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 838,
+  projection: { kind: "azimuthal", centre: [-100, 62], scale: 1153.88, at: [390.49, 453.89] },
   outlines: { CAN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

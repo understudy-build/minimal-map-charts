@@ -486,6 +486,12 @@ const insets: Sheet["insets"] = [
     country: "AGO",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [12.47253, -5.045491],
+      scale: 6779.73,
+      at: [109.77, 85.77],
+    },
     outline: [
       [
         155, 52, -1, 0, 0, 1, 0, 1, -2, 0, 0, 3, -1, 0, 0, 2, -1, 0, -1, 1, 0, 1, 1, 0, 0, 1, -1, 0,
@@ -572,8 +578,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Luanda",
     country: "AGO",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [13.229876, -9.02364],
+      scale: 15593.12,
+      at: [124.75, 84.65],
+    },
     outline: [
       [
         168, 120, -1, 0, 0, 1, 0, 2, 0, 1, -1, 2, -1, -1, -1, -2, -2, 1, -1, 0, -2, -1, -2, -2, -4,
@@ -697,6 +710,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1014,
+  projection: { kind: "azimuthal", centre: [18, -12], scale: 4666.25, at: [504.23, 510.86] },
   outlines: { AGO: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

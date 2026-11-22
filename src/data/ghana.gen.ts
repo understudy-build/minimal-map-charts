@@ -525,6 +525,7 @@ const insets: Sheet["insets"] = []
 const sheet: Sheet = {
   width: 1000,
   height: 1443,
+  projection: { kind: "azimuthal", centre: [-2, 8], scale: 12659.17, at: [287.01, 712.2] },
   outlines: { GHA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

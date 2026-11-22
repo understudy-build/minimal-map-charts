@@ -5,6 +5,7 @@ import type { Sheet } from "../sheet.ts"
 const sheet: Sheet = {
   width: 1000,
   height: 1233,
+  projection: { kind: "azimuthal", centre: [20, 42.5], scale: 10623.62, at: [573.56, 691.33] },
   outlines: {
     MKD: [
       [

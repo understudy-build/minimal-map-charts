@@ -385,6 +385,7 @@ const insets: Sheet["insets"] = []
 const sheet: Sheet = {
   width: 1000,
   height: 665,
+  projection: { kind: "azimuthal", centre: [15, 46], scale: 25271.99, at: [505.03, 399.56] },
   outlines: { SVN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

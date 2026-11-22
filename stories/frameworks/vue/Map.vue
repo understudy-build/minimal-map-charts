@@ -2,10 +2,11 @@
 import { computed } from "vue"
 
 import { paint } from "../../../src/index.ts"
+import Circle from "./Circle.vue"
 import { useFigure } from "./context.ts"
 
-// The map itself. Countries in the fill take focus and report the one the
-// reader points at; the active country is outlined on top.
+// The map itself. Countries in the fill and points take focus and report the
+// one the reader points at; the active one is outlined on top.
 const { state, actions } = useFigure()
 const listed = computed(() => new Set(state.scene.rows.map((row) => row.country)))
 const outlined = computed(() => state.scene.shapes.find((shape) => shape.country === state.active))
@@ -53,6 +54,11 @@ const outlined = computed(() => state.scene.shapes.find((shape) => shape.country
       :stroke="state.palette.ink"
       stroke-width="2"
       pointer-events="none"
+    />
+    <Circle
+      v-for="mark in state.scene.marks"
+      :key="`${mark.name} ${mark.x} ${mark.y}`"
+      :mark="mark"
     />
   </svg>
 </template>

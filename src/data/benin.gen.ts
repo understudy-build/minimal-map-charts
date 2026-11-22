@@ -168,8 +168,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Littoral",
     country: "BEN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [2.424063, 6.36362],
+      scale: 104056.28,
+      at: [123.9, 94.54],
+    },
     outline: [
       [232, 123, -224, 21, 17, -44, 22, -22, 32, -21, 38, -10, 85, -11, -5, 38, 13, 11, 9, 2, 9, 5],
     ],
@@ -191,6 +198,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 2023,
+  projection: { kind: "azimuthal", centre: [2.236, 8.057], scale: 18552.55, at: [480.2, 1415.86] },
   outlines: { BEN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

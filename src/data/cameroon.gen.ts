@@ -206,8 +206,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Ouest",
     country: "CMR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [10.65618, 5.512758],
+      scale: 6730.73,
+      at: [127.9, 99.44],
+    },
     outline: [
       [
         190, 8, 9, 2, 4, 2, 0, 3, -1, 3, -1, 1, 0, 5, 4, 10, 0, 2, -3, 7, -2, 1, -1, 2, 2, 0, 0, 2,
@@ -254,6 +261,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1475,
+  projection: { kind: "azimuthal", centre: [11.961, 5.878], scale: 7302.2, at: [449.02, 928.29] },
   outlines: { CMR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -24,6 +24,12 @@ const insets: Sheet["insets"] = [
     country: "TON",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-174.048252, -18.637796],
+      scale: 18076.19,
+      at: [191.93, 72.8],
+    },
     outline: [
       [
         219, 51, 5, 1, 2, 2, 2, 3, 4, 2, 0, 10, -3, 4, -5, -7, -4, 1, -1, 2, 0, 3, 3, 2, -3, 4, -1,
@@ -52,6 +58,12 @@ const insets: Sheet["insets"] = [
     country: "TON",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-174.937955, -21.374503],
+      scale: 55352.12,
+      at: [127.3, 95.01],
+    },
     outline: [
       [
         148, 15, 6, 36, -1, 15, -5, 36, 1, 60, -6, 10, -14, -8, -6, -15, -11, -12, -26, -20, 0, -6,
@@ -76,6 +88,12 @@ const insets: Sheet["insets"] = [
     country: "TON",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-174.647267, -19.739381],
+      scale: 15919.02,
+      at: [126.48, 98.83],
+    },
     outline: [
       [201, 116, 4, -1, 3, -3, 2, -3, 1, -4, 1, 0, 3, 1, 1, 1, -2, 5, -2, 9, -5, 1, -4, -2],
       [
@@ -106,6 +124,12 @@ const insets: Sheet["insets"] = [
     country: "TON",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-175.13928, -15.690959],
+      scale: 6768.66,
+      at: [70.24, 80.59],
+    },
     outline: [
       [14, 65, 2, 2, 0, 3, -3, 3, -3, -1, -2, -2, 0, -2, 3, -2],
       [230, 111, 1, -1, 1, 0, 0, 1, -1, 2, -2, 2, -2, 0, -1, -1, 0, -1],
@@ -126,6 +150,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1188,
+  projection: {
+    kind: "azimuthal",
+    centre: [-174.432, -19.373],
+    scale: 52163.04,
+    at: [1515.59, -1530.1],
+  },
   outlines: { TON: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

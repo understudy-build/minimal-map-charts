@@ -311,8 +311,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Sacatepéquez",
     country: "GTM",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-90.743443, 14.578151],
+      scale: 25192.43,
+      at: [124.74, 95.83],
+    },
     outline: [
       [
         62, 135, 0, -3, 2, -12, 9, -18, 19, -21, 11, -8, 6, -13, 2, -3, 2, -2, 0, -5, -2, -7, -3,
@@ -343,6 +350,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1051,
+  projection: { kind: "azimuthal", centre: [-90, 16], scale: 14446.84, at: [558.23, 468.43] },
   outlines: { GTM: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

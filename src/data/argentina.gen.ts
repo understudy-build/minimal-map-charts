@@ -394,8 +394,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Ciudad de Buenos Aires",
     country: "ARG",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-58.450926, -34.642717],
+      scale: 37089.63,
+      at: [113, 86.42],
+    },
     outline: [
       [
         101, 8, 12, 8, 9, 5, 11, 9, 18, 11, 9, 9, 9, 14, 7, 16, 9, 16, -4, 9, -11, 12, -19, 3, -14,
@@ -420,6 +427,12 @@ const insets: Sheet["insets"] = [
     country: "ARG",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-67.440099, -54.326247],
+      scale: 3898.44,
+      at: [73.28, 122.35],
+    },
     outline: [
       [26, 161, 0, -6, 1, 0, 0, 2, 2, 2, 0, 1, -1, 1],
       [
@@ -479,6 +492,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1956,
+  projection: { kind: "azimuthal", centre: [-64, -38], scale: 3628.53, at: [401.23, 1031.91] },
   outlines: { ARG: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

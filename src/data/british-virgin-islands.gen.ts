@@ -179,6 +179,12 @@ const insets: Sheet["insets"] = [
     country: "VGB",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-64.746605, 18.446498],
+      scale: 222683.82,
+      at: [136.57, 91.1],
+    },
     outline: [
       [
         75, 106, -2, -1, -8, 0, -1, 2, -2, 2, -3, 4, -1, 0, -1, 2, -11, 0, -3, -1, -2, 0, -2, 1, -4,
@@ -238,6 +244,12 @@ const insets: Sheet["insets"] = [
     country: "VGB",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-64.399559, 18.475927],
+      scale: 106665.4,
+      at: [91.47, 70.45],
+    },
     outline: [
       [
         49, 150, 1, 0, 0, 2, -1, 1, 0, -1, -1, 0, 0, 1, -1, 1, -1, 0, 0, 1, -2, 0, -1, 1, -1, 1, -1,
@@ -348,6 +360,12 @@ const insets: Sheet["insets"] = [
     country: "VGB",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-64.337752, 18.727348],
+      scale: 92712.47,
+      at: [128.78, 76.68],
+    },
     outline: [
       [
         62, 84, 0, 0, -1, -1, 0, -1, -1, -1, 0, -1, -2, 0, -1, -1, 0, 1, -2, 0, 0, -1, -1, -1, -1,
@@ -407,6 +425,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 486,
+  projection: {
+    kind: "azimuthal",
+    centre: [-64.53, 18.529],
+    scale: 119159.04,
+    at: [641.76, 11.78],
+  },
   outlines: { VGB: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

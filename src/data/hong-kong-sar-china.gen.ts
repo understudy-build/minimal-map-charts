@@ -195,8 +195,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Yau Tsim Mong",
     country: "HKG",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [114.170304, 22.30836],
+      scale: 273710.71,
+      at: [128.92, 78.19],
+    },
     outline: [
       [
         156, 161, -20, 11, -21, -26, 5, -54, -11, -24, -4, -23, -24, 0, 0, -33, 70, -4, -3, 42, 11,
@@ -221,6 +228,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 747,
+  projection: {
+    kind: "azimuthal",
+    centre: [114.151, 22.344],
+    scale: 107619.34,
+    at: [555.38, 423.13],
+  },
   outlines: { HKG: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

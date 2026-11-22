@@ -9,16 +9,48 @@ import type { SheetId } from "./sheet.ts"
 
 // What a map shows. Every field is optional: `{}` draws the world, blank.
 // Without `sheet`, the map draws the narrowest region that holds every
-// country in `fill`, else the world; a fill of areas draws their country's
-// own map. `sheet` names a prebuilt map, or lays countries out in panels
-// cropped from the prebuilt maps.
+// country in `fill` and every point, else the world; a fill of areas draws
+// their country's own map. `sheet` names a prebuilt map, or lays countries
+// out in panels cropped from the prebuilt maps.
 export interface Spec {
   readonly sheet?: SheetId | Layout
   readonly title?: string
   // Who published the values, shown beside the boundary credits.
   readonly source?: string
   readonly fill?: Fill
+  readonly points?: Points
 }
+
+// Where a point is: at coordinates in degrees, taken from the data, or at a
+// place Natural Earth lists, by its name and country, with the area that
+// holds it when the name repeats in the country. A place's name is the
+// site's unless the site gives its own.
+export type Site =
+  | { readonly name: string; readonly lat: number; readonly lon: number }
+  | {
+      readonly name?: string
+      readonly place: string
+      readonly country: Country
+      readonly area?: Area
+    }
+
+// Points drawn over the fill: dots show where, bubbles also how much, by
+// their area. `label` says what a bubble's value measures, or what the dots
+// are, for the legend.
+export type Points =
+  | {
+      readonly kind: "dot"
+      readonly sites: ReadonlyArray<Site>
+      readonly label?: string
+      // Defaults to the palette's point colour.
+      readonly colour?: Colour
+    }
+  | {
+      readonly kind: "bubble"
+      readonly sites: ReadonlyArray<Site & { readonly value: number }>
+      readonly label?: string
+      readonly colour?: Colour
+    }
 
 // A fill colours countries, or the areas of one country, never both.
 export type Fill =
@@ -102,6 +134,35 @@ export type Issue =
       readonly sheet: SheetId
       // The sheets that would hold every country, or every area, in the
       // fill, narrowest first.
+      readonly sheets: ReadonlyArray<SheetId>
+    }
+
+  // A place the country's gazetteer does not list: `draw` finds it, once it
+  // has loaded the gazetteer.
+  | {
+      readonly kind: "UnknownPlace"
+      readonly path: Path
+      readonly place: string
+      readonly country: Country
+      readonly suggestion: string | undefined
+    }
+  // A name several places in the country go by, or that no place in `area`
+  // goes by: `areas` hold the places of that name.
+  | {
+      readonly kind: "AmbiguousPlace"
+      readonly path: Path
+      readonly place: string
+      readonly country: Country
+      readonly area: Area | undefined
+      readonly areas: ReadonlyArray<Area>
+    }
+  // A point the map does not frame. `sheets` are the world and the regions
+  // that hold every point.
+  | {
+      readonly kind: "Outside"
+      readonly path: Path
+      readonly site: string
+      readonly sheet: SheetId | Layout
       readonly sheets: ReadonlyArray<SheetId>
     }
 
@@ -525,6 +586,219 @@ const fill = (input: unknown, path: Path): Checked<Fill> => {
   }
 }
 
+// The most sites a spec may give: past this many, dots hide one another and
+// a map needs density, which these maps do not draw.
+const maxSites = 500
+
+const isIn = (input: unknown, limit: number) => isNumber(input) && input >= -limit && input <= limit
+
+const coordinates = (
+  input: Readonly<Record<string, unknown>>,
+  path: Path,
+): Checked<{ readonly lat: number; readonly lon: number }> => {
+  const { lat, lon } = input
+  // Sydney written lon first: lat 151.2 cannot be one, and lon -33.9 can.
+  const swapped =
+    isNumber(lat) && isNumber(lon) && !isIn(lat, 90) && isIn(lon, 90) && isIn(lat, 180)
+      ? `; lat ${String(lat)} and lon ${String(lon)} look swapped`
+      : ""
+  const issues = [
+    ...(isIn(lat, 90)
+      ? []
+      : invalid([...path, "lat"], `a latitude from -90 to 90${swapped}`).issues),
+    ...(isIn(lon, 180) ? [] : invalid([...path, "lon"], "a longitude from -180 to 180").issues),
+  ]
+
+  return issues.length > 0 || !isNumber(lat) || !isNumber(lon)
+    ? { value: undefined, issues }
+    : { value: { lat, lon }, issues }
+}
+
+const located = (
+  input: Readonly<Record<string, unknown>>,
+  path: Path,
+): Checked<Extract<Site, { readonly place: string }>> => {
+  const name = input["name"] === undefined ? undefined : text(input["name"], [...path, "name"])
+  const place = text(input["place"], [...path, "place"])
+  const code = country(input["country"], [...path, "country"])
+  const given = input["area"] === undefined ? undefined : area(input["area"], [...path, "area"])
+  const foreign =
+    given?.value !== undefined && code.value !== undefined && countryOf(given.value) !== code.value
+      ? invalid([...path, "area"], `an area of ${code.value}, the place's country`).issues
+      : []
+  const issues = [
+    ...(name?.issues ?? []),
+    ...place.issues,
+    ...code.issues,
+    ...(given?.issues ?? []),
+    ...foreign,
+  ]
+
+  return issues.length > 0 || place.value === undefined || code.value === undefined
+    ? { value: undefined, issues }
+    : {
+        value: {
+          ...(name?.value === undefined ? {} : { name: name.value }),
+          place: place.value,
+          country: code.value,
+          ...(given?.value === undefined ? {} : { area: given.value }),
+        },
+        issues,
+      }
+}
+
+// A site: where it is, and a value when the points are bubbles.
+const site = (
+  input: unknown,
+  path: Path,
+  kind: Points["kind"],
+): Checked<{ readonly where: Site; readonly value: number | undefined }> => {
+  const sized = kind === "bubble"
+  const expected = sized
+    ? "a { name, lat, lon, value } or { place, country, value } object"
+    : "a { name, lat, lon } or { place, country } object"
+
+  if (!isRecord(input)) return invalid(path, expected)
+
+  const known = keys(path, ["name", "lat", "lon", "place", "country", "area", "value"])(input)
+  const byPlace = ["place", "country", "area"].some((key) => input[key] !== undefined)
+  const byCoordinates = input["lat"] !== undefined || input["lon"] !== undefined
+
+  if (byPlace && byCoordinates)
+    return {
+      value: undefined,
+      issues: [
+        ...known,
+        ...invalid(path, "either `lat` and `lon`, or `place` and `country`, not both").issues,
+      ],
+    }
+
+  if (!byPlace && !byCoordinates)
+    return { value: undefined, issues: [...known, ...invalid(path, expected).issues] }
+
+  const value = input["value"]
+  const measured = sized
+    ? isNumber(value) && value >= 0
+      ? []
+      : invalid(
+          [...path, "value"],
+          "a number 0 or above: a bubble's area shows a size. Show signed changes with a choropleth fill",
+        ).issues
+    : value === undefined
+      ? []
+      : invalid([...path, "value"], 'no value: a dot shows where. Use kind "bubble" to size points')
+          .issues
+
+  const where = byPlace
+    ? located(input, path)
+    : (() => {
+        const name = text(input["name"], [...path, "name"])
+        const at = coordinates(input, path)
+        const issues = [...name.issues, ...at.issues]
+
+        return issues.length > 0 || name.value === undefined || at.value === undefined
+          ? { value: undefined, issues }
+          : { value: { name: name.value, ...at.value }, issues }
+      })()
+  const issues = [...known, ...where.issues, ...measured]
+
+  return issues.length > 0 || where.value === undefined
+    ? { value: undefined, issues }
+    : { value: { where: where.value, value: isNumber(value) ? value : undefined }, issues }
+}
+
+// The name a site shows: its own, else its place's.
+export const nameOf = (each: Site): string => each.name ?? ("place" in each ? each.place : "")
+
+// The colours a fill sets: the ones a point colour must stand apart from.
+const coloursOf = (input: Fill | undefined): ReadonlyArray<Colour> => {
+  if (input === undefined) return []
+  if (input.kind === "highlight") return input.colour === undefined ? [] : [input.colour]
+
+  const { scale: shades } = input
+
+  if (shades === undefined) return []
+  if (shades.kind === "diverging") return [shades.below, shades.above]
+
+  return shades.colour === undefined ? [] : [shades.colour]
+}
+
+const points = (input: unknown, path: Path, filled: Fill | undefined): Checked<Points> => {
+  if (!isRecord(input)) return invalid(path, "a points object")
+
+  const at = (key: string | number) => [...path, key]
+  const kind = input["kind"]
+
+  if (kind !== "dot" && kind !== "bubble") return invalid(at("kind"), '"dot" or "bubble"')
+
+  const issues: Array<Issue> = [...keys(path, ["kind", "sites", "label", "colour"])(input)]
+  const label = input["label"] === undefined ? undefined : text(input["label"], at("label"))
+  const tint = input["colour"] === undefined ? undefined : colour(input["colour"], at("colour"))
+  const list = input["sites"]
+
+  issues.push(...(label?.issues ?? []), ...(tint?.issues ?? []))
+
+  const chosen = tint?.value
+
+  if (
+    chosen !== undefined &&
+    coloursOf(filled).some((each) => apart(oklch(each), oklch(chosen)) < minApart)
+  )
+    issues.push(
+      ...invalid(at("colour"), `a hue at least ${minApart}° away from the fill's colour`).issues,
+    )
+
+  if (!Array.isArray(list) || list.length === 0 || list.length > maxSites)
+    return {
+      value: undefined,
+      issues: [...issues, ...invalid(at("sites"), `an array of 1 to ${maxSites} sites`).issues],
+    }
+
+  const dots: Array<Site> = []
+  const bubbles: Array<Site & { readonly value: number }> = []
+  const seen = new Set<string>()
+
+  for (const [index, each] of list.entries()) {
+    const checked = site(each, [...path, "sites", index], kind)
+
+    issues.push(...checked.issues)
+
+    if (checked.value === undefined) continue
+
+    const { where, value } = checked.value
+    const name = nameOf(where)
+
+    if (seen.has(name)) {
+      issues.push(
+        ...invalid(
+          [...path, "sites", index, where.name === undefined ? "place" : "name"],
+          "a name not listed before: give each site its own `name`",
+        ).issues,
+      )
+      continue
+    }
+
+    seen.add(name)
+    dots.push(where)
+    if (value !== undefined) bubbles.push({ ...where, value })
+  }
+
+  if (issues.length === 0 && kind === "bubble" && !bubbles.some((each) => each.value > 0))
+    issues.push(...invalid(at("sites"), "at least one site with a value above 0").issues)
+
+  if (issues.length > 0) return { value: undefined, issues }
+
+  const extras = {
+    ...(label?.value === undefined ? {} : { label: label.value }),
+    ...(tint?.value === undefined ? {} : { colour: tint.value }),
+  }
+
+  return {
+    value: kind === "dot" ? { kind, sites: dots, ...extras } : { kind, sites: bubbles, ...extras },
+    issues,
+  }
+}
+
 // What a fill colours: countries, or the areas of one country. A
 // choropleth's in code order, a highlight's in its own order.
 export type Named =
@@ -721,7 +995,7 @@ export const parse = (raw: unknown): Parsed => {
   if (!isRecord(input))
     return { ok: false, issues: [{ kind: "Invalid", path: [], expected: "a spec object" }] }
 
-  const known = keys([], ["sheet", "title", "source", "fill"])(input)
+  const known = keys([], ["sheet", "title", "source", "fill", "points"])(input)
   const sheet = input["sheet"]
 
   const framing: Checked<SheetId | Layout> =
@@ -746,6 +1020,8 @@ export const parse = (raw: unknown): Parsed => {
   const title = input["title"] === undefined ? undefined : text(input["title"], ["title"])
   const source = input["source"] === undefined ? undefined : text(input["source"], ["source"])
   const filled = input["fill"] === undefined ? undefined : fill(input["fill"], ["fill"])
+  const marked =
+    input["points"] === undefined ? undefined : points(input["points"], ["points"], filled?.value)
 
   const issues = [
     ...known,
@@ -753,6 +1029,7 @@ export const parse = (raw: unknown): Parsed => {
     ...(title?.issues ?? []),
     ...(source?.issues ?? []),
     ...(filled?.issues ?? []),
+    ...(marked?.issues ?? []),
   ]
 
   if (issues.length > 0) return { ok: false, issues }
@@ -781,6 +1058,7 @@ export const parse = (raw: unknown): Parsed => {
       ...(title?.value === undefined ? {} : { title: title.value }),
       ...(source?.value === undefined ? {} : { source: source.value }),
       ...(filled?.value === undefined ? {} : { fill: filled.value }),
+      ...(marked?.value === undefined ? {} : { points: marked.value }),
     },
   }
 }
@@ -809,6 +1087,14 @@ const explain = (issue: Issue): string => {
         ? `${issue.area} has no area on the "${owner}" sheet.`
         : `${issue.area} has no area on any sheet: ${owner} has no map of its own.`
     }
+    case "UnknownPlace":
+      return `"${issue.place}" is not a place Natural Earth lists in ${issue.country}.${issue.suggestion === undefined ? "" : ` Did you mean "${issue.suggestion}"?`} Else give \`lat\` and \`lon\` from your source.`
+    case "AmbiguousPlace":
+      return `${issue.area === undefined ? `"${issue.place}" names ${issue.areas.length} places in ${issue.country}` : `No place "${issue.place}" is in ${issue.area}`}. Give \`area\`, one of ${issue.areas.join(", ")}.`
+    case "Outside":
+      return typeof issue.sheet === "string"
+        ? `"${issue.site}" is not on the "${issue.sheet}" sheet. Sheets that hold every point: ${issue.sheets.join(", ")}.`
+        : `"${issue.site}" is in none of the layout's panels. Sheets that hold every point: ${issue.sheets.join(", ")}.`
     case "NotOnSheet":
       return `${issue.code} is not on the "${issue.sheet}" sheet. Sheets that hold every ${isArea(issue.code) ? "area" : "country"}: ${issue.sheets.join(", ")}.`
   }

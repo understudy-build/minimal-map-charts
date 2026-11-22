@@ -407,8 +407,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Port Saint Mary",
     country: "IMN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-4.740493, 54.076009],
+      scale: 529527.31,
+      at: [119.02, 90.22],
+    },
     outline: [
       [111, 170, 1, 1, 0, 1, -1, 0, -1, -1, 1, -1, 1, -1, 1, 0],
       [
@@ -465,6 +472,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1220,
+  projection: {
+    kind: "azimuthal",
+    centre: [-4.55, 54.228],
+    scale: 180859.32,
+    at: [543.88, 610.16],
+  },
   outlines: { IMN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

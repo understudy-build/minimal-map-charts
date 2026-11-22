@@ -583,8 +583,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Bucharest",
     country: "ROU",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [26.090946, 44.461161],
+      scale: 35294.83,
+      at: [118.99, 88.99],
+    },
     outline: [
       [
         165, 125, -21, -6, -3, 9, 14, 34, -12, 10, -21, -28, -25, -5, -29, -32, 0, -19, 29, -3, 0,
@@ -609,6 +616,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 708,
+  projection: { kind: "azimuthal", centre: [25, 46], scale: 8498.34, at: [498.84, 349.17] },
   outlines: { ROU: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

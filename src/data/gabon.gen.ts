@@ -179,8 +179,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Moyen-Ogooué",
     country: "GAB",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [10.572707, -0.443499],
+      scale: 6303.1,
+      at: [120.04, 82.67],
+    },
     outline: [
       [
         231, 9, 0, 5, -1, 1, 0, 1, -2, 2, -2, 1, -2, 2, -2, 0, -16, 8, -1, 2, -4, 3, -1, 3, -2, 4,
@@ -228,6 +235,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1078,
+  projection: { kind: "azimuthal", centre: [11.413, -0.571], scale: 9676.89, at: [468.89, 498.64] },
   outlines: { GAB: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

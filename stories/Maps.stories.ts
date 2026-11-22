@@ -141,6 +141,88 @@ export const TooSmallToDraw: Story = {
   },
 }
 
+// Offices named by their city, and one Natural Earth does not list at its
+// coordinates, as circles whose area is the office's staff.
+export const Offices: Story = {
+  args: {
+    spec: {
+      title: "Staff by office",
+      source: "Illustrative values",
+      fill: { kind: "highlight", countries: ["FRA", "DEU", "GBR", "ESP"] },
+      points: {
+        kind: "bubble",
+        label: "Staff",
+        sites: [
+          { place: "Paris", country: "FRA", value: 420 },
+          { place: "London", country: "GBR", value: 260 },
+          { place: "Berlin", country: "DEU", value: 130 },
+          { place: "Madrid", country: "ESP", value: 75 },
+          { place: "Lyon", country: "FRA", value: 40 },
+          { name: "Sophia Antipolis", lat: 43.62, lon: 7.05, value: 25 },
+        ],
+      },
+    },
+  },
+}
+
+// Dots on a country's map: Honolulu and Anchorage in their insets,
+// Washington on the map and in the zoom on the District of Columbia, and
+// one of five Springfields told apart by its state.
+export const FieldSites: Story = {
+  args: {
+    spec: {
+      sheet: "USA",
+      title: "Field sites",
+      points: {
+        kind: "dot",
+        label: "Field sites",
+        sites: [
+          { place: "Honolulu", country: "USA" },
+          { place: "Anchorage", country: "USA" },
+          { place: "Washington", country: "USA" },
+          { place: "Chicago", country: "USA" },
+          { place: "Springfield", country: "USA", area: "US-IL" },
+          { name: "Austin office", lat: 30.27, lon: -97.74 },
+        ],
+      },
+    },
+  },
+}
+
+// Points over a choropleth of a country's areas.
+export const PointsOnAreas: Story = {
+  args: {
+    spec: {
+      title: "Unemployment by region, with our sites",
+      source: "Illustrative values",
+      fill: {
+        kind: "choropleth",
+        values: [
+          { area: "FR-HDF", value: 10.1 },
+          { area: "FR-OCC", value: 9.6 },
+          { area: "FR-PAC", value: 8.9 },
+          { area: "FR-IDF", value: 7.1 },
+          { area: "FR-ARA", value: 6.2 },
+          { area: "FR-BRE", value: 5.8 },
+          { area: "FR-PDL", value: 5.9 },
+          { area: "FR-NAQ", value: 7.0 },
+        ],
+        better: "lower",
+      },
+      points: {
+        kind: "dot",
+        label: "Sites",
+        sites: [
+          { place: "Lille", country: "FRA" },
+          { place: "Toulouse", country: "FRA" },
+          { place: "Rennes", country: "FRA" },
+          { place: "Saint-Denis", country: "FRA", name: "Saint-Denis, Réunion" },
+        ],
+      },
+    },
+  },
+}
+
 export const Dark: Story = {
   args: { ...Choropleth.args, palette: "dark" },
 }

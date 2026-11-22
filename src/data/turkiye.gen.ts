@@ -976,8 +976,15 @@ const insets: Sheet["insets"] = [
   {
     name: "İstanbul",
     country: "TUR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [28.895043, 41.155148],
+      scale: 9826.41,
+      at: [104.21, 99.26],
+    },
     outline: [
       [
         15, 33, 4, 4, 20, 12, 27, 12, 40, 19, 13, 3, 1, 1, 2, 0, 1, -2, 4, 0, 5, 3, -1, 5, -4, 6,
@@ -1021,8 +1028,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Yalova",
     country: "TUR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [29.137466, 40.588236],
+      scale: 25784.02,
+      at: [132.27, 88.45],
+    },
     outline: [
       [
         78, 144, -3, 1, -18, -4, -30, -19, -19, -4, 6, -14, 12, -8, 24, -9, 11, -7, 14, -15, 6, -2,
@@ -1049,6 +1063,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 449,
+  projection: { kind: "azimuthal", centre: [35, 39], scale: 3768.19, at: [478.39, 230.14] },
   outlines: { TUR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

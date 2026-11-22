@@ -129,8 +129,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Ravin de Sainte-Dévote",
     country: "MCO",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [7.420428, 43.737796],
+      scale: 4872434.19,
+      at: [111.15, 100.84],
+    },
     outline: [
       [
         33, 8, 51, 55, 13, 3, 13, 4, 9, 6, 15, 14, 29, 8, 5, 31, 58, -13, -2, 46, -27, 2, -15, 2,
@@ -157,6 +164,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1217,
+  projection: {
+    kind: "azimuthal",
+    centre: [7.425, 43.738],
+    scale: 2524014.69,
+    at: [516.77, 623.12],
+  },
   outlines: { MCO: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

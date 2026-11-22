@@ -153,8 +153,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Paramaribo",
     country: "SUR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-55.172492, 5.847701],
+      scale: 66164.76,
+      at: [113.94, 77.84],
+    },
     outline: [
       [
         48, 15, 10, 2, 10, 0, 12, 2, 16, 1, 13, -4, 15, -6, 18, -2, 20, 14, 23, 17, 9, 17, -14, 34,
@@ -181,6 +188,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1027,
+  projection: { kind: "azimuthal", centre: [-55.481, 5.359], scale: 13798.84, at: [631.31, 167.6] },
   outlines: { SUR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

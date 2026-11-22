@@ -1142,8 +1142,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Khankendi",
     country: "AZE",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [46.755345, 39.822402],
+      scale: 128920.15,
+      at: [126.28, 98.29],
+    },
     outline: [
       [
         165, 81, -1, 6, -1, 2, 1, 2, 7, 7, 0, 2, -7, 1, -6, 6, 0, 1, -1, 0, 0, 2, 1, 0, 0, 2, 1, 1,
@@ -1182,6 +1189,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 879,
+  projection: {
+    kind: "azimuthal",
+    centre: [47.368, 40.148],
+    scale: 14005.34,
+    at: [499.73, 441.13],
+  },
   outlines: { AZE: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

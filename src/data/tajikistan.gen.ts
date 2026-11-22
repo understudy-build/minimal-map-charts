@@ -126,8 +126,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Dushanbe",
     country: "TJK",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [68.771383, 38.551425],
+      scale: 49739.12,
+      at: [117.35, 100.72],
+    },
     outline: [
       [
         137, 66, 8, -1, -1, 10, 7, 4, 12, 3, 3, 11, 12, 3, -8, 12, -4, 12, -20, 8, -19, 17, 2, 14,
@@ -156,6 +163,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 717,
+  projection: { kind: "azimuthal", centre: [71, 39], scale: 9148.61, at: [462, 335.95] },
   outlines: { TJK: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

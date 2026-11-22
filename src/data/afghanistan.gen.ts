@@ -488,8 +488,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Kapisa",
     country: "AFG",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [69.619001, 34.959566],
+      scale: 17304.84,
+      at: [125.29, 75.27],
+    },
     outline: [
       [
         194, 107, -5, 5, -2, 5, -1, 1, -5, 3, -11, 5, -5, 4, -11, 29, -2, 8, -2, 2, -7, 0, -13, 3,
@@ -521,6 +528,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 783,
+  projection: { kind: "azimuthal", centre: [67.265, 33.93], scale: 4799.81, at: [481.81, 395.06] },
   outlines: { AFG: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

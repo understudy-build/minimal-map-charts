@@ -1055,8 +1055,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Spanish Wells",
     country: "BHS",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-76.851138, 25.51062],
+      scale: 171219.83,
+      at: [112.46, 79.85],
+    },
     outline: [
       [116, 18, -4, 9, -2, -7],
       [
@@ -1089,6 +1096,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 891,
+  projection: {
+    kind: "azimuthal",
+    centre: [-76.558, 24.092],
+    scale: 7866.84,
+    at: [501.61, 448.03],
+  },
   outlines: { BHS: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

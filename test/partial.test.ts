@@ -92,6 +92,22 @@ const specs: ReadonlyArray<readonly [string, Spec]> = [
       fill: { kind: "highlight", countries: ["USA", "FRA"], colour: "#ef6c00" },
     },
   ],
+  [
+    "bubbles at coordinates and at named places, over a highlight",
+    {
+      title: "Staff by office",
+      fill: { kind: "highlight", countries: ["FRA", "DEU"] },
+      points: {
+        kind: "bubble",
+        label: "Staff",
+        sites: [
+          { name: "Paris", lat: 48.857, lon: 2.352, value: 420 },
+          { place: "York", country: "GBR", value: 12 },
+          { place: "Springfield", area: "US-IL", value: 30, country: "USA" },
+        ],
+      },
+    },
+  ],
 ]
 
 describe("partial", () => {
@@ -124,6 +140,12 @@ describe("partial", () => {
     const cut = heal('{"fill":{"kind":"highlight","areas":["RU-MOW","RU-MO', Allow.ALL)
 
     expect(partial(cut)).toEqual({ fill: { kind: "highlight", areas: ["RU-MOW"] } })
+  })
+
+  it("holds back the place a stream ends on, which may grow into another's name", () => {
+    const cut = heal('{"points":{"kind":"dot","sites":[{"place":"New Y', Allow.ALL)
+
+    expect(partial(cut)).toEqual({})
   })
 
   it("leaves out a code half written, and text reads as far as it goes", () => {

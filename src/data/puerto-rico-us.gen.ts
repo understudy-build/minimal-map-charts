@@ -1010,8 +1010,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Cataño",
     country: "PRI",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-66.143908, 18.437654],
+      scale: 225768.32,
+      at: [106.5, 105.49],
+    },
     outline: [
       [
         154, 42, 4, 2, -1, 0, 0, 1, -1, 1, 0, 1, 1, 1, 0, 1, 2, 2, 2, 1, 1, 1, 1, 0, 0, 1, -2, 2,
@@ -1093,6 +1100,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 261,
+  projection: {
+    kind: "azimuthal",
+    centre: [-66.407, 18.199],
+    scale: 21652.28,
+    at: [564.55, 130.24],
+  },
   outlines: { PRI: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

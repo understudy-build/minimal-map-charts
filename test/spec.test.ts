@@ -29,6 +29,17 @@ const refused = (input: unknown) => {
   return !result.ok && result.issues.map(describe)
 }
 
+// Points at the sites given, each valid as written unless a test says so.
+const dots = (...sites: ReadonlyArray<Record<string, unknown>>) => ({
+  points: { kind: "dot", sites },
+})
+
+const bubbles = (...sites: ReadonlyArray<Record<string, unknown>>) => ({
+  points: { kind: "bubble", label: "Staff", sites },
+})
+
+const paris = { name: "Paris", lat: 48.857, lon: 2.352 }
+
 const issues = (scale: Record<string, unknown>) => {
   const result = parse(choropleth({ FRA: 1 }, { scale }))
 
@@ -230,6 +241,59 @@ group("parse", () => {
     ])
   })
 
+  it("accepts dots at coordinates and bubbles at named places, beside a fill", () => {
+    const located = { fill: { kind: "highlight", countries: ["FRA"] }, ...dots(paris) }
+    const named = bubbles(
+      { place: "Lyon", country: "FRA", value: 120 },
+      { place: "Springfield", country: "USA", area: "US-IL", name: "Springfield, IL", value: 0 },
+    )
+
+    expect(parse(located)).toEqual({ ok: true, spec: located })
+    expect(parse(named)).toEqual({ ok: true, spec: named })
+  })
+
+  it("refuses coordinates out of range, and says when lat and lon look swapped", () => {
+    expect(refused(dots({ name: "Sydney", lat: 151.2, lon: -33.9 }))).toEqual([
+      "points.sites.0.lat: expected a latitude from -90 to 90; lat 151.2 and lon -33.9 look swapped.",
+    ])
+    expect(refused(dots({ name: "Nowhere", lat: 10, lon: 190 }))).toEqual([
+      "points.sites.0.lon: expected a longitude from -180 to 180.",
+    ])
+  })
+
+  it("sizes only bubbles, from 0 up, with one above 0", () => {
+    expect(refused(dots({ ...paris, value: 3 }))).toEqual([
+      'points.sites.0.value: expected no value: a dot shows where. Use kind "bubble" to size points.',
+    ])
+    expect(refused(bubbles({ ...paris, value: -2 }))).toEqual([
+      "points.sites.0.value: expected a number 0 or above: a bubble's area shows a size. Show signed changes with a choropleth fill.",
+    ])
+    expect(refused(bubbles({ ...paris, value: 0 }))).toEqual([
+      "points.sites: expected at least one site with a value above 0.",
+    ])
+  })
+
+  it("refuses a site at coordinates and a place, a name given twice, and an area of another country", () => {
+    expect(refused(dots({ ...paris, place: "Paris", country: "FRA" }))).toEqual([
+      "points.sites.0: expected either `lat` and `lon`, or `place` and `country`, not both.",
+    ])
+    expect(refused(dots(paris, { place: "Paris", country: "FRA" }))).toEqual([
+      "points.sites.1.place: expected a name not listed before: give each site its own `name`.",
+    ])
+    expect(refused(dots({ place: "Lyon", country: "FRA", area: "US-IL" }))).toEqual([
+      "points.sites.0.area: expected an area of FRA, the place's country.",
+    ])
+  })
+
+  it("keeps a point colour apart from the fill's", () => {
+    expect(
+      refused({
+        fill: { kind: "highlight", countries: ["FRA"], colour: "#ef6c00" },
+        points: { kind: "dot", colour: "#d9480f", sites: [paris] },
+      }),
+    ).toEqual(["points.colour: expected a hue at least 60° away from the fill's colour."])
+  })
+
   it("serves the Standard Schema interface, with the path apart from the message", () => {
     expect(Spec["~standard"].validate({ sheet: "world" })).toEqual({ value: { sheet: "world" } })
     expect(Spec["~standard"].validate({ sheet: "moon" })).toEqual({
@@ -311,6 +375,12 @@ group("JSON Schema", () => {
         fill: { kind: "highlight", countries: ["FRA"], areas: ["FR-IDF"] },
       },
     ],
+    ["dots", dots(paris, { place: "Lyon", country: "FRA" })],
+    ["bubbles", bubbles({ ...paris, value: 3 }, { place: "Lyon", country: "FRA", value: 1 })],
+    ["a bubble with no value", bubbles(paris)],
+    ["a site at coordinates and a place", dots({ ...paris, place: "Paris", country: "FRA" })],
+    ["a site with neither", dots({ name: "Paris" })],
+    ["points of no kind", { points: { sites: [paris] } }],
   ]
 
   const later = new Ajv2020({ strict: false }).compile(schema)
@@ -338,6 +408,8 @@ group("JSON Schema", () => {
     ],
     ["an area of a country with no map", { fill: { kind: "highlight", areas: ["LY-TB"] } }],
     ["areas of two countries", { fill: { kind: "highlight", areas: ["US-CA", "FR-IDF"] } }],
+    ["a latitude past the pole", dots({ name: "Pole", lat: 91, lon: 0 })],
+    ["a name given twice", dots(paris, { ...paris, lat: 48 })],
   ])("leaves %s to parse", (_, input) => {
     expect([validate(input), parse(input).ok]).toEqual([true, false])
   })
@@ -352,6 +424,7 @@ group("strict JSON Schema", () => {
     title: "Euro area members",
     source: null,
     fill: { kind: "highlight", countries: ["FRA", "DEU"], colour: null },
+    points: null,
   }
 
   it("takes every key, with null for the ones left out, and parse reads the same spec", () => {
@@ -375,6 +448,35 @@ group("strict JSON Schema", () => {
       spec: {
         title: "The West Coast",
         fill: { kind: "highlight", areas: ["US-CA", "US-OR", "US-WA"] },
+      },
+    })
+  })
+
+  it("takes points, with null for a site's area and name", () => {
+    const marked = {
+      ...full,
+      points: {
+        kind: "bubble",
+        label: null,
+        colour: null,
+        sites: [
+          { ...paris, value: 2 },
+          { place: "Lyon", country: "FRA", area: null, name: null, value: 1 },
+        ],
+      },
+    }
+
+    expect(validateStrict(marked)).toBe(true)
+    expect(parse(marked)).toMatchObject({
+      ok: true,
+      spec: {
+        points: {
+          kind: "bubble",
+          sites: [
+            { ...paris, value: 2 },
+            { place: "Lyon", country: "FRA", value: 1 },
+          ],
+        },
       },
     })
   })

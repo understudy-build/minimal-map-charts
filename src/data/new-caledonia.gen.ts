@@ -88,8 +88,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Îles Loyauté",
     country: "NCL",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [167.435611, -21.101504],
+      scale: 7375.52,
+      at: [140.44, 100.17],
+    },
     outline: [
       [
         225, 143, 0, 7, -2, 9, 0, 8, -1, 2, -2, 0, -4, 1, -4, 2, -5, 0, -4, -3, 0, -3, -2, -1, -3,
@@ -145,6 +152,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 716,
+  projection: {
+    kind: "azimuthal",
+    centre: [166.84, -21.716],
+    scale: 13210.06,
+    at: [710.14, 485.27],
+  },
   outlines: { NCL: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

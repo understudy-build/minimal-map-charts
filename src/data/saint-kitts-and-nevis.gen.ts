@@ -129,8 +129,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Saint Paul Charlestown",
     country: "KNA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-62.606569, 17.135431],
+      scale: 281253.95,
+      at: [100.9, 97.28],
+    },
     outline: [[31, 132, -23, -61, 139, 12, 85, -35, -64, 64, -76, 15]],
     areas: [
       {
@@ -145,6 +152,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1018,
+  projection: {
+    kind: "azimuthal",
+    centre: [-62.703, 17.271],
+    scale: 181290.01,
+    at: [487.37, 468.39],
+  },
   outlines: { KNA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

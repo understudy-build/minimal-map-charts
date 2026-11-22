@@ -152,8 +152,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Musandam",
     country: "OMN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [56.278352, 25.954266],
+      scale: 7998.3,
+      at: [118.04, 68.27],
+    },
     outline: [
       [
         127, 160, -1, 4, -3, 2, -5, 2, -3, 3, -2, 1, -2, -1, -2, 0, 0, -5, 4, -2, 1, -1, -1, -1, 0,
@@ -210,6 +217,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1308,
+  projection: { kind: "azimuthal", centre: [57.036, 22.657], scale: 7610.74, at: [645.24, 505.43] },
   outlines: { OMN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

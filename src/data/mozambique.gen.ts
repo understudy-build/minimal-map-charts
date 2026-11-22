@@ -235,8 +235,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Maputo City",
     country: "MOZ",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [32.58327, -25.918962],
+      scale: 90350.31,
+      at: [113.72, 91.8],
+    },
     outline: [
       [
         221, 79, -27, 25, -11, 18, -7, 9, -38, 32, -13, 8, -16, 1, -13, -4, -29, -19, -24, -8, -24,
@@ -261,6 +268,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1576,
+  projection: { kind: "azimuthal", centre: [35.09, -18.971], scale: 5460.51, at: [459.01, 812.69] },
   outlines: { MOZ: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -86,8 +86,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Redonda",
     country: "ATG",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-62.345277, 16.93605],
+      scale: 1052593.64,
+      at: [125.48, 97.04],
+    },
     outline: [[120, 40, 17, -23, 27, -9, 3, 46, -3, 61, -24, 47, -46, 10, -21, -31, 17, -68]],
     areas: [
       {
@@ -102,6 +109,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1217,
+  projection: {
+    kind: "azimuthal",
+    centre: [-61.851, 17.124],
+    scale: 86249.29,
+    at: [726.09, 918.75],
+  },
   outlines: { ATG: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

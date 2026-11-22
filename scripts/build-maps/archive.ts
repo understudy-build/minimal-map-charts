@@ -1,4 +1,4 @@
-// The source snapshots the maps are drawn from: 212 files, 126 MB, too large
+// The source snapshots the maps are drawn from: 213 files, 129 MB, too large
 // for Git. They are assets of one GitHub release of this repository.
 // `restore` downloads the ones missing from the ignored .archive/ folder and
 // checks each against the size and SHA-256 GitHub records for it, so a full

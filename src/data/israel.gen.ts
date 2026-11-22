@@ -122,8 +122,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Tel Aviv",
     country: "ISR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [34.813327, 32.080768],
+      scale: 44586.46,
+      at: [124.12, 99.93],
+    },
     outline: [
       [
         123, 8, 8, 5, 7, 1, 4, 5, 8, 4, 10, 9, 0, 7, -2, 3, -5, 4, -1, 5, 8, 6, 1, 10, -1, 7, -4, 2,
@@ -150,6 +157,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 3148,
+  projection: {
+    kind: "azimuthal",
+    centre: [35.057, 31.391],
+    scale: 47197.81,
+    at: [566.95, 1574.76],
+  },
   outlines: { ISR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

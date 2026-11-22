@@ -163,6 +163,12 @@ const insets: Sheet["insets"] = [
     country: "CYM",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-79.900848, 19.706398],
+      scale: 35177.38,
+      at: [129.19, 90.58],
+    },
     outline: [
       [36, 116, 0, 1, -1, 0, 0, -2, 1, 0, 0, 1],
       [
@@ -233,6 +239,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 436,
+  projection: {
+    kind: "azimuthal",
+    centre: [-81.046, 19.51],
+    scale: 177398.54,
+    at: [1103.01, -339.34],
+  },
   outlines: { CYM: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

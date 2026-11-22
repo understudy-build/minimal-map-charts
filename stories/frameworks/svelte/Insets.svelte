@@ -1,5 +1,7 @@
 <script lang="ts">
   import { paint } from "../../../src/index.ts"
+  import { insetScale } from "../text.ts"
+  import Circle from "./Circle.svelte"
   import { useFigure } from "./context.ts"
 
   const { state } = useFigure()
@@ -22,6 +24,9 @@
             stroke={state.palette.stroke}
             stroke-width="1.5"
           />
+          {#each inset.marks as mark (mark.name)}
+            <Circle {mark} scale={insetScale(state.scene, inset)} />
+          {/each}
         </svg>
         <span class="text-xs" style:color={state.palette.muted}>{inset.name}</span>
       </li>

@@ -58,6 +58,12 @@ const insets: Sheet["insets"] = [
     country: "MNP",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [145.699974, 17.906524],
+      scale: 2066.07,
+      at: [127.43, 103.49],
+    },
     outline: [
       [117, 39, 1, 0, -1, 1, 0, -1],
       [126, 160, -1, 0, 0, -1, 3, 0, 0, 1, -1, 0],
@@ -84,6 +90,12 @@ const insets: Sheet["insets"] = [
     country: "MNP",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [145.628367, 15.007484],
+      scale: 36510.93,
+      at: [134.37, 67.68],
+    },
     outline: [
       [79, 172, 1, -6, 23, -7, -2, 8],
       [
@@ -130,6 +142,12 @@ const insets: Sheet["insets"] = [
     country: "MNP",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [145.214167, 14.156846],
+      scale: 78267.94,
+      at: [131.21, 88.02],
+    },
     outline: [
       [
         37, 102, -1, 0, 1, -1, 0, 1, 12, -15, 0, -2, 1, 1, 0, -1, 1, 0, 0, -2, 1, 0, 0, -1, 1, 0, 0,
@@ -189,6 +207,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1453,
+  projection: {
+    kind: "azimuthal",
+    centre: [145.593, 17.332],
+    scale: 414696.5,
+    at: [-665.01, -14768.64],
+  },
   outlines: { MNP: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

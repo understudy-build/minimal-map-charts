@@ -10,10 +10,75 @@ import { nations } from "./sheet.ts"
 // schema leaves out, ascending breaks, codes listed once, areas of one
 // country that its sheet draws, and countries on an explicit sheet, are
 // written into the descriptions and enforced by `parse`.
+
+// A site's fields; a bubble's sites also take `value`.
+const site = {
+  name: {
+    description:
+      'What the site is, shown in its tooltip, label and row, e.g. "Paris office". Each site\'s name is its own.',
+    type: "string",
+  },
+  lat: {
+    description:
+      "Latitude in degrees, -90 to 90, from the user's data or a geocoder, never from memory.",
+    type: "number",
+  },
+  lon: { description: "Longitude in degrees, -180 to 180.", type: "number" },
+  place: {
+    description:
+      'A city or town as Natural Earth lists it, e.g. "Lyon": the map takes its location from Natural Earth. Use it when the data names places without coordinates.',
+    type: "string",
+  },
+  area: {
+    $ref: "#/$defs/area",
+    description:
+      "Only when an error asks for it: the ISO 3166-2 area that tells apart places of one name in a country.",
+  },
+  value: {
+    description: "The size, 0 or above, from a source. A bubble's area is proportional to it.",
+    type: "number",
+  },
+} as const
+
+const sites = (sized: boolean) =>
+  ({
+    description:
+      "Each site at `lat` and `lon` from the data, or at a `place` named with its `country`. Sites must lie on the map's sheet.",
+    type: "array",
+    minItems: 1,
+    items: {
+      anyOf: [
+        {
+          type: "object",
+          additionalProperties: false,
+          required: sized ? ["name", "lat", "lon", "value"] : ["name", "lat", "lon"],
+          properties: {
+            name: site.name,
+            lat: site.lat,
+            lon: site.lon,
+            ...(sized ? { value: site.value } : {}),
+          },
+        },
+        {
+          type: "object",
+          additionalProperties: false,
+          required: sized ? ["place", "country", "value"] : ["place", "country"],
+          properties: {
+            place: site.place,
+            country: { $ref: "#/$defs/country" },
+            area: site.area,
+            name: { ...site.name, description: `${site.name.description} Defaults to \`place\`.` },
+            ...(sized ? { value: site.value } : {}),
+          },
+        },
+      ],
+    },
+  }) as const
+
 export const schema = {
   title: "Map",
   description:
-    "A map of countries, or of one country's areas such as states or regions, by ISO 3166-2 code, e.g. \"US-CA\". Give `fill` and leave out `sheet`: the map then frames the narrowest region holding every country in the fill, else the world, and a fill of areas draws their country's own map.",
+    "A map of countries, or of one country's areas such as states or regions, by ISO 3166-2 code, e.g. \"US-CA\", with points for places such as cities, offices or events. Give `fill` or `points` and leave out `sheet`: the map then frames the narrowest region holding every country in the fill and every point, else the world, and a fill of areas draws their country's own map.",
   type: "object",
   additionalProperties: false,
   properties: {
@@ -24,8 +89,45 @@ export const schema = {
       type: "string",
     },
     fill: { $ref: "#/$defs/fill" },
+    points: { $ref: "#/$defs/points" },
   },
   $defs: {
+    points: {
+      description:
+        "Sites marked over the map, beside any fill: dots show where, bubbles also how much.",
+      anyOf: [
+        {
+          type: "object",
+          additionalProperties: false,
+          required: ["kind", "sites"],
+          properties: {
+            kind: { const: "dot" },
+            label: {
+              description: 'What the dots are, for the legend, e.g. "Offices".',
+              type: "string",
+            },
+            colour: { $ref: "#/$defs/colour" },
+            sites: sites(false),
+          },
+        },
+        {
+          description:
+            "Circles whose area is proportional to each site's value, from 0. Signed values, such as changes, belong in a choropleth fill.",
+          type: "object",
+          additionalProperties: false,
+          required: ["kind", "sites"],
+          properties: {
+            kind: { const: "bubble" },
+            label: {
+              description: 'What the values measure, for the legend, e.g. "Staff".',
+              type: "string",
+            },
+            colour: { $ref: "#/$defs/colour" },
+            sites: sites(true),
+          },
+        },
+      ],
+    },
     sheet: {
       description:
         "Which map to draw. Leave it out unless asked for a specific map or layout. A name picks a prebuilt map; an object lays countries out in panels cropped from the prebuilt maps.",

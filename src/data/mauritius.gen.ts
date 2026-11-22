@@ -176,6 +176,12 @@ const insets: Sheet["insets"] = [
     country: "MUS",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [63.421791, -19.71658],
+      scale: 79433.1,
+      at: [127.28, 86],
+    },
     outline: [
       [
         95, 144, -1, 2, 4, 3, -3, 1, -13, -1, -13, 4, 0, 4, 3, 1, 3, 4, -8, -2, -14, -8, -6, -1,
@@ -220,6 +226,12 @@ const insets: Sheet["insets"] = [
     country: "MUS",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [59.571856, -16.744707],
+      scale: 326407,
+      at: [122.15, 91.09],
+    },
     outline: [
       [
         130, 166, -13, 6, -5, -51, 7, -12, -1, -26, -19, -39, 11, -16, -6, -9, 18, -11, 4, 56, 10,
@@ -244,6 +256,12 @@ const insets: Sheet["insets"] = [
     country: "MUS",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [56.643013, -10.418072],
+      scale: 61228.21,
+      at: [117.48, 94.38],
+    },
     outline: [
       [
         168, 172, -5, 0, -6, -7, -1, -11, -5, -15, -2, -4, -16, -14, 36, 15, 9, 9, 5, 10, -1, 4, -4,
@@ -276,6 +294,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1153,
+  projection: {
+    kind: "azimuthal",
+    centre: [58.241, -15.431],
+    scale: 119487.06,
+    at: [1833.77, -9480.43],
+  },
   outlines: { MUS: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

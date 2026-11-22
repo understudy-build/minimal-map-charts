@@ -58,12 +58,14 @@ const last = (input: unknown): Path => {
 }
 
 // Whether the value a stream ends on may still grow into another: a number
-// may gain digits, and an area code may be the start of another, as RU-MO is
-// of RU-MOW. No other id is a prefix of another, so a country code cut short
-// never passes for a different one.
+// may gain digits, an area code may be the start of another, as RU-MO is of
+// RU-MOW, and a place's name may be the start of another's, as York is of
+// New York's. No other id is a prefix of another, so a country code cut
+// short never passes for a different one.
 const growing = (end: Path, leaf: unknown) =>
   typeof leaf === "number" ||
-  (typeof leaf === "string" && (end.at(-1) === "area" || end.at(-2) === "areas"))
+  (typeof leaf === "string" &&
+    (end.at(-1) === "area" || end.at(-1) === "place" || end.at(-2) === "areas"))
 
 // Reads a spec from a stream cut short: the JSON a model has written so far,
 // its open brackets closed, as structured-output and tool-call streams yield

@@ -2095,8 +2095,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Saint Petersburg",
     country: "RUS",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [30.21116, 59.924543],
+      scale: 15353.11,
+      at: [135.3, 94.09],
+    },
     outline: [
       [116, 160, 2, 0, 0, 1, -1, 2, -1, 0],
       [
@@ -2218,8 +2225,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Moscow",
     country: "RUS",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [37.361795, 55.558413],
+      scale: 10692.96,
+      at: [117.74, 94.4],
+    },
     outline: [
       [70, 139, 0, -1, 0, 0, 1, 0, 0, 1, -1, 0, 0, 1, -1, 0, 0, -1],
       [
@@ -2376,6 +2390,12 @@ const insets: Sheet["insets"] = [
     country: "RUS",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [21.452067, 54.707314],
+      scale: 6822.54,
+      at: [133.57, 101.77],
+    },
     outline: [
       [
         184, 145, -1, 1, -26, 0, 0, 1, -15, 0, 0, 1, -1, 0, 0, -1, -4, 0, -1, 1, -3, 0, 0, -1, -9,
@@ -2473,6 +2493,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1017,
+  projection: { kind: "azimuthal", centre: [58.795, 61.427], scale: 921.09, at: [274.26, 693.79] },
   outlines: { RUS: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

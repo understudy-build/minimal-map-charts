@@ -103,8 +103,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Saint Luke",
     country: "DMA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-61.365723, 15.248331],
+      scale: 384645.45,
+      at: [111.54, 88.67],
+    },
     outline: [[66, 163, -3, -155, 108, 44, 6, 67, -112, 53]],
     areas: [
       {
@@ -119,6 +126,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1854,
+  projection: {
+    kind: "azimuthal",
+    centre: [-61.368, 15.384],
+    scale: 243090.89,
+    at: [504.3, 1070.17],
+  },
   outlines: { DMA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

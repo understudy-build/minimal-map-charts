@@ -1134,8 +1134,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Bangkok Metropolis",
     country: "THA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [100.619987, 13.771294],
+      scale: 20402.3,
+      at: [118.07, 71.62],
+    },
     outline: [
       [
         65, 170, -13, 2, -10, 0, 0, -1, 1, -1, 1, -2, 2, -2, 0, -2, -2, -17, -6, -19, -1, -3, -4,
@@ -1171,8 +1178,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Phuket",
     country: "THA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [98.341513, 7.974639],
+      scale: 22157.66,
+      at: [117.91, 91.98],
+    },
     outline: [
       [
         147, 119, 2, -1, 2, -2, 1, -2, 3, 6, 1, 6, -4, 5, -12, 4, -1, 5, 1, 14, -14, -7, -7, 0, -3,
@@ -1205,6 +1219,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1848,
+  projection: { kind: "azimuthal", centre: [101, 15], scale: 7074.05, at: [437.18, 682.34] },
   outlines: { THA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

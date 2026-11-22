@@ -152,8 +152,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Arima",
     country: "TTO",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-61.279166, 10.62533],
+      scale: 201589.77,
+      at: [124.22, 108.79],
+    },
     outline: [
       [
         140, 172, -30, -1, -32, -10, -8, -6, -2, -6, 1, -7, 4, -6, 13, -12, 5, -8, 4, -20, 0, -6,
@@ -180,6 +187,12 @@ const insets: Sheet["insets"] = [
     country: "TTO",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-60.670439, 11.247151],
+      scale: 40207.12,
+      at: [129.92, 90.03],
+    },
     outline: [
       [
         141, 47, 13, -4, 19, -5, 8, -4, 9, -2, 11, 7, 5, -1, 13, -16, 7, -5, 5, 5, 1, 18, -2, 21,
@@ -208,6 +221,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 804,
+  projection: { kind: "azimuthal", centre: [-61.3, 10.697], scale: 55884.64, at: [613.8, 154.82] },
   outlines: { TTO: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

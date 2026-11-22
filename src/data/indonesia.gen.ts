@@ -618,8 +618,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Dki Jakarta",
     country: "IDN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [106.83595, -6.199697],
+      scale: 36038.58,
+      at: [124.7, 77.27],
+    },
     outline: [[55, 8, 154, 1, -33, 163, -86, -21, -59, -91]],
     areas: [
       {
@@ -632,8 +639,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Bali",
     country: "IDN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [115.104609, -8.368102],
+      scale: 10197.92,
+      at: [125.32, 74.48],
+    },
     outline: [
       [94, 93, -60, -13, -26, -54, 75, 18, 56, -24, 93, 56, -78, 49, -17, 35, -15, -2, 14, -24],
       [192, 144, 14, -15, 11, 17],
@@ -652,8 +666,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Kepulauan Bangka Belitung",
     country: "IDN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [106.541304, -2.440984],
+      scale: 4033.07,
+      at: [108.78, 93.79],
+    },
     outline: [
       [
         28, 72, -6, 2, -14, -10, 20, -15, 0, -14, 15, -5, 8, 8, -5, 7, 11, 5, -6, -19, 12, -3, 11,
@@ -687,8 +708,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Kepulauan Riau",
     country: "IDN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [105.631023, 1.595161],
+      scale: 1911.4,
+      at: [100.34, 95.98],
+    },
     outline: [
       [28, 128, -3, -3, 0, -6, 5, 5],
       [27, 116, -3, -1, 0, -4],
@@ -733,6 +761,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 382,
+  projection: { kind: "azimuthal", centre: [119, -3], scale: 1235.86, at: [518.85, 200.54] },
   outlines: { IDN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

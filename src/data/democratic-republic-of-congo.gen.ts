@@ -598,8 +598,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Kasaï-Oriental",
     country: "COD",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [23.519395, -6.151918],
+      scale: 8213.75,
+      at: [113.98, 83.14],
+    },
     outline: [
       [
         192, 115, 0, 1, -1, 0, -1, 0, 0, 1, -1, 0, 0, 1, -2, 0, -1, 0, -1, 0, 0, 1, -1, 0, 0, -1,
@@ -691,6 +698,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 992,
+  projection: { kind: "azimuthal", centre: [23.078, -4.036], scale: 2950.88, at: [566.32, 494.64] },
   outlines: { COD: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

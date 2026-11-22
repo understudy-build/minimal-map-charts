@@ -340,8 +340,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Al Qahirah",
     country: "EGY",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [31.607296, 29.998107],
+      scale: 16228.96,
+      at: [126.94, 104.62],
+    },
     outline: [
       [
         195, 38, 1, 16, 6, 28, 6, 58, -2, 25, -157, 7, -2, -4, 2, -3, 2, -6, 0, -11, -2, -11, -3,
@@ -366,8 +373,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Bur Sa`id",
     country: "EGY",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [32.42104, 31.128068],
+      scale: 29826.52,
+      at: [116.21, 91.73],
+    },
     outline: [
       [
         43, 8, 20, 4, 6, 4, 2, 0, 5, 1, 1, 9, 5, 6, 7, 5, 13, 3, 5, 5, 9, 11, 19, 19, 8, 6, 13, 22,
@@ -394,6 +408,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 884,
+  projection: { kind: "azimuthal", centre: [30, 27], scale: 5080.86, at: [422.85, 430.13] },
   outlines: { EGY: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

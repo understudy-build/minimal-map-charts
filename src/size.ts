@@ -1,7 +1,7 @@
 import { footprints } from "./data/sheets.gen.ts"
 import { sheetOf } from "./draw.ts"
 import { named, type Spec } from "./spec.ts"
-import { stack } from "./svg.ts"
+import { key, stack } from "./svg.ts"
 
 // The viewBox `svg()` will give a spec's map, known before its sheet loads,
 // so a page can reserve the map's height. A layout's size depends on the
@@ -17,6 +17,8 @@ export const size = (
   const { width, height, insets, credits, absent = [] } = footprints[id]
   const target = named(spec.fill)
   const missing = target.kind === "countries" && target.codes.some((code) => absent.includes(code))
+  // Natural Earth is credited for places once a site names one.
+  const placed = (spec.points?.sites ?? []).some((each) => "place" in each)
 
   return {
     width,
@@ -26,7 +28,8 @@ export const size = (
       title: spec.title !== undefined,
       insets,
       legend: spec.fill?.kind === "choropleth",
-      notes: Number(missing) + Number(spec.source !== undefined) + credits,
+      points: key(spec.points),
+      notes: Number(missing) + Number(spec.source !== undefined) + credits + Number(placed),
     }).height,
   }
 }

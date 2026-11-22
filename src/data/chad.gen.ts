@@ -308,8 +308,15 @@ const insets: Sheet["insets"] = [
   {
     name: "N'DJAMENA",
     country: "TCD",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [15.060578, 12.130481],
+      scale: 42622.12,
+      at: [137.02, 84.18],
+    },
     outline: [
       [
         151, 10, 30, 23, 22, 20, 6, 30, 18, 23, -4, 25, -8, 32, -25, 7, -19, 2, -17, -6, -21, -10,
@@ -336,6 +343,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1564,
+  projection: { kind: "azimuthal", centre: [18.129, 15.454], scale: 5526.94, at: [445.05, 782.66] },
   outlines: { TCD: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -787,8 +787,15 @@ const insets: Sheet["insets"] = [
   {
     name: "National Capital District",
     country: "PNG",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [147.199029, -9.436904],
+      scale: 49708.58,
+      at: [145.84, 81.71],
+    },
     outline: [
       [
         151, 10, 0, 0, 0, 1, 2, 0, 0, 1, -2, 0, 0, 3, -1, 0, 0, 2, 1, 0, 0, -1, 1, 0, 0, 1, 1, 0, 0,
@@ -891,6 +898,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 600,
+  projection: {
+    kind: "azimuthal",
+    centre: [146.421, -6.191],
+    scale: 3029.86,
+    at: [303.02, 297.17],
+  },
   outlines: { PNG: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

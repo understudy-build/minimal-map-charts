@@ -203,6 +203,7 @@ const insets: Sheet["insets"] = []
 const sheet: Sheet = {
   width: 1000,
   height: 555,
+  projection: { kind: "azimuthal", centre: [-89, 13.8], scale: 23843.26, at: [460.49, 278.7] },
   outlines: { SLV: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

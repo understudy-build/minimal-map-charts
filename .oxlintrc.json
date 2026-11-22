@@ -38,6 +38,12 @@
       }
     },
     {
+      "files": ["src/data/places/**"],
+      "rules": {
+        "oxc/approx-constant": "off"
+      }
+    },
+    {
       "files": ["test/**", "examples/**"],
       "rules": {
         "no-underscore-dangle": [

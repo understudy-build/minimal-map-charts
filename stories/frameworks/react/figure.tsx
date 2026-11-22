@@ -9,12 +9,13 @@ import {
   type DrawOptions,
   type Issue,
   light,
+  type Mark,
   paint,
   type Palette,
   type Scene,
   type Spec,
 } from "../../../src/index.ts"
-import { credit, entries, hint } from "../text.ts"
+import { credit, entries, hint, insetScale, key, look } from "../text.ts"
 
 // A React recipe for the scene: copy it into an app. The package stays free
 // of React; this file is the whole integration.
@@ -26,10 +27,10 @@ import { credit, entries, hint } from "../text.ts"
 const drawings = new Map<string, Promise<Drawn>>()
 
 export const useDrawn = (spec: Spec, { locale = "en" }: DrawOptions = {}): Drawn => {
-  const key = `${locale} ${JSON.stringify(spec)}`
-  const drawn = drawings.get(key) ?? draw(spec, { locale })
+  const id = `${locale} ${JSON.stringify(spec)}`
+  const drawn = drawings.get(id) ?? draw(spec, { locale })
 
-  drawings.set(key, drawn)
+  drawings.set(id, drawn)
 
   return use(drawn)
 }
@@ -43,16 +44,19 @@ const Issues = ({ issues }: { readonly issues: ReadonlyArray<Issue> }) => (
   </ul>
 )
 
-// What every part of a figure reads: the scene, its palette and the country
-// or area the reader points at, and how to change it.
+// What the reader points at: a country, an area, or a point's mark.
+type Active = Country | Area | Mark | undefined
+
+// What every part of a figure reads: the scene, its palette and what the
+// reader points at, and how to change it.
 interface Contract {
   readonly state: {
     readonly scene: Scene
     readonly palette: Palette
-    readonly active: Country | Area | undefined
+    readonly active: Active
   }
   readonly actions: {
-    readonly activate: (code: Country | Area | undefined) => void
+    readonly activate: (active: Active) => void
   }
 }
 
@@ -75,7 +79,7 @@ interface RootProps {
 
 // The figure, or the issues when the spec does not draw.
 const Root = ({ drawn, palette = light, children }: RootProps) => {
-  const [active, activate] = useState<Country | Area>()
+  const [active, activate] = useState<Active>()
 
   if (!drawn.ok) return <Issues issues={drawn.issues} />
 
@@ -99,13 +103,48 @@ const Title = () => {
   )
 }
 
-// What the reader points at: a country's shape, or an area's patch.
-const pointed = (scene: Scene, active: Country | Area | undefined) =>
-  scene.patches.find((patch) => patch.area === active) ??
-  scene.shapes.find((shape) => shape.country === active)
+// The shape the reader points at: a country's, or an area's patch.
+const pointed = (scene: Scene, active: Active) =>
+  typeof active === "object"
+    ? undefined
+    : (scene.patches.find((patch) => patch.area === active) ??
+      scene.shapes.find((shape) => shape.country === active))
 
-// The map itself. Countries and areas in the fill take focus and report the
-// one the reader points at; the active one is outlined on top.
+// A point's circle, at `scale` map units to each of its frame's: the map's,
+// or an inset's. It takes focus and reports itself as what the reader points
+// at, ringed in ink while it is.
+const Circle = ({ mark, scale = 1 }: { readonly mark: Mark; readonly scale?: number }) => {
+  const {
+    state: { scene, palette, active },
+    actions: { activate },
+  } = useFigure()
+  const { fill, opacity, stroke } = look(scene, { palette, value: mark.value })
+
+  return (
+    <circle
+      cx={mark.x}
+      cy={mark.y}
+      r={mark.radius / scale}
+      fill={fill}
+      fillOpacity={opacity}
+      stroke={active === mark ? palette.ink : stroke}
+      strokeWidth={(active === mark ? 2 : 1) / scale}
+      role="img"
+      aria-label={mark.label}
+      tabIndex={0}
+      className="outline-none"
+      onPointerEnter={() => activate(mark)}
+      onPointerLeave={() => activate(undefined)}
+      onFocus={() => activate(mark)}
+      onBlur={() => activate(undefined)}
+    >
+      <title>{mark.label}</title>
+    </circle>
+  )
+}
+
+// The map itself. Countries, areas and points take focus and report the one
+// the reader points at; the active one is outlined on top.
 const Shapes = () => {
   const {
     state: { scene, palette, active },
@@ -183,6 +222,9 @@ const Shapes = () => {
           pointerEvents="none"
         />
       )}
+      {scene.marks.map((mark) => (
+        <Circle key={`${mark.name} ${mark.x} ${mark.y}`} mark={mark} />
+      ))}
     </svg>
   )
 }
@@ -218,6 +260,9 @@ const Insets = () => {
                 <title>{patch.label}</title>
               </path>
             ))}
+            {inset.marks.map((mark) => (
+              <Circle key={mark.name} mark={mark} scale={insetScale(scene, inset)} />
+            ))}
           </svg>
           <span className="text-xs" style={{ color: palette.muted }}>
             {inset.name}
@@ -228,39 +273,85 @@ const Insets = () => {
   )
 }
 
+// The points' legend, in map units at the map's width, so its circles match
+// the map's.
+const Key = () => {
+  const { scene, palette } = useFigure().state
+  const drawn = key(scene)
+
+  if (drawn === undefined) return null
+
+  const { fill, opacity, stroke } = look(scene, { palette })
+
+  return (
+    <svg viewBox={`0 0 ${drawn.width} ${drawn.height}`} aria-hidden className="block h-auto w-full">
+      {drawn.circles.map((circle) => (
+        <circle
+          key={circle.r}
+          cx={circle.x}
+          cy={circle.y}
+          r={circle.r}
+          fill={fill}
+          fillOpacity={opacity}
+          stroke={stroke}
+        />
+      ))}
+      {drawn.texts.map((text) => (
+        <text
+          key={text.text}
+          x={text.x}
+          y={text.y}
+          fontSize={drawn.size}
+          fill={text.title ? palette.ink : palette.muted}
+        >
+          {text.text}
+        </text>
+      ))}
+    </svg>
+  )
+}
+
+// The fill's shades, then the points' legend.
 const Legend = () => {
   const { scene, palette } = useFigure().state
 
   return (
-    <ul
-      className="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-sm"
-      style={{ color: palette.muted }}
-    >
-      {entries(scene, palette).map((entry) => (
-        <li
-          key={entry.key}
-          className="flex items-center gap-1.5"
-          style={entry.colour === undefined ? { color: palette.ink } : undefined}
-        >
-          {entry.colour === undefined ? null : (
-            <span aria-hidden className="size-3 rounded-xs" style={{ background: entry.colour }} />
-          )}
-          {entry.text}
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul
+        className="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-sm"
+        style={{ color: palette.muted }}
+      >
+        {entries(scene, palette).map((entry) => (
+          <li
+            key={entry.key}
+            className="flex items-center gap-1.5"
+            style={entry.colour === undefined ? { color: palette.ink } : undefined}
+          >
+            {entry.colour === undefined ? null : (
+              <span
+                aria-hidden
+                className="size-3 rounded-xs"
+                style={{ background: entry.colour }}
+              />
+            )}
+            {entry.text}
+          </li>
+        ))}
+      </ul>
+      <Key />
+    </>
   )
 }
 
-// The active country's or area's value, announced to screen readers as it
-// changes.
+// The active country's, area's or point's value, announced to screen readers
+// as it changes.
 const Details = () => {
   const { scene, palette, active } = useFigure().state
-  const shape = pointed(scene, active)
+  const label = typeof active === "object" ? active.label : pointed(scene, active)?.label
 
   return (
     <output aria-live="polite" className="min-h-6 text-sm" style={{ color: palette.muted }}>
-      {shape === undefined ? hint : shape.label}
+      {label ?? hint}
     </output>
   )
 }
@@ -278,30 +369,61 @@ const Credits = () => {
 const Table = () => {
   const { scene, palette } = useFigure().state
 
-  return scene.rows.length === 0 ? null : (
-    <details className="text-sm">
-      <summary className="cursor-pointer" style={{ color: palette.muted }}>
-        Data table
-      </summary>
-      <table className="mt-2 border-collapse">
-        <thead>
-          <tr>
-            <th className="pr-6 text-left">
-              {scene.rows.some((row) => row.area !== undefined) ? "Area" : "Country"}
-            </th>
-            <th className="text-right">Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          {scene.rows.map((row) => (
-            <tr key={row.area ?? row.country}>
-              <td className="pr-6">{row.name}</td>
-              <td className="text-right tabular-nums">{row.value ?? "No data"}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </details>
+  return (
+    <>
+      {scene.rows.length === 0 ? null : (
+        <details className="text-sm">
+          <summary className="cursor-pointer" style={{ color: palette.muted }}>
+            Data table
+          </summary>
+          <table className="mt-2 border-collapse">
+            <thead>
+              <tr>
+                <th className="pr-6 text-left">
+                  {scene.rows.some((row) => row.area !== undefined) ? "Area" : "Country"}
+                </th>
+                <th className="text-right">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {scene.rows.map((row) => (
+                <tr key={row.area ?? row.country}>
+                  <td className="pr-6">{row.name}</td>
+                  <td className="text-right tabular-nums">{row.value ?? "No data"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </details>
+      )}
+      {scene.points === undefined ? null : (
+        <details className="text-sm">
+          <summary className="cursor-pointer" style={{ color: palette.muted }}>
+            Points
+          </summary>
+          <table className="mt-2 border-collapse">
+            <thead>
+              <tr>
+                <th className="pr-6 text-left">Site</th>
+                {scene.points.kind === "bubble" ? (
+                  <th className="text-right">{scene.points.label ?? "Value"}</th>
+                ) : null}
+              </tr>
+            </thead>
+            <tbody>
+              {scene.points.sites.map((site) => (
+                <tr key={site.name}>
+                  <td className="pr-6">{site.name}</td>
+                  {site.value === undefined ? null : (
+                    <td className="text-right tabular-nums">{site.value}</td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </details>
+      )}
+    </>
   )
 }
 

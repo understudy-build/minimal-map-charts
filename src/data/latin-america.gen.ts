@@ -7,6 +7,7 @@ const sheet: Sheet = {
   dots: { MAF: [633.5, 207] },
   width: 1000,
   height: 1155,
+  projection: { kind: "azimuthal", centre: [-75, -5], scale: 743.3, at: [483.62, 504.69] },
   outlines: {
     VEN: [
       [666, 322, 0, -1, 1, 1],

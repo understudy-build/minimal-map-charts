@@ -124,6 +124,12 @@ const insets: Sheet["insets"] = [
     country: "PLW",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [131.361933, 3.0159],
+      scale: 18847.32,
+      at: [83.82, 86.32],
+    },
     outline: [
       [12, 76, 6, -4, 7, 0, 3, 3, -4, 6, -6, 3, -8, 1, -2, -3],
       [225, 99, 5, 1, 2, 5, -6, 3, -5, -1, -1, -4, 3, -3],
@@ -144,6 +150,12 @@ const insets: Sheet["insets"] = [
     country: "PLW",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [132.22032, 5.302731],
+      scale: 521275.26,
+      at: [120.12, 76.39],
+    },
     outline: [[121, 172, -59, -135, 57, -29, 59, 54]],
     areas: [
       { code: "PW-370", name: "Sonsorol", outline: [[121, 172, -59, -135, 57, -29, 59, 54]] },
@@ -154,6 +166,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 2052,
+  projection: {
+    kind: "azimuthal",
+    centre: [134.221, 7.056],
+    scale: 95984.55,
+    at: [150.15, 1753.71],
+  },
   outlines: { PLW: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

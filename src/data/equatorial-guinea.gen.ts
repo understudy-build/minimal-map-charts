@@ -134,6 +134,12 @@ const insets: Sheet["insets"] = [
     country: "GNQ",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [8.791016, 3.670169],
+      scale: 33242.87,
+      at: [129.64, 76.5],
+    },
     outline: [
       [
         158, 157, -3, -13, -8, -10, -4, 0, -5, -7, 0, -1, -2, -2, -4, 0, -5, 2, -5, 0, -1, 1, -4, 2,
@@ -218,6 +224,12 @@ const insets: Sheet["insets"] = [
     country: "GNQ",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [8.634776, 3.414317],
+      scale: 21414.5,
+      at: [122.32, 94.87],
+    },
     outline: [
       [42, 108, -1, 0, 1, -1],
       [
@@ -305,6 +317,12 @@ const insets: Sheet["insets"] = [
     country: "GNQ",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [5.63586, -1.43504],
+      scale: 128265.43,
+      at: [116.64, 85.36],
+    },
     outline: [
       [132, 172, -1, 0, 0, -1, 1, -1, 1, 0, -1, 1],
       [113, 155, 0, -1, 1, 0, 0, 1],
@@ -408,6 +426,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 699,
+  projection: { kind: "azimuthal", centre: [9.446, 1.157], scale: 26638.1, at: [76.77, 564.13] },
   outlines: { GNQ: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

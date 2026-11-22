@@ -403,8 +403,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Sana'a City",
     country: "YEM",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [44.236828, 15.436076],
+      scale: 23175.22,
+      at: [110.9, 79.05],
+    },
     outline: [
       [
         110, 91, 0, -1, -1, 0, 0, 1, 1, 0, 3, 6, 1, 5, 0, 2, 1, 0, 0, 1, 1, 0, 0, 2, -2, 2, 5, 0, 1,
@@ -480,6 +487,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 564,
+  projection: { kind: "azimuthal", centre: [45.398, 15.553], scale: 4540.86, at: [283.55, 291.21] },
   outlines: { YEM: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

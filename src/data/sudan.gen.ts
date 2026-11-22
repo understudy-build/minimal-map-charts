@@ -283,8 +283,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Khartoum",
     country: "SDN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [32.843525, 15.851715],
+      scale: 4978.03,
+      at: [103.42, 94.85],
+    },
     outline: [
       [
         63, 152, 0, 0, -1, -1, 0, -1, -2, -2, -5, -12, -3, -5, 0, -1, -2, -2, -5, -14, -2, -3, -1,
@@ -331,6 +338,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [28.413399, 9.786293],
+      scale: 11134.89,
+      at: [119.6, 84.02],
+    },
     outline: [
       [
         224, 116, -5, 3, -3, 4, -4, 3, -7, 7, -2, 3, -2, 1, 0, 1, -1, 0, -2, 2, -1, 0, 0, 1, -1, 0,
@@ -344,6 +357,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 839,
+  projection: { kind: "azimuthal", centre: [30.724, 15.892], scale: 3477.08, at: [536.85, 394.24] },
   outlines: { SDN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

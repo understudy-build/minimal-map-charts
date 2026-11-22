@@ -459,8 +459,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Alborz",
     country: "IRN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [50.777413, 35.971913],
+      scale: 11912.48,
+      at: [117.49, 84.4],
+    },
     outline: [
       [
         34, 148, -3, -6, -6, -16, 2, -8, 10, -9, 34, -17, 6, -5, 2, -8, 8, -17, 5, -18, -8, -6, -12,
@@ -491,6 +498,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 894,
+  projection: { kind: "azimuthal", centre: [51.681, 33.963], scale: 3451.23, at: [366.8, 371.52] },
   outlines: { IRN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

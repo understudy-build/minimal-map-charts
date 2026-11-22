@@ -319,8 +319,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Harari",
     country: "ETH",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [42.172526, 9.289658],
+      scale: 46343.59,
+      at: [125.64, 88.09],
+    },
     outline: [
       [
         154, 151, -8, -6, -13, 2, -13, 5, -9, 2, -4, 2, -10, -8, -7, -9, -6, -1, -6, -2, -3, 0, -15,
@@ -353,6 +360,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [37.595724, 13.61438],
+      scale: 3833.03,
+      at: [82.62, 72.58],
+    },
     outline: [
       [
         39, 89, 0, -1, -1, 0, 0, -1, -1, 0, 0, -1, -2, 0, 0, -1, -1, 0, 0, -1, -2, 0, 0, 1, -1, 1,
@@ -399,6 +412,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 776,
+  projection: { kind: "azimuthal", centre: [38.317, 9.12], scale: 3784.21, at: [358.24, 388.01] },
   outlines: { ETH: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

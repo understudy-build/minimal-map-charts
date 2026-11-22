@@ -349,6 +349,12 @@ const insets: Sheet["insets"] = [
     country: "ESP",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-15.681751, 28.345137],
+      scale: 3073.98,
+      at: [125.99, 97.46],
+    },
     outline: [
       [
         19, 123, 1, 0, 1, 1, 1, 0, 0, 1, -3, 4, 0, 1, -1, 0, 0, 2, -1, 0, 0, 2, -2, 0, -1, -1, 0,
@@ -435,8 +441,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Ceuta",
     country: "ESP",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-5.34738, 35.892449],
+      scale: 119210.64,
+      at: [109.18, 78.18],
+    },
     outline: [
       [
         120, 172, -37, -34, -26, -37, -19, -43, -16, -47, 24, -3, 31, 3, 38, 21, 28, 22, 30, 7, 45,
@@ -459,8 +472,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Melilla",
     country: "ESP",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-2.944444, 35.29535],
+      scale: 151789.06,
+      at: [110.2, 99.21],
+    },
     outline: [[113, 172, -45, -49, -6, -73, 41, -42, 56, 111, 19, 28, 0, 1]],
     areas: [
       {
@@ -475,6 +495,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 843,
+  projection: { kind: "azimuthal", centre: [-3.5, 40], scale: 5481.65, at: [415.51, 379.79] },
   outlines: { ESP: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

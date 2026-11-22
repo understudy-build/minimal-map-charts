@@ -400,8 +400,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Basel-Stadt",
     country: "CHE",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [7.599102, 47.564329],
+      scale: 137071.2,
+      at: [134.29, 87.13],
+    },
     outline: [
       [
         211, 118, 0, 40, -10, 12, -16, -10, -13, -10, -9, -11, -8, -3, -9, 2, -28, 20, -17, -14, -4,
@@ -426,8 +433,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Appenzell Innerrhoden",
     country: "CHE",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [9.402319, 47.320373],
+      scale: 44692.87,
+      at: [91.97, 109.08],
+    },
     outline: [
       [201, 8, -14, 14, 0, 6, -17, -8, -1, -2, 0, -3, 10, 0, 8, -1],
       [
@@ -464,6 +478,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 644,
+  projection: { kind: "azimuthal", centre: [8.2, 46.8], scale: 18048.86, at: [499.45, 325.55] },
   outlines: { CHE: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

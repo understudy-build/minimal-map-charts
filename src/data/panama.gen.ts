@@ -625,8 +625,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Naso Tjër Di",
     country: "PAN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-82.778123, 9.260939],
+      scale: 18947.46,
+      at: [105.82, 84.82],
+    },
     outline: [
       [
         82, 13, 0, 2, -1, 0, 0, 3, -1, 0, 0, 2, -1, 0, 0, 1, 1, 0, 0, 2, 9, 4, 0, -1, 1, 0, 1, -1,
@@ -694,6 +701,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 429,
+  projection: { kind: "azimuthal", centre: [-80.33, 8.42], scale: 9625.37, at: [462.38, 214.66] },
   outlines: { PAN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

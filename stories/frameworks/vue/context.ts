@@ -12,21 +12,25 @@ import {
   draw,
   type Drawn,
   type DrawOptions,
+  type Mark,
   type Palette,
   type Scene,
   type Spec,
 } from "../../../src/index.ts"
 
-// What every part of a figure reads: the scene, its palette and the country
-// the reader points at, and how to change it.
+// What the reader points at: a country, or a point's mark.
+export type Active = Country | Mark | undefined
+
+// What every part of a figure reads: the scene, its palette and what the
+// reader points at, and how to change it.
 export interface Contract {
   readonly state: {
     readonly scene: Scene
     readonly palette: Palette
-    readonly active: Country | undefined
+    readonly active: Active
   }
   readonly actions: {
-    readonly activate: (country: Country | undefined) => void
+    readonly activate: (active: Active) => void
   }
 }
 

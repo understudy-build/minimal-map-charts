@@ -233,6 +233,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-68.28759, 12.186478],
+      scale: 32606.12,
+      at: [128.95, 78.42],
+    },
     outline: [
       [
         171, 55, 10, 8, 2, 5, -6, 2, -5, 6, 4, 30, -1, 11, -5, 4, -10, 1, -4, 3, 0, 5, 6, 15, 1, 5,
@@ -262,6 +268,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-62.974112, 17.489196],
+      scale: 153913.1,
+      at: [112.28, 105.85],
+    },
     outline: [[53, 8, 34, 21, 17, 37, 31, 14, 52, 36, -10, 35, -25, 21, -58, -8, -34, -66]],
     areas: [
       {
@@ -277,6 +289,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-63.238013, 17.630503],
+      scale: 291572.53,
+      at: [117.6, 91.53],
+    },
     outline: [[116, 8, 39, 23, 32, 67, -28, 56, -43, 18, -63, -46, 12, -85]],
     areas: [
       {
@@ -291,6 +309,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1189,
+  projection: { kind: "azimuthal", centre: [5.4, 52.2], scale: 23804.03, at: [541.75, 576.12] },
   outlines: { NLD: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

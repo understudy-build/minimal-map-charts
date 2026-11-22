@@ -397,6 +397,7 @@ const insets: Sheet["insets"] = []
 const sheet: Sheet = {
   width: 1000,
   height: 1425,
+  projection: { kind: "azimuthal", centre: [6.1, 49.8], scale: 109506.6, at: [458.5, 741.67] },
   outlines: { LUX: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

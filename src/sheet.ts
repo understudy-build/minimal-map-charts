@@ -1,5 +1,6 @@
 import { type Country, countries } from "./countries.ts"
 import { national, sheets } from "./data/sheets.gen.ts"
+import type { Projection } from "./project.ts"
 import { regions } from "./regions.ts"
 
 // An outline as rings: the first point of each, then the step to each next
@@ -19,8 +20,13 @@ export interface Inset {
   readonly country: Country
   // Context-only areas have no applicable national observation.
   readonly coverage?: "National" | "Context"
+  // A zoom on land the sheet also draws, such as Washington, D.C.; without
+  // it, the inset's land is drawn only here.
+  readonly zoom?: true
   readonly width: number
   readonly height: number
+  // How the build projected the inset, in its own units.
+  readonly projection: Projection
   readonly outline: Steps
   readonly areas?: ReadonlyArray<Area>
 }
@@ -39,6 +45,8 @@ export interface Credit {
 export interface Sheet {
   readonly width: number
   readonly height: number
+  // How the build projected the sheet, to place points on it.
+  readonly projection: Projection
   readonly outlines: Readonly<Partial<Record<Country, Steps>>>
   readonly land: Steps
   readonly insets: ReadonlyArray<Inset>

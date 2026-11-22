@@ -215,8 +215,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Sowa Town",
     country: "BWA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [26.215873, -20.527042],
+      scale: 69945.88,
+      at: [132.39, 96.74],
+    },
     outline: [[181, 8, 3, 164, -128, -27, 6, -15, 32, -88]],
     areas: [
       { code: "BW-ST", name: "Sowa Town", outline: [[181, 8, 3, 164, -128, -27, 6, -15, 32, -88]] },
@@ -227,6 +234,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1054,
+  projection: { kind: "azimuthal", centre: [24, -22], scale: 6464.52, at: [428.42, 485.78] },
   outlines: { BWA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

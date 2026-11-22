@@ -36,6 +36,7 @@ import { topology } from "topojson-server"
 import type { MultiPolygon as Arcs, Polygon as Arc } from "topojson-specification"
 
 import { type Country, countries } from "../../src/countries.ts"
+import type { Projection } from "../../src/project.ts"
 import { type Region, regions } from "../../src/regions.ts"
 import { credits, type Footprint, type Sheet } from "../../src/sheet.ts"
 import { restore } from "./archive.ts"
@@ -44,6 +45,7 @@ import { landmarks } from "./borders.ts"
 import { subdivision } from "./iso.ts"
 import { mapped } from "./mapped.ts"
 import { nations, type Nation } from "./nations.ts"
+import { placesFile, writePlaces } from "./places.ts"
 import { type Group, simplify, type Ring } from "./simplify.ts"
 import { file, read } from "./sources.ts"
 import { tidy } from "./tidy.ts"
@@ -129,12 +131,34 @@ const mark = (
   )
 }
 
+// A projection as a sheet records it, for the browser to place points: the
+// centre to a millionth of a degree, and the scale and offset to a
+// hundredth, move no point by more than a twentieth of a unit, even in the
+// inset of an island a few kilometres across.
+const round = (value: number, places: number) =>
+  Math.round(value * 10 ** places) / 10 ** places || 0
+
+const recorded = (projection: GeoProjection, kind: Projection["kind"]): Projection => {
+  const [x, y] = projection.translate()
+  const [lambda, phi] = projection.rotate()
+  const at = [round(x, 2), round(y, 2)] as const
+  const scale = round(projection.scale(), 2)
+
+  return kind === "earth"
+    ? { kind, scale, at }
+    : { kind, centre: [round(-lambda, 6), round(-phi, 6)], scale, at }
+}
+
 interface Inset {
   readonly name: string
   readonly country: Country
   readonly coverage?: "National" | "Context" | undefined
+  // A zoom on land the sheet also draws, such as Washington, D.C.: a point
+  // there shows on the map and in the inset.
+  readonly zoom?: true | undefined
   readonly width: number
   readonly height: number
+  readonly projection: Projection
   readonly outline: ReadonlyArray<Ring>
   readonly areas?: ReadonlyArray<Area> | undefined
 }
@@ -183,6 +207,7 @@ const middle = (rings: ReadonlyArray<Ring>): readonly [number, number] => {
 const finishSheet = (sheet: {
   readonly width: number
   readonly height: number
+  readonly projection: Projection
   readonly outlines: ReadonlyArray<readonly [Country, ReadonlyArray<Ring>]>
   readonly land: ReadonlyArray<Ring>
   readonly insets: ReadonlyArray<Inset>
@@ -206,6 +231,7 @@ const finishSheet = (sheet: {
   const body = JSON.stringify({
     width: sheet.width,
     height: sheet.height,
+    projection: sheet.projection,
     outlines: Object.fromEntries(outlines),
     land: clean(sheet.land),
     insets: sheet.insets.map(cleanInset(clean)),
@@ -262,6 +288,7 @@ const drawWorld = () => {
     detail: "110m",
     body: finishSheet({
       ...sizeOf(projection, sphere),
+      projection: recorded(projection, "earth"),
       outlines,
       land: stepsOf(ringsOf(projection, land)),
       insets: [],
@@ -471,6 +498,7 @@ const drawRegion = ({ id, countries: members }: Region) => {
     detail,
     body: finishSheet({
       ...size,
+      projection: recorded(projection, "azimuthal"),
       outlines,
       land: stepsOf(ringsOf(projection, land)),
       insets: overseas.map(({ name, country, area }) => {
@@ -491,6 +519,7 @@ const drawRegion = ({ id, countries: members }: Region) => {
           country,
           width: inset.width,
           height: inset.height,
+          projection: recorded(fitted, "azimuthal"),
           outline: stepsOf(ringsOf(fitted, area)),
         }
       }),
@@ -666,7 +695,12 @@ const drawNation = (nation: Nation) => {
 
   const projectInset = (
     geometry: MultiPolygon,
-    { name, code, coverage }: { name: string; code?: string; coverage?: "National" | "Context" },
+    {
+      name,
+      code,
+      coverage,
+      zoom,
+    }: { name: string; code?: string; coverage?: "National" | "Context"; zoom?: true },
   ): Inset => {
     if (geometry.coordinates.length === 0) throw new Error(`No land in inset ${name}`)
     const [longitude, latitude] = geoCentroid(geometry)
@@ -690,15 +724,17 @@ const drawNation = (nation: Nation) => {
       name,
       country: nation.country,
       coverage,
+      zoom,
       width: 240,
       height: 180,
+      projection: recorded(fitted, "azimuthal"),
       outline,
       areas: code === undefined ? undefined : [{ code, name, outline }],
     }
   }
 
   const insets = [
-    ...nation.insets.map(({ code, box, coverage }) => {
+    ...nation.insets.map(({ code, box, coverage, detached }) => {
       const division = divisions.find((candidate) => candidate.code === code)
 
       if (division === undefined) throw new Error(`No geometry for inset ${code}`)
@@ -712,6 +748,7 @@ const drawNation = (nation: Nation) => {
         name: division.name,
         code: publish(code),
         ...(coverage === undefined ? {} : { coverage }),
+        ...(detached ? {} : { zoom: true as const }),
       })
     }),
     ...offshore.map(({ code, name, box }) => {
@@ -784,6 +821,7 @@ const insets: Sheet["insets"] = ${JSON.stringify(insets.map(cleanInset(clean)))}
 
 const sheet: Sheet = {
   width: 1000, height: ${height + 10},
+  projection: ${JSON.stringify(recorded(projection, "azimuthal"))},
   outlines: { ${nation.country}: areas.flatMap((area) => area.outline) },
   land: ${JSON.stringify(clean(background))}, insets,
   subdivisions: { country: "${nation.country}", source: "${nation.source}", ${input.source === "Boundary" ? `credit: ${JSON.stringify(input.credit)},` : ""} areas: ${shown} },
@@ -793,10 +831,17 @@ export default sheet
 `,
   )
 
-  return { nation, uncoded }
+  return {
+    nation,
+    uncoded,
+    divisions: divisions.map((division) => ({
+      code: publish(division.code),
+      geometry: division.geometry,
+    })),
+  }
 }
 
-await restore(nations.map(file))
+await restore([...nations.map(file), placesFile])
 
 mkdirSync(folder, { recursive: true })
 
@@ -805,6 +850,8 @@ drawWorld()
 const drawn = nations.map(drawNation)
 
 for (const region of regions) drawRegion(region)
+
+await writePlaces(new Map(drawn.map(({ nation, divisions }) => [nation.country, divisions])))
 
 // A written sheet's footprint: what a page needs to reserve its map's height
 // before the sheet loads. `id` names the sheet's file; `members` are the
@@ -825,6 +872,26 @@ const footprintOf = async (id: string, members: ReadonlyArray<Country>): Promise
     ...(absent.length === 0 ? {} : { absent }),
   }
 }
+
+const projections = await Promise.all(
+  ["world", ...regions.map((region) => region.id)].map(async (id) => {
+    const { default: sheet }: { readonly default: Sheet } = await import(
+      new URL(`${id}.gen.ts`, folder).href
+    )
+
+    return [
+      id,
+      {
+        map: sheet.projection,
+        width: sheet.width,
+        height: sheet.height,
+        insets: sheet.insets.map(({ projection, width, height, zoom }) =>
+          zoom === undefined ? { projection, width, height } : { projection, width, height, zoom },
+        ),
+      },
+    ] as const
+  }),
+)
 
 const footprints = [
   [
@@ -847,6 +914,7 @@ writeFileSync(
   `// Generated by scripts/build-maps/index.ts. Do not edit.
 import type { Country } from "../countries.ts"
 import type { Region } from "../regions.ts"
+import type { Projection } from "../project.ts"
 import type { Footprint, Sheet } from "../sheet.ts"
 
 // Each map as its own module, imported the first time a map of it is drawn.
@@ -863,6 +931,14 @@ ${nations.map((nation) => `  ${nation.country}: () => import("./${nation.id}.gen
 // prettier-ignore
 export const footprints: Readonly<Record<Region["id"] | "world" | keyof typeof national, Footprint>> = {
 ${footprints.map(([id, footprint]) => `  ${JSON.stringify(id)}: ${JSON.stringify(footprint)},`).join("\n")}
+}
+
+// How the world and each region and their insets were projected, so a map
+// of points can find the narrowest region holding them before any sheet
+// loads.
+// prettier-ignore
+export const projections: Readonly<Record<Region["id"] | "world", { readonly map: Projection; readonly width: number; readonly height: number; readonly insets: ReadonlyArray<{ readonly projection: Projection; readonly width: number; readonly height: number; readonly zoom?: true }> }>> = {
+${projections.map(([id, projection]) => `  ${JSON.stringify(id)}: ${JSON.stringify(projection)},`).join("\n")}
 }
 `,
 )

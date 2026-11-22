@@ -1,11 +1,15 @@
 import { type Colour, hex, oklch } from "./colour.ts"
-import type { Legend, Scene, Tone } from "./draw.ts"
+import type { Legend, Mark, Scene, Tone } from "./draw.ts"
+import { legendHeight } from "./points.ts"
 import type { Bin } from "./scale.ts"
 
 export interface Palette {
   // Shades and highlights take this colour's hue and chroma when the spec
   // gives no colour.
   readonly colour: Colour
+  // Points take this colour's hue and chroma when the spec gives none: far
+  // from the default blue, so they stand out on any fill.
+  readonly point: Colour
   // OKLCH lightness, 0 to 1: of the shade nearest the surface, of the shade
   // farthest from it, and of a highlighted country.
   readonly lightness: {
@@ -26,6 +30,7 @@ export interface Palette {
 
 export const light: Palette = {
   colour: "#256abf",
+  point: "#d9480f",
   lightness: { near: 0.93, far: 0.36, accent: 0.53 },
   middle: "#f4ecca",
   blank: "#e1e0d9",
@@ -41,6 +46,7 @@ export const light: Palette = {
 // runs the other way.
 export const dark: Palette = {
   colour: "#256abf",
+  point: "#d9480f",
   lightness: { near: 0.44, far: 0.82, accent: 0.62 },
   middle: "#585340",
   blank: "#383835",
@@ -79,6 +85,8 @@ const tint = (tone: Tone, palette: Palette): string => {
       return palette.middle
     case "accent":
       return hex({ ...oklch(tone.colour ?? palette.colour), l: palette.lightness.accent })
+    case "point":
+      return hex({ ...oklch(tone.colour ?? palette.point), l: palette.lightness.accent })
     case "shade": {
       const { near, far } = palette.lightness
 
@@ -127,7 +135,24 @@ const units = (width: number) => ({
   gap: width * 0.015,
   swatch: width * 0.016,
   slot: width * 0.11,
+  // The least radius a point answers the pointer within.
+  hit: width * 0.006,
 })
+
+// Past this many points, names would crowd the map: they stay in tooltips
+// and the table.
+const maxLabels = 12
+
+// The legend a map's points take: circles for bubbles, a swatch for dots
+// that say what they are, none for dots that do not.
+export const key = (
+  points: { readonly kind: "dot" | "bubble"; readonly label?: string | undefined } | undefined,
+): Parts["points"] =>
+  points === undefined || (points.kind === "dot" && points.label === undefined)
+    ? undefined
+    : points.kind
+
+const round = (value: number) => Math.round(value * 100) / 100
 
 // What decides where svg() puts each part, and so the document's height.
 export interface Parts {
@@ -138,6 +163,9 @@ export interface Parts {
   // Each inset's box, width by height.
   readonly insets: ReadonlyArray<readonly [number, number]>
   readonly legend: boolean
+  // The points' legend: a swatch row for dots, a row of circles for
+  // bubbles, or none.
+  readonly points: "dot" | "bubble" | undefined
   // Lines of small print under the legend.
   readonly notes: number
 }
@@ -192,6 +220,14 @@ export const stack = (parts: Parts) => {
     y += size.swatch + size.gap
   }
 
+  let points: number | undefined
+
+  if (parts.points !== undefined) {
+    y += size.gap
+    points = y
+    y += (parts.points === "dot" ? size.swatch : legendHeight(parts.width)) + size.gap
+  }
+
   const notes: Array<number> = []
 
   for (let index = 0; index < parts.notes; index += 1) {
@@ -199,7 +235,7 @@ export const stack = (parts: Parts) => {
     notes.push(y)
   }
 
-  return { title, map, insets, legend, notes, height: Math.ceil(y + size.small * 0.5) }
+  return { title, map, insets, legend, points, notes, height: Math.ceil(y + size.small * 0.5) }
 }
 
 const legendItems = (legend: Legend, palette: Palette | Schemes) =>
@@ -244,6 +280,11 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
     ...scene.credits.map(
       (credit) => `Boundaries: ${credit.publisher}, ${credit.vintage}. ${credit.license}.`,
     ),
+    ...(scene.points?.credit === undefined
+      ? []
+      : [
+          `Places: ${scene.points.credit.publisher}, ${scene.points.credit.vintage}. ${scene.points.credit.license}.`,
+        ]),
   ]
 
   const at = stack({
@@ -252,10 +293,66 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
     title: scene.title !== undefined,
     insets: scene.insets.map((inset) => [inset.width, inset.height] as const),
     legend: scene.legend !== undefined,
+    points: key(scene.points),
     notes: notes.length,
   })
 
   const font = `font-family="system-ui, sans-serif"`
+  const surface = pick(palette, (each) => each.surface)
+  const pointed = scene.points === undefined ? ink : paint(scene.points.tone, { palette })
+  const bubbles = scene.points?.kind === "bubble"
+
+  // A point's circle in a frame drawn `scale` map units to each of its own,
+  // under a wider transparent one where the circle is too small to point at.
+  // A bubble of 0 is a ring.
+  const circle = (each: Mark, scale: number) => {
+    const r = each.radius / scale
+    const hit = size.hit / scale
+    const empty = bubbles && each.value === 0
+    const shape = `cx="${each.x}" cy="${each.y}"`
+
+    return [
+      `<g data-site="${escape(each.name)}"><title>${escape(each.label)}</title>`,
+      hit > r ? `<circle ${shape} r="${round(hit)}" fill="transparent"/>` : "",
+      `<circle ${shape} r="${round(r)}" fill="${empty ? "none" : pointed}"${bubbles && !empty ? ` fill-opacity="0.85"` : ""} stroke="${empty ? pointed : stroke}" stroke-width="${round(1 / scale)}"/>`,
+      `</g>`,
+    ].join("")
+  }
+
+  // Each point's name to its right, else to its left, largest first, unless
+  // it would cover an earlier name or leave the map.
+  const named: Array<readonly [number, number, number, number]> = []
+  const labels =
+    scene.marks.length > maxLabels
+      ? []
+      : scene.marks.flatMap((each) => {
+          const long = each.name.length * size.small * 0.55
+          const away = each.radius + size.gap * 0.3
+          const box = [each.x + away, each.x - away - long]
+            .map(
+              (x) => [x, each.y - size.small * 0.6, x + long, each.y + size.small * 0.6] as const,
+            )
+            .find(
+              (candidate) =>
+                candidate[0] >= 0 &&
+                candidate[2] <= width &&
+                !named.some(
+                  ([left, top, right, bottom]) =>
+                    candidate[0] < right &&
+                    candidate[2] > left &&
+                    candidate[1] < bottom &&
+                    candidate[3] > top,
+                ),
+            )
+
+          if (box === undefined) return []
+
+          named.push(box)
+
+          return [
+            `<text x="${round(box[0])}" y="${round(each.y + size.small * 0.35)}" ${font} font-size="${size.small}" fill="${ink}" stroke="${surface}" stroke-width="${round(size.small * 0.25)}" stroke-linejoin="round" paint-order="stroke">${escape(each.name)}</text>`,
+          ]
+        })
 
   if (scene.title !== undefined)
     lines.push(
@@ -277,6 +374,8 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
       (border) =>
         `<path d="${border.path}" data-area="${escape(border.code)}" fill="none" stroke="${stroke}" stroke-width="1.5"><title>${escape(border.name)}</title></path>`,
     ),
+    ...scene.marks.map((each) => circle(each, 1)),
+    ...labels,
     `</g>`,
   )
 
@@ -297,6 +396,7 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
         (border) =>
           `<path d="${border.path}" data-area="${escape(border.code)}" fill="none" stroke="${stroke}" stroke-width="1.5"><title>${escape(border.name)}</title></path>`,
       ),
+      ...inset.marks.map((each) => circle(each, box.width / inset.width)),
       `</svg>`,
       `<text x="${box.x}" y="${box.y + box.height + size.small * 1.2}" ${font} font-size="${size.small}" fill="${muted}">${escape(inset.name)}</text>`,
     )
@@ -329,6 +429,40 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
         `<text x="${x + size.swatch * 1.4}" y="${baseline}" ${font} font-size="${size.text}" fill="${muted}">${escape(item.text)}</text>`,
       )
       x += size.swatch * 1.4 + item.text.length * size.text * 0.55 + size.gap * 1.5
+    }
+  }
+
+  if (scene.points !== undefined && at.points !== undefined) {
+    const { label, sizes } = scene.points
+    const y = at.points
+    let x = 0
+
+    if (scene.points.kind === "dot") {
+      const r = size.swatch / 2
+
+      lines.push(
+        `<circle cx="${r}" cy="${y + r}" r="${round(r * 0.7)}" fill="${pointed}" stroke="${stroke}"/>`,
+        `<text x="${size.swatch * 1.4}" y="${y + size.swatch * 0.8}" ${font} font-size="${size.text}" fill="${muted}">${escape(label ?? "")}</text>`,
+      )
+    } else {
+      const bottom = y + legendHeight(width)
+
+      if (label !== undefined) {
+        lines.push(
+          `<text x="0" y="${round(bottom - size.text * 0.3)}" ${font} font-size="${size.text}" fill="${ink}">${escape(label)}</text>`,
+        )
+        x += label.length * size.text * 0.55 + size.gap * 2
+      }
+
+      for (const { value, radius } of sizes) {
+        const text = numbers.format(value)
+
+        lines.push(
+          `<circle cx="${round(x + radius)}" cy="${round(bottom - radius)}" r="${radius}" fill="${pointed}" fill-opacity="0.85" stroke="${stroke}"/>`,
+          `<text x="${round(x + radius * 2 + size.gap * 0.4)}" y="${round(bottom - size.text * 0.3)}" ${font} font-size="${size.text}" fill="${muted}">${escape(text)}</text>`,
+        )
+        x += radius * 2 + size.gap * 0.4 + text.length * size.text * 0.55 + size.gap * 1.5
+      }
     }
   }
 

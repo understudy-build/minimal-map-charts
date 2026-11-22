@@ -497,8 +497,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Rason",
     country: "PRK",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [130.384762, 42.347517],
+      scale: 19916.19,
+      at: [123.7, 101.83],
+    },
     outline: [
       [
         137, 34, 0, -1, 3, 0, 1, 0, 4, 0, 0, -1, 1, 0, 0, -1, 1, 0, 0, -1, 1, 0, 0, -2, 1, 0, 0, -1,
@@ -582,6 +589,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1092,
+  projection: {
+    kind: "azimuthal",
+    centre: [127.041, 40.348],
+    scale: 11462.71,
+    at: [448.83, 549.4],
+  },
   outlines: { PRK: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

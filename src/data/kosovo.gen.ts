@@ -841,8 +841,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Municipality of North Mitrovica",
     country: "XKX",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [20.846608, 42.894979],
+      scale: 318311.53,
+      at: [125.22, 101.75],
+    },
     outline: [
       [
         103, 149, -1, 2, -1, 1, -1, 0, -1, -1, -1, 0, -1, 1, -6, 0, -3, 3, -1, 2, 0, 3, -1, 1, -2,
@@ -929,6 +936,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1084,
+  projection: { kind: "azimuthal", centre: [20.957, 42.566], scale: 43031, at: [529.97, 541.28] },
   outlines: { XKX: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

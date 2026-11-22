@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { type PropType, provide, shallowRef } from "vue"
 
-import { type Country, light, type Palette, type Scene } from "../../../src/index.ts"
-import { key } from "./context.ts"
+import { light, type Palette, type Scene } from "../../../src/index.ts"
+import { type Active, key } from "./context.ts"
 
 const props = defineProps({
   scene: { type: Object as PropType<Scene>, required: true },
   palette: { type: Object as PropType<Palette>, default: () => light },
 })
 
-const active = shallowRef<Country>()
+const active = shallowRef<Active>()
 
 // Getters, so parts read the current props without copying the scene.
 provide(key, {
@@ -25,8 +25,8 @@ provide(key, {
     },
   },
   actions: {
-    activate: (country) => {
-      active.value = country
+    activate: (each) => {
+      active.value = each
     },
   },
 })

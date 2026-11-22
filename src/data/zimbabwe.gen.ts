@@ -211,8 +211,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Bulawayo",
     country: "ZWE",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [28.54859, -20.14025],
+      scale: 42712.17,
+      at: [121.61, 90.58],
+    },
     outline: [
       [
         157, 162, -8, -4, -9, -2, -5, -3, -6, 0, -22, 19, -7, 0, -13, -15, 9, -20, -1, -7, -7, -8,
@@ -247,6 +254,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 915,
+  projection: { kind: "azimuthal", centre: [30.091, -18.86], scale: 7551.12, at: [620.82, 437.61] },
   outlines: { ZWE: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

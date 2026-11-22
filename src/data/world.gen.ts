@@ -5,6 +5,7 @@ import type { Sheet } from "../sheet.ts"
 const sheet: Sheet = {
   width: 1000,
   height: 487,
+  projection: { kind: "earth", scale: 184.73, at: [500, 243.36] },
   outlines: {
     FJI: [
       [984, 308, 1, 1, -1, 2, -3, 0, 0, -2],

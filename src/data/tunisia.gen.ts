@@ -586,8 +586,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Tunis",
     country: "TUN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [10.181414, 36.804914],
+      scale: 37206.68,
+      at: [121.18, 98.75],
+    },
     outline: [
       [
         115, 117, -1, 0, 0, -1, -1, 0, 0, -2, -1, 0, 0, -3, -1, 0, 0, -1, -1, 0, 0, -1, -1, -1, -1,
@@ -694,6 +701,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 2123,
+  projection: { kind: "azimuthal", centre: [10, 34], scale: 16453.69, at: [600.35, 1033.36] },
   outlines: { TUN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

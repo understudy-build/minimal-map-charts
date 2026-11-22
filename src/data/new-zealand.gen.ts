@@ -332,6 +332,12 @@ const insets: Sheet["insets"] = [
     country: "NZL",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-176.487995, -43.934522],
+      scale: 14724.99,
+      at: [119.6, 67.39],
+    },
     outline: [
       [
         183, 148, 5, 4, -6, 5, -2, 3, -1, 6, -6, 4, -4, 2, 0, -4, -2, -2, 0, -1, 1, -1, -1, -1, 1,
@@ -375,8 +381,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Nelson City",
     country: "NZL",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [173.381376, -41.250376],
+      scale: 28234.51,
+      at: [117.39, 103.85],
+    },
     outline: [
       [
         45, 133, 3, 0, 7, -4, 14, -12, 12, -8, 7, -7, 14, -20, 23, -23, 9, -4, 5, -7, 3, -2, 3, 2,
@@ -406,6 +419,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [172.136657, -34.155329],
+      scale: 354903.21,
+      at: [120.58, 81.19],
+    },
     outline: [
       [
         168, 15, 25, -1, 33, 0, 6, 23, -19, 23, -46, 3, 2, 21, 14, 38, -3, 19, 18, 11, -16, 5, -20,
@@ -420,6 +439,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-177.904874, -29.25296],
+      scale: 133802.87,
+      at: [116.34, 80.44],
+    },
     outline: [
       [
         107, 140, -31, 14, -6, -17, 4, -29, -4, -24, -37, -33, -14, -17, -11, -24, 35, -2, 37, 5,
@@ -433,6 +458,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [168.021322, -50.958231],
+      scale: 1541.01,
+      at: [44.29, 107.59],
+    },
     outline: [
       [13, 107, -3, 0, 0, -1, -1, 0, 0, -1, 1, 1, 1, -1, 1, 0, 1, 1],
       [
@@ -453,6 +484,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1423,
+  projection: { kind: "azimuthal", centre: [172, -41], scale: 6207.37, at: [427.6, 724.34] },
   outlines: { NZL: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

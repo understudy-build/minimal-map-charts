@@ -83,8 +83,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Andorra la Vella",
     country: "AND",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [1.515477, 42.515381],
+      scale: 191421.33,
+      at: [104.52, 83.97],
+    },
     outline: [
       [
         205, 8, -16, 27, -28, 28, -13, 17, -14, 27, -20, 35, -50, 30, -15, -15, -9, -32, -1, -20,
@@ -109,6 +116,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 839,
+  projection: {
+    kind: "azimuthal",
+    centre: [1.547, 42.534],
+    scale: 212526.56,
+    at: [394.18, 437.91],
+  },
   outlines: { AND: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

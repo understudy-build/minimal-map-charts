@@ -180,8 +180,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Hovedstaden",
     country: "DNK",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [12.919839, 55.693096],
+      scale: 6819.22,
+      at: [80.2, 75.43],
+    },
     outline: [
       [
         232, 140, 0, 1, -1, 0, 1, 2, 0, 2, -2, 4, -1, 1, 1, 1, 0, 2, -1, 2, -2, 2, -3, -1, -3, 0,
@@ -240,6 +247,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 793,
+  projection: { kind: "azimuthal", centre: [10, 56], scale: 13966.52, at: [272.69, 437.19] },
   outlines: { DNK: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

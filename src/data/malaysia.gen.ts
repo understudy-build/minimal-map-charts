@@ -235,6 +235,12 @@ const insets: Sheet["insets"] = [
     country: "MYS",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [117.131733, 5.345915],
+      scale: 2929.08,
+      at: [110.48, 110.74],
+    },
     outline: [
       [
         140, 171, -1, 0, -3, -3, 1, -1, 1, 0, 1, -1, 1, 0, 2, 1, 2, 0, 0, 1, 1, 1, 2, 0, 2, 1, 1, 1,
@@ -361,6 +367,12 @@ const insets: Sheet["insets"] = [
     country: "MYS",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [113.278267, 2.587973],
+      scale: 2091.08,
+      at: [144.76, 101.72],
+    },
     outline: [
       [
         69, 145, 1, 0, 1, 1, 2, 1, 3, 0, -1, 0, -1, -1, -1, 0, 0, -1, -1, 0, -1, -1, -1, 0, -1, 1,
@@ -451,8 +463,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Kuala Lumpur",
     country: "MYS",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [101.694792, 3.134651],
+      scale: 45773.04,
+      at: [121.89, 85.94],
+    },
     outline: [
       [
         139, 29, 6, -2, 4, -3, 7, -3, 4, 0, 3, 1, 2, 3, 3, 3, 8, 20, 0, 8, -2, 3, -5, 5, -2, 3, -1,
@@ -483,8 +502,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Putrajaya",
     country: "MYS",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [101.697163, 2.928563],
+      scale: 87841.64,
+      at: [117.16, 88.72],
+    },
     outline: [
       [
         93, 172, -7, -2, -7, -5, -6, -12, -2, -11, 5, -14, 5, -5, 3, -7, 3, -5, 1, -7, -6, -24, 1,
@@ -511,6 +537,12 @@ const insets: Sheet["insets"] = [
     country: "MYS",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [115.216406, 5.318047],
+      scale: 69494.69,
+      at: [128.36, 92.12],
+    },
     outline: [
       [
         167, 35, 14, 60, -1, 30, -21, 22, -12, 0, -24, -15, -9, 2, -24, 20, -31, 18, 2, -18, 34,
@@ -535,6 +567,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1191,
+  projection: { kind: "azimuthal", centre: [109, 4], scale: 12249.93, at: [1995.65, 600.66] },
   outlines: { MYS: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

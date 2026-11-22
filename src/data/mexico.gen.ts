@@ -560,8 +560,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Ciudad de México",
     country: "MEX",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-99.133472, 19.271556],
+      scale: 18308.63,
+      at: [121.03, 103.7],
+    },
     outline: [
       [
         172, 162, -12, 0, -4, 1, -3, 3, -2, 4, -3, 2, -3, -1, -5, -4, -12, -6, -6, -1, -2, 0, -3,
@@ -598,6 +605,12 @@ const insets: Sheet["insets"] = [
     country: "MEX",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-111.377728, 18.786986],
+      scale: 3374.32,
+      at: [199.21, 93.83],
+    },
     outline: [
       [9, 117, 3, 1, 0, 1, -4, 0, 0, -1],
       [
@@ -612,6 +625,12 @@ const insets: Sheet["insets"] = [
     country: "MEX",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-118.285555, 29.038758],
+      scale: 29228.87,
+      at: [124.05, 84.93],
+    },
     outline: [
       [
         139, 59, 10, 14, 4, 24, -4, 10, 4, 18, -2, 23, -12, 16, -8, -1, -5, 3, -4, 0, 1, 6, -5, -4,
@@ -626,6 +645,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 687,
+  projection: { kind: "azimuthal", centre: [-102, 24], scale: 2073.27, at: [474.88, 345.39] },
   outlines: { MEX: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

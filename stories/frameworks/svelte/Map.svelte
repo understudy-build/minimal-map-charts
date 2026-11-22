@@ -1,9 +1,10 @@
 <script lang="ts">
   import { paint } from "../../../src/index.ts"
+  import Circle from "./Circle.svelte"
   import { useFigure } from "./context.ts"
 
-  // The map itself. Countries in the fill take focus and report the one the
-  // reader points at; the active country is outlined on top.
+  // The map itself. Countries in the fill and points take focus and report
+  // the one the reader points at; the active one is outlined on top.
   const { state, actions } = useFigure()
   const listed = $derived(new Set(state.scene.rows.map((row) => row.country)))
   const outlined = $derived(state.scene.shapes.find((shape) => shape.country === state.active))
@@ -54,4 +55,7 @@
       pointer-events="none"
     />
   {/if}
+  {#each state.scene.marks as mark (`${mark.name} ${mark.x} ${mark.y}`)}
+    <Circle {mark} />
+  {/each}
 </svg>

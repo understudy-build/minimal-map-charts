@@ -157,8 +157,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Arkadag",
     country: "TKM",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [58.094869, 38.055944],
+      scale: 105455.39,
+      at: [136.55, 84.14],
+    },
     outline: [
       [
         36, 103, 1, -1, 3, -7, 5, -5, 7, -4, 34, -33, -5, -5, 4, -5, 5, 5, 22, -25, 0, -1, 8, -12,
@@ -189,6 +196,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 703,
+  projection: { kind: "azimuthal", centre: [59, 39], scale: 5127.13, at: [446.76, 350] },
   outlines: { TKM: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

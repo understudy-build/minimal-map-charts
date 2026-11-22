@@ -885,8 +885,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Mjini Magharibi",
     country: "TZA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [39.248607, -6.167586],
+      scale: 31920.93,
+      at: [120.46, 86.17],
+    },
     outline: [
       [
         146, 125, 0, 5, 1, 1, 0, 1, 2, 1, 0, 1, 1, 1, 0, 2, 1, 1, 0, 2, 1, 0, 0, 1, -1, 1, 1, 0, 0,
@@ -954,6 +961,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1001,
+  projection: { kind: "azimuthal", centre: [35.677, -6.357], scale: 5221.15, at: [562.47, 497.84] },
   outlines: { TZA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

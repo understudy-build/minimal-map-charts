@@ -745,8 +745,15 @@ const insets: Sheet["insets"] = [
   {
     name: "District Autonome De Yamoussoukro",
     country: "CIV",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-5.268771, 6.855785],
+      scale: 17787.93,
+      at: [112.03, 77.44],
+    },
     outline: [
       [
         56, 20, 0, 1, 1, 0, 0, 1, 1, 0, 1, -1, 0, -1, 1, 0, 1, -1, 2, 0, 0, -1, 5, 0, 0, -1, 2, 0,
@@ -835,6 +842,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1056,
+  projection: { kind: "azimuthal", centre: [-5.525, 7.552], scale: 9295.61, at: [503.07, 528.18] },
   outlines: { CIV: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

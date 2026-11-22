@@ -73,8 +73,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Hawalli",
     country: "KWT",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [48.038846, 29.327909],
+      scale: 122113.45,
+      at: [117.9, 99.29],
+    },
     outline: [
       [61, 11, 4, 6, 28, 25, 19, 6, 51, 18, 69, -14, -12, 85, -81, 32, -77, 0, -32, -75, -22, -45],
     ],
@@ -96,6 +103,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 944,
+  projection: {
+    kind: "azimuthal",
+    centre: [48.083, 29.323],
+    scale: 33782.29,
+    at: [808.82, 468.05],
+  },
   outlines: { KWT: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

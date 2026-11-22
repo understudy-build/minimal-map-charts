@@ -318,8 +318,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Australian Capital Territory",
     country: "AUS",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [149.007157, -35.497216],
+      scale: 12046.02,
+      at: [106.27, 83.19],
+    },
     outline: [
       [
         165, 54, -12, -2, -2, 0, -5, 7, -2, 0, -3, -2, -3, 0, -1, 2, -1, 1, -3, 7, -1, 1, -1, 0, -2,
@@ -354,8 +361,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Jervis Bay Territory",
     country: "AUS",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [150.700728, -35.156729],
+      scale: 99798.56,
+      at: [132.82, 84.45],
+    },
     outline: [
       [
         137, 21, 2, 7, 23, 19, 23, -6, 22, -12, 20, -1, 5, 15, -1, 28, -6, 30, -9, 22, -11, 8, -13,
@@ -382,6 +396,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1169,
+  projection: { kind: "azimuthal", centre: [134, -29], scale: 1405.52, at: [472.56, 486.42] },
   outlines: { AUS: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

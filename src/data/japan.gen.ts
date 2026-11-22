@@ -716,6 +716,12 @@ const insets: Sheet["insets"] = [
     country: "JPN",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [127.625907, 26.640229],
+      scale: 1689.97,
+      at: [133.83, 83.38],
+    },
     outline: [
       [
         31, 148, 2, 0, 1, 1, 1, 0, 0, 1, -2, 2, -1, 0, -2, -1, -3, 0, 1, -1, 2, 0, 0, -3, 1, 0, 0,
@@ -807,8 +813,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Tokyo",
     country: "JPN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [139.428037, 35.695419],
+      scale: 16423.38,
+      at: [125.4, 86.8],
+    },
     outline: [
       [
         227, 105, -3, -2, -2, 3, -1, 4, -3, -3, -1, -4, -3, 0, -2, 6, -2, 4, -4, -4, 0, -7, -2, -3,
@@ -845,6 +858,12 @@ const insets: Sheet["insets"] = [
     country: "JPN",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [142.296037, 26.33739],
+      scale: 1004.75,
+      at: [45.63, 125.33],
+    },
     outline: [
       [30, 152, 1, 0, 0, 1, -1, 0],
       [44, 119, 0, 1, -1, 0, 0, -1],
@@ -858,6 +877,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1178,
+  projection: { kind: "azimuthal", centre: [137, 37], scale: 4165.99, at: [523.9, 635.84] },
   outlines: { JPN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

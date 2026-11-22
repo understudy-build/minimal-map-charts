@@ -234,8 +234,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Montserrado",
     country: "LBR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-10.573081, 6.514277],
+      scale: 15299.15,
+      at: [122.04, 93.93],
+    },
     outline: [
       [
         105, 172, -6, -1, -34, -18, -5, -5, 2, -4, 1, 2, 1, 1, 5, 2, -4, -7, -1, -7, 3, -6, 6, -6,
@@ -272,6 +279,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1036,
+  projection: { kind: "azimuthal", centre: [-9.411, 6.296], scale: 13805.17, at: [503.95, 556.8] },
   outlines: { LBR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

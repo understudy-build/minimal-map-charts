@@ -434,8 +434,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Conakry",
     country: "GIN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-13.682232, 9.538111],
+      scale: 138127.43,
+      at: [125.98, 94.12],
+    },
     outline: [
       [
         219, 83, -83, 48, -66, 20, -3, 6, -17, 11, -20, 4, -9, -13, 5, -20, 13, -7, 15, -3, 16, -11,
@@ -460,6 +467,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 755,
+  projection: { kind: "azimuthal", centre: [-11.41, 10.287], scale: 7679.22, at: [493.11, 330.98] },
   outlines: { GIN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

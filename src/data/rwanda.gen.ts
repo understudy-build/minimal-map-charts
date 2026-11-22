@@ -95,8 +95,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Kigali City",
     country: "RWA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [30.121131, -1.93409],
+      scale: 31822.24,
+      at: [117.7, 93.92],
+    },
     outline: [
       [
         60, 171, -4, -3, -4, -1, -2, 0, -5, -3, -3, -7, 1, -5, 4, -4, 4, -2, 2, -2, 3, -4, -4, -9,
@@ -132,6 +139,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 875,
+  projection: { kind: "azimuthal", centre: [30, -2], scale: 27675.48, at: [561.45, 464.65] },
   outlines: { RWA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

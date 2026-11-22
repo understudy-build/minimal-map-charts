@@ -206,8 +206,15 @@ const insets: Sheet["insets"] = [
   {
     name: "São Lourenço dos Órgãos",
     country: "CPV",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-23.574121, 15.048226],
+      scale: 134431.7,
+      at: [108.93, 86.21],
+    },
     outline: [
       [
         23, 103, 16, -1, 45, -34, 12, -60, 36, 16, 33, -10, 52, 46, -38, 13, -42, 37, -33, 36, -45,
@@ -232,6 +239,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 929,
+  projection: { kind: "azimuthal", centre: [-24.01, 15.671], scale: 21747.89, at: [500.06, 590.1] },
   outlines: { CPV: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

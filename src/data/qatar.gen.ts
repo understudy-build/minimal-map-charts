@@ -363,8 +363,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Doha Municipality",
     country: "QAT",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [51.524431, 25.277438],
+      scale: 38773.7,
+      at: [121.32, 85.71],
+    },
     outline: [
       [
         131, 15, 2, -1, 5, 0, 6, 1, -1, 2, 13, 4, 1, -1, 1, 0, 1, 2, 0, 3, -1, 3, -3, 6, -7, 1, -19,
@@ -481,6 +488,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 2487,
+  projection: {
+    kind: "azimuthal",
+    centre: [51.276, 25.388],
+    scale: 66872.17,
+    at: [581.3, 1406.19],
+  },
   outlines: { QAT: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

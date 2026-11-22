@@ -266,8 +266,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Marrakech-Safi",
     country: "MAR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-8.460067, 31.702291],
+      scale: 4644.38,
+      at: [117.74, 98.2],
+    },
     outline: [
       [
         24, 152, -1, 0, 0, -1, 0, -1, 0, -2, 1, 0, -1, -1, 0, -1, -1, 0, 0, -4, 1, 0, 0, -2, 1, -1,
@@ -369,6 +376,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-13.183042, 24.637159],
+      scale: 1358.27,
+      at: [115.36, 81.5],
+    },
     outline: [
       [
         29, 169, 0, 2, -1, -1, 1, -1, 0, -4, 1, -2, 0, -4, 2, -6, 0, -6, 2, -2, 0, -1, 2, -5, 1, 0,
@@ -392,6 +405,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 897,
+  projection: { kind: "azimuthal", centre: [-7, 31], scale: 4594.8, at: [584.45, 405.41] },
   outlines: { MAR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -61,8 +61,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Phoenix Islands",
     country: "KIR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [176.020992, 0.135598],
+      scale: 681.78,
+      at: [85.3, 80.97],
+    },
     outline: [
       [231, 116, 1, 0, 0, 1, -1, 0, 0, -1, 1, 1, 0, -1, -1, 0],
       [50, 65, 1, 1, -1, 0, 0, -1],
@@ -85,6 +92,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 246,
+  projection: {
+    kind: "azimuthal",
+    centre: [-174.329, 0.915],
+    scale: 1691.75,
+    at: [485.28, 123.34],
+  },
   outlines: { KIR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

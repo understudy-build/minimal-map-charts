@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { computed } from "vue"
 
-import { entries } from "../text.ts"
+import { entries, key, look } from "../text.ts"
 import { useFigure } from "./context.ts"
 
+// The fill's shades, then the points' legend in map units at the map's
+// width, so its circles match the map's.
 const { state } = useFigure()
 const items = computed(() => entries(state.scene, state.palette))
+const sizes = computed(() => key(state.scene))
+const circle = computed(() => look(state.scene, { palette: state.palette }))
 </script>
 
 <template>
@@ -28,4 +32,31 @@ const items = computed(() => entries(state.scene, state.palette))
       {{ entry.text }}
     </li>
   </ul>
+  <svg
+    v-if="sizes !== undefined"
+    :viewBox="`0 0 ${sizes.width} ${sizes.height}`"
+    aria-hidden="true"
+    class="block h-auto w-full"
+  >
+    <circle
+      v-for="each in sizes.circles"
+      :key="each.r"
+      :cx="each.x"
+      :cy="each.y"
+      :r="each.r"
+      :fill="circle.fill"
+      :fill-opacity="circle.opacity"
+      :stroke="circle.stroke"
+    />
+    <text
+      v-for="text in sizes.texts"
+      :key="text.text"
+      :x="text.x"
+      :y="text.y"
+      :font-size="sizes.size"
+      :fill="text.title ? state.palette.ink : state.palette.muted"
+    >
+      {{ text.text }}
+    </text>
+  </svg>
 </template>

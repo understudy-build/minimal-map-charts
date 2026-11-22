@@ -104,8 +104,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Maritime",
     country: "TGO",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [1.267755, 6.487529],
+      scale: 11706.46,
+      at: [124.18, 92.92],
+    },
     outline: [
       [
         12, 83, 10, -1, 3, -1, 8, -5, 0, -1, 2, -1, 2, -4, 8, -7, 3, -6, 1, -4, 1, -8, 0, -12, 1,
@@ -143,6 +150,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 2584,
+  projection: { kind: "azimuthal", centre: [0.808, 8.618], scale: 29173.48, at: [496.76, 1292.14] },
   outlines: { TGO: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

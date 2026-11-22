@@ -194,8 +194,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Beyrouth",
     country: "LBN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [35.502932, 33.888553],
+      scale: 211615.35,
+      at: [116.08, 82.59],
+    },
     outline: [
       [
         230, 31, -13, 20, -11, 59, -42, 24, -26, 38, -19, -2, -17, -15, -57, 0, 0, -16, -8, -35,
@@ -220,6 +227,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1300,
+  projection: {
+    kind: "azimuthal",
+    centre: [35.806, 33.872],
+    scale: 44601.32,
+    at: [466.51, 650.33],
+  },
   outlines: { LBN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -79,8 +79,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Saint Andrew",
     country: "VCT",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-61.228756, 13.200909],
+      scale: 123746.42,
+      at: [126.96, 90.92],
+    },
     outline: [
       [
         108, 172, -71, -50, 27, -29, 43, -31, 39, -43, 16, -7, 28, -4, -3, 35, 16, 14, -13, 26, -47,
@@ -105,6 +112,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 2400,
+  projection: {
+    kind: "azimuthal",
+    centre: [-61.209, 13.202],
+    scale: 171406.41,
+    at: [742.34, 544.8],
+  },
   outlines: { VCT: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

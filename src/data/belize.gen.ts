@@ -123,8 +123,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Corozal",
     country: "BLZ",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-88.320545, 18.227852],
+      scale: 17703.42,
+      at: [128.29, 89.24],
+    },
     outline: [
       [
         173, 172, -34, -4, -40, -37, -22, -29, -13, -10, -22, -9, 2, -11, 3, -5, 9, -10, 4, -6, 1,
@@ -157,6 +164,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1860,
+  projection: {
+    kind: "azimuthal",
+    centre: [-88.636, 17.265],
+    scale: 40366.98,
+    at: [416.94, 873.66],
+  },
   outlines: { BLZ: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

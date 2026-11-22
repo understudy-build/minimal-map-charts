@@ -23,6 +23,12 @@ const insets: Sheet["insets"] = [
     country: "FSM",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [162.984539, 5.318861],
+      scale: 85465.38,
+      at: [127.72, 98.76],
+    },
     outline: [
       [
         189, 66, 7, 8, 10, 3, 10, 4, 4, 11, -5, 19, -26, 46, -10, 11, -20, 4, -18, -5, -18, -7, -20,
@@ -49,6 +55,12 @@ const insets: Sheet["insets"] = [
     country: "FSM",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [151.637524, 7.310143],
+      scale: 2539.81,
+      at: [128.24, 82.47],
+    },
     outline: [
       [126, 81, 0, 0, 1, -1, 0, 0, -1, 0, 0, -1, 2, 0, 1, 1, 0, 1, -1, 1, 0, -1],
       [140, 76, 0, 0, -1, 1, -1, 0, 0, -1],
@@ -73,6 +85,12 @@ const insets: Sheet["insets"] = [
     country: "FSM",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [138.182827, 9.520265],
+      scale: 5274.65,
+      at: [18.81, 97.14],
+    },
     outline: [
       [
         16, 93, 0, 0, 1, 0, 0, -1, 1, -1, 2, 0, 0, 1, -1, 2, 0, 1, 3, 0, 0, 1, -4, 3, -1, 0, -1, -2,
@@ -99,6 +117,12 @@ const insets: Sheet["insets"] = [
     country: "FSM",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [155.112158, 3.011218],
+      scale: 1615.21,
+      at: [85.87, 113],
+    },
     outline: [
       [77, 170, 0, 1, -1, 0, 0, -1, 1, 0],
       [79, 92, 1, -1, 0, 1],
@@ -110,6 +134,12 @@ const insets: Sheet["insets"] = [
     country: "FSM",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [154.2811, 8.150585],
+      scale: 118729.95,
+      at: [130.69, 79.49],
+    },
     outline: [
       [
         169, 29, 20, 16, 8, 62, -10, 38, -9, 15, -17, 12, -34, -41, -84, -37, 14, -27, 10, -34, 20,
@@ -122,6 +152,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 902,
+  projection: {
+    kind: "azimuthal",
+    centre: [152.786, 7.311],
+    scale: 265521.94,
+    at: [-24547.23, -1381.75],
+  },
   outlines: { FSM: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

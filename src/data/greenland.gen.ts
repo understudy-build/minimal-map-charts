@@ -454,8 +454,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Qeqertalik",
     country: "GRL",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-48.411002, 68.204585],
+      scale: 3593.92,
+      at: [136.06, 96.27],
+    },
     outline: [
       [
         78, 132, 2, 0, 0, -1, 2, 0, 2, 0, 0, -1, 1, 0, 1, -1, 1, 0, 0, -1, 1, 0, 1, -1, 1, 0, 0, -1,
@@ -620,6 +627,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-34.57594, 77.013009],
+      scale: 740.58,
+      at: [119.23, 93.49],
+    },
     outline: [
       [
         162, 155, -3, 2, 0, 2, -1, 3, -3, 0, -1, -1, -1, 0, -1, 0, 0, 1, -2, 0, 0, -1, -1, 0, 0, -1,
@@ -761,6 +774,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1586,
+  projection: { kind: "azimuthal", centre: [-46.148, 71.815], scale: 4161.38, at: [409.79, 717.8] },
   outlines: { GRL: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

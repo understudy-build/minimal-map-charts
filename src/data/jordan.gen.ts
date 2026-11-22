@@ -154,8 +154,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Ajlun",
     country: "JOR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [35.737941, 32.287038],
+      scale: 38218.1,
+      at: [107.02, 84.72],
+    },
     outline: [
       [
         83, 172, -15, -3, -10, -4, -9, -11, 3, -7, 0, -4, -1, -6, -8, -18, -3, -11, -1, -10, 8, -42,
@@ -184,6 +191,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1136,
+  projection: { kind: "azimuthal", centre: [36, 31], scale: 15177.34, at: [252.59, 645.99] },
   outlines: { JOR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

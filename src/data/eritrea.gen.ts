@@ -111,8 +111,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Anseba",
     country: "ERI",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [38.967041, 15.320967],
+      scale: 22283.85,
+      at: [86.44, 107.07],
+    },
     outline: [
       [
         19, 171, 0, -156, 4, -3, 8, 0, 7, 5, 3, 1, 5, -1, 14, -5, 23, -4, 7, 17, 9, 18, 34, 53, 22,
@@ -137,6 +144,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 867,
+  projection: { kind: "azimuthal", centre: [39.243, 15.164], scale: 8628.83, at: [419.87, 437.93] },
   outlines: { ERI: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

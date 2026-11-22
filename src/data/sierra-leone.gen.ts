@@ -527,8 +527,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Western",
     country: "SLE",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-13.110795, 8.340286],
+      scale: 19766.13,
+      at: [118.32, 86.75],
+    },
     outline: [
       [
         143, 122, -1, -1, -1, 0, 0, 1, -1, 0, 0, -1, -2, 0, 0, 1, -1, 0, -4, 0, 0, 1, -2, 0, 0, 1,
@@ -655,6 +662,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1028,
+  projection: {
+    kind: "azimuthal",
+    centre: [-12.231, 8.465],
+    scale: 18754.13,
+    at: [356.39, 512.86],
+  },
   outlines: { SLE: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

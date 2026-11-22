@@ -1106,8 +1106,15 @@ const insets: Sheet["insets"] = [
   {
     name: "London",
     country: "GBR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-0.110534, 51.501007],
+      scale: 23196.43,
+      at: [114.43, 85.27],
+    },
     outline: [
       [
         167, 79, 0, 0, -3, 2, -2, 2, 0, 1, -2, 1, 0, 1, -12, 0, -2, -2, -1, -2, -1, 0, 1, 1, -3, 0,
@@ -1165,6 +1172,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1828,
+  projection: { kind: "azimuthal", centre: [-3.5, 55], scale: 9447.72, at: [461.84, 980.03] },
   outlines: { GBR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

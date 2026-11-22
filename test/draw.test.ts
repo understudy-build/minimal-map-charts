@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 
+import { gazetteer } from "../src/data/places.gen.ts"
 import {
   type Area,
   type Country,
@@ -10,6 +11,7 @@ import {
   paint,
   parse,
   sheetIds,
+  type Site,
   type Spec,
   svg,
 } from "../src/index.ts"
@@ -177,6 +179,177 @@ describe("draw", () => {
   })
 })
 
+// Points at the sites given.
+const dots = (...sites: ReadonlyArray<Site>): Spec => ({
+  points: { kind: "dot", sites },
+})
+
+// What `draw` says is wrong with a spec, as `describe` words it.
+const refused = async (spec: Spec) => {
+  const result = await draw(spec)
+
+  return result.ok ? [] : result.issues.map(explain)
+}
+
+const paris = { name: "Paris", lat: 48.857, lon: 2.352 }
+const berlin = { name: "Berlin", lat: 52.52, lon: 13.405 }
+const newYork = { name: "New York", lat: 40.713, lon: -74.006 }
+
+describe("points", () => {
+  it("frames the narrowest region holding every point, and a place by its country", async () => {
+    const europe = await drawn(dots(paris, berlin))
+    const world = await drawn(dots(paris, berlin, newYork))
+    const named = await drawn(dots({ place: "Lyon", country: "FRA" }, berlin))
+
+    expect([europe.sheet, world.sheet, named.sheet]).toEqual(["europe", "world", "europe"])
+  })
+
+  it("widens the frame from the fill's region to hold a point outside it", async () => {
+    const scene = await drawn({
+      fill: { kind: "highlight", countries: ["FRA", "DEU"] },
+      ...dots(newYork),
+    })
+
+    expect(scene.sheet).toBe("world")
+  })
+
+  it("draws a point at its place, and a place named by its city where Natural Earth puts it", async () => {
+    const scene = await drawn({
+      sheet: "FRA",
+      ...dots(paris, { place: "Paris", country: "FRA", name: "Paris, by name" }),
+    })
+    const [first, second] = scene.marks
+
+    expect(scene.marks).toHaveLength(2)
+    expect(
+      Math.hypot((first?.x ?? 0) - (second?.x ?? 0), (first?.y ?? 0) - (second?.y ?? 0)),
+    ).toBeLessThan(5)
+    expect(scene.points?.sites).toContainEqual({
+      name: "Paris, by name",
+      value: undefined,
+      lat: 48.869,
+      lon: 2.331,
+      country: "FRA",
+      area: "FR-IDF",
+    })
+  })
+
+  it("lists as too small to show only the fill's countries, not a named place's", async () => {
+    const scene = await drawn({
+      fill: { kind: "highlight", countries: ["BRA"] },
+      ...dots({ place: "Singapore", country: "SGP" }),
+    })
+
+    expect([scene.sheet, scene.missing, scene.marks.map((each) => each.name)]).toEqual([
+      "world",
+      [],
+      ["Singapore"],
+    ])
+  })
+
+  it("draws a point in the inset that holds it, and in a zoom on the map as well", async () => {
+    const scene = await drawn({
+      sheet: "USA",
+      ...dots({ place: "Honolulu", country: "USA" }, { place: "Washington", country: "USA" }),
+    })
+    const held = (name: string) =>
+      scene.insets.flatMap((inset) =>
+        inset.marks.some((each) => each.name === name) ? [inset.name] : [],
+      )
+
+    expect(held("Honolulu")).toEqual(["Hawaii"])
+    expect(held("Washington")).toEqual(["District of Columbia"])
+    expect(scene.marks.map((each) => each.name)).toEqual(["Washington"])
+  })
+
+  it("places points in the layout's panels", async () => {
+    const scene = await drawn({
+      sheet: { places: ["USA", "FRA"], insets: false },
+      ...dots(newYork, paris),
+    })
+    const [america, europe] = scene.panels
+    const inside = (name: string) => {
+      const mark = scene.marks.find((each) => each.name === name)
+
+      return scene.panels.findIndex(
+        (panel) =>
+          mark !== undefined &&
+          mark.x >= panel.x &&
+          mark.x <= panel.x + panel.width &&
+          mark.y >= panel.y &&
+          mark.y <= panel.y + panel.height,
+      )
+    }
+
+    expect([america, europe].every((panel) => panel !== undefined)).toBe(true)
+    expect([inside("New York"), inside("Paris")]).toEqual([0, 1])
+  })
+
+  it("refuses a point off the sheet, naming the sheets that hold every point", async () => {
+    expect(await refused({ sheet: "FRA", ...dots(paris, berlin) })).toEqual([
+      'points.sites.1: "Berlin" is not on the "FRA" sheet. Sheets that hold every point: europe, extended-europe, world.',
+    ])
+    expect(await refused({ sheet: { places: ["FRA"] }, ...dots(newYork) })).toEqual([
+      'points.sites.0: "New York" is in none of the layout\'s panels. Sheets that hold every point: north-america, americas, world.',
+    ])
+  })
+
+  it("finds a place by any of its names, and says which area tells repeated names apart", async () => {
+    expect(
+      await refused(
+        dots({ place: "Zurich", country: "CHE" }, { place: "Bangalore", country: "IND" }),
+      ),
+    ).toEqual([])
+    expect(
+      await refused(
+        dots(
+          { place: "Londn", country: "GBR" },
+          { place: "Palo Alto", country: "USA" },
+          { place: "Springfield", country: "USA", name: "Springfield" },
+          { place: "Springfield", country: "USA", area: "US-TX", name: "Springfield, TX" },
+        ),
+      ),
+    ).toEqual([
+      'points.sites.0.place: "Londn" is not a place Natural Earth lists in GBR. Did you mean "London"? Else give `lat` and `lon` from your source.',
+      'points.sites.1.place: "Palo Alto" is not a place Natural Earth lists in USA. Else give `lat` and `lon` from your source.',
+      'points.sites.2.place: "Springfield" names 5 places in USA. Give `area`, one of US-IL, US-MA, US-MO, US-OH, US-OR.',
+      'points.sites.3.place: No place "Springfield" is in US-TX. Give `area`, one of US-IL, US-MA, US-MO, US-OH, US-OR.',
+    ])
+  })
+
+  it("loads a country's places only when a site names one", async () => {
+    const load = vi.spyOn(gazetteer, "PRT")
+
+    await drawn({ sheet: "PRT", ...dots({ name: "Lisbon", lat: 38.722, lon: -9.139 }) })
+    expect(load).not.toHaveBeenCalled()
+
+    await drawn({ sheet: "PRT", ...dots({ place: "Porto", country: "PRT" }) })
+    expect(load).toHaveBeenCalledTimes(1)
+    load.mockRestore()
+  })
+
+  it("sizes bubbles by area from 0, with a legend of round values", async () => {
+    const scene = await drawn({
+      points: {
+        kind: "bubble",
+        label: "Staff",
+        sites: [
+          { ...paris, value: 420 },
+          { ...berlin, value: 105 },
+          { name: "Lyon", lat: 45.76, lon: 4.84, value: 0 },
+        ],
+      },
+    })
+    const radius = (name: string) => scene.marks.find((each) => each.name === name)?.radius ?? 0
+
+    expect(radius("Paris") / radius("Berlin")).toBeCloseTo(2, 1)
+    expect(radius("Lyon")).toBeGreaterThan(0)
+    expect(scene.points?.sizes.map((each) => each.value)).toEqual([400, 200, 100])
+    expect(scene.marks.map((each) => each.name)).toEqual(["Paris", "Berlin", "Lyon"])
+    expect(scene.description).toBe("Map of Europe: 3 points sized by Staff, largest Paris (420).")
+  })
+})
+
 describe("svg", () => {
   it("fills the areas a fill names, and shows no data only where an area has none", async () => {
     const codes = await everyState()
@@ -223,6 +396,27 @@ describe("svg", () => {
       )
       expect(markup).not.toContain("light-dark(")
     }
+  })
+
+  it("names a few points beside them, gives each a tooltip, and credits named places", async () => {
+    const few = svg(await drawn(dots(paris, { place: "Lyon", country: "FRA" })))
+    const many = svg(
+      await drawn(
+        dots(
+          ...Array.from({ length: 13 }, (_, index) => ({
+            name: `Site ${index}`,
+            lat: 45 + index * 0.5,
+            lon: 2 + index * 0.5,
+          })),
+        ),
+      ),
+    )
+
+    expect(few).toContain('<g data-site="Paris"><title>Paris</title>')
+    expect(few).toMatch(/paint-order="stroke">Lyon<\/text>/)
+    expect(few).toContain("Places: Natural Earth, populated places v5.1.2. Public domain.")
+    expect(many).not.toMatch(/paint-order="stroke">Site 0<\/text>/)
+    expect(many).not.toContain("Places: Natural Earth")
   })
 
   it("follows the page's colour scheme with a palette for each", async () => {

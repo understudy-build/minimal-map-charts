@@ -147,6 +147,7 @@ const insets: Sheet["insets"] = []
 const sheet: Sheet = {
   width: 1000,
   height: 1252,
+  projection: { kind: "azimuthal", centre: [-84, 10], scale: 12415.75, at: [682.89, 273.03] },
   outlines: { CRI: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

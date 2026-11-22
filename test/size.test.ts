@@ -55,6 +55,28 @@ describe("size", () => {
     expect(size(areas)).toEqual(await drawn(areas))
   })
 
+  it("leaves room for the points' legend and the credit for named places", async () => {
+    const paris = { name: "Paris", lat: 48.857, lon: 2.352 }
+    const specs: ReadonlyArray<Spec> = [
+      { points: { kind: "dot", sites: [paris] } },
+      { points: { kind: "dot", label: "Offices", sites: [paris] } },
+      { points: { kind: "bubble", sites: [{ ...paris, value: 3 }] } },
+      {
+        sheet: "USA",
+        title: "Field sites",
+        fill: { kind: "choropleth", values: values({ USA: 1 }) },
+        points: {
+          kind: "bubble",
+          label: "Staff",
+          sites: [{ place: "Honolulu", country: "USA", value: 4 }],
+        },
+      },
+    ]
+
+    expect(specs.map(sheetOf)).toEqual(["europe", "europe", "europe", "USA"])
+    expect(specs.map(size)).toEqual(await Promise.all(specs.map(drawn)))
+  })
+
   it("knows a layout's size only once drawn", () => {
     expect(size({ sheet: { places: ["USA", "FRA"] } })).toBeUndefined()
   })

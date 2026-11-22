@@ -341,8 +341,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Halabja Governorate",
     country: "IRQ",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [46.011012, 35.224661],
+      scale: 22239.05,
+      at: [123.18, 99.56],
+    },
     outline: [
       [
         79, 90, 1, -1, -1, 0, 3, -5, 2, -2, 0, -1, 1, 0, 0, 1, 1, 0, 1, -1, 0, -1, 2, -2, 2, 0, 1,
@@ -424,6 +431,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1002,
+  projection: { kind: "azimuthal", centre: [44.914, 33.216], scale: 6749.61, at: [611.65, 502.57] },
   outlines: { IRQ: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

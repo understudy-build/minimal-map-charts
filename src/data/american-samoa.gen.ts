@@ -42,6 +42,12 @@ const insets: Sheet["insets"] = [
     country: "ASM",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-168.165129, -14.525255],
+      scale: 717125.28,
+      at: [139.98, 76.41],
+    },
     outline: [[183, 172, -139, -115, 115, -49, 37, 14]],
     areas: [
       { code: "ASM-5000", name: "Rose Atoll", outline: [[183, 172, -139, -115, 115, -49, 37, 14]] },
@@ -52,6 +58,12 @@ const insets: Sheet["insets"] = [
     country: "ASM",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-171.079758, -11.057943],
+      scale: 637918.59,
+      at: [119.16, 81.24],
+    },
     outline: [[195, 21, -7, 107, -88, 44, -55, -64, 10, -100]],
     areas: [
       {
@@ -66,6 +78,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 171,
+  projection: {
+    kind: "azimuthal",
+    centre: [-170.029, -13.683],
+    scale: 41651.38,
+    at: [575.08, -343.41],
+  },
   outlines: { ASM: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

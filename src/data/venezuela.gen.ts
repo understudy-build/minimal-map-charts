@@ -413,6 +413,12 @@ const insets: Sheet["insets"] = [
     country: "VEN",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-65.453962, 11.368438],
+      scale: 1948.33,
+      at: [127.35, 155.56],
+    },
     outline: [
       [135, 170, 1, 1, -1, 1, -1, 0, -3, 0, 0, -1, -2, 0, 0, -1, 1, -1, 2, 0, 2, 1],
       [89, 140, 0, 1, 1, 0, -1, 1, -2, 0],
@@ -443,6 +449,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 864,
+  projection: { kind: "azimuthal", centre: [-67.629, 8.177], scale: 4186.67, at: [425.49, 304.39] },
   outlines: { VEN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

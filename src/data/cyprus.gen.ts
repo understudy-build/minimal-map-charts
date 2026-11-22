@@ -91,6 +91,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [33.108817, 35.08209],
+      scale: 15284.59,
+      at: [125.97, 89.99],
+    },
     outline: [
       [
         30, 61, 1, 0, 4, 2, 3, 0, 1, -1, 4, 2, 2, 0, 1, 1, 4, 2, 5, 2, 2, 2, 5, 2, 0, 1, 5, 0, 2,
@@ -167,6 +173,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [33.916366, 35.28999],
+      scale: 12680.69,
+      at: [93.52, 98.2],
+    },
     outline: [
       [65, 163, 0, -1, 3, 1, 2, 0, 1, 2, -3, 0, -2, -1, 0, -1],
       [
@@ -251,6 +263,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [33.240592, 35.303806],
+      scale: 20922.6,
+      at: [103.6, 94.63],
+    },
     outline: [
       [
         119, 79, 1, 1, 2, 0, 0, 1, 1, -1, 1, 1, 2, 0, 1, -1, 0, 1, 2, 0, 2, -1, 0, 1, 1, 1, 1, 0, 3,
@@ -310,6 +328,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 464,
+  projection: { kind: "azimuthal", centre: [33.157, 35.161], scale: 46325.38, at: [597.47, 23.29] },
   outlines: { CYP: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

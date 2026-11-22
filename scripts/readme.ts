@@ -118,6 +118,25 @@ const examples: Readonly<Record<string, unknown>> = {
       scale: { kind: "breaks", at: [10, 50, 100, 200, 500] },
     },
   },
+  // Points: offices named by their city, and one Natural Earth does not
+  // list at its coordinates, sized by staff over a highlight.
+  offices: {
+    title: "Staff by office, 2026",
+    source: "Illustrative values",
+    fill: { kind: "highlight", countries: ["FRA", "DEU", "GBR", "ESP"] },
+    points: {
+      kind: "bubble",
+      label: "Staff",
+      sites: [
+        { place: "Paris", country: "FRA", value: 420 },
+        { place: "London", country: "GBR", value: 260 },
+        { place: "Berlin", country: "DEU", value: 130 },
+        { place: "Madrid", country: "ESP", value: 75 },
+        { place: "Lyon", country: "FRA", value: 40 },
+        { name: "Sophia Antipolis", lat: 43.62, lon: 7.05, value: 25 },
+      ],
+    },
+  },
 }
 
 const folder = new URL("../docs/images/", import.meta.url).pathname

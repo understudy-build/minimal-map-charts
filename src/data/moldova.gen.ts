@@ -674,6 +674,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [29.454272, 46.827401],
+      scale: 114190.48,
+      at: [122.12, 79.96],
+    },
     outline: [
       [
         170, 28, 13, 33, -11, 4, 7, 46, -2, 27, 16, 4, 6, 7, -21, -3, -3, 22, -14, -3, -8, 7, 0,
@@ -702,6 +708,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [29.331741, 47.339943],
+      scale: 5741.22,
+      at: [125.89, 92.64],
+    },
     outline: [
       [
         163, 170, -1, -1, 0, -1, -1, 0, -1, 1, 0, -1, 1, 0, 0, -1, -1, 0, -1, 1, -1, 0, -1, 1, -1,
@@ -785,6 +797,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1256,
+  projection: { kind: "azimuthal", centre: [28.434, 46.979], scale: 23378.69, at: [503.6, 628.38] },
   outlines: { MDA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

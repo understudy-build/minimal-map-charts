@@ -239,8 +239,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Jonglei",
     country: "SSD",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [31.700477, 7.854623],
+      scale: 2560.01,
+      at: [112.41, 82.45],
+    },
     outline: [
       [
         78, 11, 0, -1, 5, 0, 0, 1, 3, 0, 0, 1, 2, 0, 0, 1, 4, 0, 1, 1, 3, 0, 0, 1, 2, 0, 0, 1, 5, 0,
@@ -319,6 +326,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [28.413399, 9.786293],
+      scale: 11134.89,
+      at: [119.6, 84.02],
+    },
     outline: [
       [
         224, 116, -5, 3, -3, 4, -4, 3, -7, 7, -2, 3, -2, 1, 0, 1, -1, 0, -2, 2, -1, 0, 0, 1, -1, 0,
@@ -332,6 +345,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 752,
+  projection: { kind: "azimuthal", centre: [30, 7], scale: 4789.92, at: [494.41, 448.4] },
   outlines: { SSD: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

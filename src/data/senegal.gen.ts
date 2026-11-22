@@ -235,8 +235,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Dakar",
     country: "SEN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-17.281886, 14.764905],
+      scale: 32643.19,
+      at: [148.02, 84.45],
+    },
     outline: [
       [
         222, 171, -17, -23, -16, -15, -9, -6, -11, -5, -12, -2, -9, -3, -23, -12, -4, -4, -18, 0,
@@ -265,6 +272,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 737,
+  projection: { kind: "azimuthal", centre: [-14.5, 14.5], scale: 9383.38, at: [490.75, 368.94] },
   outlines: { SEN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

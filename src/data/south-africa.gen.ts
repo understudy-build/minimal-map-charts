@@ -230,8 +230,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Gauteng",
     country: "ZAF",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [28.128899, -26.104594],
+      scale: 5255.9,
+      at: [120.13, 98.66],
+    },
     outline: [
       [
         199, 44, 0, 0, 0, 2, -2, 3, -2, 6, -5, 4, -1, 3, 0, 6, -2, 3, 0, 2, 1, 2, -1, 2, -5, 3, 1,
@@ -283,6 +290,12 @@ const insets: Sheet["insets"] = [
     country: "ZAF",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [37.758773, -46.861638],
+      scale: 25583.41,
+      at: [114.39, 125.51],
+    },
     outline: [
       [
         85, 111, 10, -3, 10, 1, 28, 9, 15, 17, 8, 3, -3, 12, -7, 11, -8, 8, -9, 3, -8, -3, -34, -1,
@@ -296,6 +309,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 878,
+  projection: { kind: "azimuthal", centre: [25, -29], scale: 3869.61, at: [514.92, 468.49] },
   outlines: { ZAF: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

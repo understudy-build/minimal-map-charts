@@ -117,8 +117,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Schellenberg",
     country: "LIE",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [9.533539, 47.238788],
+      scale: 362726.76,
+      at: [121.32, 86.43],
+    },
     outline: [[124, 8, 56, 52, -17, 52, -57, 18, -43, 42, -3, -39, 29, -42, 14, -42]],
     areas: [
       {
@@ -133,6 +140,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 2186,
+  projection: {
+    kind: "azimuthal",
+    centre: [9.527, 47.176],
+    scale: 589810.79,
+    at: [368.36, 903.54],
+  },
   outlines: { LIE: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

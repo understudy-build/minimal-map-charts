@@ -263,6 +263,12 @@ const insets: Sheet["insets"] = [
     country: "TLS",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [125.577555, -8.230293],
+      scale: 51644.58,
+      at: [124.54, 101.22],
+    },
     outline: [
       [
         184, 42, -2, 0, 0, -1, -1, 0, 0, 1, -1, 0, 0, 1, 1, 0, 0, 3, -1, 0, 0, 2, 1, 0, 0, 2, -1, 0,
@@ -342,6 +348,12 @@ const insets: Sheet["insets"] = [
     country: "TLS",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [124.291254, -9.318545],
+      scale: 27815.38,
+      at: [133.19, 81.65],
+    },
     outline: [
       [
         224, 23, 0, 1, -2, 0, 0, 2, -2, 0, 0, 1, -1, 0, 0, 1, -1, 0, 0, 5, -1, 0, 0, 4, 1, 0, 0, 1,
@@ -443,6 +455,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 488,
+  projection: {
+    kind: "azimuthal",
+    centre: [125.694, -8.815],
+    scale: 23563.22,
+    at: [319.56, 211.81],
+  },
   outlines: { TLS: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

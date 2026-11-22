@@ -280,8 +280,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Pemagatsel",
     country: "BTN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [91.35012, 26.99597],
+      scale: 29081.46,
+      at: [124.39, 92.72],
+    },
     outline: [
       [
         138, 8, 19, 2, -11, 17, -1, 3, 0, 3, 3, 4, 5, 8, 2, 2, 1, 2, 10, 6, 2, 2, 6, 3, 16, 0, 1, 1,
@@ -312,6 +319,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 566,
+  projection: { kind: "azimuthal", centre: [90.375, 27.338], scale: 18797.97, at: [490.19, 344.8] },
   outlines: { BTN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

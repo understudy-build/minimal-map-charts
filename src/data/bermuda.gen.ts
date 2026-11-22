@@ -90,8 +90,15 @@ const insets: Sheet["insets"] = [
   {
     name: "City of Hamilton",
     country: "BMU",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-64.7893, 32.293413],
+      scale: 1206074.32,
+      at: [123.12, 90.66],
+    },
     outline: [[210, 151, -180, 21, 13, -144, 167, -20]],
     areas: [
       {
@@ -106,6 +113,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 705,
+  projection: {
+    kind: "azimuthal",
+    centre: [-64.769, 32.308],
+    scale: 278768.94,
+    at: [491.24, 402.6],
+  },
   outlines: { BMU: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

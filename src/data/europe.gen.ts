@@ -5,6 +5,7 @@ import type { Sheet } from "../sheet.ts"
 const sheet: Sheet = {
   width: 1000,
   height: 849,
+  projection: { kind: "azimuthal", centre: [10, 52], scale: 1322.19, at: [358.94, 468.34] },
   outlines: {
     CHI: [
       [179, 517, 0, 2, -4, -1, 1, -2],
@@ -768,6 +769,12 @@ const sheet: Sheet = {
       country: "FRA",
       width: 120,
       height: 90,
+      projection: {
+        kind: "azimuthal",
+        centre: [-61.538565, 16.213532],
+        scale: 6842.8,
+        at: [53.65, 43],
+      },
       outline: [
         [78, 41, -13, 1, -10, -1, -2, -8, 5, -8, -3, -8, 2, -5, 4, -4, 8, 5, 1, 6, 4, 6, 21, 13],
         [48, 68, -9, 5, -5, -2, -6, -10, -3, -29, 2, -4, 2, -2, 13, 4, 5, 4, 5, 2, -3, 5, 2, 22],
@@ -779,6 +786,12 @@ const sheet: Sheet = {
       country: "FRA",
       width: 120,
       height: 90,
+      projection: {
+        kind: "azimuthal",
+        centre: [-61.021398, 14.658362],
+        scale: 9467.05,
+        at: [60.43, 43.75],
+      },
       outline: [
         [
           91, 71, -1, 9, -4, 2, -6, -8, -26, 1, -4, -7, -1, -3, 13, -12, -15, -3, -6, -5, -12, -25,
@@ -791,6 +804,12 @@ const sheet: Sheet = {
       country: "FRA",
       width: 120,
       height: 90,
+      projection: {
+        kind: "azimuthal",
+        centre: [-53.248403, 3.924893],
+        scale: 1158.15,
+        at: [57.73, 45.53],
+      },
       outline: [
         [
           30, 78, 1, -1, 1, 0, 2, -2, 3, -5, 2, -2, 0, -4, -1, -3, 1, 0, 3, -6, 0, -1, 1, -2, -1, 0,
@@ -809,6 +828,12 @@ const sheet: Sheet = {
       country: "FRA",
       width: 120,
       height: 90,
+      projection: {
+        kind: "azimuthal",
+        centre: [55.541546, -21.118497],
+        scale: 8392.67,
+        at: [60.78, 45.22],
+      },
       outline: [
         [
           96, 78, -20, 4, -13, -2, -27, -12, -7, -8, -10, -23, 2, -9, 8, -14, 19, -6, 20, 2, 9, 4,
@@ -821,6 +846,12 @@ const sheet: Sheet = {
       country: "FRA",
       width: 120,
       height: 90,
+      projection: {
+        kind: "azimuthal",
+        centre: [45.134002, -12.823378],
+        scale: 12787.16,
+        at: [60.47, 46],
+      },
       outline: [
         [
           70, 80, -13, 2, -6, -6, -4, -14, 4, -13, 0, -11, -11, -19, 11, -11, 10, 12, 4, 1, 15, 9,
@@ -833,6 +864,12 @@ const sheet: Sheet = {
       country: "ESP",
       width: 120,
       height: 90,
+      projection: {
+        kind: "azimuthal",
+        centre: [-15.6649, 28.346103],
+        scale: 1430.63,
+        at: [63.13, 47.85],
+      },
       outline: [
         [
           48, 47, -1, 6, -3, 3, -3, 0, -3, -3, -1, -4, -1, -1, 1, -1, 2, 0, 5, -1, 5, -3, 4, -1, 0,
@@ -851,6 +888,12 @@ const sheet: Sheet = {
       country: "PRT",
       width: 120,
       height: 90,
+      projection: {
+        kind: "azimuthal",
+        centre: [-27.281536, 38.344291],
+        scale: 1217.77,
+        at: [73.69, 43.5],
+      },
       outline: [
         [112, 72, 0, 1, -2, 0, -1, -1, 1, -1, 1, 0, 1, 1],
         [10, 20, 0, 1, -2, -1, 0, -2, 1, -1, 1, 1],
@@ -866,6 +909,12 @@ const sheet: Sheet = {
       country: "PRT",
       width: 120,
       height: 90,
+      projection: {
+        kind: "azimuthal",
+        centre: [-16.985408, 32.752612],
+        scale: 12867.45,
+        at: [56.5, 46.27],
+      },
       outline: [
         [
           18, 20, 25, 12, 24, -5, 29, 15, 16, 3, -14, 11, -14, 14, -34, -4, -28, -13, -11, -10, -3,

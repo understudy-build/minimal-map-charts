@@ -160,8 +160,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Brčko District",
     country: "BIH",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [18.732831, 44.821967],
+      scale: 36924.11,
+      at: [105.72, 101.32],
+    },
     outline: [
       [
         130, 8, 0, 3, 1, 3, 4, 5, 7, 4, 1, 3, -15, 7, -10, -6, -1, 1, -1, 4, 4, 10, 3, 10, 3, 4, 8,
@@ -199,6 +206,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 979,
+  projection: {
+    kind: "azimuthal",
+    centre: [18.117, 43.913],
+    scale: 20204.57,
+    at: [608.38, 490.85],
+  },
   outlines: { BIH: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

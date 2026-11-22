@@ -157,8 +157,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Meemu",
     country: "MDV",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [73.425246, 2.779814],
+      scale: 431285.65,
+      at: [127.72, 96.34],
+    },
     outline: [
       [
         93, 170, -6, -13, 20, -25, -6, -18, 11, 7, -9, -17, 11, 7, 2, -11, -11, 2, 22, -42, 4, -52,
@@ -183,6 +190,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 4811,
+  projection: {
+    kind: "azimuthal",
+    centre: [73.238, 3.195],
+    scale: 35207.16,
+    at: [540.97, 2405.54],
+  },
   outlines: { MDV: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

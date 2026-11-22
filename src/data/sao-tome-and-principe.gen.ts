@@ -61,8 +61,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Príncipe",
     country: "STP",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [7.396792, 1.615437],
+      scale: 56078.14,
+      at: [121.68, 85.08],
+    },
     outline: [
       [
         127, 152, -2, 1, -1, 2, 2, 1, 4, 8, -1, 5, -4, 3, -2, -12, -8, 0, -7, 3, 0, -2, -2, -1, -3,
@@ -108,6 +115,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1692,
+  projection: { kind: "azimuthal", centre: [6.851, 0.84], scale: 56073.06, at: [392.42, 846.01] },
   outlines: { STP: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -432,8 +432,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Lima Province",
     country: "PER",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-76.927097, -12.014905],
+      scale: 9829.84,
+      at: [119.04, 87.17],
+    },
     outline: [
       [
         140, 172, -2, -5, 4, -4, 1, -6, -1, -7, -6, -5, -5, -8, -25, -14, -2, 0, -4, -3, -1, -2, 0,
@@ -474,8 +481,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Callao",
     country: "PER",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-77.162432, -12.060126],
+      scale: 80395.31,
+      at: [144.98, 93.72],
+    },
     outline: [
       [211, 123, -25, -7, -58, -6, 11, -26, 16, -20, 14, -22, 6, -34, 39, 27, 6, 33, -3, 37],
       [
@@ -502,6 +516,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1459,
+  projection: { kind: "azimuthal", centre: [-75, -10], scale: 4497.8, at: [506.12, 791.74] },
   outlines: { PER: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

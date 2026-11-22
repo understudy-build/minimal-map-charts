@@ -914,8 +914,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Itasy",
     country: "MDG",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [46.886723, -19.050969],
+      scale: 10390.79,
+      at: [131.78, 92.31],
+    },
     outline: [
       [
         29, 138, 0, -1, 3, 0, 0, -1, 1, 1, 0, -1, 1, 0, 0, -1, 1, 0, 0, -2, -1, 0, -1, -1, -1, 0, 0,
@@ -1043,6 +1050,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1959,
+  projection: {
+    kind: "azimuthal",
+    centre: [47.168, -18.781],
+    scale: 8138.85,
+    at: [535.33, 978.02],
+  },
   outlines: { MDG: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

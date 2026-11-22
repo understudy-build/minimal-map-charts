@@ -3037,8 +3037,15 @@ const insets: Sheet["insets"] = [
   {
     name: "City of Manila",
     country: "PHL",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [120.983699, 14.599997],
+      scale: 121518.81,
+      at: [128.65, 84.22],
+    },
     outline: [
       [
         141, 30, 75, 67, -56, 68, -24, 7, -30, -52, -22, 0, 8, -9, -6, -14, -15, 46, -4, -40, 28,
@@ -3063,8 +3070,15 @@ const insets: Sheet["insets"] = [
   {
     name: "City of San Juan",
     country: "PHL",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [121.036042, 14.602159],
+      scale: 334246.98,
+      at: [101.01, 90.69],
+    },
     outline: [[232, 94, -139, 63, -85, -70, 23, -64]],
     areas: [
       {
@@ -3077,8 +3091,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Pateros",
     country: "PHL",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [121.069391, 14.545253],
+      scale: 645302.34,
+      at: [118.94, 88.24],
+    },
     outline: [[27, 102, 57, -94, 129, 62, -66, 102]],
     areas: [
       { code: "PH1307606", name: "Pateros", outline: [[27, 102, 57, -94, 129, 62, -66, 102]] },
@@ -3089,6 +3110,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1354,
+  projection: { kind: "azimuthal", centre: [123, 12], scale: 4629.92, at: [701.02, 746.52] },
   outlines: { PHL: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

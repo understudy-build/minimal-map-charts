@@ -30,7 +30,7 @@ describe("llms.txt", () => {
       ),
     ]
 
-    expect(specs).toHaveLength(4)
+    expect(specs).toHaveLength(5)
     for (const spec of specs) expect(issues(spec)).toEqual([])
   })
 

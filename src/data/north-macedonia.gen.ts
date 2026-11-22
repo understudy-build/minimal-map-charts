@@ -222,6 +222,7 @@ const insets: Sheet["insets"] = []
 const sheet: Sheet = {
   width: 1000,
   height: 793,
+  projection: { kind: "azimuthal", centre: [21.7, 41.6], scale: 29123.81, at: [484.51, 404.09] },
   outlines: { MKD: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

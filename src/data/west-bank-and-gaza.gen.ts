@@ -74,8 +74,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Gaza",
     country: "PSE",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [34.376891, 31.406121],
+      scale: 25359.58,
+      at: [113.95, 91.58],
+    },
     outline: [
       [
         184, 30, 2, 2, 0, 3, -5, 5, 0, 2, -1, 1, -8, 4, -2, 2, -5, 1, -2, 1, -9, 8, -2, 3, -2, 1,
@@ -104,6 +111,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1145,
+  projection: {
+    kind: "azimuthal",
+    centre: [35.176, 31.884],
+    scale: 48651.98,
+    at: [704.42, 577.35],
+  },
   outlines: { PSE: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

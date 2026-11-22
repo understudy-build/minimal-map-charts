@@ -457,6 +457,12 @@ const insets: Sheet["insets"] = [
     country: "SYC",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [55.851768, -4.348006],
+      scale: 93003.47,
+      at: [89.7, 114.38],
+    },
     outline: [
       [
         202, 120, 0, -1, -1, 0, 0, -1, -1, 0, 0, -3, -1, 0, 0, -1, -1, -2, 0, -2, -1, -1, 0, -4, -1,
@@ -569,6 +575,12 @@ const insets: Sheet["insets"] = [
     country: "SYC",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [55.710139, -4.322351],
+      scale: 61467.78,
+      at: [128.38, 128.73],
+    },
     outline: [
       [176, 171, 0, 1, -1, 0, 1, -1],
       [
@@ -640,6 +652,12 @@ const insets: Sheet["insets"] = [
     country: "SYC",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [55.739325, -4.318325],
+      scale: 114379.81,
+      at: [124.15, 93.21],
+    },
     outline: [
       [
         164, 136, 2, 0, 3, -1, 3, 0, 1, 1, 0, 1, 1, 2, 1, 0, 0, 1, -1, 0, -1, 1, 0, 3, 1, 0, 0, 1,
@@ -774,6 +792,12 @@ const insets: Sheet["insets"] = [
     country: "SYC",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [55.230633, -4.487092],
+      scale: 187536.97,
+      at: [120.65, 84.2],
+    },
     outline: [
       [
         200, 75, 0, -1, 1, 0, 0, 1, -1, 0, 0, 1, 1, 1, 0, 2, 1, 0, 0, 1, -1, 0, 0, 1, -1, 1, 0, 2,
@@ -811,6 +835,12 @@ const insets: Sheet["insets"] = [
     country: "SYC",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [55.478205, -3.770448],
+      scale: 27373.86,
+      at: [139.84, 93.68],
+    },
     outline: [
       [
         227, 108, 1, 0, 1, -1, 2, 0, 0, 1, 1, 0, 0, 4, -1, 0, 0, 2, -1, 0, 0, 1, -2, 0, 0, -5, -1,
@@ -828,6 +858,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [48.047243, -8.901662],
+      scale: 1283.89,
+      at: [48.76, 132.43],
+    },
     outline: [
       [8, 143, 1, 1, -1, 0],
       [11, 145, 1, 0, 1, 0, 0, -1, 1, 0, 0, -1, 1, 1, -1, 1, -2, 0, -1, 0, -1, 1, -1, 0, 0, -1],
@@ -843,6 +879,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [46.474966, -9.480642],
+      scale: 8368.25,
+      at: [47.15, 52.21],
+    },
     outline: [
       [13, 37, 1, 3, -2, -3, 1, 2, -2, -1, 1, 3, -2, -1, -1, 1, -1, -2, 2, -2, 3, -1],
       [
@@ -868,6 +910,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1817,
+  projection: { kind: "azimuthal", centre: [55.47, -4.65], scale: 311545.86, at: [605.21, 919.34] },
   outlines: { SYC: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

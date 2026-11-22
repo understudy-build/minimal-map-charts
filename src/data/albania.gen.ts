@@ -238,8 +238,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Tiranë",
     country: "ALB",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [19.791365, 41.267303],
+      scale: 18791.21,
+      at: [108.69, 87.56],
+    },
     outline: [
       [
         24, 172, -2, -4, 0, -1, 1, -2, 3, -25, -1, -5, -2, -2, -1, -3, 0, -2, 6, -3, 1, -3, 0, -8,
@@ -283,6 +290,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 2248,
+  projection: { kind: "azimuthal", centre: [20, 41], scale: 42297.66, at: [409.28, 1231.88] },
   outlines: { ALB: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -2,11 +2,13 @@
 
 > Country and subdivision maps from a small JSON spec. You write the spec; the package picks the map, colours it, draws the legend and credits, and checks every code.
 
-Use it for a map of countries, or of one country's states or regions: which countries are members of something, or one number per country or per area. It has no points, no cities, no tiles and no pan and zoom.
+Use it for a map of countries, or of one country's states or regions: which countries are members of something, or one number per country or per area; and for points at cities, offices or events, as dots or as circles sized by a number. It has no tiles, no streets and no pan and zoom.
 
 ## The rule for values
 
-Every number in `fill.values` comes from a source: data the user gave you, a file, a tool result or a publication you can cite. Never write values from memory. Name the source in `source`. If you have no source, draw a highlight of the countries instead, or ask for the data. Membership (the euro area, NATO, the EU) is a fact you may know; a highlight needs no numbers.
+Every number in `fill.values` and every bubble's `value` comes from a source: data the user gave you, a file, a tool result or a publication you can cite. Never write values from memory. Name the source in `source`. If you have no source, draw a highlight of the countries instead, or ask for the data. Membership (the euro area, NATO, the EU) is a fact you may know; a highlight needs no numbers.
+
+The same goes for where a point is. Give `lat` and `lon` only from the data or a geocoder. Otherwise name the city with `place` and `country`, and the map takes its location from Natural Earth.
 
 ## In an HTML page
 
@@ -46,7 +48,11 @@ Every field is optional. `{}` draws a blank world.
   - `{ "kind": "quantile", "classes"?: 3 to 7, "colour"?: "#rrggbb" }`: the default, 5 classes of about as many values each.
   - `{ "kind": "breaks", "at": [2, 5, 10], "colour"?: "#rrggbb" }`: fixed bands, ascending, at most 6 breaks. A value on a break falls in the band above it.
   - `{ "kind": "diverging", "at": [-2, 0, 2], "mid": 0, "below": "#rrggbb", "above": "#rrggbb" }`: losses and gains around `mid`. The two hues must be at least 60 degrees apart, and `mid` must lie between the first and last break.
-- `sheet`: which map. Leave it out: the map is the narrowest region holding every country in the fill, else the world, and a fill of areas draws its country's own map. Set it to
+- `points`: sites marked over the map, beside any fill:
+  - `{ "kind": "dot", "label"?: "Offices", "colour"?: "#rrggbb", "sites": [...] }`: dots that show where.
+  - `{ "kind": "bubble", "label"?: "Staff", "colour"?: "#rrggbb", "sites": [...] }`: circles whose area is each site's `value`, 0 or above. Signed values, such as changes, belong in a choropleth.
+  - Each site is `{ "place": "Lyon", "country": "FRA" }`, a city Natural Earth lists, with an optional `name` to show instead; or `{ "name": "Sophia Antipolis", "lat": 43.62, "lon": 7.05 }`. Bubbles add `"value"`. Give `"area": "US-IL"` only when an error asks for it, for a name several places in a country share. Each site's name is listed once.
+- `sheet`: which map. Leave it out: the map is the narrowest region holding every country in the fill and every point, else the world, and a fill of areas draws its country's own map. Set it to
   - `"world"`;
   - a region: baltics, western-balkans, south-caucasus, gulf, caribbean, central-america, nordics, west-africa, central-africa, east-africa, southern-africa, north-africa, middle-east, central-asia, south-asia, southeast-asia, east-asia, australia, europe, south-america, latin-america, north-america, sub-saharan-africa, africa, northeast-asia, post-soviet, extended-europe, oceania, americas;
   - a country's alpha-3 code, such as `"FRA"`, for its own map with its regions (212 countries have one);
@@ -89,6 +95,24 @@ A choropleth of countries. Replace the values and the source with the user's dat
 }
 ```
 
+Offices sized by staff, named by their city. Replace the values and the source with the user's data:
+
+```json
+{
+  "title": "Staff by office, 2026",
+  "source": "Illustrative values",
+  "points": {
+    "kind": "bubble",
+    "label": "Staff",
+    "sites": [
+      { "place": "Paris", "country": "FRA", "value": 420 },
+      { "place": "London", "country": "GBR", "value": 260 },
+      { "place": "Berlin", "country": "DEU", "value": 130 }
+    ]
+  }
+}
+```
+
 A choropleth of one country's areas, with fixed bands:
 
 ```json
@@ -117,6 +141,8 @@ Each problem is one line: where it is, then what to do.
 spec: unknown key "titel".
 fill.countries.0: "France" is not a country code. Did you mean "FRA"?
 fill.values.2: BRA is not on the "europe" sheet. Sheets that hold every country: world.
+points.sites.0.place: "Springfield" names 5 places in USA. Give `area`, one of US-IL, US-MA, US-MO, US-OH, US-OR.
+points.sites.1.place: "Palo Alto" is not a place Natural Earth lists in USA. Else give `lat` and `lon` from your source.
 ```
 
 Fix every line and draw again. Use the suggested code only if it is the place you meant.

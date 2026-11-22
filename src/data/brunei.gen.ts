@@ -58,8 +58,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Brunei and Muara",
     country: "BRN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [114.897085, 4.900511],
+      scale: 28768.99,
+      at: [108.71, 86.69],
+    },
     outline: [
       [
         32, 172, -4, -9, 4, -16, 2, -11, 4, -10, 2, -13, 1, -14, -1, -11, 84, -52, 65, -26, 13, -2,
@@ -86,6 +93,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 772,
+  projection: {
+    kind: "azimuthal",
+    centre: [114.797, 4.651],
+    scale: 41354.68,
+    at: [584.27, 303.22],
+  },
   outlines: { BRN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -1670,8 +1670,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Dublin City",
     country: "IRL",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-6.250093, 53.358309],
+      scale: 75645.02,
+      at: [115.95, 85.55],
+    },
     outline: [
       [
         61, 34, 1, -1, 0, -3, 3, 1, 3, -4, 2, 0, 0, 1, 1, 0, 2, 1, 1, 0, 0, 1, 2, 0, 5, 2, -1, 0, 2,
@@ -1763,8 +1770,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Cork City",
     country: "IRL",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-8.491354, 51.899786],
+      scale: 65780.46,
+      at: [123.57, 88.79],
+    },
     outline: [
       [
         145, 164, 0, 0, -4, 2, -1, 1, -1, 0, -1, 2, -2, -2, -1, 0, 1, 1, -5, 4, -1, 0, -3, -4, -1,
@@ -1840,8 +1854,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Galway City",
     country: "IRL",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-9.049422, 53.28326],
+      scale: 113700.49,
+      at: [118.65, 88.08],
+    },
     outline: [
       [213, 130, 1, 0, -1, 1],
       [227, 125, 1, 0, 0, 1, -1, 0],
@@ -1959,6 +1980,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1409,
+  projection: { kind: "azimuthal", centre: [-8, 53.3], scale: 19624.88, at: [577.03, 747.26] },
   outlines: { IRL: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -209,6 +209,7 @@ const insets: Sheet["insets"] = []
 const sheet: Sheet = {
   width: 1000,
   height: 865,
+  projection: { kind: "azimuthal", centre: [28, -14], scale: 4907.96, at: [512.21, 505.9] },
   outlines: { ZMB: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

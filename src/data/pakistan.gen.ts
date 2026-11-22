@@ -152,8 +152,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Islamabad Capital Territory",
     country: "PAK",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [73.062137, 33.668487],
+      scale: 29371.54,
+      at: [130.11, 81.06],
+    },
     outline: [
       [
         55, 48, 6, -2, 20, -15, 8, -4, 17, -4, 18, 0, 7, -4, 11, -8, 12, -3, 13, 0, 2, 6, 4, 4, 5,
@@ -187,6 +194,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 966,
+  projection: { kind: "azimuthal", centre: [71.629, 30.368], scale: 4087.83, at: [673.57, 485.71] },
   outlines: { PAK: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

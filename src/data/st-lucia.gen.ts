@@ -159,8 +159,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Canaries",
     country: "LCA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-61.03249, 13.89721],
+      scale: 118582.26,
+      at: [122.8, 86.76],
+    },
     outline: [
       [
         82, 8, 14, 19, 25, 11, 18, 27, 7, -1, 13, 10, 5, 23, 21, 25, 9, 24, -1, 0, -15, 20, -18, 6,
@@ -187,6 +194,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1980,
+  projection: {
+    kind: "azimuthal",
+    centre: [-60.965, 13.909],
+    scale: 279369.07,
+    at: [557.1, 987.81],
+  },
   outlines: { LCA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

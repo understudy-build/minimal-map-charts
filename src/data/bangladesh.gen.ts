@@ -201,6 +201,7 @@ const insets: Sheet["insets"] = []
 const sheet: Sheet = {
   width: 1000,
   height: 1384,
+  projection: { kind: "azimuthal", centre: [90, 24], scale: 13041.09, at: [419.3, 608.38] },
   outlines: { BGD: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

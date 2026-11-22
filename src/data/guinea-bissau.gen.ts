@@ -196,8 +196,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Bissau",
     country: "GNB",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-15.622729, 11.881775],
+      scale: 58317.45,
+      at: [109.24, 93.61],
+    },
     outline: [
       [
         186, 77, -4, 1, -6, 4, -29, 43, -8, 6, -20, 6, -45, 27, -19, 8, -1, -26, 1, -18, 6, -34, 47,
@@ -222,6 +229,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 593,
+  projection: {
+    kind: "azimuthal",
+    centre: [-15.295, 11.871],
+    scale: 18741.03,
+    at: [468.04, 274.44],
+  },
   outlines: { GNB: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

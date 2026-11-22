@@ -809,8 +809,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Nairobi",
     country: "KEN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [36.867536, -1.290908],
+      scale: 29163.22,
+      at: [111.84, 85.34],
+    },
     outline: [
       [
         127, 34, 0, 0, 0, -1, -1, 0, 0, -3, -3, -4, 0, -1, -1, -1, 3, -1, 0, -1, 1, -1, 1, -2, 0,
@@ -892,8 +899,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Mombasa",
     country: "KEN",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [39.654609, -4.017174],
+      scale: 40328.62,
+      at: [113.94, 76.79],
+    },
     outline: [
       [
         146, 30, -2, 0, 0, -1, -1, -1, -4, 0, 1, 1, 2, 0, 2, 2, 1, 0, 1, -1, 1, 0, 0, 1, 1, -1, 0,
@@ -1056,6 +1070,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1258,
+  projection: { kind: "azimuthal", centre: [38, 0], scale: 7030.11, at: [511.69, 674.2] },
   outlines: { KEN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

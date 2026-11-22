@@ -976,8 +976,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Región Metropolitana de Santiago",
     country: "CHL",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-70.658002, -33.603694],
+      scale: 7071.8,
+      at: [129.36, 87.69],
+    },
     outline: [
       [
         186, 20, 1, 0, 1, 2, 0, 3, -2, 7, 0, 2, 2, 4, 4, 3, 4, 9, 3, 0, 4, -7, 4, 0, 4, 1, 3, 2, 2,
@@ -1021,6 +1028,12 @@ const insets: Sheet["insets"] = [
     country: "CHL",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-109.355457, -27.12401],
+      scale: 61716.76,
+      at: [102.16, 83.03],
+    },
     outline: [
       [
         221, 49, 11, 14, -6, 14, -17, 12, -29, 7, -17, 10, -12, 3, -19, 1, -8, 2, -8, 3, -10, 7, -7,
@@ -1035,6 +1048,12 @@ const insets: Sheet["insets"] = [
     country: "CHL",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-105.46512, -26.459236],
+      scale: 1012870.59,
+      at: [121.9, 74.07],
+    },
     outline: [[210, 172, -180, -125, 79, -39, 39, 26, 25, 65]],
   },
   {
@@ -1042,6 +1061,12 @@ const insets: Sheet["insets"] = [
     country: "CHL",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-79.540554, -33.665095],
+      scale: 7638.25,
+      at: [145.11, 88.12],
+    },
     outline: [
       [10, 102, -2, -4, 1, -4, 3, -2, 3, 2, 1, 2, 0, 6, -1, 1, -2, 1, -2, -1],
       [
@@ -1056,6 +1081,12 @@ const insets: Sheet["insets"] = [
     country: "CHL",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-79.97527, -26.322657],
+      scale: 65804.13,
+      at: [144.46, 101.7],
+    },
     outline: [
       [220, 130, 11, 5, 1, 5, -7, 3, -13, 0],
       [20, 37, 1, 2, 3, 2, 2, 2, 0, 3, -9, 1, -9, 0],
@@ -1066,6 +1097,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 5426,
+  projection: { kind: "azimuthal", centre: [-71, -38], scale: 8092.73, at: [467.47, 2887.74] },
   outlines: { CHL: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

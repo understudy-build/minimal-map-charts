@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite"
 
 import type { Spec } from "../../src/index.ts"
-import { growth, output } from "./examples.ts"
+import { growth, offices, output } from "./examples.ts"
 import { FromModel, Ranked, Whole } from "./solid/examples.tsx"
 import { mount } from "./solid/mount.tsx"
 
@@ -22,6 +22,12 @@ export const Basic: StoryObj<{ readonly spec: Spec }> = {
   args: { spec: growth },
   argTypes: { spec: { control: "object" } },
   render: ({ spec }) => mount(Whole, { spec }),
+}
+
+// Offices sized by staff: the map and the inset hold the points, the legend
+// their sizes, the table one row per site.
+export const Points: StoryObj = {
+  render: () => mount(Whole, { spec: offices }),
 }
 
 // A ranking of your own that shares the active country with the map.

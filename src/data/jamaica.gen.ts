@@ -160,8 +160,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Kingston",
     country: "JAM",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-76.764786, 17.977599],
+      scale: 148231.38,
+      at: [125.31, 83.79],
+    },
     outline: [
       [
         218, 145, -18, -17, -32, -8, -74, -1, -51, 1, -35, -21, 8, -24, 4, -9, 19, -13, 25, -10, 21,
@@ -186,6 +193,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 408,
+  projection: {
+    kind: "azimuthal",
+    centre: [-77.282, 18.14],
+    scale: 27014.02,
+    at: [499.21, 191.97],
+  },
   outlines: { JAM: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

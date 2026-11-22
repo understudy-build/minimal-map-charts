@@ -343,6 +343,12 @@ const insets: Sheet["insets"] = [
     country: "FRA",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-53.244538, 3.921828],
+      scale: 2585.84,
+      at: [115, 90.28],
+    },
     outline: [
       [
         89, 9, 1, 0, 1, 0, 2, 2, 1, 0, 1, 1, 5, 2, 1, 1, 2, 0, 1, 1, 4, 0, 3, 1, 3, 0, 0, 1, 1, 1,
@@ -406,6 +412,12 @@ const insets: Sheet["insets"] = [
     country: "FRA",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-61.529624, 16.208264],
+      scale: 14107.09,
+      at: [87.86, 83.05],
+    },
     outline: [
       [
         167, 151, 0, 3, -2, 4, -3, 2, -6, 3, -8, 2, -7, -1, -3, -6, 0, -2, -1, -2, -2, -2, 0, -1, 3,
@@ -461,6 +473,12 @@ const insets: Sheet["insets"] = [
     country: "FRA",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-61.017547, 14.656375],
+      scale: 20044.83,
+      at: [120.64, 85.16],
+    },
     outline: [
       [
         191, 153, -4, 2, -4, 10, -4, 5, -4, 2, -5, 0, -4, -2, -1, -5, 2, -3, 4, -2, 3, -2, 0, -5,
@@ -501,6 +519,12 @@ const insets: Sheet["insets"] = [
     country: "FRA",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [55.541602, -21.119428],
+      scale: 18446.38,
+      at: [120.53, 91.06],
+    },
     outline: [
       [
         194, 86, 5, 3, 10, 4, 4, 4, 1, 6, -1, 6, -3, 5, -5, 24, 0, 12, -1, 7, -2, 6, -7, 2, -10, 0,
@@ -534,6 +558,12 @@ const insets: Sheet["insets"] = [
     country: "FRA",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [45.142169, -12.817377],
+      scale: 27478.79,
+      at: [108.54, 89.6],
+    },
     outline: [
       [165, 64, 9, -10, 3, 8, 1, 7, -1, 7, -3, 8, -3, 0],
       [
@@ -569,6 +599,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 927,
+  projection: { kind: "azimuthal", centre: [2.5, 46.5], scale: 5460.72, at: [491.56, 447.11] },
   outlines: { FRA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -16,12 +16,13 @@ import {
   type DrawOptions,
   type Issue,
   light,
+  type Mark,
   paint,
   type Palette,
   type Scene,
   type Spec,
 } from "../../../src/index.ts"
-import { credit, entries, hint } from "../text.ts"
+import { credit, entries, hint, insetScale, key, look } from "../text.ts"
 
 // A Solid recipe for the scene: copy it into an app.
 
@@ -41,16 +42,19 @@ const Issues = (props: { readonly issues: ReadonlyArray<Issue> }) => (
   </ul>
 )
 
-// What every part of a figure reads: the scene, its palette and the country
-// the reader points at, and how to change it.
+// What the reader points at: a country, or a point's mark.
+type Active = Country | Mark | undefined
+
+// What every part of a figure reads: the scene, its palette and what the
+// reader points at, and how to change it.
 interface Contract {
   readonly state: {
     readonly scene: Scene
     readonly palette: Palette
-    readonly active: Country | undefined
+    readonly active: Active
   }
   readonly actions: {
-    readonly activate: (country: Country | undefined) => void
+    readonly activate: (active: Active) => void
   }
 }
 
@@ -72,7 +76,7 @@ interface RootProps {
 }
 
 const Root = (props: RootProps) => {
-  const [active, setActive] = createSignal<Country>()
+  const [active, setActive] = createSignal<Active>()
   const palette = () => props.palette ?? light
 
   // Getters, so parts read the current props without copying the scene.
@@ -88,7 +92,7 @@ const Root = (props: RootProps) => {
         return active()
       },
     },
-    actions: { activate: (country) => setActive(() => country) },
+    actions: { activate: (each) => setActive(() => each) },
   }
 
   return (
@@ -113,8 +117,40 @@ const Title = () => {
   )
 }
 
-// The map itself. Countries in the fill take focus and report the one the
-// reader points at; the active country is outlined on top.
+// A point's circle, at `scale` map units to each of its frame's: the map's,
+// or an inset's. It takes focus and reports itself as what the reader points
+// at, ringed in ink while it is.
+const Circle = (props: { readonly mark: Mark; readonly scale?: number }) => {
+  const { state, actions } = useFigure()
+  const scale = () => props.scale ?? 1
+  const drawn = () => look(state.scene, { palette: state.palette, value: props.mark.value })
+  const active = () => state.active === props.mark
+
+  return (
+    <circle
+      cx={props.mark.x}
+      cy={props.mark.y}
+      r={props.mark.radius / scale()}
+      fill={drawn().fill}
+      fill-opacity={drawn().opacity}
+      stroke={active() ? state.palette.ink : drawn().stroke}
+      stroke-width={(active() ? 2 : 1) / scale()}
+      role="img"
+      aria-label={props.mark.label}
+      tabindex={0}
+      class="outline-none"
+      onPointerEnter={() => actions.activate(props.mark)}
+      onPointerLeave={() => actions.activate(undefined)}
+      onFocus={() => actions.activate(props.mark)}
+      onBlur={() => actions.activate(undefined)}
+    >
+      <title>{props.mark.label}</title>
+    </circle>
+  )
+}
+
+// The map itself. Countries in the fill and points take focus and report the
+// one the reader points at; the active one is outlined on top.
 const Shapes = () => {
   const { state, actions } = useFigure()
   const listed = () => new Set(state.scene.rows.map((row) => row.country))
@@ -174,6 +210,7 @@ const Shapes = () => {
           />
         )}
       </Show>
+      <For each={state.scene.marks}>{(mark) => <Circle mark={mark} />}</For>
     </svg>
   )
 }
@@ -200,6 +237,9 @@ const Insets = () => {
                   stroke={state.palette.stroke}
                   stroke-width="1.5"
                 />
+                <For each={inset.marks}>
+                  {(mark) => <Circle mark={mark} scale={insetScale(state.scene, inset)} />}
+                </For>
               </svg>
               <span class="text-xs" style={{ color: state.palette.muted }}>
                 {inset.name}
@@ -212,45 +252,100 @@ const Insets = () => {
   )
 }
 
+// The points' legend, in map units at the map's width, so its circles match
+// the map's.
+const Key = () => {
+  const { state } = useFigure()
+  const circle = () => look(state.scene, { palette: state.palette })
+
+  return (
+    <Show when={key(state.scene)}>
+      {(drawn) => (
+        <svg
+          viewBox={`0 0 ${drawn().width} ${drawn().height}`}
+          aria-hidden="true"
+          class="block h-auto w-full"
+        >
+          <For each={drawn().circles}>
+            {(each) => (
+              <circle
+                cx={each.x}
+                cy={each.y}
+                r={each.r}
+                fill={circle().fill}
+                fill-opacity={circle().opacity}
+                stroke={circle().stroke}
+              />
+            )}
+          </For>
+          <For each={drawn().texts}>
+            {(text) => (
+              <text
+                x={text.x}
+                y={text.y}
+                font-size={String(drawn().size)}
+                fill={text.title ? state.palette.ink : state.palette.muted}
+              >
+                {text.text}
+              </text>
+            )}
+          </For>
+        </svg>
+      )}
+    </Show>
+  )
+}
+
+// The fill's shades, then the points' legend.
 const Legend = () => {
   const { state } = useFigure()
 
   return (
-    <ul
-      class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-sm"
-      style={{ color: state.palette.muted }}
-    >
-      <For each={entries(state.scene, state.palette)}>
-        {(entry) => (
-          <li
-            class="flex items-center gap-1.5"
-            style={entry.colour === undefined ? { color: state.palette.ink } : undefined}
-          >
-            <Show when={entry.colour}>
-              {(colour) => (
-                <span
-                  aria-hidden="true"
-                  class="size-3 rounded-xs"
-                  style={{ background: colour() }}
-                />
-              )}
-            </Show>
-            {entry.text}
-          </li>
-        )}
-      </For>
-    </ul>
+    <>
+      <ul
+        class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-sm"
+        style={{ color: state.palette.muted }}
+      >
+        <For each={entries(state.scene, state.palette)}>
+          {(entry) => (
+            <li
+              class="flex items-center gap-1.5"
+              style={entry.colour === undefined ? { color: state.palette.ink } : undefined}
+            >
+              <Show when={entry.colour}>
+                {(colour) => (
+                  <span
+                    aria-hidden="true"
+                    class="size-3 rounded-xs"
+                    style={{ background: colour() }}
+                  />
+                )}
+              </Show>
+              {entry.text}
+            </li>
+          )}
+        </For>
+      </ul>
+      <Key />
+    </>
   )
 }
 
-// The active country's value, announced to screen readers as it changes.
+// The active country's or point's value, announced to screen readers as it
+// changes.
 const Details = () => {
   const { state } = useFigure()
-  const shape = () => state.scene.shapes.find((each) => each.country === state.active)
+  const label = () => {
+    const { active } = state
+
+    return typeof active === "object"
+      ? active.label
+      : state.scene.shapes.find((each) => each.country === active)?.label
+  }
 
   return (
     <output aria-live="polite" class="min-h-6 text-sm" style={{ color: state.palette.muted }}>
-      {shape()?.label ?? hint}
+      {label() ?? hint}
     </output>
   )
 }
@@ -269,31 +364,64 @@ const Table = () => {
   const { state } = useFigure()
 
   return (
-    <Show when={state.scene.rows.length > 0}>
-      <details class="text-sm">
-        <summary class="cursor-pointer" style={{ color: state.palette.muted }}>
-          Data table
-        </summary>
-        <table class="mt-2 border-collapse">
-          <thead>
-            <tr>
-              <th class="pr-6 text-left">Country</th>
-              <th class="text-right">Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <For each={state.scene.rows}>
-              {(row) => (
+    <>
+      <Show when={state.scene.rows.length > 0}>
+        <details class="text-sm">
+          <summary class="cursor-pointer" style={{ color: state.palette.muted }}>
+            Data table
+          </summary>
+          <table class="mt-2 border-collapse">
+            <thead>
+              <tr>
+                <th class="pr-6 text-left">Country</th>
+                <th class="text-right">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <For each={state.scene.rows}>
+                {(row) => (
+                  <tr>
+                    <td class="pr-6">{row.name}</td>
+                    <td class="text-right tabular-nums">{row.value ?? "No data"}</td>
+                  </tr>
+                )}
+              </For>
+            </tbody>
+          </table>
+        </details>
+      </Show>
+      <Show when={state.scene.points}>
+        {(points) => (
+          <details class="text-sm">
+            <summary class="cursor-pointer" style={{ color: state.palette.muted }}>
+              Points
+            </summary>
+            <table class="mt-2 border-collapse">
+              <thead>
                 <tr>
-                  <td class="pr-6">{row.name}</td>
-                  <td class="text-right tabular-nums">{row.value ?? "No data"}</td>
+                  <th class="pr-6 text-left">Site</th>
+                  <Show when={points().kind === "bubble"}>
+                    <th class="text-right">{points().label ?? "Value"}</th>
+                  </Show>
                 </tr>
-              )}
-            </For>
-          </tbody>
-        </table>
-      </details>
-    </Show>
+              </thead>
+              <tbody>
+                <For each={points().sites}>
+                  {(site) => (
+                    <tr>
+                      <td class="pr-6">{site.name}</td>
+                      <Show when={site.value !== undefined}>
+                        <td class="text-right tabular-nums">{site.value}</td>
+                      </Show>
+                    </tr>
+                  )}
+                </For>
+              </tbody>
+            </table>
+          </details>
+        )}
+      </Show>
+    </>
   )
 }
 

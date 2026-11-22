@@ -217,8 +217,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Brussels",
     country: "BEL",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [4.370419, 50.836682],
+      scale: 62569.8,
+      at: [125.33, 93.33],
+    },
     outline: [
       [
         201, 138, -56, 31, -15, 3, -15, -3, -19, -13, -18, -38, -13, 6, -26, -14, 8, -17, 18, -3, 4,
@@ -245,6 +252,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 823,
+  projection: { kind: "azimuthal", centre: [4.6, 50.6], scale: 23029.1, at: [534.6, 370.27] },
   outlines: { BEL: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

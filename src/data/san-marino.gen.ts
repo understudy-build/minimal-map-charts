@@ -96,8 +96,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Montegiardino",
     country: "SMR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [12.469979, 43.914188],
+      scale: 398463.07,
+      at: [116.23, 73.84],
+    },
     outline: [[157, 11, -3, 22, 4, 21, -70, 118, -6, -50, 4, -43, 6, -26, 12, -21, 2, -16, 19, -8]],
     areas: [
       {
@@ -114,6 +121,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1174,
+  projection: {
+    kind: "azimuthal",
+    centre: [12.447, 43.929],
+    scale: 730367.14,
+    at: [573.47, 692.9],
+  },
   outlines: { SMR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

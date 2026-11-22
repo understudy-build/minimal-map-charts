@@ -7,6 +7,7 @@ const sheet: Sheet = {
   dots: { SXM: [676.5, 703] },
   width: 1000,
   height: 1486,
+  projection: { kind: "azimuthal", centre: [-80, 15], scale: 630.24, at: [500.55, 743.48] },
   outlines: {
     VEN: [
       [708, 799, 0, 1, -1, 0, 0, -1],
@@ -1180,6 +1181,12 @@ const sheet: Sheet = {
       country: "USA",
       width: 120,
       height: 90,
+      projection: {
+        kind: "azimuthal",
+        centre: [-156.311152, 20.246688],
+        scale: 1175.29,
+        at: [82.85, 52.45],
+      },
       outline: [
         [
           97, 78, -1, 1, -1, 0, -4, -2, 0, -7, -1, -4, -2, -3, 1, -2, 2, -1, 1, -3, -1, -3, 0, -2,

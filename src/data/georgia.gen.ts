@@ -166,8 +166,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Tbilisi",
     country: "GEO",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [44.829984, 41.702246],
+      scale: 52304.38,
+      at: [109.73, 97.27],
+    },
     outline: [
       [
         152, 36, -20, 19, -1, 15, 13, 13, 4, 16, 3, 15, 11, 10, 12, 6, 16, 4, 15, -4, 9, -13, 11,
@@ -195,6 +202,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [41.175647, 43.095453],
+      scale: 8009.37,
+      at: [130.58, 75.77],
+    },
     outline: [
       [
         230, 58, -2, 7, 0, 8, -1, 4, -6, 9, -6, 3, -10, 2, 0, 1, -2, 2, 2, 2, 1, 3, 0, 3, 1, 1, 0,
@@ -234,6 +247,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 565,
+  projection: { kind: "azimuthal", centre: [43.5, 42], scale: 14462.46, at: [384.05, 323.4] },
   outlines: { GEO: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

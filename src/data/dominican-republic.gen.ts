@@ -387,8 +387,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Distrito Nacional",
     country: "DOM",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-69.945813, 18.482868],
+      scale: 85202.78,
+      at: [108.44, 88.13],
+    },
     outline: [
       [
         202, 105, -6, 1, -23, 7, -44, 21, -36, 25, -14, 7, -20, 6, 8, -54, -31, -46, 3, -43, 38,
@@ -413,6 +420,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 691,
+  projection: { kind: "azimuthal", centre: [-70, 19], scale: 16095.07, at: [545.07, 274.17] },
   outlines: { DOM: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

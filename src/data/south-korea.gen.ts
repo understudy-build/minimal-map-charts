@@ -1253,6 +1253,12 @@ const insets: Sheet["insets"] = [
     country: "KOR",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [126.553829, 33.387482],
+      scale: 10424.41,
+      at: [119.39, 121.91],
+    },
     outline: [
       [70, 118, 0, 0, 0, 1, -1, 0, 0, -2, 1, 0],
       [
@@ -1362,8 +1368,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Seoul",
     country: "KOR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [126.991734, 37.552031],
+      scale: 34539.72,
+      at: [128.41, 97.85],
+    },
     outline: [
       [
         186, 152, -4, 0, 0, 2, -3, 0, -1, -2, 0, 2, -1, 1, 0, 1, -1, 1, 0, 1, -1, 1, 0, 3, -2, 0, 0,
@@ -1464,8 +1477,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Sejong",
     country: "KOR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [127.258789, 36.560726],
+      scale: 28731.94,
+      at: [116.03, 94.79],
+    },
     outline: [
       [
         171, 129, -1, 0, 0, -1, -1, 0, 0, -1, -1, -1, 0, -1, -3, 0, 0, 1, -1, 0, 0, 1, -1, 1, 0, 1,
@@ -1542,6 +1562,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 811,
+  projection: { kind: "azimuthal", centre: [128, 36], scale: 9759.64, at: [465.2, 455.82] },
   outlines: { KOR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -216,8 +216,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Capital Region",
     country: "ISL",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-21.638978, 64.194509],
+      scale: 23480.17,
+      at: [119.61, 92.04],
+    },
     outline: [
       [
         67, 170, -19, 1, -15, -18, 15, -2, 4, -4, 5, -7, 1, 3, 1, 0, 1, -1, 2, -4, -8, -6, -4, -2,
@@ -256,6 +263,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 695,
+  projection: { kind: "azimuthal", centre: [-19, 65], scale: 12189.03, at: [497.93, 343.41] },
   outlines: { ISL: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

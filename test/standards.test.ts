@@ -44,6 +44,19 @@ const states = {
   },
 }
 
+const offices = {
+  title: "Staff by office",
+  source: "HR records",
+  points: {
+    kind: "bubble",
+    label: "Staff",
+    sites: [
+      { name: "Paris", lat: 48.857, lon: 2.352, value: 420 },
+      { place: "Lyon", country: "FRA", value: 40 },
+    ],
+  },
+}
+
 describe("the A2UI catalog", () => {
   it("is a valid A2UI v1.0 catalog", () => {
     const ajv = new Ajv2020({ strict: false })
@@ -58,6 +71,7 @@ describe("the A2UI catalog", () => {
   it.each([
     ["countries", highlight],
     ["areas", states],
+    ["points", offices],
   ])("hands a Map of %s the spec an agent sends as its properties", (_, spec) => {
     const host = processor()
     const errors = host.processMessagesWithErrors([surface(spec)])
@@ -89,6 +103,12 @@ describe("the json-render catalog", () => {
   it("accepts a spec with a Map and refuses one the schema refuses", () => {
     expect(jsonRender.validate(page(highlight)).success).toBe(true)
     expect(jsonRender.validate(page(states)).success).toBe(true)
+    expect(jsonRender.validate(page(offices)).success).toBe(true)
+    expect(
+      jsonRender.validate(
+        page({ points: { kind: "dot", sites: [{ name: "Paris", lat: 48.857 }] } }),
+      ).success,
+    ).toBe(false)
     expect(
       jsonRender.validate(page({ fill: { kind: "highlight", countries: ["France"] } })).success,
     ).toBe(false)

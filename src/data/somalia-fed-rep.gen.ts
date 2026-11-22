@@ -220,8 +220,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Banadir",
     country: "SOM",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [45.42441, 2.109556],
+      scale: 38362.88,
+      at: [111.82, 75.31],
+    },
     outline: [
       [
         8, 154, 81, -106, 47, -13, 96, -9, -13, 7, -1, 2, -8, 3, -2, 1, 0, 1, -7, 3, -2, 3, -4, 1,
@@ -250,6 +257,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1315,
+  projection: { kind: "azimuthal", centre: [45.807, 5.167], scale: 5431.7, at: [466.78, 658.68] },
   outlines: { SOM: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

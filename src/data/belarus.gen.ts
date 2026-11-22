@@ -196,8 +196,15 @@ const insets: Sheet["insets"] = [
   {
     name: "City of Minsk",
     country: "BLR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [27.596932, 53.907361],
+      scale: 39518.49,
+      at: [117.08, 87.09],
+    },
     outline: [
       [
         184, 158, -20, -2, -10, -3, -15, 2, -28, 3, -11, 14, -9, -3, -7, -14, -15, -5, -23, -11,
@@ -226,6 +233,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 851,
+  projection: { kind: "azimuthal", centre: [27.74, 53.477], scale: 9738.97, at: [485.26, 465.56] },
   outlines: { BLR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

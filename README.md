@@ -126,6 +126,42 @@ A few things:
 3. `parse` checks each code's form and country. `draw` checks it against the sheet it loads, so a page that never names an area never downloads a list of them. Some areas keep their source's code until they are mapped to ISO 3166-2, so they cannot be named yet: `NO-30`, Viken, which Norway split into three counties in 2024, gets `fill.values.0.area: NO-30 has no area on the "NOR" sheet.` from `draw`. `scripts/build-maps/uncoded.gen.ts` lists them.
 4. A subdivision given as a country gets `fill.values.0.country: expected a country code; give the subdivision "US-CA" in \`area\`.`
 
+### Mark cities, offices or events
+
+`points` marks sites over the map, beside any fill. Name a city with its country and the map takes its location from Natural Earth's 7,267 populated places, or give coordinates from your data:
+
+```json
+{
+  "title": "Staff by office, 2026",
+  "source": "Illustrative values",
+  "fill": { "kind": "highlight", "countries": ["FRA", "DEU", "GBR", "ESP"] },
+  "points": {
+    "kind": "bubble",
+    "label": "Staff",
+    "sites": [
+      { "place": "Paris", "country": "FRA", "value": 420 },
+      { "place": "London", "country": "GBR", "value": 260 },
+      { "place": "Berlin", "country": "DEU", "value": 130 },
+      { "place": "Madrid", "country": "ESP", "value": 75 },
+      { "place": "Lyon", "country": "FRA", "value": 40 },
+      { "name": "Sophia Antipolis", "lat": 43.62, "lon": 7.05, "value": 25 }
+    ]
+  }
+}
+```
+
+![Offices in France, Germany, the United Kingdom and Spain as circles sized by staff, over the four countries highlighted on the Europe map](docs/images/offices.svg)
+
+A few things:
+
+1. Two kinds: `"dot"` shows where; `"bubble"` also shows how much, with each circle's area proportional to its value from 0. Signed values, such as changes, belong in a choropleth fill.
+2. Places: a name matches without accents, case or punctuation, and by the other names Natural Earth gives, so `"Zurich"` finds Zürich and `"Washington"` finds Washington, D.C. A name several places share asks for their area: `points.sites.2.place: "Springfield" names 5 places in USA. Give \`area\`, one of US-IL, US-MA, US-MO, US-OH, US-OR.` A place Natural Earth does not list asks for coordinates.
+3. Loading: each country's places are their own module, loaded the first time a site names a place there. Coordinates load nothing; a France map without a named place never fetches France's places.
+4. Coordinates: `lat` and `lon` are named, so their order cannot swap them, and a latitude past 90 that would fit as a longitude gets `look swapped`. They come from the data or a geocoder: a position from memory can land a town in the wrong region of a country's map.
+5. Framing: without `sheet`, the map is the narrowest region holding every country in the fill and every point, and a place counts as its country. A point off a given sheet gets `points.sites.1: "Berlin" is not on the "FRA" sheet. Sheets that hold every point: europe, extended-europe, world.`
+6. Insets: a point in the Canaries, Hawaii or Réunion is drawn in that inset; Washington, D.C. shows both on the map and in its zoomed inset.
+7. Drawing: larger circles first, so smaller ones sit on top. Up to 12 points are named beside their mark, where a name fits; every point has a tooltip and a row in `scene.points.sites`.
+
 ## Quick start
 
 ```ts
@@ -257,21 +293,21 @@ npx @nicolastoulemont/minimal-map-charts render spec.json --palette dark > map.s
 
 ## API
 
-| Export                     | What it does                                                                                                                   |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `parse(input)`             | Reads untrusted input into a `Spec`, or returns every issue it finds without loading a sheet.                                  |
-| `partial(input)`           | Reads a spec from a stream cut short. Never fails.                                                                             |
-| `schema`, `strict`, `Spec` | The spec as JSON Schema, as JSON Schema for strict mode, and as Standard Schema.                                               |
-| `draw(spec, { locale })`   | Loads the sheet and groups the values into colour bands. Returns `{ ok, scene }`, or `{ ok, issues }` for an area it lacks.    |
-| `svg(scene, { palette })`  | Turns a scene into a standalone SVG document with its legend and credits. `{ light, dark }` follows the page's `color-scheme`. |
-| `paint(tone, { palette })` | The colour of a shape's tone. `light` and `dark` are the built-in palettes; `{ light, dark }` gives a `light-dark()` pair.     |
-| `range(bin)`               | A legend band as text: "4 to 6", "10 and above".                                                                               |
-| `size(spec)`               | The size `svg` will give a spec's map, before its sheet loads, to reserve its height. `undefined` for a layout.                |
-| `sheetOf(spec)`            | The sheet or layout `draw` will use, without loading anything.                                                                 |
+| Export                     | What it does                                                                                                                                                                        |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `parse(input)`             | Reads untrusted input into a `Spec`, or returns every issue it finds without loading a sheet.                                                                                       |
+| `partial(input)`           | Reads a spec from a stream cut short. Never fails.                                                                                                                                  |
+| `schema`, `strict`, `Spec` | The spec as JSON Schema, as JSON Schema for strict mode, and as Standard Schema.                                                                                                    |
+| `draw(spec, { locale })`   | Loads the sheet and any named places and groups the values into colour bands. Returns `{ ok, scene }`, or `{ ok, issues }` for an area or a place it lacks, or a point off the map. |
+| `svg(scene, { palette })`  | Turns a scene into a standalone SVG document with its legend and credits. `{ light, dark }` follows the page's `color-scheme`.                                                      |
+| `paint(tone, { palette })` | The colour of a shape's tone. `light` and `dark` are the built-in palettes; `{ light, dark }` gives a `light-dark()` pair.                                                          |
+| `range(bin)`               | A legend band as text: "4 to 6", "10 and above".                                                                                                                                    |
+| `size(spec)`               | The size `svg` will give a spec's map, before its sheet loads, to reserve its height. `undefined` for a layout.                                                                     |
+| `sheetOf(spec)`            | The sheet or layout `draw` will use, without loading anything.                                                                                                                      |
 
 A scene is plain data, so you can draw it however your interface needs:
 
-1. Contents: SVG paths, a tone per shape (the spec's colour and a strength from 0 to 1, not a final colour), insets, the legend, credits, a data table (`rows`) and a one-sentence description.
+1. Contents: SVG paths, a tone per shape (the spec's colour and a strength from 0 to 1, not a final colour), insets, the legend, points as `marks` with a centre and radius, credits, data tables (`rows` and `points.sites`) and a one-sentence description.
 2. One coordinate space per sheet: a renderer can animate fills, zoom or pan without touching the geometry.
 3. Renderers: `svg` is one. The stories show others, in plain DOM and in React, Vue, Svelte and Solid.
 
@@ -279,14 +315,14 @@ A scene is plain data, so you can draw it however your interface needs:
 
 Run the Storybook stories with `pnpm storybook`:
 
-- Use cases: choropleth, highlight, fixed breaks, a country with its subdivisions, a country's areas shaded and highlighted, dark palette, French locale, every sheet.
+- Use cases: choropleth, highlight, fixed breaks, a country with its subdivisions, a country's areas shaded and highlighted, offices as bubbles, field sites as dots with insets, points over a country's areas, dark palette, French locale, every sheet.
 - From a model: a spec playground, typical model mistakes and the tool schema.
 - Motion: values revealed in order, years played over a slider, a highlight tour, hover details, a spec drawn while it streams, zoom and drag.
 - Regions: one story per region.
 - Colour scales: a sequential scale in one colour, a diverging scale around zero, and a coloured highlight, each in light and dark, and one map that follows its page's `color-scheme`.
 - Layouts: layouts written in JSX.
 - Element: `<map-chart>` with a choropleth, a country's areas, a dark page, a layout and a spec with errors.
-- Frameworks: React, Vue, Svelte and Solid recipes to copy into an app, in `stories/frameworks/`. Each is a set of parts (`Figure.Root`, `Figure.Map`, `Figure.Legend`…) that share one context.
+- Frameworks: React, Vue, Svelte and Solid recipes to copy into an app, in `stories/frameworks/`. Each is a set of parts (`Figure.Root`, `Figure.Map`, `Figure.Legend`…) that share one context, and draws points on the map and in insets, their size legend and a table of sites.
 - Standards: the map as a json-render component and as an A2UI component, with the prompt and the catalog each gives a model.
 
 ## The spec
@@ -296,13 +332,14 @@ Run the Storybook stories with `pnpm storybook`:
 | `sheet`           | `"world"`, a region id such as `"europe"`, the alpha-3 code of a country with its own map, or a layout. Optional.                                               |
 | `title`, `source` | Text shown with the map. `source` names who published the values.                                                                                               |
 | `fill`            | `{ kind: "choropleth", values, scale?, better? }`, or `{ kind: "highlight", countries, colour? }` with `areas` in place of `countries` for one country's areas. |
+| `points`          | `{ kind: "dot" \| "bubble", sites, label?, colour? }`: each site `{ name, lat, lon }` or `{ place, country, area?, name? }`, with a `value` for bubbles.        |
 
 A few things:
 
 1. Values: `values` lists `{ country, value }` pairs, each country an ISO 3166-1 alpha-3 code listed once, or `{ area, value }` pairs, each area an ISO 3166-2 code of the same country listed once.
 2. Colour bands, called classes: `scale` is `{ kind: "quantile", classes?: 3–7, colour? }`, `{ kind: "breaks", at: [...], colour? }` or `{ kind: "diverging", at: [...], mid, below, above }`. Quantile is the default, with 5 classes of about as many countries each. Breaks set fixed boundaries.
 3. Diverging: bands below `mid` take `below`'s hue and bands above take `above`'s, stronger the further from `mid`. A band holding `mid` is neutral; with `mid` on a break, none is. The hues must be at least 60° apart, and `mid` must lie between the first and last breaks.
-4. Colours: `"#rrggbb"`, not a grey. Without one, the palette's colour applies.
+4. Colours: `"#rrggbb"`, not a grey. Without one, the palette's colour applies; points take the palette's point colour, and a point colour must sit at least 60° from the fill's.
 5. Ties: equal values always share a class.
 
 ## Layouts
@@ -331,17 +368,17 @@ Bundled with Vite, tree-shaken and minified:
 
 | Map           | Sheet, gzip | With `draw` and `svg`, gzip | With `parse` and `schema` too, gzip |
 | ------------- | ----------: | --------------------------: | ----------------------------------: |
-| World         |      8.5 kB |                     22.4 kB |                             27.4 kB |
-| North America |     10.5 kB |                     24.4 kB |                             29.4 kB |
-| Europe        |      9.8 kB |                     23.7 kB |                             28.7 kB |
-| East Asia     |      3.9 kB |                     17.9 kB |                             22.9 kB |
-| United States |      8.8 kB |                     22.8 kB |                             27.7 kB |
-| France        |      6.0 kB |                     19.9 kB |                             24.9 kB |
-| Germany       |      6.9 kB |                     20.9 kB |                             25.9 kB |
-| China         |      6.0 kB |                     19.9 kB |                             24.9 kB |
-| Japan         |      6.7 kB |                     20.6 kB |                             25.6 kB |
+| World         |      8.5 kB |                     26.2 kB |                             32.9 kB |
+| North America |     10.7 kB |                     28.3 kB |                             35.0 kB |
+| Europe        |     10.1 kB |                     27.7 kB |                             34.5 kB |
+| East Asia     |      4.0 kB |                     21.7 kB |                             28.4 kB |
+| United States |      9.0 kB |                     26.6 kB |                             33.4 kB |
+| France        |      6.2 kB |                     23.9 kB |                             30.6 kB |
+| Germany       |      7.0 kB |                     24.6 kB |                             31.4 kB |
+| China         |      6.1 kB |                     23.7 kB |                             30.5 kB |
+| Japan         |      6.9 kB |                     24.5 kB |                             31.3 kB |
 
-It ships 242 sheets: the world, 29 regions and 212 countries with their subdivisions. [docs/bundle-size.md](docs/bundle-size.md) adds Brotli sizes and the size of every file in `dist/`.
+It ships 242 sheets: the world, 29 regions and 212 countries with their subdivisions. A map whose points name a place adds that country's places: 0.5 kB gzipped for the median country, 11.2 kB for the United States, which lists 765. [docs/bundle-size.md](docs/bundle-size.md) adds Brotli sizes and the size of every file in `dist/`.
 
 ## Development
 
@@ -367,9 +404,10 @@ Every sheet follows it, and so do layouts. The world and region sheets move land
 
 ## Where the geometry comes from
 
-1. Sheets: `pnpm build:maps` runs `scripts/build-maps/index.ts`, which writes every `src/data/*.gen.ts` but `globe.gen.ts`. It projects Natural Earth's countries (v4.1.0, from `world-atlas`) for the world and the regions, and each country's subdivisions from one of 212 source snapshots. It then simplifies the rings with mapshaper's Douglas-Peucker at 1 sheet unit, on shared arcs so borders between neighbours stay aligned, and removes the spikes and flat rings left by rounding. The snapshots weigh 126 MB, so they are not in Git: the script downloads any missing one into the ignored `.archive/` folder before it starts, and checks it against the SHA-256 GitHub records for the asset. A changed source shows up as a diff in the committed `src/data`. They are assets of the [`sources-6c2d279`](https://github.com/nicolastoulemont/minimal-map-charts/releases/tag/sources-6c2d279) release; while this repository is private, run `GITHUB_TOKEN=$(gh auth token) pnpm build:maps`. The generator and the snapshots come from civicdata's `packages/maps` (commit `6c2d279`), and refreshing a snapshot from its publisher still happens there.
+1. Sheets: `pnpm build:maps` runs `scripts/build-maps/index.ts`, which writes every `src/data/*.gen.ts` but `globe.gen.ts`. It projects Natural Earth's countries (v4.1.0, from `world-atlas`) for the world and the regions, and each country's subdivisions from one of 212 source snapshots. It then simplifies the rings with mapshaper's Douglas-Peucker at 1 sheet unit, on shared arcs so borders between neighbours stay aligned, and removes the spikes and flat rings left by rounding. The snapshots and the populated places below weigh 129 MB, so they are not in Git: the script downloads any missing one into the ignored `.archive/` folder before it starts, and checks it against the SHA-256 GitHub records for the asset. A changed source shows up as a diff in the committed `src/data`. They are assets of the [`sources-6c2d279`](https://github.com/nicolastoulemont/minimal-map-charts/releases/tag/sources-6c2d279) release; while this repository is private, run `GITHUB_TOKEN=$(gh auth token) pnpm build:maps`. The generator and the snapshots come from civicdata's `packages/maps` (commit `6c2d279`), and refreshing a snapshot from its publisher still happens there.
    Each subdivision's `code` is its ISO 3166-2 code: the one `scripts/build-maps/mapped.ts` gives it, reviewed after matching names, or else the one its source gives, if `scripts/build-maps/iso-3166-2.json` lists it for the country and no other area on the sheet shares it: the file is Debian's [iso-codes](https://salsa.debian.org/iso-codes-team/iso-codes) v4.20.1 list, unchanged (LGPL-2.1-or-later, used only by the build and the tests). Any other area keeps its source's code, and `scripts/build-maps/uncoded.gen.ts` lists it.
 2. Layouts: `scripts/globe.ts` writes `src/data/globe.gen.ts`, each country's box in degrees and its area, from Natural Earth's 1:50m countries, v5.1.2. The script's header says how to fetch the source and run it.
-3. Disputed land: `scripts/build-maps/disputed.ts` extracts the outlines the [borders](#borders) policy needs from Natural Earth's 1:10m disputed areas, v5.1.2, into `scripts/build-maps/disputed.json`.
+3. Places: `pnpm build:maps` also writes `src/data/places/`, Natural Earth's 1:10m populated places, v5.1.2, restored from the same release as a gzipped asset and checked against the SHA-256 of the file Natural Earth published. Each place belongs to the country whose outline holds it on the maps, by the [borders](#borders) policy, so Simferopol is a place in Ukraine; and to the area of its country's own map that holds it. 74 places on land of no country, such as Taipei, are left out. A short table in `scripts/build-maps/places.ts` adds former English names Natural Earth lacks, such as Bangalore.
+4. Disputed land: `scripts/build-maps/disputed.ts` extracts the outlines the [borders](#borders) policy needs from Natural Earth's 1:10m disputed areas, v5.1.2, into `scripts/build-maps/disputed.json`.
 
 See [LICENSE.md](LICENSE.md): the code is MIT, and each sheet keeps its source's licence.

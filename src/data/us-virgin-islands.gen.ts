@@ -41,8 +41,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Saint John",
     country: "VIR",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-64.735175, 18.34005],
+      scale: 95961.36,
+      at: [113.11, 87.32],
+    },
     outline: [
       [
         167, 82, -11, 5, 17, 23, -10, 39, -52, -28, -79, 8, -24, -22, 24, -36, 26, -11, 29, -9, -7,
@@ -67,6 +74,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1525,
+  projection: {
+    kind: "azimuthal",
+    centre: [-64.817, 18.144],
+    scale: 122487.66,
+    at: [465.51, 528.73],
+  },
   outlines: { VIR: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

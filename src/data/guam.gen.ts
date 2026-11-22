@@ -355,8 +355,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Sinajana Municipality",
     country: "GUM",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [144.761475, 13.460069],
+      scale: 596147.12,
+      at: [111.8, 85.43],
+    },
     outline: [
       [
         16, 116, 3, -9, 0, -1, -1, 0, -2, -4, 0, -5, 1, 0, 0, -63, -1, -1, 0, -18, 2, -5, 0, 1, 2,
@@ -398,6 +405,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1279,
+  projection: {
+    kind: "azimuthal",
+    centre: [144.752, 13.444],
+    scale: 171582.2,
+    at: [399.86, 640.09],
+  },
   outlines: { GUM: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

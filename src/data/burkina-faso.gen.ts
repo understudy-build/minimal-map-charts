@@ -439,8 +439,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Kadiogo",
     country: "BFA",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-1.499954, 12.325872],
+      scale: 15049.49,
+      at: [106.01, 99.05],
+    },
     outline: [
       [
         90, 11, 0, 1, 1, 0, -1, 1, 1, 0, 0, 6, 1, 0, 0, 1, -4, 4, 0, 1, -1, 1, 0, 4, -1, 0, 1, 5, 2,
@@ -527,6 +534,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 735,
+  projection: { kind: "azimuthal", centre: [-1.525, 12.288], scale: 7229.18, at: [504.6, 362.87] },
   outlines: { BFA: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -204,8 +204,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Marigot Centre et Sud",
     country: "MAF",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-63.086292, 18.063893],
+      scale: 1317820.41,
+      at: [111.5, 85.88],
+    },
     outline: [
       [
         74, 158, -2, -3, 0, -12, -1, -3, 1, -1, 0, -6, 2, -3, 2, 0, 6, -8, -3, -4, 1, -3, 4, -7, 4,
@@ -237,6 +244,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-62.979844, 18.119504],
+      scale: 962770.21,
+      at: [151.71, 86.03],
+    },
     outline: [
       [
         172, 8, 48, 113, -5, 0, -5, 2, -8, 0, -3, 2, -7, 2, -7, 3, -4, 1, -1, 1, -4, 2, -6, 2, -3,
@@ -252,6 +265,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 582,
+  projection: { kind: "azimuthal", centre: [-63.08, 18.08], scale: 412203.1, at: [511.49, 329.89] },
   outlines: { MAF: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

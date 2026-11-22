@@ -271,8 +271,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Bishkek (city)",
     country: "KGZ",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [74.594646, 42.869871],
+      scale: 39963.54,
+      at: [117.05, 89.7],
+    },
     outline: [
       [
         120, 18, 0, 1, 1, 2, -1, 2, 0, 1, -1, 0, -1, 1, -2, 5, 0, 2, 2, 2, 1, 2, 1, 1, 0, 6, -1, 3,
@@ -322,8 +329,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Osh (city)",
     country: "KGZ",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [72.77931, 40.521542],
+      scale: 79981.66,
+      at: [155.16, 102.25],
+    },
     outline: [
       [
         172, 28, 16, -1, 1, -4, 3, -5, 3, -7, 2, -3, 1, 0, -5, 13, -1, 4, 3, 1, -1, 6, -4, -1, 0,
@@ -372,6 +386,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 500,
+  projection: { kind: "azimuthal", centre: [75, 41], scale: 6781.43, at: [531.1, 278.52] },
   outlines: { KGZ: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

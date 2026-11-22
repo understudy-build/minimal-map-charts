@@ -34,8 +34,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Bailiwick of Guernsey",
     country: "CHI",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-2.531949, 49.484464],
+      scale: 29339.79,
+      at: [83.7, 134.73],
+    },
     outline: [
       [
         68, 130, 7, -3, 7, -5, 6, -3, 6, 4, -2, 5, -5, 9, -2, 11, -2, 8, 0, 3, -3, 3, -3, 2, -2, 0,
@@ -64,6 +71,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1286,
+  projection: {
+    kind: "azimuthal",
+    centre: [-2.287, 49.451],
+    scale: 129560.18,
+    at: [578.3, 644.16],
+  },
   outlines: { CHI: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

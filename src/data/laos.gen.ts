@@ -453,8 +453,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Vientiane Capital",
     country: "LAO",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [102.58269, 18.144748],
+      scale: 11839.66,
+      at: [120.1, 85.27],
+    },
     outline: [
       [
         30, 25, 0, -1, 2, 2, 3, 0, 1, -1, 4, 0, 0, 1, 2, 0, 1, 1, 3, 0, 0, 1, 3, 0, 0, 1, 2, 2, 0,
@@ -544,6 +551,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1193,
+  projection: { kind: "azimuthal", centre: [103.767, 18.219], scale: 7815.1, at: [481.07, 596.51] },
   outlines: { LAO: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

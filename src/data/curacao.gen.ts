@@ -728,8 +728,15 @@ const insets: Sheet["insets"] = [
   {
     name: "BARBER",
     country: "CUW",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-69.07684, 12.275808],
+      scale: 214087.69,
+      at: [138.29, 82.07],
+    },
     outline: [
       [
         113, 59, -1, 0, -1, -1, -3, -2, -2, -2, -2, -1, -2, -2, 0, 5, -1, 3, 0, 3, -1, 0, -1, 3, -3,
@@ -783,6 +790,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-69.024984, 12.243075],
+      scale: 26229.8,
+      at: [86.25, 76.46],
+    },
     outline: [
       [25, 13, 2, -2, -1, 0, 0, 1, 0, 1, -1, 0],
       [26, 15, 1, 1, 0, 1, 1, 0, 0, 1],
@@ -914,6 +927,12 @@ const insets: Sheet["insets"] = [
     coverage: "Context",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-68.643444, 11.990225],
+      scale: 440905.96,
+      at: [119.71, 80.26],
+    },
     outline: [[95, 8, 50, 53, -26, 111]],
   },
 ]
@@ -921,6 +940,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 815,
+  projection: { kind: "azimuthal", centre: [-68.95, 12.2], scale: 109914.96, at: [408.53, 379.9] },
   outlines: { CUW: areas.flatMap((area) => area.outline) },
   land: [
     [10, 33, 1, -1, 0, 1],

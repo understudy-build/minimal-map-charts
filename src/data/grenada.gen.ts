@@ -74,8 +74,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Saint Mark",
     country: "GRD",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-61.679851, 12.191306],
+      scale: 145163.6,
+      at: [134.11, 89.14],
+    },
     outline: [[47, 108, 81, -100, 33, 24, 24, 36, 8, 52, -16, 52, -37, -29, -47, -23]],
     areas: [
       {
@@ -90,6 +97,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1453,
+  projection: {
+    kind: "azimuthal",
+    centre: [-61.64, 12.181],
+    scale: 155791.55,
+    at: [410.31, 958.45],
+  },
   outlines: { GRD: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

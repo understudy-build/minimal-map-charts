@@ -7,6 +7,7 @@ const sheet: Sheet = {
   dots: { MAC: [660.5, 841] },
   width: 1000,
   height: 907,
+  projection: { kind: "azimuthal", centre: [105, 55], scale: 765.83, at: [550.77, 414.73] },
   outlines: {
     KOR: [
       [

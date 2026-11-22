@@ -1,11 +1,13 @@
 import { describe, expect, it } from "vitest"
 
+import { landmarks } from "../scripts/build-maps/borders.ts"
 import { subdivision } from "../scripts/build-maps/iso.ts"
 import { despike, flat, spikes } from "../scripts/build-maps/tidy.ts"
 import { uncoded } from "../scripts/build-maps/uncoded.gen.ts"
 import type { Country } from "../src/countries.ts"
 import { globe } from "../src/data/globe.gen.ts"
 import { sheetIds } from "../src/index.ts"
+import { project } from "../src/project.ts"
 import { load, nations, type Steps } from "../src/sheet.ts"
 import { placed } from "./places.gen.ts"
 import { drawn } from "./values.ts"
@@ -51,6 +53,21 @@ describe("sheets", () => {
       tone: { kind: "accent" },
       path: expect.stringMatching(/^M458 192.5a4 4 0 1 0 8 0/),
     })
+  })
+
+  it.each(sheetIds)("%s places each landmark where the build projected it", async (id) => {
+    const sheet = await load(id)
+    // The build records each landmark to a tenth of a unit.
+    const off = Object.entries(placed[id] ?? {}).flatMap(([name, [x, y]]) => {
+      const at = landmarks[name]
+      const spot = at === undefined ? undefined : project(sheet.projection, at)
+
+      return spot !== undefined && Math.abs(spot[0] - x) <= 0.06 && Math.abs(spot[1] - y) <= 0.06
+        ? []
+        : [`${name}: ${spot?.join(", ") ?? "nowhere"} for ${x}, ${y}`]
+    })
+
+    expect(off).toEqual([])
   })
 
   it.each(sheetIds)("%s marks only countries it does not draw as shapes", async (id) => {

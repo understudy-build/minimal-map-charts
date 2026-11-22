@@ -44,6 +44,12 @@ const insets: Sheet["insets"] = [
     country: "TUV",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [176.115444, -5.675324],
+      scale: 163442.87,
+      at: [169.15, 97.28],
+    },
     outline: [
       [9, 8, 52, 15, 2, 10],
       [153, 52, 6, -4, 19, 15, -20, -9, -1, 0, -1, -1, -1, 0],
@@ -77,6 +83,12 @@ const insets: Sheet["insets"] = [
     country: "TUV",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [176.320162, -6.288056],
+      scale: 362936.84,
+      at: [121.43, 86.54],
+    },
     outline: [[78, 104, 38, -96, 46, 44, -32, 120]],
     areas: [{ code: "TV-NMG", name: "Nanumanga", outline: [[78, 104, 38, -96, 46, 44, -32, 120]] }],
   },
@@ -85,6 +97,12 @@ const insets: Sheet["insets"] = [
     country: "TUV",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [177.15334, -7.225077],
+      scale: 149135.98,
+      at: [115.84, 99.88],
+    },
     outline: [
       [
         92, 25, 9, -17, 6, 34, -1, 0, 0, 1, -1, 0, -1, 1, 0, 3, 1, 1, 1, 0, 1, 1, 1, 0, 0, 2, -1, 0,
@@ -142,6 +160,12 @@ const insets: Sheet["insets"] = [
     country: "TUV",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [178.388761, -8.024494],
+      scale: 65033.19,
+      at: [139.37, 115.72],
+    },
     outline: [
       [46, 123, 4, -2, 1, 1, 0, 2, 1, 0, 1, 3],
       [52, 120, 3, 1, 0, 1, -2, -1, -1, -1],
@@ -209,6 +233,12 @@ const insets: Sheet["insets"] = [
     country: "TUV",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [178.679483, -7.480157],
+      scale: 235841.42,
+      at: [121.14, 98.11],
+    },
     outline: [
       [
         54, 32, 4, -9, 0, 1, -1, 2, 1, 2, 0, 1, 3, 4, 2, 1, 1, 2, 2, 0, 0, -1, 1, -1, 0, -1, 4, -2,
@@ -253,6 +283,12 @@ const insets: Sheet["insets"] = [
     country: "TUV",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [177.343553, -6.108188],
+      scale: 678835.25,
+      at: [115.58, 85.75],
+    },
     outline: [
       [8, 24, 61, 3, 30, 7, 14, 2, 10, 1, 14, 0, 13, -1, 27, 0, 5, -1, 12, 0, 38, 85, -177, 36],
     ],
@@ -271,6 +307,12 @@ const insets: Sheet["insets"] = [
     country: "TUV",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [179.847775, -9.384708],
+      scale: 109528.22,
+      at: [136.4, 78.38],
+    },
     outline: [
       [60, 55, 2, -6, 4, 20, 0, -1, -3, -6, 0, -1, -1, -1, 0, -1, -1, -1, 0, -2],
       [
@@ -316,6 +358,12 @@ const insets: Sheet["insets"] = [
     country: "TUV",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [179.47316, -10.788788],
+      scale: 1363668.7,
+      at: [121.52, 83.66],
+    },
     outline: [[8, 68, 119, -39, 105, 45, -109, 77]],
   },
 ]
@@ -323,6 +371,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1497,
+  projection: {
+    kind: "azimuthal",
+    centre: [178.313, -8.218],
+    scale: 437149.42,
+    at: [-5724.3, -1749.06],
+  },
   outlines: { TUV: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

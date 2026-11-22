@@ -460,8 +460,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Mount Athos",
     country: "GRC",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [24.191376, 40.274561],
+      scale: 28954,
+      at: [119.4, 96.3],
+    },
     outline: [
       [
         47, 39, 3, -2, 0, -5, -2, -7, -6, -9, 3, -4, -3, -3, 8, -1, 7, 9, 9, 20, 13, 13, 9, 4, 7,
@@ -490,6 +497,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1027,
+  projection: { kind: "azimuthal", centre: [24, 38.5], scale: 8292.6, at: [496.45, 483.31] },
   outlines: { GRC: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

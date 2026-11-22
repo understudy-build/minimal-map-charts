@@ -677,6 +677,12 @@ const insets: Sheet["insets"] = [
     country: "IND",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [92.979409, 11.119698],
+      scale: 1355.46,
+      at: [113.74, 68.57],
+    },
     outline: [
       [
         132, 168, 0, -1, -1, 0, 0, -1, -1, -1, -1, 1, 0, -3, 1, 0, 0, -1, 1, 0, 0, -1, 1, 0, 1, -1,
@@ -758,6 +764,12 @@ const insets: Sheet["insets"] = [
     country: "IND",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [72.829031, 10.116643],
+      scale: 2727.98,
+      at: [115.35, 83.11],
+    },
     outline: [
       [153, 85, 0, 0, 0, -1, 1, 0, 0, 1],
       [107, 62, -1, 0, 1, -1, 0, 1],
@@ -782,8 +794,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Delhi",
     country: "IND",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [77.107969, 28.660809],
+      scale: 20906.19,
+      at: [127.18, 88.74],
+    },
     outline: [
       [
         157, 10, 5, 12, -3, 8, 4, 6, 2, 8, 26, 23, 2, 5, 1, 4, 0, 3, 1, 2, 6, 17, 0, 3, -2, 5, -9,
@@ -816,8 +835,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Chandigarh",
     country: "IND",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [76.768387, 30.74353],
+      scale: 74142.36,
+      at: [128.73, 79.81],
+    },
     outline: [
       [
         180, 21, -3, 15, 2, 9, 6, 18, 6, 9, 2, 9, 0, 9, -5, 18, -3, 24, 9, 29, -17, -3, -6, 0, -7,
@@ -844,6 +870,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1048,
+  projection: { kind: "azimuthal", centre: [80, 23], scale: 2152.23, at: [417.02, 479.01] },
   outlines: { IND: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

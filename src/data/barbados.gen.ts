@@ -121,8 +121,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Saint Joseph",
     country: "BRB",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [-59.551468, 13.214046],
+      scale: 147428.47,
+      at: [115.12, 84.59],
+    },
     outline: [
       [
         129, 8, 23, 32, 47, 36, -6, 2, -41, 39, -5, 0, -1, 5, -3, 44, -35, 6, -21, -43, -10, -11,
@@ -147,6 +154,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1320,
+  projection: {
+    kind: "azimuthal",
+    centre: [-59.567, 13.191],
+    scale: 253751.99,
+    at: [385.86, 690.06],
+  },
   outlines: { BRB: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

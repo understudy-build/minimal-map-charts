@@ -2585,6 +2585,12 @@ const insets: Sheet["insets"] = [
     country: "FIN",
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [20.153943, 60.218975],
+      scale: 10646.72,
+      at: [108.51, 89.35],
+    },
     outline: [
       [184, 10, 0, -1, 0, 0, 1, 1, -1, 0],
       [171, 16, 0, -1, 1, 0, 0, 1, -1, 0],
@@ -4003,6 +4009,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 2038,
+  projection: { kind: "azimuthal", centre: [26, 64], scale: 11224.58, at: [492.22, 1205.06] },
   outlines: { FIN: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

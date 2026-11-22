@@ -114,8 +114,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Niamey",
     country: "NER",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [2.13085, 13.516869],
+      scale: 35993.68,
+      at: [123.36, 77.12],
+    },
     outline: [
       [
         117, 15, 32, -1, 29, -3, 5, 3, -1, 19, 5, 6, 15, -3, 10, 5, 1, 17, -1, 19, -5, 26, -8, 27,
@@ -142,6 +149,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 794,
+  projection: { kind: "azimuthal", centre: [6.675, 14.965], scale: 3737.78, at: [421.57, 571.73] },
   outlines: { NER: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

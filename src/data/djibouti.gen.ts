@@ -80,8 +80,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Djibouti",
     country: "DJI",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [43.04575, 11.557717],
+      scale: 48091.72,
+      at: [127.26, 96.36],
+    },
     outline: [
       [
         8, 74, 115, -1, 18, -4, 16, 1, 18, 10, 16, -4, 8, -11, 7, -11, 9, -3, 4, 9, 12, 49, 1, 1,
@@ -106,6 +113,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1086,
+  projection: { kind: "azimuthal", centre: [42.753, 11.613], scale: 34352.2, at: [599.72, 666.59] },
   outlines: { DJI: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

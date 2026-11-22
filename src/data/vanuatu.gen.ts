@@ -141,8 +141,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Torba",
     country: "VUT",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [167.384573, -13.893943],
+      scale: 7495.76,
+      at: [153.95, 116.27],
+    },
     outline: [
       [
         170, 149, 2, 0, 8, 4, 2, 2, -1, 7, -1, 1, 0, 1, -4, 5, -1, 2, -2, 1, -10, -1, -1, 1, -2, 0,
@@ -199,6 +206,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 2203,
+  projection: {
+    kind: "azimuthal",
+    centre: [168.077, -16.495],
+    scale: 17396.94,
+    at: [470.56, 1049.66],
+  },
   outlines: { VUT: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

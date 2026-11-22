@@ -25,23 +25,24 @@ export const server = () => {
 
   // `Spec` is the tool's input schema as it is: the SDK lists its JSON Schema
   // to the model, and refuses a bad call with `parse`'s issues, which the
-  // model reads and fixes on its next turn. `draw` refuses the rest, an area
-  // its country's sheet does not draw, in the same words.
+  // model reads and fixes on its next turn. `draw` refuses the rest, in the
+  // same words: an area its country's sheet does not draw, a place Natural
+  // Earth does not list, a point off the map.
   registerAppTool(
     mcp,
     "show_map",
     {
       title: "Show a map",
       description:
-        "Draw a map of countries, or of one country's areas by ISO 3166-2 code: a choropleth with one number each, or a highlight of some. Leave out `sheet` and the map frames the countries in the fill, or draws the country whose areas it names.",
+        "Draw a map of countries, or of one country's areas by ISO 3166-2 code: a choropleth with one number each, or a highlight of some; with points at cities, offices or events, as dots or as circles sized by a number. Leave out `sheet` and the map frames the countries in the fill and the points, or draws the country whose areas it names.",
       inputSchema: Spec,
       _meta: { ui: { resourceUri: view } },
     },
     async (spec) => {
       const drawn = await draw(spec)
 
-      // The model reads the sentence, or what to fix in an area the sheet
-      // does not draw; the view paints the scene.
+      // The model reads the sentence, or what `draw` refused; the view paints
+      // the scene.
       return drawn.ok
         ? {
             content: [{ type: "text", text: drawn.scene.description }],

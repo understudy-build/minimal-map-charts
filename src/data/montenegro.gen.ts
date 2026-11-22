@@ -559,8 +559,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Tivat Municipality",
     country: "MNE",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [18.69611, 42.413987],
+      scale: 81912.48,
+      at: [134.4, 98.87],
+    },
     outline: [
       [142, 111, -2, 0, 0, -1, 1, -1, 3, 0, 1, 1, 0, 1, -1, 0, 0, 1, -2, 0],
       [
@@ -664,6 +671,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1210,
+  projection: {
+    kind: "azimuthal",
+    centre: [19.319, 42.703],
+    scale: 39792.39,
+    at: [463.43, 604.45],
+  },
   outlines: { MNE: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

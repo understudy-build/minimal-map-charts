@@ -6,7 +6,7 @@ import { type Country, dark, paint, parse, regions, type Spec } from "../../src/
 import { illustrative } from "../figure.ts"
 import { Country as Place, Sheet, layout } from "../sheet.tsx"
 import { Years } from "../years.tsx"
-import { growth, output } from "./examples.ts"
+import { growth, offices, output } from "./examples.ts"
 import { Figure, useDrawn, useFigure } from "./react/figure.tsx"
 import { mount } from "./react/mount.tsx"
 
@@ -43,6 +43,12 @@ export const Basic: StoryObj<{ readonly spec: Spec }> = {
   args: { spec: growth },
   argTypes: { spec: { control: "object" } },
   render: ({ spec }) => drawing(<Whole spec={spec} />),
+}
+
+// Offices sized by staff: the map and the inset hold the points, the legend
+// their sizes, the table one row per site.
+export const Points: StoryObj = {
+  render: () => drawing(<Whole spec={offices} />),
 }
 
 // The parts rearranged: the legend above the map, the value of the country

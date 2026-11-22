@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { Snippet } from "svelte"
 
-  import { type Country, light, type Palette, type Scene } from "../../../src/index.ts"
-  import { setFigure } from "./context.ts"
+  import { light, type Palette, type Scene } from "../../../src/index.ts"
+  import { type Active, setFigure } from "./context.ts"
 
   interface Props {
     scene: Scene
@@ -11,7 +11,7 @@
   }
 
   let { scene, palette = light, children }: Props = $props()
-  let active: Country | undefined = $state()
+  let active: Active = $state()
 
   // Getters, so parts read the current props without copying the scene.
   setFigure({
@@ -27,8 +27,8 @@
       },
     },
     actions: {
-      activate: (country) => {
-        active = country
+      activate: (each) => {
+        active = each
       },
     },
   })

@@ -471,8 +471,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Stockholm",
     country: "SWE",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [18.133552, 59.480183],
+      scale: 6927.15,
+      at: [117.38, 97.17],
+    },
     outline: [
       [
         172, 48, 0, 0, 0, -2, 2, 0, 0, 8, -2, 0, -1, -1, -4, -7, -2, -2, -2, -1, 1, 1, 2, 4, 0, 2,
@@ -636,8 +643,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Gotland",
     country: "SWE",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [18.535784, 57.50787],
+      scale: 6330.92,
+      at: [109.51, 106.22],
+    },
     outline: [
       [
         139, 66, 1, 1, 1, 3, 1, 1, -4, 0, -2, 2, 0, 4, -1, -1, -1, 0, 0, 1, -1, 1, 0, 4, -5, 0, -1,
@@ -692,6 +706,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 2315,
+  projection: { kind: "azimuthal", centre: [16, 62], scale: 9587.23, at: [431.88, 1196.68] },
   outlines: { SWE: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

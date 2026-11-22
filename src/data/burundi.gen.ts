@@ -290,8 +290,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Bujumbura",
     country: "BDI",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [29.338331, -3.164534],
+      scale: 7838.61,
+      at: [125.23, 86.4],
+    },
     outline: [
       [
         109, 107, -1, 0, 0, -3, 2, 0, 0, -1, 1, 0, 0, -1, 1, 0, 0, -1, 0, -1, -1, 0, 0, -2, 0, -1,
@@ -371,6 +378,12 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1167,
+  projection: {
+    kind: "azimuthal",
+    centre: [29.926, -3.396],
+    scale: 30428.88,
+    at: [500.71, 586.74],
+  },
   outlines: { BDI: areas.flatMap((area) => area.outline) },
   land: [],
   insets,

@@ -150,8 +150,15 @@ const insets: Sheet["insets"] = [
   {
     name: "Cotai Landfill Zone",
     country: "MAC",
+    zoom: true,
     width: 240,
     height: 180,
+    projection: {
+      kind: "azimuthal",
+      centre: [113.566444, 22.142995],
+      scale: 346144.01,
+      at: [100.93, 83.21],
+    },
     outline: [
       [
         158, 9, 0, 1, -1, 0, -1, 2, -2, 2, -1, 3, 2, -2, 1, 0, 6, 2, 58, 38, 1, 10, 1, 0, 0, 2, 4,
@@ -196,6 +203,7 @@ const insets: Sheet["insets"] = [
 const sheet: Sheet = {
   width: 1000,
   height: 1637,
+  projection: { kind: "azimuthal", centre: [113.56, 22.16], scale: 863778.5, at: [454.39, 869.87] },
   outlines: { MAC: areas.flatMap((area) => area.outline) },
   land: [],
   insets,
