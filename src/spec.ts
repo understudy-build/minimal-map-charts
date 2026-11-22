@@ -1,4 +1,4 @@
-import { type Area, countryOf, isArea, isDrawn, suggest as suggestArea } from "./areas.ts"
+import { type Area, countryOf, isArea, suggest as suggestArea } from "./areas.ts"
 import { apart, type Colour, oklch } from "./colour.ts"
 import { type Country, countries, names } from "./countries.ts"
 import { frames, isSheet, members } from "./frame.ts"
@@ -91,7 +91,9 @@ export type Issue =
       readonly suggestion: Area | undefined
     }
   // The area's country has no sheet that draws it under this code: the code
-  // is wrong, or the sheet keeps its source's code for that area.
+  // is wrong, or the sheet keeps its source's code for that area. `parse`
+  // finds a country with no map of its own; `draw` finds a code its
+  // country's sheet does not draw.
   | { readonly kind: "NoArea"; readonly path: Path; readonly area: Area }
   | {
       readonly kind: "NotOnSheet"
@@ -176,7 +178,9 @@ const area = (input: unknown, path: Path): Checked<Area> => {
       issues: [{ kind: "UnknownArea", path, input, suggestion: suggestArea(input) }],
     }
 
-  return isDrawn(input)
+  // Only the country's sheet knows its areas' codes, so `draw` checks the
+  // code once it has loaded the sheet.
+  return isSheet(countryOf(input))
     ? { value: input, issues: [] }
     : { value: undefined, issues: [{ kind: "NoArea", path, area: input }] }
 }

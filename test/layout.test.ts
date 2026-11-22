@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest"
 
-import { describe as explain, draw, type Layout, parse, type Spec } from "../src/index.ts"
-import { values } from "./values.ts"
+import { describe as explain, type Layout, parse, type Scene, type Spec } from "../src/index.ts"
+import { drawn, values } from "./values.ts"
 
 // A choropleth of the United States and Western Europe, laid out as given.
 const comparison = (sheet: Layout = {}): Spec => ({
@@ -22,15 +22,15 @@ const comparison = (sheet: Layout = {}): Spec => ({
   },
 })
 
-const shape = (scene: Awaited<ReturnType<typeof draw>>, country: string) =>
+const shape = (scene: Scene, country: string) =>
   scene.shapes.find((each) => each.country === country)
 
 const insets = async (sheet: Layout) =>
-  (await draw(comparison(sheet))).insets.map((each) => [each.name, each.tone.kind])
+  (await drawn(comparison(sheet))).insets.map((each) => [each.name, each.tone.kind])
 
 describe("layouts", () => {
   it("splits countries an ocean apart into panels side by side", async () => {
-    const scene = await draw(comparison())
+    const scene = await drawn(comparison())
     const [left, right] = scene.panels
 
     expect(scene.panels).toHaveLength(2)
@@ -40,7 +40,7 @@ describe("layouts", () => {
   })
 
   it("keeps countries in one frame when one panel lists them", async () => {
-    const scene = await draw(comparison({ panels: [{ places: ["USA", "europe"] }] }))
+    const scene = await drawn(comparison({ panels: [{ places: ["USA", "europe"] }] }))
 
     expect(scene.panels).toHaveLength(1)
     expect(shape(scene, "USA")).toBeDefined()
@@ -48,8 +48,8 @@ describe("layouts", () => {
   })
 
   it("draws a kilometre as long in every panel unless asked to fit them", async () => {
-    const shared = await draw(comparison({ places: ["USA", "FRA"] }))
-    const fit = await draw(comparison({ places: ["USA", "FRA"], scale: "fit" }))
+    const shared = await drawn(comparison({ places: ["USA", "FRA"] }))
+    const fit = await drawn(comparison({ places: ["USA", "FRA"], scale: "fit" }))
     const heights = (scene: typeof shared) => scene.panels.map((panel) => Math.round(panel.height))
 
     // France spans about 1,100 km north to south; the United States, Alaska
@@ -77,8 +77,8 @@ describe("layouts", () => {
   })
 
   it("draws neighbours as context, apart from the countries it is about", async () => {
-    const scene = await draw({ sheet: { places: ["FRA", "DEU"] } })
-    const bare = await draw({ sheet: { places: ["FRA", "DEU"], context: false } })
+    const scene = await drawn({ sheet: { places: ["FRA", "DEU"] } })
+    const bare = await drawn({ sheet: { places: ["FRA", "DEU"], context: false } })
 
     expect(shape(scene, "FRA")?.tone).toEqual({ kind: "blank" })
     expect(shape(scene, "CHE")?.tone).toEqual({ kind: "context" })
@@ -87,7 +87,7 @@ describe("layouts", () => {
   })
 
   it("draws a country too small for a shape as a dot", async () => {
-    const scene = await draw({
+    const scene = await drawn({
       sheet: { places: ["CHN", "MAC"] },
       fill: { kind: "highlight", countries: ["MAC"] },
     })
@@ -97,20 +97,20 @@ describe("layouts", () => {
   })
 
   it("lists countries in the fill that fall outside every panel", async () => {
-    const scene = await draw(comparison({ places: ["USA"] }))
+    const scene = await drawn(comparison({ places: ["USA"] }))
 
     expect(scene.missing).toEqual(["BEL", "DEU", "ESP", "FRA", "GBR", "ITA", "LUX", "NLD"])
   })
 
   it("keeps the world in one panel", async () => {
-    const scene = await draw({ sheet: { places: ["world"] } })
+    const scene = await drawn({ sheet: { places: ["world"] } })
 
     expect(scene.panels).toHaveLength(1)
     expect(shape(scene, "NZL")?.tone).toEqual({ kind: "blank" })
   })
 
   it("describes the countries a layout is about", async () => {
-    const scene = await draw({ sheet: { places: ["USA", "FRA"] } })
+    const scene = await drawn({ sheet: { places: ["USA", "FRA"] } })
 
     expect(scene.description).toBe("Map of United States and France: countries.")
   })

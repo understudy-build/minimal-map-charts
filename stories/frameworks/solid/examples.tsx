@@ -1,29 +1,33 @@
 /** @jsxImportSource solid-js */
 import { createMemo, For, Show, Suspense } from "solid-js"
 
-import { describe, parse, type Spec } from "../../../src/index.ts"
+import { parse, type Spec } from "../../../src/index.ts"
 import { growth } from "../examples.ts"
-import { Figure, useFigure, useScene } from "./figure.tsx"
+import { Figure, useDrawn, useFigure } from "./figure.tsx"
 
 const drawing = <p class="text-sm">Drawing the map…</p>
 
 // Every part in its usual order, once the scene is drawn.
 export const Whole = (props: { readonly spec: Spec }) => {
-  const scene = useScene(() => props.spec)
+  const drawn = useDrawn(() => props.spec)
 
   return (
     <Suspense fallback={drawing}>
-      <Show when={scene()}>
-        {(drawn) => (
-          <Figure.Root scene={drawn()}>
-            <Figure.Title />
-            <Figure.Map />
-            <Figure.Insets />
-            <Figure.Legend />
-            <Figure.Credits />
-            <Figure.Table />
-          </Figure.Root>
-        )}
+      <Show when={drawn()} keyed>
+        {(each) =>
+          each.ok ? (
+            <Figure.Root scene={each.scene}>
+              <Figure.Title />
+              <Figure.Map />
+              <Figure.Insets />
+              <Figure.Legend />
+              <Figure.Credits />
+              <Figure.Table />
+            </Figure.Root>
+          ) : (
+            <Figure.Issues issues={each.issues} />
+          )
+        }
       </Show>
     </Suspense>
   )
@@ -63,19 +67,23 @@ const Ranking = () => {
 }
 
 export const Ranked = () => {
-  const scene = useScene(() => growth)
+  const drawn = useDrawn(() => growth)
 
   return (
     <Suspense fallback={drawing}>
-      <Show when={scene()}>
-        {(drawn) => (
-          <Figure.Root scene={drawn()}>
-            <Figure.Title />
-            <Figure.Map />
-            <Ranking />
-            <Figure.Credits />
-          </Figure.Root>
-        )}
+      <Show when={drawn()} keyed>
+        {(each) =>
+          each.ok ? (
+            <Figure.Root scene={each.scene}>
+              <Figure.Title />
+              <Figure.Map />
+              <Ranking />
+              <Figure.Credits />
+            </Figure.Root>
+          ) : (
+            <Figure.Issues issues={each.issues} />
+          )
+        }
       </Show>
     </Suspense>
   )
@@ -93,18 +101,11 @@ export const FromModel = (props: { readonly input: unknown }) => {
   const issues = () => {
     const result = parsed()
 
-    return result.ok ? [] : result.issues.map(describe)
+    return result.ok ? [] : result.issues
   }
 
   return (
-    <Show
-      when={spec()}
-      fallback={
-        <ul role="alert" class="font-mono text-sm text-red-700">
-          <For each={issues()}>{(line) => <li>{line}</li>}</For>
-        </ul>
-      }
-    >
+    <Show when={spec()} fallback={<Figure.Issues issues={issues()} />}>
       {(each) => <Whole spec={each()} />}
     </Show>
   )

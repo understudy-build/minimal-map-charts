@@ -3,8 +3,11 @@ import { createContext, type ReactNode, use, useState } from "react"
 import {
   type Area,
   type Country,
+  describe,
   draw,
+  type Drawn,
   type DrawOptions,
+  type Issue,
   light,
   paint,
   type Palette,
@@ -16,19 +19,29 @@ import { credit, entries, hint } from "../text.ts"
 // A React recipe for the scene: copy it into an app. The package stays free
 // of React; this file is the whole integration.
 
-// Scenes by locale and spec. `draw` is async, so `useScene` suspends on its
-// promise; a spec drawn twice reuses the same promise, as `use` requires. It
-// never evicts, which suits a page with a few maps; an app with many would.
-const scenes = new Map<string, Promise<Scene>>()
+// What `draw` returns, by locale and spec: a scene, or the areas its sheet
+// does not draw. `draw` is async, so `useDrawn` suspends on its promise; a
+// spec drawn twice reuses the same promise, as `use` requires. It never
+// evicts, which suits a page with a few maps; an app with many would.
+const drawings = new Map<string, Promise<Drawn>>()
 
-export const useScene = (spec: Spec, { locale = "en" }: DrawOptions = {}): Scene => {
+export const useDrawn = (spec: Spec, { locale = "en" }: DrawOptions = {}): Drawn => {
   const key = `${locale} ${JSON.stringify(spec)}`
-  const scene = scenes.get(key) ?? draw(spec, { locale })
+  const drawn = drawings.get(key) ?? draw(spec, { locale })
 
-  scenes.set(key, scene)
+  drawings.set(key, drawn)
 
-  return use(scene)
+  return use(drawn)
 }
+
+// The lines a model would read, for a spec that does not parse or draw.
+const Issues = ({ issues }: { readonly issues: ReadonlyArray<Issue> }) => (
+  <ul role="alert" className="font-mono text-sm text-red-700">
+    {issues.map((issue) => (
+      <li key={describe(issue)}>{describe(issue)}</li>
+    ))}
+  </ul>
+)
 
 // What every part of a figure reads: the scene, its palette and the country
 // or area the reader points at, and how to change it.
@@ -55,16 +68,19 @@ export const useFigure = (): Contract => {
 }
 
 interface RootProps {
-  readonly scene: Scene
+  readonly drawn: Drawn
   readonly palette?: Palette
   readonly children: ReactNode
 }
 
-const Root = ({ scene, palette = light, children }: RootProps) => {
+// The figure, or the issues when the spec does not draw.
+const Root = ({ drawn, palette = light, children }: RootProps) => {
   const [active, activate] = useState<Country | Area>()
 
+  if (!drawn.ok) return <Issues issues={drawn.issues} />
+
   return (
-    <Context value={{ state: { scene, palette, active }, actions: { activate } }}>
+    <Context value={{ state: { scene: drawn.scene, palette, active }, actions: { activate } }}>
       <figure
         className="m-0 flex max-w-[900px] flex-col gap-3 p-4 font-sans"
         style={{ background: palette.surface, color: palette.ink }}
@@ -293,6 +309,7 @@ const Table = () => {
 // of your own with `useFigure`.
 export const Figure = {
   Root,
+  Issues,
   Title,
   Map: Shapes,
   Insets,

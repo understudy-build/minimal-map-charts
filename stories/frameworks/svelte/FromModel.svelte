@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { describe, parse } from "../../../src/index.ts"
+  import { parse } from "../../../src/index.ts"
+  import * as Figure from "./figure.ts"
   import Whole from "./Whole.svelte"
 
   // What a host does with a model's tool call: parse the input, then draw it
@@ -11,9 +12,5 @@
 {#if parsed.ok}
   <Whole spec={parsed.spec} />
 {:else}
-  <ul role="alert" class="font-mono text-sm text-red-700">
-    {#each parsed.issues as issue (describe(issue))}
-      <li>{describe(issue)}</li>
-    {/each}
-  </ul>
+  <Figure.Issues issues={parsed.issues} />
 {/if}

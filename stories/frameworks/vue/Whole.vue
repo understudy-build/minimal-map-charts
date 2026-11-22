@@ -2,16 +2,16 @@
 import type { PropType } from "vue"
 
 import type { Spec } from "../../../src/index.ts"
-import { useScene } from "./context.ts"
+import { useDrawn } from "./context.ts"
 import * as Figure from "./figure.ts"
 
-// Every part in its usual order.
+// Every part in its usual order, or the areas the sheet does not draw.
 const props = defineProps({ spec: { type: Object as PropType<Spec>, required: true } })
-const scene = useScene(() => props.spec)
+const drawn = useDrawn(() => props.spec)
 </script>
 
 <template>
-  <Figure.Root v-if="scene !== undefined" :scene="scene">
+  <Figure.Root v-if="drawn?.ok" :scene="drawn.scene">
     <Figure.Title />
     <Figure.Map />
     <Figure.Insets />
@@ -19,5 +19,6 @@ const scene = useScene(() => props.spec)
     <Figure.Credits />
     <Figure.Table />
   </Figure.Root>
+  <Figure.Issues v-else-if="drawn !== undefined" :issues="drawn.issues" />
   <p v-else class="text-sm">Drawing the map…</p>
 </template>

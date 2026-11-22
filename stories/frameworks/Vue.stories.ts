@@ -7,7 +7,7 @@ import { mount } from "./vue/mount.ts"
 import Ranked from "./vue/Ranked.vue"
 import Whole from "./vue/Whole.vue"
 
-// The scene drawn with Vue: `useScene` redraws when the spec changes, and
+// The scene drawn with Vue: `useDrawn` redraws when the spec changes, and
 // the `Figure` single-file components render it. stories/frameworks/vue/ is
 // the whole recipe.
 const meta = {

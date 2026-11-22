@@ -1,5 +1,4 @@
 import { type Country, countries } from "./countries.ts"
-import { areas } from "./data/areas.gen.ts"
 
 type Alpha2 = (typeof countries)[number]["alpha2"]
 
@@ -24,27 +23,11 @@ export const countryOf = (area: Area): Country => {
   return country
 }
 
-// The codes each sheet draws, split the first time one is looked up.
-let drawn: ReadonlyMap<Country, ReadonlySet<string>> | undefined
-
-// Whether the area's country has a sheet that draws it under this code.
-export const isDrawn = (area: Area): boolean => {
-  drawn ??= new Map(
-    countries.flatMap(({ code }) => {
-      const list = areas[code]
-
-      return list === undefined ? [] : [[code, new Set(list.split(" "))] as const]
-    }),
-  )
-
-  return drawn.get(countryOf(area))?.has(area.slice(3)) ?? false
-}
-
 // The code someone most likely meant: "us-ca", "US.CA" or "USA-CA" → "US-CA".
 export const suggest = (input: string): Area | undefined => {
   const [, prefix = "", rest = ""] =
     /^([A-Z]{2,3})[-._ ]([A-Z0-9]{1,3})$/.exec(input.trim().toUpperCase()) ?? []
   const candidate = `${byAlpha3.get(prefix) ?? prefix}-${rest}`
 
-  return isArea(candidate) && isDrawn(candidate) ? candidate : undefined
+  return isArea(candidate) ? candidate : undefined
 }

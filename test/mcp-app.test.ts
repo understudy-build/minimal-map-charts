@@ -52,7 +52,7 @@ describe("the MCP App example", () => {
     expect(result.structuredContent).toMatchObject({ sheet: "europe", title: "Members" })
   })
 
-  it("draws one country's areas, and says where an area belongs", async () => {
+  it("draws one country's areas, says where an area belongs, and refuses one its sheet lacks", async () => {
     const client = await connect()
     const drawn = await client.callTool({
       name: "show_map",
@@ -61,6 +61,10 @@ describe("the MCP App example", () => {
     const refused = await client.callTool({
       name: "show_map",
       arguments: { fill: { kind: "choropleth", values: [{ country: "US-CA", value: 39 }] } },
+    })
+    const undrawn = await client.callTool({
+      name: "show_map",
+      arguments: { fill: { kind: "highlight", areas: ["NO-11", "NO-30"] } },
     })
 
     expect(text(drawn)).toBe("Map of United States: California, Texas highlighted.")
@@ -71,6 +75,8 @@ describe("the MCP App example", () => {
     expect(text(refused)).toContain(
       'fill.values.0.country: expected a country code; give the subdivision "US-CA" in `area`.',
     )
+    expect(undrawn.isError).toBe(true)
+    expect(text(undrawn)).toBe('fill.areas.1: NO-30 has no area on the "NOR" sheet.')
   })
 
   it("tells the model how to fix a bad spec", async () => {

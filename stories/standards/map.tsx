@@ -1,10 +1,10 @@
 import { Suspense } from "react"
 
-import { describe, parse, type Spec } from "../../src/index.ts"
-import { Figure, useScene } from "../frameworks/react/figure.tsx"
+import { parse, type Spec } from "../../src/index.ts"
+import { Figure, useDrawn } from "../frameworks/react/figure.tsx"
 
 const Drawn = ({ spec }: { readonly spec: Spec }) => (
-  <Figure.Root scene={useScene(spec)}>
+  <Figure.Root drawn={useDrawn(spec)}>
     <Figure.Title />
     <Figure.Map />
     <Figure.Insets />
@@ -14,8 +14,8 @@ const Drawn = ({ spec }: { readonly spec: Spec }) => (
 )
 
 // The map component both recipes register: whatever props the UI format
-// hands it, `parse` decides. A spec that does not parse shows the lines a
-// model would get back.
+// hands it, `parse` and then `draw` decide. A spec that does not parse or
+// draw shows the lines a model would get back.
 export const Map = ({ input }: { readonly input: unknown }) => {
   const parsed = parse(input)
 
@@ -24,10 +24,6 @@ export const Map = ({ input }: { readonly input: unknown }) => {
       <Drawn spec={parsed.spec} />
     </Suspense>
   ) : (
-    <ul role="alert" className="font-mono text-sm text-red-700">
-      {parsed.issues.map((issue) => (
-        <li key={describe(issue)}>{describe(issue)}</li>
-      ))}
-    </ul>
+    <Figure.Issues issues={parsed.issues} />
   )
 }

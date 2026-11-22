@@ -2,15 +2,15 @@ import type { Meta, StoryObj } from "@storybook/html-vite"
 import { MotionConfig, motion } from "motion/react"
 import { type ReactNode, Suspense, useState, useTransition } from "react"
 
-import { type Country, dark, describe, paint, parse, regions, type Spec } from "../../src/index.ts"
+import { type Country, dark, paint, parse, regions, type Spec } from "../../src/index.ts"
 import { illustrative } from "../figure.ts"
 import { Country as Place, Sheet, layout } from "../sheet.tsx"
 import { Years } from "../years.tsx"
 import { growth, output } from "./examples.ts"
-import { Figure, useFigure, useScene } from "./react/figure.tsx"
+import { Figure, useDrawn, useFigure } from "./react/figure.tsx"
 import { mount } from "./react/mount.tsx"
 
-// The scene drawn with React: `useScene` loads it under Suspense, and the
+// The scene drawn with React: `useDrawn` loads it under Suspense, and the
 // `Figure` parts render it as SVG and HTML. stories/frameworks/react/figure.tsx
 // is the whole recipe.
 const meta = {
@@ -28,7 +28,7 @@ const drawing = (node: ReactNode) =>
   mount(<Suspense fallback={<p className="text-sm">Drawing the map…</p>}>{node}</Suspense>)
 
 const Whole = ({ spec }: { readonly spec: Spec }) => (
-  <Figure.Root scene={useScene(spec)}>
+  <Figure.Root drawn={useDrawn(spec)}>
     <Figure.Title />
     <Figure.Map />
     <Figure.Insets />
@@ -48,7 +48,7 @@ export const Basic: StoryObj<{ readonly spec: Spec }> = {
 // The parts rearranged: the legend above the map, the value of the country
 // under the pointer below it, no table, on the dark palette.
 const Rearranged = () => (
-  <Figure.Root scene={useScene(growth)} palette={dark}>
+  <Figure.Root drawn={useDrawn(growth)} palette={dark}>
     <Figure.Title />
     <Figure.Legend />
     <Figure.Map />
@@ -94,7 +94,7 @@ const Ranking = () => {
 }
 
 const Ranked = () => (
-  <Figure.Root scene={useScene(growth)}>
+  <Figure.Root drawn={useDrawn(growth)}>
     <Figure.Title />
     <Figure.Map />
     <Ranking />
@@ -111,15 +111,7 @@ export const Linked: StoryObj = {
 const FromModel = ({ input }: { readonly input: unknown }) => {
   const parsed = parse(input)
 
-  return parsed.ok ? (
-    <Whole spec={parsed.spec} />
-  ) : (
-    <ul role="alert" className="font-mono text-sm text-red-700">
-      {parsed.issues.map((issue) => (
-        <li key={describe(issue)}>{describe(issue)}</li>
-      ))}
-    </ul>
-  )
+  return parsed.ok ? <Whole spec={parsed.spec} /> : <Figure.Issues issues={parsed.issues} />
 }
 
 type ModelStory = StoryObj<{ readonly input: unknown }>
@@ -184,7 +176,7 @@ const OverTime = () => {
 
   return (
     <MotionConfig reducedMotion="user">
-      <Figure.Root scene={useScene(yearly(year))}>
+      <Figure.Root drawn={useDrawn(yearly(year))}>
         <Figure.Title />
         <Eased />
         <Figure.Legend />
@@ -208,7 +200,7 @@ const compared: ReadonlyArray<Country> = ["USA", "GBR", "FRA", "ESP", "DEU", "IT
 
 const Comparison = () => (
   <Figure.Root
-    scene={useScene({
+    drawn={useDrawn({
       sheet: layout(
         <Sheet insets={false}>
           {compared.map((code) => (

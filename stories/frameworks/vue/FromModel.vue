@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue"
 
-import { describe, parse } from "../../../src/index.ts"
+import { parse } from "../../../src/index.ts"
+import * as Figure from "./figure.ts"
 import Whole from "./Whole.vue"
 
 // What a host does with a model's tool call: parse the input, then draw it
@@ -12,7 +13,5 @@ const parsed = computed(() => parse(props.input))
 
 <template>
   <Whole v-if="parsed.ok" :spec="parsed.spec" />
-  <ul v-else role="alert" class="font-mono text-sm text-red-700">
-    <li v-for="issue in parsed.issues" :key="describe(issue)">{{ describe(issue) }}</li>
-  </ul>
+  <Figure.Issues v-else :issues="parsed.issues" />
 </template>

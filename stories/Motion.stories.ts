@@ -5,7 +5,6 @@ import { Allow, parse as heal } from "partial-json"
 import {
   countries,
   type Country,
-  draw,
   light,
   paint,
   parse,
@@ -14,7 +13,7 @@ import {
   type Scene,
   type Spec,
 } from "../src/index.ts"
-import { bare, credits, figure, illustrative, legend, onRemove } from "./figure.ts"
+import { bare, credits, drawn, figure, illustrative, legend, onRemove } from "./figure.ts"
 import { mountYears } from "./years.tsx"
 
 // Every animation here respects the reader's reduced-motion setting.
@@ -48,7 +47,7 @@ export default meta
 export const Reveal: StoryObj = {
   loaders: [
     async () => ({
-      scene: await draw({
+      scene: await drawn({
         title: "Renewable share of electricity, %",
         source: "Illustrative values",
         fill: { kind: "choropleth", values: illustrative(europe, 7), better: "higher" },
@@ -91,7 +90,9 @@ const yearSpec = (year: number): Spec => ({
 // Each year's scene shares the sheet, so moving between years only animates
 // fills. The breaks stay fixed, so a darker shade means a higher value.
 export const OverTime: StoryObj = {
-  loaders: [async () => ({ scenes: await Promise.all(years.map((year) => draw(yearSpec(year)))) })],
+  loaders: [
+    async () => ({ scenes: await Promise.all(years.map((year) => drawn(yearSpec(year)))) }),
+  ],
   render: (_, { loaded }) => {
     const scenes: ReadonlyArray<Scene> = loaded["scenes"]
     const first = scenes[0]
@@ -138,7 +139,7 @@ export const OverTime: StoryObj = {
 // A tour: one country at a time is picked out, the previous one fades back.
 export const Tour: StoryObj = {
   loaders: [
-    async () => ({ scene: await draw({ fill: { kind: "highlight", countries: ["FRA"] } }) }),
+    async () => ({ scene: await drawn({ fill: { kind: "highlight", countries: ["FRA"] } }) }),
   ],
   render: (_, { loaded }) => {
     const scene: Scene = loaded["scene"]
@@ -182,7 +183,7 @@ export const Tour: StoryObj = {
 export const HoverDetails: StoryObj = {
   loaders: [
     async () => ({
-      scene: await draw({
+      scene: await drawn({
         title: "Life expectancy, years",
         source: "Illustrative values",
         fill: {
@@ -317,7 +318,7 @@ export const StreamingFromAModel: StoryObj = {
         if (arrived.length > 0) {
           // Each step waits for its draw, so the stream applies in order.
           // oxlint-disable-next-line no-await-in-loop
-          const scene = await draw(spec)
+          const scene = await drawn(spec)
 
           if (map === undefined || scene.sheet !== sheet) {
             map = bare(scene)
@@ -397,7 +398,7 @@ const zoomStops: ReadonlyArray<{
 export const ZoomWithinASheet: StoryObj = {
   loaders: [
     async () => ({
-      scene: await draw({
+      scene: await drawn({
         title: "Unemployment rate, %",
         source: "Illustrative values",
         fill: { kind: "choropleth", values: illustrative(europe, 9), better: "lower" },
@@ -491,7 +492,7 @@ const button = (text: string, label: string, act: () => void) => {
 export const DragToMove: StoryObj = {
   loaders: [
     async () => ({
-      scene: await draw({
+      scene: await drawn({
         title: "Share of adults with a bank account, %",
         source: "Illustrative values",
         fill: {

@@ -8,7 +8,7 @@ It is a chart, not a mapping library. There are no tiles, no pan and zoom across
 
 ### Generate map charts from a JSON object
 
-Give a model the spec's JSON Schema as a tool. Whatever it sends goes is parsed then drawn.
+Give a model the spec's JSON Schema as a tool. Whatever it sends is parsed then drawn, and either step can hand back lines for the model to fix.
 
 ```ts
 import { describe, draw, parse, schema, svg } from "@nicolastoulemont/minimal-map-charts"
@@ -17,10 +17,9 @@ const tool = { name: "show_map", description: "Draw a map of countries", input_s
 
 const call = async (input: unknown) => {
   const parsed = parse(input)
+  const drawn = parsed.ok ? await draw(parsed.spec) : parsed
 
-  return parsed.ok
-    ? { svg: svg(await draw(parsed.spec)) }
-    : { error: parsed.issues.map(describe).join("\n") }
+  return drawn.ok ? { svg: svg(drawn.scene) } : { error: drawn.issues.map(describe).join("\n") }
 }
 ```
 
@@ -45,7 +44,7 @@ A few things:
 1. The container map is inferred when possible, for this chart every country is in Europe, so `draw` picks the Europe sheet.
 2. Islands get insets: France's overseas regions and Portugal's and Spain's islands get insets.
 3. Validation: Had the model written `"France"`, it would get back `fill.countries.0: "France" is not a country code. Did you mean "FRA"?`.
-4. The page pays 33.9 kB gzipped for this: the code with `parse` and `schema`, plus the Europe sheet.
+4. The page pays 28.5 kB gzipped for this: the code with `parse` and `schema`, plus the Europe sheet.
 
 ### Compare countries far apart at the same scale
 
@@ -124,7 +123,7 @@ A few things:
 
 1. The codes pick the map: `US-` codes draw the United States sheet. All areas in a fill belong to one country, and a fill names countries or areas, not both.
 2. Highlights take `areas` instead of `countries`: `{ "kind": "highlight", "areas": ["FR-IDF", "FR-BRE"] }`.
-3. `parse` checks every code against the areas each sheet draws, without loading the sheet. Some areas keep their source's code until they are mapped to ISO 3166-2, so they cannot be named yet: `NO-30`, Viken, which Norway split into three counties in 2024, gets `fill.values.0.area: NO-30 has no area on the "NOR" sheet.` `scripts/build-maps/uncoded.gen.ts` lists them.
+3. `parse` checks each code's form and country. `draw` checks it against the sheet it loads, so a page that never names an area never downloads a list of them. Some areas keep their source's code until they are mapped to ISO 3166-2, so they cannot be named yet: `NO-30`, Viken, which Norway split into three counties in 2024, gets `fill.values.0.area: NO-30 has no area on the "NOR" sheet.` from `draw`. `scripts/build-maps/uncoded.gen.ts` lists them.
 4. A subdivision given as a country gets `fill.values.0.country: expected a country code; give the subdivision "US-CA" in \`area\`.`
 
 ## Quick start
@@ -146,7 +145,9 @@ const parsed = parse({
   },
 })
 
-if (parsed.ok) document.body.innerHTML = svg(await draw(parsed.spec), { palette: { light, dark } })
+const drawn = parsed.ok ? await draw(parsed.spec) : parsed
+
+if (drawn.ok) document.body.innerHTML = svg(drawn.scene, { palette: { light, dark } })
 ```
 
 A few things:
@@ -162,7 +163,7 @@ The spec describes what to show, not how to draw it: countries, values and what 
 A model picks colours as `"#rrggbb"`: green for forests, red for losses, blue for gains. The renderer keeps each colour's hue and chroma and sets its lightness for the page, so one spec reads on a light or a dark surface, with the lowest values nearest the surface.
 
 1. Tool schema: `schema` is the spec as JSON Schema, for a tool's input or for structured output. It keeps to what strict structured output accepts: `anyOf`, closed objects, and values as `{ country, value }` pairs rather than a map keyed by country. `strict` is the same spec with every key required and null for the ones left out, for OpenAI's strict mode; `parse` reads a null key as left out.
-2. Validation: `parse` returns typed issues, and `describe` turns each into a line the model can fix on its next turn:
+2. Validation: `parse` returns typed issues, `draw` returns the same kind for an area its sheet does not draw, and `describe` turns each into a line the model can fix on its next turn:
 
    ```
    fill.values.0.country: "France" is not a country code. Did you mean "FRA"?
@@ -189,16 +190,21 @@ registerAppTool(
     _meta: { ui: { resourceUri: view } },
   },
   async (spec) => {
-    const scene = await draw(spec)
+    const drawn = await draw(spec)
 
-    return { content: [{ type: "text", text: scene.description }], structuredContent: { ...scene } }
+    return drawn.ok
+      ? {
+          content: [{ type: "text", text: drawn.scene.description }],
+          structuredContent: { ...drawn.scene },
+        }
+      : { content: [{ type: "text", text: drawn.issues.map(describe).join("\n") }], isError: true }
   },
 )
 ```
 
 A few things:
 
-1. No glue: `Spec` is the tool's input schema as it is. The SDK lists its JSON Schema to the model and refuses a bad call with `parse`'s issues.
+1. No glue: `Spec` is the tool's input schema as it is. The SDK lists its JSON Schema to the model and refuses a bad call with `parse`'s issues. The handler returns `draw`'s, for an area the sheet does not draw, the same way.
 2. The server draws, the view paints: an MCP App's default CSP blocks network requests, so the view cannot load sheets. It gets the scene, paints it with `svg` in the host's theme, and paints it again when the theme changes.
 3. The model reads one sentence, `scene.description`. The scene goes to the view in `structuredContent`, which the model does not see.
 4. `pnpm mcp` builds the view into one HTML file and starts the server over stdio.
@@ -209,16 +215,16 @@ Both take a catalog of components and let the model compose them. The map is one
 
 1. json-render: `props: z.fromJSONSchema(schema)`. Zod reads the JSON Schema as it is, so the catalog's prompt lists every key and code, and `catalog.validate` refuses what the schema refuses.
 2. A2UI: `catalog` in `stories/standards/a2ui.ts` is an A2UI v1.0 catalog with one `Map` component. It adds the component name, the catalog id and the unions every catalog declares to the spec's schema; a test checks it against A2UI's own catalog schema. The renderer builds its component from the same document with `Catalog.fromJson`, so it checks an agent's message against the schema the agent was given.
-3. Both components still run `parse`, which holds the rules no schema states, and show its lines when a spec does not parse.
+3. Both components still run `parse`, which holds the rules no schema states, then `draw`, which knows the sheet's areas, and show their lines when a spec does not parse or draw.
 
 ## API
 
 | Export                     | What it does                                                                                                                   |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `parse(input)`             | Reads untrusted input into a `Spec`, or returns every issue.                                                                   |
+| `parse(input)`             | Reads untrusted input into a `Spec`, or returns every issue it finds without loading a sheet.                                  |
 | `partial(input)`           | Reads a spec from a stream cut short. Never fails.                                                                             |
 | `schema`, `strict`, `Spec` | The spec as JSON Schema, as JSON Schema for strict mode, and as Standard Schema.                                               |
-| `draw(spec, { locale })`   | Picks and loads the sheet, groups the values into colour bands and returns a `Scene`.                                          |
+| `draw(spec, { locale })`   | Loads the sheet and groups the values into colour bands. Returns `{ ok, scene }`, or `{ ok, issues }` for an area it lacks.    |
 | `svg(scene, { palette })`  | Turns a scene into a standalone SVG document with its legend and credits. `{ light, dark }` follows the page's `color-scheme`. |
 | `paint(tone, { palette })` | The colour of a shape's tone. `light` and `dark` are the built-in palettes; `{ light, dark }` gives a `light-dark()` pair.     |
 | `range(bin)`               | A legend band as text: "4 to 6", "10 and above".                                                                               |
@@ -284,15 +290,15 @@ Bundled with Vite, tree-shaken and minified:
 
 | Map           | Sheet, gzip | With `draw` and `svg`, gzip | With `parse` and `schema` too, gzip |
 | ------------- | ----------: | --------------------------: | ----------------------------------: |
-| World         |      8.5 kB |                     22.1 kB |                             32.6 kB |
-| North America |     10.5 kB |                     24.1 kB |                             34.6 kB |
-| Europe        |      9.8 kB |                     23.4 kB |                             33.9 kB |
-| East Asia     |      3.9 kB |                     17.6 kB |                             28.1 kB |
-| United States |      8.8 kB |                     22.4 kB |                             33.0 kB |
-| France        |      6.0 kB |                     19.6 kB |                             30.1 kB |
-| Germany       |      6.9 kB |                     20.5 kB |                             31.1 kB |
-| China         |      6.0 kB |                     19.6 kB |                             30.1 kB |
-| Japan         |      6.7 kB |                     20.3 kB |                             30.8 kB |
+| World         |      8.5 kB |                     22.2 kB |                             27.2 kB |
+| North America |     10.5 kB |                     24.3 kB |                             29.2 kB |
+| Europe        |      9.8 kB |                     23.6 kB |                             28.5 kB |
+| East Asia     |      3.9 kB |                     17.7 kB |                             22.7 kB |
+| United States |      8.8 kB |                     22.6 kB |                             27.6 kB |
+| France        |      6.0 kB |                     19.8 kB |                             24.8 kB |
+| Germany       |      6.9 kB |                     20.7 kB |                             25.7 kB |
+| China         |      6.0 kB |                     19.7 kB |                             24.7 kB |
+| Japan         |      6.7 kB |                     20.5 kB |                             25.5 kB |
 
 It ships 242 sheets: the world, 29 regions and 212 countries with their subdivisions. [docs/bundle-size.md](docs/bundle-size.md) adds Brotli sizes and the size of every file in `dist/`.
 

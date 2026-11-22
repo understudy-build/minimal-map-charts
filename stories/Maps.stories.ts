@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite"
 
-import { draw, regions, sheetIds, type SheetId, type Spec } from "../src/index.ts"
-import { figure, illustrative, palettes } from "./figure.ts"
+import { regions, sheetIds, type SheetId, type Spec } from "../src/index.ts"
+import { drawn, figure, illustrative, palettes } from "./figure.ts"
 
 interface MapArgs {
   readonly spec: Spec
@@ -18,7 +18,7 @@ const meta = {
     palette: { control: "inline-radio", options: Object.keys(palettes) },
     locale: { control: "select", options: ["en", "fr", "de", "ja", "ar"] },
   },
-  loaders: [async ({ args }) => ({ scene: await draw(args.spec, { locale: args.locale }) })],
+  loaders: [async ({ args }) => ({ scene: await drawn(args.spec, { locale: args.locale }) })],
   render: (args, { loaded }) => figure(loaded["scene"], { palette: palettes[args.palette] }),
 } satisfies Meta<MapArgs>
 
@@ -159,6 +159,6 @@ interface BrowserArgs {
 export const SheetBrowser: StoryObj<BrowserArgs> = {
   args: { sheet: "JPN" },
   argTypes: { sheet: { control: "select", options: sheetIds } },
-  loaders: [async ({ args }) => ({ scene: await draw({ sheet: args.sheet }) })],
+  loaders: [async ({ args }) => ({ scene: await drawn({ sheet: args.sheet }) })],
   render: (_, { loaded }) => figure(loaded["scene"]),
 }

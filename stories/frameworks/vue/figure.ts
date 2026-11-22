@@ -4,6 +4,7 @@
 export { default as Credits } from "./Credits.vue"
 export { default as Details } from "./Details.vue"
 export { default as Insets } from "./Insets.vue"
+export { default as Issues } from "./Issues.vue"
 export { default as Legend } from "./Legend.vue"
 export { default as Map } from "./Map.vue"
 export { default as Root } from "./Root.vue"

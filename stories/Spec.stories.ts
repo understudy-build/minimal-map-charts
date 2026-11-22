@@ -33,10 +33,11 @@ const meta = {
   loaders: [
     async ({ args }) => {
       const parsed = parse(args.input)
+      const drawn = parsed.ok ? await draw(parsed.spec) : parsed
 
-      return parsed.ok
-        ? { scene: await draw(parsed.spec), issues: [] }
-        : { scene: undefined, issues: parsed.issues.map(describe) }
+      return drawn.ok
+        ? { scene: drawn.scene, issues: [] }
+        : { scene: undefined, issues: drawn.issues.map(describe) }
     },
   ],
   render: (_, { loaded }) =>

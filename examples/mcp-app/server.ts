@@ -16,7 +16,7 @@ import {
 import { McpServer } from "@modelcontextprotocol/server"
 import { StdioServerTransport } from "@modelcontextprotocol/server/stdio"
 
-import { draw, Spec } from "../../src/index.ts"
+import { describe, draw, Spec } from "../../src/index.ts"
 
 const view = "ui://map/view.html"
 
@@ -25,7 +25,8 @@ export const server = () => {
 
   // `Spec` is the tool's input schema as it is: the SDK lists its JSON Schema
   // to the model, and refuses a bad call with `parse`'s issues, which the
-  // model reads and fixes on its next turn.
+  // model reads and fixes on its next turn. `draw` refuses the rest, an area
+  // its country's sheet does not draw, in the same words.
   registerAppTool(
     mcp,
     "show_map",
@@ -37,13 +38,19 @@ export const server = () => {
       _meta: { ui: { resourceUri: view } },
     },
     async (spec) => {
-      const scene = await draw(spec)
+      const drawn = await draw(spec)
 
-      // The model reads the sentence; the view paints the scene.
-      return {
-        content: [{ type: "text", text: scene.description }],
-        structuredContent: { ...scene },
-      }
+      // The model reads the sentence, or what to fix in an area the sheet
+      // does not draw; the view paints the scene.
+      return drawn.ok
+        ? {
+            content: [{ type: "text", text: drawn.scene.description }],
+            structuredContent: { ...drawn.scene },
+          }
+        : {
+            content: [{ type: "text", text: drawn.issues.map(describe).join("\n") }],
+            isError: true,
+          }
     },
   )
 

@@ -1,15 +1,14 @@
 import { describe, expect, it } from "vitest"
 
-import { coded } from "../scripts/areas.ts"
 import { subdivision } from "../scripts/build-maps/iso.ts"
 import { despike, flat, spikes } from "../scripts/build-maps/tidy.ts"
 import { uncoded } from "../scripts/build-maps/uncoded.gen.ts"
 import type { Country } from "../src/countries.ts"
-import { areas } from "../src/data/areas.gen.ts"
 import { globe } from "../src/data/globe.gen.ts"
-import { draw, sheetIds } from "../src/index.ts"
+import { sheetIds } from "../src/index.ts"
 import { load, nations, type Steps } from "../src/sheet.ts"
 import { placed } from "./places.gen.ts"
+import { drawn } from "./values.ts"
 
 // Every outline a sheet draws, named for the failure message.
 const outlines = async (id: (typeof sheetIds)[number]) => {
@@ -45,7 +44,7 @@ describe("sheets", () => {
   )
 
   it("draws a country too small for a shape as a dot", async () => {
-    const scene = await draw({ sheet: "oceania", fill: { kind: "highlight", countries: ["NRU"] } })
+    const scene = await drawn({ sheet: "oceania", fill: { kind: "highlight", countries: ["NRU"] } })
 
     expect(scene.missing).toEqual([])
     expect(scene.shapes.find((shape) => shape.country === "NRU")).toMatchObject({
@@ -78,10 +77,6 @@ describe("subdivisions", () => {
     )
 
     expect(outside.toSorted()).toEqual((uncoded[country] ?? []).toSorted())
-  })
-
-  it("are indexed by the code each sheet draws them under; run `pnpm build:maps` if not", async () => {
-    expect(areas).toEqual(await coded())
   })
 
   it.each(nations)("%s gives no two areas the same code", async (country) => {

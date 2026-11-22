@@ -5,6 +5,7 @@ export {
   type Border,
   type Choice,
   draw,
+  type Drawn,
   type DrawOptions,
   type Inset,
   type Legend,

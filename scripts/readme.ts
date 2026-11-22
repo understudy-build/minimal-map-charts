@@ -128,9 +128,11 @@ await Promise.all(
   Object.entries(examples).map(async ([name, input]) => {
     const parsed = parse(input)
 
-    if (!parsed.ok) throw new Error(`${name}: ${parsed.issues.map(describe).join(" ")}`)
+    const drawn = parsed.ok ? await draw(parsed.spec) : parsed
 
-    writeFileSync(`${folder}${name}.svg`, svg(await draw(parsed.spec)))
+    if (!drawn.ok) throw new Error(`${name}: ${drawn.issues.map(describe).join(" ")}`)
+
+    writeFileSync(`${folder}${name}.svg`, svg(drawn.scene))
   }),
 )
 

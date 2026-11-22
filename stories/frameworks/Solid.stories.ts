@@ -5,7 +5,7 @@ import { growth, output } from "./examples.ts"
 import { FromModel, Ranked, Whole } from "./solid/examples.tsx"
 import { mount } from "./solid/mount.tsx"
 
-// The scene drawn with Solid: `useScene` is a resource read under Suspense,
+// The scene drawn with Solid: `useDrawn` is a resource read under Suspense,
 // and the `Figure` parts render it. stories/frameworks/solid/figure.tsx is
 // the whole recipe.
 const meta = {

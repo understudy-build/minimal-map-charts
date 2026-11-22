@@ -11,8 +11,10 @@ import {
 
 import {
   type Country,
+  describe,
   draw,
   type DrawOptions,
+  type Issue,
   light,
   paint,
   type Palette,
@@ -23,13 +25,21 @@ import { credit, entries, hint } from "../text.ts"
 
 // A Solid recipe for the scene: copy it into an app.
 
-// The scene for a spec, as a resource: reading it inside <Suspense> shows
-// the fallback until it is drawn, and it draws again when the spec changes.
-export const useScene = (spec: () => Spec, { locale = "en" }: DrawOptions = {}) => {
-  const [scene] = createResource(spec, (each) => draw(each, { locale }))
+// What `draw` returns for a spec, a scene or the areas its sheet does not
+// draw, as a resource: reading it inside <Suspense> shows the fallback until
+// it is drawn, and it draws again when the spec changes.
+export const useDrawn = (spec: () => Spec, { locale = "en" }: DrawOptions = {}) => {
+  const [drawn] = createResource(spec, (each) => draw(each, { locale }))
 
-  return scene
+  return drawn
 }
+
+// The lines a model would read, for a spec that does not parse or draw.
+const Issues = (props: { readonly issues: ReadonlyArray<Issue> }) => (
+  <ul role="alert" class="font-mono text-sm text-red-700">
+    <For each={props.issues}>{(issue) => <li>{describe(issue)}</li>}</For>
+  </ul>
+)
 
 // What every part of a figure reads: the scene, its palette and the country
 // the reader points at, and how to change it.
@@ -291,6 +301,7 @@ const Table = () => {
 // of your own with `useFigure`.
 export const Figure = {
   Root,
+  Issues,
   Title,
   Map: Shapes,
   Insets,

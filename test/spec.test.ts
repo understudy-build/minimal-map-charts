@@ -85,16 +85,13 @@ group("parse", () => {
     ])
   })
 
-  it("refuses an area its country's sheet does not draw under that code", () => {
-    // The Norway sheet draws Viken's 2024 successors under their source's
-    // codes, so NO-30 finds nothing.
-    expect(
-      refused({ fill: { kind: "highlight", areas: ["NO-30", "US-ZZ", "California"] } }),
-    ).toEqual([
-      'fill.areas.0: NO-30 has no area on the "NOR" sheet.',
-      'fill.areas.1: US-ZZ has no area on the "USA" sheet.',
-      'fill.areas.2: "California" is not a subdivision code. Use ISO 3166-2, e.g. "US-CA".',
+  it("refuses an area of a country with no map of its own, or not written as a code", () => {
+    // Which codes a sheet draws is `draw`'s to check, once it loads the sheet.
+    expect(refused({ fill: { kind: "highlight", areas: ["LY-TB", "California"] } })).toEqual([
+      "fill.areas.0: LY-TB has no area on any sheet: LBY has no map of its own.",
+      'fill.areas.1: "California" is not a subdivision code. Use ISO 3166-2, e.g. "US-CA".',
     ])
+    expect(parse({ fill: { kind: "highlight", areas: ["NO-30"] } }).ok).toBe(true)
   })
 
   it("refuses a fill that mixes countries and areas, or areas of two countries", () => {
@@ -339,7 +336,7 @@ group("JSON Schema", () => {
         },
       },
     ],
-    ["an area its sheet lacks", { fill: { kind: "highlight", areas: ["US-ZZ"] } }],
+    ["an area of a country with no map", { fill: { kind: "highlight", areas: ["LY-TB"] } }],
     ["areas of two countries", { fill: { kind: "highlight", areas: ["US-CA", "FR-IDF"] } }],
   ])("leaves %s to parse", (_, input) => {
     expect([validate(input), parse(input).ok]).toEqual([true, false])

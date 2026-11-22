@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite"
 
-import { draw, type Region, regions } from "../src/index.ts"
-import { figure, illustrative } from "./figure.ts"
+import { type Region, regions } from "../src/index.ts"
+import { drawn, figure, illustrative } from "./figure.ts"
 
 interface RegionArgs {
   readonly region: Region["id"]
@@ -22,7 +22,7 @@ const meta = {
       const region = regions[index]
 
       return {
-        scene: await draw({
+        scene: await drawn({
           sheet: args.region,
           title: capital(region?.name ?? args.region),
           source: "Illustrative values",

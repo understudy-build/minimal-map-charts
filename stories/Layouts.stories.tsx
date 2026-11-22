@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/html-vite"
 import type { ReactElement } from "react"
 
-import { type Country as Code, draw, type Layout } from "../src/index.ts"
-import { figure, illustrative } from "./figure.ts"
+import { type Country as Code, type Layout } from "../src/index.ts"
+import { drawn, figure, illustrative } from "./figure.ts"
 import { Country, Panel, Region, Sheet, layout } from "./sheet.tsx"
 
 interface LayoutArgs {
@@ -28,7 +28,7 @@ const meta = {
   argTypes: { sheet: { control: "object" } },
   loaders: [
     async ({ args }) => ({
-      scene: await draw({
+      scene: await drawn({
         sheet: args.sheet,
         title: "GDP growth, 2024 (%)",
         source: "Illustrative values",

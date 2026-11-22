@@ -1,11 +1,15 @@
 import {
   type Country,
   dark,
+  describe,
+  draw,
+  type DrawOptions,
   light,
   paint,
   type Palette,
   range,
   type Scene,
+  type Spec,
   svg,
 } from "../src/index.ts"
 
@@ -38,6 +42,16 @@ export const figure = (scene: Scene, { palette = light }: FigureOptions = {}) =>
 }
 
 export const palettes = { light, dark } as const
+
+// The scene for a spec a story writes itself: one `draw` refuses is a bug in
+// the story, so the story fails with the lines a model would read.
+export const drawn = async (spec: Spec, options?: DrawOptions): Promise<Scene> => {
+  const result = await draw(spec, options)
+
+  if (!result.ok) throw new Error(result.issues.map(describe).join("\n"))
+
+  return result.scene
+}
 
 // Illustrative numbers, not real statistics: stories need believable values
 // without implying a source.

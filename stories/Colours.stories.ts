@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite"
 
-import { dark, draw, light, regions, type Scene, type Spec, svg } from "../src/index.ts"
-import { figure, illustrative, palettes } from "./figure.ts"
+import { dark, light, regions, type Scene, type Spec, svg } from "../src/index.ts"
+import { drawn, figure, illustrative, palettes } from "./figure.ts"
 
 interface ColourArgs {
   readonly spec: Spec
@@ -15,7 +15,7 @@ const meta = {
   title: "Maps/Colour scales",
   args: { palette: "light" },
   argTypes: { palette: { control: "inline-radio", options: Object.keys(palettes) } },
-  loaders: [async ({ args }) => ({ scene: await draw(args.spec) })],
+  loaders: [async ({ args }) => ({ scene: await drawn(args.spec) })],
   render: (args, { loaded }) => figure(loaded["scene"], { palette: palettes[args.palette] }),
 } satisfies Meta<ColourArgs>
 

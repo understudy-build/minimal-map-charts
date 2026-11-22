@@ -10,6 +10,7 @@ import {
 import {
   type Country,
   draw,
+  type Drawn,
   type DrawOptions,
   type Palette,
   type Scene,
@@ -40,11 +41,12 @@ export const useFigure = (): Contract => {
   return contract
 }
 
-// The scene for a spec, drawn again when the spec changes. It keeps the last
-// scene on screen while the next one draws, and drops a draw a newer spec
-// has replaced.
-export const useScene = (spec: MaybeRefOrGetter<Spec>, { locale = "en" }: DrawOptions = {}) => {
-  const scene = shallowRef<Scene>()
+// What `draw` returns for a spec, a scene or the areas its sheet does not
+// draw, drawn again when the spec changes. It keeps the last result on
+// screen while the next one draws, and drops a draw a newer spec has
+// replaced.
+export const useDrawn = (spec: MaybeRefOrGetter<Spec>, { locale = "en" }: DrawOptions = {}) => {
+  const drawn = shallowRef<Drawn>()
 
   watchEffect((onCleanup) => {
     let live = true
@@ -52,10 +54,10 @@ export const useScene = (spec: MaybeRefOrGetter<Spec>, { locale = "en" }: DrawOp
     onCleanup(() => {
       live = false
     })
-    void draw(toValue(spec), { locale }).then((drawn) => {
-      if (live) scene.value = drawn
+    void draw(toValue(spec), { locale }).then((result) => {
+      if (live) drawn.value = result
     })
   })
 
-  return scene
+  return drawn
 }

@@ -15,7 +15,7 @@ import {
   type SheetId,
   type Steps,
 } from "./sheet.ts"
-import { named, type Spec, type Value } from "./spec.ts"
+import { type Fill, type Issue, named, type Spec, type Value } from "./spec.ts"
 
 // How a shape is coloured: blank, one of the legend's shades, picked out by a
 // highlight, or context only (land shown for location, with no value). A
@@ -114,6 +114,12 @@ export interface Row {
   readonly value: number | undefined
   readonly tone: Tone
 }
+
+// A scene, or why the spec cannot be drawn: `parse` checks an area's code
+// without its sheet, and only the sheet knows which codes it draws.
+export type Drawn =
+  | { readonly ok: true; readonly scene: Scene }
+  | { readonly ok: false; readonly issues: ReadonlyArray<Issue> }
 
 export interface DrawOptions {
   // A BCP 47 locale for country names and numbers. Defaults to "en".
@@ -242,10 +248,29 @@ const fromLayout = async (layout: Layout, codes: ReadonlyArray<Country>): Promis
   }
 }
 
+// Each area the fill names that the sheet does not draw under that code.
+const undrawn = (fill: Fill | undefined, drawn: ReadonlySet<string>): ReadonlyArray<Issue> => {
+  const given =
+    fill === undefined
+      ? []
+      : fill.kind === "choropleth"
+        ? fill.values.flatMap((each, index) =>
+            "area" in each ? [{ area: each.area, at: ["fill", "values", index, "area"] }] : [],
+          )
+        : "areas" in fill
+          ? fill.areas.map((area, index) => ({ area, at: ["fill", "areas", index] }))
+          : []
+
+  return given.flatMap(({ area, at }): ReadonlyArray<Issue> =>
+    drawn.has(area) ? [] : [{ kind: "NoArea", path: at, area }],
+  )
+}
+
 // Resolves a spec into a scene: picks the sheet, or crops sheets into the
 // layout's panels, and classes the values. A page downloads only the sheets
-// it draws.
-export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene> => {
+// it draws. It refuses an area the sheet does not draw rather than leave it
+// blank.
+export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Drawn> => {
   const locale = options.locale ?? "en"
   const target = named(spec.fill)
   // The countries the map is about: those the fill names, or the one whose
@@ -257,6 +282,17 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
       ? target.country
       : (frames(codes)[0] ?? "world"))
   const canvas = typeof id === "object" ? await fromLayout(id, codes) : await fromSheet(id)
+
+  // Each area's name as its sheet gives it, on the map or in an inset.
+  const areaNames = new Map(
+    [...canvas.borders, ...canvas.insets.flatMap((inset) => inset.borders)].map((border) => [
+      border.code,
+      border.name,
+    ]),
+  )
+  const issues = undrawn(spec.fill, new Set(areaNames.keys()))
+
+  if (issues.length > 0) return { ok: false, issues }
 
   const name = names(locale)
   const numbers = new Intl.NumberFormat(locale, { maximumFractionDigits: 2 })
@@ -361,14 +397,6 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
     borders: inset.borders,
   }))
 
-  // Each area's name as its sheet gives it, on the map or in an inset.
-  const areaNames = new Map(
-    [...canvas.borders, ...canvas.insets.flatMap((inset) => inset.borders)].map((border) => [
-      border.code,
-      border.name,
-    ]),
-  )
-
   const rows = (
     target.kind === "countries"
       ? target.codes.map((code): Row => ({
@@ -401,7 +429,7 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
         ? `${rows.map((row) => row.name).join(", ")} highlighted`
         : `${values.size} ${target.kind} shaded in ${classed?.classes ?? 0} classes${fill.better === undefined ? "" : `, ${fill.better} is better`}`
 
-  return {
+  const scene: Scene = {
     sheet: id,
     choice: spec.sheet === undefined ? "Derived" : "Given",
     width: canvas.width,
@@ -420,4 +448,6 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
     rows,
     description: `${spec.title === undefined ? "" : `${spec.title}. `}Map of ${where}: ${what}.`,
   }
+
+  return { ok: true, scene }
 }
