@@ -14,9 +14,9 @@ export const catalog = {
   catalogId: id,
   protocolVersion: "1.0",
   title: "Maps",
-  description: "A map of countries, drawn from a spec.",
+  description: "A map of countries, or of one country's areas, drawn from a spec.",
   instructions:
-    "To show where countries are, or a number per country, use a Map. Give `fill` and leave out `sheet`.",
+    "To show where countries or a country's areas are, or a number for each, use a Map. Give `fill` and leave out `sheet`.",
   components: {
     Map: {
       type: "object",

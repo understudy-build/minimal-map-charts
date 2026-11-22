@@ -1,3 +1,4 @@
+export type { Area } from "./areas.ts"
 export type { Colour } from "./colour.ts"
 export { type Country, countries } from "./countries.ts"
 export {
@@ -7,6 +8,7 @@ export {
   type DrawOptions,
   type Inset,
   type Legend,
+  type Patch,
   type Row,
   type Scene,
   type Shape,

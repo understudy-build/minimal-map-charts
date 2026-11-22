@@ -81,6 +81,39 @@ export const CountryWithSubdivisions: Story = {
   args: { spec: { sheet: "FRA", fill: { kind: "highlight", countries: ["FRA"] } } },
 }
 
+// A country's areas by ISO 3166-2 code: US codes draw the United States
+// sheet, Alaska and Hawaii included, and states without a value show as no
+// data.
+export const AreaChoropleth: Story = {
+  args: {
+    spec: {
+      title: "Seven western states",
+      source: "Illustrative values",
+      fill: {
+        kind: "choropleth",
+        values: (["US-AK", "US-AZ", "US-CA", "US-CO", "US-HI", "US-ID", "US-MT"] as const).map(
+          (area, index) => ({ area, value: 10 + ((index * 7) % 13) }),
+        ),
+        scale: { kind: "quantile", classes: 3 },
+      },
+    },
+  },
+}
+
+// Areas picked out in one colour.
+export const AreaHighlight: Story = {
+  args: {
+    spec: {
+      title: "Regions on the Atlantic",
+      fill: {
+        kind: "highlight",
+        areas: ["FR-BRE", "FR-NAQ", "FR-NOR", "FR-PDL"],
+        colour: "#00838f",
+      },
+    },
+  },
+}
+
 // National sheets credit their publisher, here the ONS under the OGL.
 export const StatisticalRegions: Story = {
   args: { spec: { sheet: "GBR", title: "United Kingdom, ITL1 regions" } },

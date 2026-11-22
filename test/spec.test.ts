@@ -15,6 +15,20 @@ const choropleth = (values: Record<string, unknown>, extra: Record<string, unkno
   },
 })
 
+// Area values written as a record, as `choropleth` writes countries'.
+const states = (values: Record<string, unknown>) => ({
+  fill: {
+    kind: "choropleth",
+    values: Object.entries(values).map(([area, value]) => ({ area, value })),
+  },
+})
+
+const refused = (input: unknown) => {
+  const result = parse(input)
+
+  return !result.ok && result.issues.map(describe)
+}
+
 const issues = (scale: Record<string, unknown>) => {
   const result = parse(choropleth({ FRA: 1 }, { scale }))
 
@@ -40,14 +54,68 @@ group("parse", () => {
     expect(parse(input)).toEqual({ ok: true, spec: input })
   })
 
+  it("accepts the areas of one country, on its own sheet or with none", () => {
+    const shaded = { sheet: "USA", source: "U.S. Census Bureau", ...states({ "US-CA": 39 }) }
+    const picked = { fill: { kind: "highlight", areas: ["FR-IDF", "FR-BRE"] } }
+
+    expect(parse(shaded)).toEqual({ ok: true, spec: shaded })
+    expect(parse(picked)).toEqual({ ok: true, spec: picked })
+  })
+
   it("suggests the code for a name, an alpha-2 code or the wrong case", () => {
     const result = parse({ fill: { kind: "highlight", countries: ["France", "DE", "ita"] } })
+    const areas = parse({ fill: { kind: "highlight", areas: ["us-ca", "USA-TX", "US.NY"] } })
 
     expect(result.ok).toBe(false)
     expect(
       !result.ok &&
         result.issues.map((issue) => issue.kind === "UnknownCountry" && issue.suggestion),
     ).toEqual(["FRA", "DEU", "ITA"])
+    expect(
+      !areas.ok && areas.issues.map((issue) => issue.kind === "UnknownArea" && issue.suggestion),
+    ).toEqual(["US-CA", "US-TX", "US-NY"])
+  })
+
+  it("moves a subdivision given as a country to the key that takes it", () => {
+    expect(refused({ sheet: "USA", ...choropleth({ "US-CA": 39 }) })).toEqual([
+      'fill.values.0.country: expected a country code; give the subdivision "US-CA" in `area`.',
+    ])
+    expect(refused({ fill: { kind: "highlight", countries: ["FR-IDF"] } })).toEqual([
+      'fill.countries.0: expected a country code; give the subdivision "FR-IDF" in `areas`.',
+    ])
+  })
+
+  it("refuses an area its country's sheet does not draw under that code", () => {
+    // The Norway sheet draws Viken's 2024 successors under their source's
+    // codes, so NO-30 finds nothing.
+    expect(
+      refused({ fill: { kind: "highlight", areas: ["NO-30", "US-ZZ", "California"] } }),
+    ).toEqual([
+      'fill.areas.0: NO-30 has no area on the "NOR" sheet.',
+      'fill.areas.1: US-ZZ has no area on the "USA" sheet.',
+      'fill.areas.2: "California" is not a subdivision code. Use ISO 3166-2, e.g. "US-CA".',
+    ])
+  })
+
+  it("refuses a fill that mixes countries and areas, or areas of two countries", () => {
+    expect(
+      refused({
+        fill: {
+          kind: "choropleth",
+          values: [
+            { area: "US-CA", value: 1 },
+            { country: "FRA", value: 2 },
+            { area: "FR-IDF", value: 3 },
+          ],
+        },
+      }),
+    ).toEqual([
+      "fill.values.1.country: expected an area, as the first value names: a fill colours countries or areas, not both.",
+      "fill.values.2.area: expected an area of USA, as the first is: a map draws one country's areas.",
+    ])
+    expect(refused({ fill: { kind: "highlight", countries: ["FRA"], areas: ["FR-IDF"] } })).toEqual(
+      ["fill: expected either `countries` or `areas`, not both."],
+    )
   })
 
   it("names the sheets that would hold every country when one is off the given sheet", () => {
@@ -59,12 +127,23 @@ group("parse", () => {
         {
           kind: "NotOnSheet",
           path: ["fill", "values", 1],
-          country: "BRA",
+          code: "BRA",
           sheet: "europe",
           sheets: ["world"],
         },
       ],
     })
+  })
+
+  it("names the sheet that holds the areas when another sheet is given", () => {
+    expect(refused({ sheet: "FRA", ...states({ "US-CA": 39 }) })).toEqual([
+      'fill.values.0: US-CA is not on the "FRA" sheet. Sheets that hold every area: USA.',
+    ])
+    expect(
+      refused({ sheet: { places: ["USA"] }, fill: { kind: "highlight", areas: ["US-CA"] } }),
+    ).toEqual([
+      'sheet: expected the "USA" sheet, or none: a country\'s areas draw only on its own map.',
+    ])
   })
 
   it("refuses unknown keys, so a typo is not silently ignored", () => {
@@ -214,6 +293,27 @@ group("JSON Schema", () => {
     ],
     ["named colour", choropleth({ FRA: 1 }, { scale: { kind: "quantile", colour: "green" } })],
     ["highlight colour", { fill: { kind: "highlight", countries: ["FRA"], colour: "#ef6c00" } }],
+    ["area choropleth", states({ "US-CA": 39, "US-TX": 29 })],
+    ["area highlight", { fill: { kind: "highlight", areas: ["FR-IDF"], colour: "#ef6c00" } }],
+    ["area in lower case", { fill: { kind: "highlight", areas: ["fr-idf"] } }],
+    [
+      "countries and areas",
+      {
+        fill: {
+          kind: "choropleth",
+          values: [
+            { area: "US-CA", value: 1 },
+            { country: "FRA", value: 2 },
+          ],
+        },
+      },
+    ],
+    [
+      "countries and areas in a highlight",
+      {
+        fill: { kind: "highlight", countries: ["FRA"], areas: ["FR-IDF"] },
+      },
+    ],
   ]
 
   const later = new Ajv2020({ strict: false }).compile(schema)
@@ -239,6 +339,8 @@ group("JSON Schema", () => {
         },
       },
     ],
+    ["an area its sheet lacks", { fill: { kind: "highlight", areas: ["US-ZZ"] } }],
+    ["areas of two countries", { fill: { kind: "highlight", areas: ["US-CA", "FR-IDF"] } }],
   ])("leaves %s to parse", (_, input) => {
     expect([validate(input), parse(input).ok]).toEqual([true, false])
   })
@@ -260,6 +362,23 @@ group("strict JSON Schema", () => {
     expect(parse(full)).toEqual({
       ok: true,
       spec: { title: "Euro area members", fill: { kind: "highlight", countries: ["FRA", "DEU"] } },
+    })
+  })
+
+  it("takes a highlight of areas, with null for its colour", () => {
+    const areas = {
+      ...full,
+      title: "The West Coast",
+      fill: { kind: "highlight", areas: ["US-CA", "US-OR", "US-WA"], colour: null },
+    }
+
+    expect(validateStrict(areas)).toBe(true)
+    expect(parse(areas)).toEqual({
+      ok: true,
+      spec: {
+        title: "The West Coast",
+        fill: { kind: "highlight", areas: ["US-CA", "US-OR", "US-WA"] },
+      },
     })
   })
 

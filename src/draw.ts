@@ -1,12 +1,13 @@
+import { type Area, isArea } from "./areas.ts"
 import type { Colour } from "./colour.ts"
 import type { Frame } from "./compose.ts"
 import { type Country, countries, names } from "./countries.ts"
-import { frames } from "./frame.ts"
+import { frames, isSheet } from "./frame.ts"
 import type { Layout } from "./layout.ts"
 import { regions } from "./regions.ts"
 import { type Bin, classify, type Shade } from "./scale.ts"
 import {
-  type Area,
+  type Area as SheetArea,
   type Credit,
   credits,
   type Inset as SheetInset,
@@ -14,7 +15,7 @@ import {
   type SheetId,
   type Steps,
 } from "./sheet.ts"
-import { named, type Spec } from "./spec.ts"
+import { named, type Spec, type Value } from "./spec.ts"
 
 // How a shape is coloured: blank, one of the legend's shades, picked out by a
 // highlight, or context only (land shown for location, with no value). A
@@ -43,6 +44,17 @@ export interface Border {
   readonly path: string
 }
 
+// An area the fill names, drawn over its country's shape and under the
+// borders.
+export interface Patch {
+  readonly area: Area
+  readonly name: string
+  readonly value: number | undefined
+  readonly tone: Tone
+  readonly path: string
+  readonly label: string
+}
+
 // An overseas area in its own box, `width` by `height` units.
 export interface Inset {
   readonly name: string
@@ -52,6 +64,7 @@ export interface Inset {
   readonly tone: Tone
   readonly path: string
   readonly label: string
+  readonly patches: ReadonlyArray<Patch>
   readonly borders: ReadonlyArray<Border>
 }
 
@@ -78,6 +91,7 @@ export interface Scene {
   readonly source: string | undefined
   readonly land: string
   readonly shapes: ReadonlyArray<Shape>
+  readonly patches: ReadonlyArray<Patch>
   readonly borders: ReadonlyArray<Border>
   readonly insets: ReadonlyArray<Inset>
   readonly legend: Legend | undefined
@@ -85,8 +99,8 @@ export interface Scene {
   // the world. The rows still list them.
   readonly missing: ReadonlyArray<Country>
   readonly credits: ReadonlyArray<Credit>
-  // One row per country in the fill, highest value first: the table every
-  // renderer offers beside the map.
+  // One row per country or area in the fill, highest value first: the table
+  // every renderer offers beside the map.
   readonly rows: ReadonlyArray<Row>
   // One sentence describing the map for assistive technology.
   readonly description: string
@@ -94,6 +108,8 @@ export interface Scene {
 
 export interface Row {
   readonly country: Country
+  // The area the row is about, when the fill names areas of `country`.
+  readonly area: Area | undefined
   readonly name: string
   readonly value: number | undefined
   readonly tone: Tone
@@ -144,7 +160,7 @@ interface Canvas {
   readonly where: (name: (code: Country) => string) => string
 }
 
-const borders = (area: Area): Border => ({
+const borders = (area: SheetArea): Border => ({
   code: area.code,
   name: area.name,
   path: path(area.outline),
@@ -231,19 +247,29 @@ const fromLayout = async (layout: Layout, codes: ReadonlyArray<Country>): Promis
 // it draws.
 export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene> => {
   const locale = options.locale ?? "en"
-  const codes = named(spec.fill)
-  const id = spec.sheet ?? frames(codes)[0] ?? "world"
+  const target = named(spec.fill)
+  // The countries the map is about: those the fill names, or the one whose
+  // areas it names.
+  const codes = target.kind === "countries" ? target.codes : [target.country]
+  const id =
+    spec.sheet ??
+    (target.kind === "areas" && isSheet(target.country)
+      ? target.country
+      : (frames(codes)[0] ?? "world"))
   const canvas = typeof id === "object" ? await fromLayout(id, codes) : await fromSheet(id)
 
   const name = names(locale)
   const numbers = new Intl.NumberFormat(locale, { maximumFractionDigits: 2 })
 
   const { fill } = spec
-  const values = new Map<Country, number>(
-    fill?.kind === "choropleth" ? fill.values.map((each) => [each.country, each.value]) : [],
+  const given: ReadonlyArray<Value> = fill?.kind === "choropleth" ? fill.values : []
+  const values = new Map<Country | Area, number>(
+    given.map((each) => ["area" in each ? each.area : each.country, each.value]),
   )
 
-  const picked = new Set<Country>(fill?.kind === "highlight" ? fill.countries : [])
+  const picked = new Set<Country | Area>(
+    fill?.kind === "highlight" ? ("areas" in fill ? fill.areas : fill.countries) : [],
+  )
   const classed =
     fill?.kind === "choropleth" ? classify([...values.values()], fill.scale) : undefined
 
@@ -252,22 +278,52 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
     colour: fill?.kind === "highlight" ? fill.colour : undefined,
   }
 
-  const toneOf = (code: Country): Tone => {
+  const toneOf = (code: Country | Area): Tone => {
     if (picked.has(code)) return accent
 
     const value = values.get(code)
 
     if (value !== undefined && classed !== undefined) return classed.shadeOf(value)
 
-    return canvas.members === undefined || canvas.members.has(code) ? blank : context
+    return canvas.members === undefined || isArea(code) || canvas.members.has(code)
+      ? blank
+      : context
   }
 
-  const labelOf = (code: Country) => {
-    const value = values.get(code)
+  const labelled = (text: string, value: number | undefined) =>
+    fill?.kind === "choropleth"
+      ? `${text}: ${value === undefined ? "No data" : numbers.format(value)}`
+      : text
 
-    if (fill?.kind !== "choropleth") return name(code)
+  // In a fill of areas their country has no value of its own: its shape
+  // shows blank where an area has none, and is only context once its areas
+  // cover it.
+  const covered = new Set<string>(target.kind === "areas" ? target.codes : [])
+  const under = (parts: ReadonlyArray<Border>): Tone =>
+    parts.every((part) => covered.has(part.code)) ? context : blank
+  const owned = (code: Country) => target.kind === "areas" && code === target.country
 
-    return `${name(code)}: ${value === undefined ? "No data" : numbers.format(value)}`
+  const labelOf = (code: Country) =>
+    owned(code) ? name(code) : labelled(name(code), values.get(code))
+
+  const patch = (border: Border): ReadonlyArray<Patch> => {
+    const area =
+      target.kind === "areas" ? target.codes.find((code) => code === border.code) : undefined
+
+    if (area === undefined) return []
+
+    const value = values.get(area)
+
+    return [
+      {
+        area,
+        name: border.name,
+        value,
+        tone: toneOf(area),
+        path: border.path,
+        label: labelled(border.name, value),
+      },
+    ]
   }
 
   const shapes = countries.flatMap(({ code }): ReadonlyArray<Shape> => {
@@ -280,7 +336,7 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
             country: code,
             name: name(code),
             value: values.get(code),
-            tone: toneOf(code),
+            tone: owned(code) ? under(canvas.borders) : toneOf(code),
             path: drawn,
             label: labelOf(code),
           },
@@ -292,22 +348,44 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
     country: inset.country,
     width: inset.width,
     height: inset.height,
-    tone: inset.context ? context : toneOf(inset.country),
+    tone: inset.context
+      ? context
+      : owned(inset.country)
+        ? under(inset.borders)
+        : toneOf(inset.country),
     path: inset.path,
     label: inset.context
       ? `${inset.name}, ${name(inset.country)}: location only`
       : `${inset.name}, ${labelOf(inset.country)}`,
+    patches: inset.borders.flatMap(patch),
     borders: inset.borders,
   }))
 
-  const rows = codes
-    .map((code) => ({
-      country: code,
-      name: name(code),
-      value: values.get(code),
-      tone: toneOf(code),
-    }))
-    .toSorted((left, right) => (right.value ?? 0) - (left.value ?? 0))
+  // Each area's name as its sheet gives it, on the map or in an inset.
+  const areaNames = new Map(
+    [...canvas.borders, ...canvas.insets.flatMap((inset) => inset.borders)].map((border) => [
+      border.code,
+      border.name,
+    ]),
+  )
+
+  const rows = (
+    target.kind === "countries"
+      ? target.codes.map((code): Row => ({
+          country: code,
+          area: undefined,
+          name: name(code),
+          value: values.get(code),
+          tone: toneOf(code),
+        }))
+      : target.codes.map((area): Row => ({
+          country: target.country,
+          area,
+          name: areaNames.get(area) ?? area,
+          value: values.get(area),
+          tone: toneOf(area),
+        }))
+  ).toSorted((left, right) => (right.value ?? 0) - (left.value ?? 0))
 
   const drawn = new Set(shapes.map((shape) => shape.country))
   const legend =
@@ -320,8 +398,8 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
     fill === undefined
       ? "countries"
       : fill.kind === "highlight"
-        ? `${fill.countries.map(name).join(", ")} highlighted`
-        : `${values.size} countries shaded in ${classed?.classes ?? 0} classes${fill.better === undefined ? "" : `, ${fill.better} is better`}`
+        ? `${rows.map((row) => row.name).join(", ")} highlighted`
+        : `${values.size} ${target.kind} shaded in ${classed?.classes ?? 0} classes${fill.better === undefined ? "" : `, ${fill.better} is better`}`
 
   return {
     sheet: id,
@@ -333,10 +411,11 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
     source: spec.source,
     land: canvas.land,
     shapes,
+    patches: canvas.borders.flatMap(patch),
     borders: canvas.borders,
     insets,
     legend,
-    missing: codes.filter((code) => !drawn.has(code)),
+    missing: target.kind === "countries" ? codes.filter((code) => !drawn.has(code)) : [],
     credits: canvas.credits,
     rows,
     description: `${spec.title === undefined ? "" : `${spec.title}. `}Map of ${where}: ${what}.`,

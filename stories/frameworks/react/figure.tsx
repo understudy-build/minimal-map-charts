@@ -1,6 +1,7 @@
 import { createContext, type ReactNode, use, useState } from "react"
 
 import {
+  type Area,
   type Country,
   draw,
   type DrawOptions,
@@ -30,15 +31,15 @@ export const useScene = (spec: Spec, { locale = "en" }: DrawOptions = {}): Scene
 }
 
 // What every part of a figure reads: the scene, its palette and the country
-// the reader points at, and how to change it.
+// or area the reader points at, and how to change it.
 interface Contract {
   readonly state: {
     readonly scene: Scene
     readonly palette: Palette
-    readonly active: Country | undefined
+    readonly active: Country | Area | undefined
   }
   readonly actions: {
-    readonly activate: (country: Country | undefined) => void
+    readonly activate: (code: Country | Area | undefined) => void
   }
 }
 
@@ -60,7 +61,7 @@ interface RootProps {
 }
 
 const Root = ({ scene, palette = light, children }: RootProps) => {
-  const [active, activate] = useState<Country>()
+  const [active, activate] = useState<Country | Area>()
 
   return (
     <Context value={{ state: { scene, palette, active }, actions: { activate } }}>
@@ -82,15 +83,20 @@ const Title = () => {
   )
 }
 
-// The map itself. Countries in the fill take focus and report the one the
-// reader points at; the active country is outlined on top.
+// What the reader points at: a country's shape, or an area's patch.
+const pointed = (scene: Scene, active: Country | Area | undefined) =>
+  scene.patches.find((patch) => patch.area === active) ??
+  scene.shapes.find((shape) => shape.country === active)
+
+// The map itself. Countries and areas in the fill take focus and report the
+// one the reader points at; the active one is outlined on top.
 const Shapes = () => {
   const {
     state: { scene, palette, active },
     actions: { activate },
   } = useFigure()
-  const listed = new Set(scene.rows.map((row) => row.country))
-  const outlined = scene.shapes.find((shape) => shape.country === active)
+  const listed = new Set(scene.rows.map((row) => row.area ?? row.country))
+  const outlined = pointed(scene, active)
 
   return (
     <svg
@@ -123,6 +129,25 @@ const Shapes = () => {
           </path>
         )
       })}
+      {scene.patches.map((patch) => (
+        <path
+          key={patch.area}
+          d={patch.path}
+          fill={paint(patch.tone, { palette })}
+          stroke={palette.stroke}
+          strokeWidth={0.5}
+          role="img"
+          aria-label={patch.label}
+          tabIndex={0}
+          className="outline-none"
+          onPointerEnter={() => activate(patch.area)}
+          onPointerLeave={() => activate(undefined)}
+          onFocus={() => activate(patch.area)}
+          onBlur={() => activate(undefined)}
+        >
+          <title>{patch.label}</title>
+        </path>
+      ))}
       {scene.borders.map((border) => (
         <path
           key={border.code}
@@ -166,6 +191,17 @@ const Insets = () => {
               stroke={palette.stroke}
               strokeWidth={1.5}
             />
+            {inset.patches.map((patch) => (
+              <path
+                key={patch.area}
+                d={patch.path}
+                fill={paint(patch.tone, { palette })}
+                stroke={palette.stroke}
+                strokeWidth={1.5}
+              >
+                <title>{patch.label}</title>
+              </path>
+            ))}
           </svg>
           <span className="text-xs" style={{ color: palette.muted }}>
             {inset.name}
@@ -200,10 +236,11 @@ const Legend = () => {
   )
 }
 
-// The active country's value, announced to screen readers as it changes.
+// The active country's or area's value, announced to screen readers as it
+// changes.
 const Details = () => {
   const { scene, palette, active } = useFigure().state
-  const shape = scene.shapes.find((each) => each.country === active)
+  const shape = pointed(scene, active)
 
   return (
     <output aria-live="polite" className="min-h-6 text-sm" style={{ color: palette.muted }}>
@@ -233,13 +270,15 @@ const Table = () => {
       <table className="mt-2 border-collapse">
         <thead>
           <tr>
-            <th className="pr-6 text-left">Country</th>
+            <th className="pr-6 text-left">
+              {scene.rows.some((row) => row.area !== undefined) ? "Area" : "Country"}
+            </th>
             <th className="text-right">Value</th>
           </tr>
         </thead>
         <tbody>
           {scene.rows.map((row) => (
-            <tr key={row.country}>
+            <tr key={row.area ?? row.country}>
               <td className="pr-6">{row.name}</td>
               <td className="text-right tabular-nums">{row.value ?? "No data"}</td>
             </tr>

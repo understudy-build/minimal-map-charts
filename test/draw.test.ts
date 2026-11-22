@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest"
 
 import {
+  type Area,
   type Country,
   dark,
   draw,
@@ -16,6 +17,22 @@ import { values } from "./values.ts"
 const choropleth = (record: Readonly<Partial<Record<Country, number>>>): Spec => ({
   fill: { kind: "choropleth", values: values(record) },
 })
+
+const states = (record: Readonly<Record<Area, number>>): Spec => ({
+  fill: {
+    kind: "choropleth",
+    values: Object.entries(record).map(([area, value]) => ({ area: area as Area, value })),
+  },
+})
+
+// Every area the United States sheet draws, on the map and in its insets.
+const everyState = async () => {
+  const blank = await draw({ sheet: "USA" })
+
+  return [...blank.borders, ...blank.insets.flatMap((inset) => inset.borders)].map(
+    (border) => border.code as Area,
+  )
+}
 
 describe("draw", () => {
   it("frames the narrowest region holding every country", async () => {
@@ -60,6 +77,50 @@ describe("draw", () => {
     expect(scene.rows.map((row) => row.country)).toEqual(["POL", "ESP", "ITA", "DEU", "FRA"])
   })
 
+  it("shades a country's areas on its own map, insets included", async () => {
+    const scene = await draw(states({ "US-CA": 39, "US-TX": 29, "US-AK": 0.7 }))
+    const alaska = scene.insets.find((inset) => inset.name === "Alaska")
+
+    expect([scene.sheet, scene.choice]).toEqual(["USA", "Derived"])
+    expect(scene.patches.map((patch) => [patch.area, patch.label])).toEqual([
+      ["US-CA", "California: 39"],
+      ["US-TX", "Texas: 29"],
+    ])
+    expect(alaska?.patches.map((patch) => patch.tone)).toEqual([
+      { kind: "shade", strength: 0, colour: undefined },
+    ])
+    expect(scene.shapes.map((shape) => [shape.country, shape.tone, shape.label])).toEqual([
+      ["USA", { kind: "blank" }, "United States"],
+    ])
+    expect(scene.rows.map((row) => [row.area, row.name, row.value])).toEqual([
+      ["US-CA", "California", 39],
+      ["US-TX", "Texas", 29],
+      ["US-AK", "Alaska", 0.7],
+    ])
+    expect(scene.legend?.bins.map((bin) => [bin.low, bin.high])).toEqual([
+      [0.7, 0.7],
+      [29, 29],
+      [39, 39],
+    ])
+    expect(scene.description).toBe("Map of United States: 3 areas shaded in 5 classes.")
+  })
+
+  it("picks out highlighted areas and names them", async () => {
+    const scene = await draw({
+      title: "Founding regions",
+      fill: { kind: "highlight", areas: ["FR-BRE", "FR-IDF"], colour: "#ef6c00" },
+    })
+
+    expect(scene.sheet).toBe("FRA")
+    expect(scene.patches.map((patch) => [patch.area, patch.tone])).toEqual([
+      ["FR-BRE", { kind: "accent", colour: "#ef6c00" }],
+      ["FR-IDF", { kind: "accent", colour: "#ef6c00" }],
+    ])
+    expect(scene.description).toBe(
+      "Founding regions. Map of France: Bretagne, Île-de-France highlighted.",
+    )
+  })
+
   it("lists countries too small to draw, and keeps them in the rows", async () => {
     const scene = await draw(choropleth({ SGP: 3, USA: 2 }))
 
@@ -101,6 +162,21 @@ describe("draw", () => {
 })
 
 describe("svg", () => {
+  it("fills the areas a fill names, and shows no data only where an area has none", async () => {
+    const codes = await everyState()
+    const all = svg(
+      await draw(states(Object.fromEntries(codes.map((code, index) => [code, index])))),
+    )
+    const some = svg(await draw(states({ "US-CA": 39 })))
+
+    expect(some).toMatch(
+      /data-area="US-CA" fill="#[0-9a-f]{6}" [^>]*><title>California: 39<\/title>/,
+    )
+    expect(some).toContain("No data")
+    expect(all).toMatch(/data-area="US-AK" fill="#[0-9a-f]{6}" [^>]*><title>Alaska: /)
+    expect(all).not.toContain("No data")
+  })
+
   it("draws a standalone document with its title, legend and credits", async () => {
     const result = parse({
       title: "Growth <2024>",

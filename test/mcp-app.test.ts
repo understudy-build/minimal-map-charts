@@ -52,6 +52,27 @@ describe("the MCP App example", () => {
     expect(result.structuredContent).toMatchObject({ sheet: "europe", title: "Members" })
   })
 
+  it("draws one country's areas, and says where an area belongs", async () => {
+    const client = await connect()
+    const drawn = await client.callTool({
+      name: "show_map",
+      arguments: { fill: { kind: "highlight", areas: ["US-CA", "US-TX"] } },
+    })
+    const refused = await client.callTool({
+      name: "show_map",
+      arguments: { fill: { kind: "choropleth", values: [{ country: "US-CA", value: 39 }] } },
+    })
+
+    expect(text(drawn)).toBe("Map of United States: California, Texas highlighted.")
+    expect(drawn.structuredContent).toMatchObject({
+      sheet: "USA",
+      patches: [{ area: "US-CA" }, { area: "US-TX" }],
+    })
+    expect(text(refused)).toContain(
+      'fill.values.0.country: expected a country code; give the subdivision "US-CA" in `area`.',
+    )
+  })
+
   it("tells the model how to fix a bad spec", async () => {
     const client = await connect()
     const result = await client.callTool({

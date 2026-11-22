@@ -64,6 +64,27 @@ const specs: ReadonlyArray<readonly [string, Spec]> = [
     },
   ],
   [
+    "a choropleth of areas",
+    {
+      title: "Population, millions",
+      fill: {
+        kind: "choropleth",
+        values: [
+          { area: "US-CA", value: 39.5 },
+          { area: "US-TX", value: 29.1 },
+          { area: "US-FL", value: 21.5 },
+        ],
+        better: "higher",
+      },
+    },
+  ],
+  [
+    "a highlight of areas whose codes start others",
+    {
+      fill: { kind: "highlight", areas: ["RU-MO", "RU-MOW", "RU-AL", "RU-ALT"], colour: "#ef6c00" },
+    },
+  ],
+  [
     "a highlight on a layout",
     {
       sheet: { places: ["USA", { country: "FRA", insets: false }], scale: "fit" },
@@ -97,6 +118,12 @@ describe("partial", () => {
     )
 
     expect(partial(cut)).toEqual({ fill: { kind: "choropleth", values: [] } })
+  })
+
+  it("holds back the area a stream ends on, which may grow into another", () => {
+    const cut = heal('{"fill":{"kind":"highlight","areas":["RU-MOW","RU-MO', Allow.ALL)
+
+    expect(partial(cut)).toEqual({ fill: { kind: "highlight", areas: ["RU-MOW"] } })
   })
 
   it("leaves out a code half written, and text reads as far as it goes", () => {

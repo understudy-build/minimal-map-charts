@@ -57,19 +57,25 @@ const last = (input: unknown): Path => {
   return key === undefined ? [] : [key, ...last(input[key])]
 }
 
+// Whether the value a stream ends on may still grow into another: a number
+// may gain digits, and an area code may be the start of another, as RU-MO is
+// of RU-MOW. No other id is a prefix of another, so a country code cut short
+// never passes for a different one.
+const growing = (end: Path, leaf: unknown) =>
+  typeof leaf === "number" ||
+  (typeof leaf === "string" && (end.at(-1) === "area" || end.at(-2) === "areas"))
+
 // Reads a spec from a stream cut short: the JSON a model has written so far,
 // its open brackets closed, as structured-output and tool-call streams yield
-// it. It never fails. The number a stream ends on may still gain digits, so
-// it waits for the next chunk. Anything `parse` would refuse, such as a code
-// half written or a pair still missing its value, is left out until it
-// parses. No id is a prefix of another, so a code cut short never passes for
-// a different one. Draw each chunk with `partial`, and the finished input
-// with `parse`: on a finished input `partial` would still hold back the last
-// number.
+// it. It never fails. The number or area code a stream ends on waits for the
+// next chunk. Anything `parse` would refuse, such as a code half written or a
+// pair still missing its value, is left out until it parses. Draw each chunk
+// with `partial`, and the finished input with `parse`: on a finished input
+// `partial` would still hold back the last number or area.
 export const partial = (input: unknown): Spec => {
   const end = last(input)
   const leaf = end.reduce<unknown>((node, key) => child(node, key), input)
-  let rest = end.length > 0 && typeof leaf === "number" ? without(input, end) : input
+  let rest = end.length > 0 && growing(end, leaf) ? without(input, end) : input
 
   for (;;) {
     const parsed = parse(rest)

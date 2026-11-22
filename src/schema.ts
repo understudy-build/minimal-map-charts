@@ -7,13 +7,13 @@ import { nations } from "./sheet.ts"
 // keywords strict structured output accepts: `anyOf` rather than `oneOf`, no
 // `not`, and closed objects throughout. Combinators sit in `$defs`, never at
 // the root, as A2UI catalogs require. It guides; `parse` decides. Rules the
-// schema leaves out, ascending breaks, countries listed once and countries on
-// an explicit sheet, are written into the descriptions and enforced by
-// `parse`.
+// schema leaves out, ascending breaks, codes listed once, areas of one
+// country that its sheet draws, and countries on an explicit sheet, are
+// written into the descriptions and enforced by `parse`.
 export const schema = {
   title: "Map",
   description:
-    "A map of countries. Give `fill` and leave out `sheet`: the map then frames the narrowest region holding every country in the fill, else the world.",
+    "A map of countries, or of one country's areas such as states or regions, by ISO 3166-2 code, e.g. \"US-CA\". Give `fill` and leave out `sheet`: the map then frames the narrowest region holding every country in the fill, else the world, and a fill of areas draws their country's own map.",
   type: "object",
   additionalProperties: false,
   properties: {
@@ -32,7 +32,7 @@ export const schema = {
       anyOf: [
         {
           description:
-            '"world", a region id, or the ISO 3166-1 alpha-3 code of a country to draw its own map with its subdivisions. Every country in `fill` must be on this sheet.',
+            '"world", a region id, or the ISO 3166-1 alpha-3 code of a country to draw its own map with its subdivisions. Every country in `fill` must be on this sheet, and areas only draw on their country\'s own map.',
           enum: ["world", ...regions.map((region) => region.id), ...nations],
         },
         { $ref: "#/$defs/layout" },
@@ -70,11 +70,12 @@ export const schema = {
       },
     },
     fill: {
-      description: "How to colour countries.",
+      description:
+        "How to colour countries, or the areas of one country. A fill names countries or areas, not both.",
       anyOf: [{ $ref: "#/$defs/choropleth" }, { $ref: "#/$defs/highlight" }],
     },
     choropleth: {
-      description: "Countries shaded by a number each.",
+      description: "Countries, or one country's areas, shaded by a number each.",
       type: "object",
       additionalProperties: false,
       required: ["kind", "values"],
@@ -89,34 +90,70 @@ export const schema = {
       },
     },
     highlight: {
-      description: "Countries picked out in one colour.",
-      type: "object",
-      additionalProperties: false,
-      required: ["kind", "countries"],
-      properties: {
-        kind: { const: "highlight" },
-        countries: {
-          description: "The countries to pick out, as ISO 3166-1 alpha-3 codes, each listed once.",
-          type: "array",
-          minItems: 1,
-          items: { $ref: "#/$defs/country" },
+      description: "Countries, or one country's areas, picked out in one colour.",
+      anyOf: [
+        {
+          type: "object",
+          additionalProperties: false,
+          required: ["kind", "countries"],
+          properties: {
+            kind: { const: "highlight" },
+            countries: {
+              description:
+                "The countries to pick out, as ISO 3166-1 alpha-3 codes, each listed once.",
+              type: "array",
+              minItems: 1,
+              items: { $ref: "#/$defs/country" },
+            },
+            colour: { $ref: "#/$defs/colour" },
+          },
         },
-        colour: { $ref: "#/$defs/colour" },
-      },
+        {
+          type: "object",
+          additionalProperties: false,
+          required: ["kind", "areas"],
+          properties: {
+            kind: { const: "highlight" },
+            areas: {
+              description: "The areas to pick out, all of one country, each listed once.",
+              type: "array",
+              minItems: 1,
+              items: { $ref: "#/$defs/area" },
+            },
+            colour: { $ref: "#/$defs/colour" },
+          },
+        },
+      ],
     },
     values: {
       description:
-        "One number per country, each country listed once. Countries left out show as no data.",
-      type: "array",
-      items: {
-        type: "object",
-        additionalProperties: false,
-        required: ["country", "value"],
-        properties: {
-          country: { $ref: "#/$defs/country" },
-          value: { type: "number" },
+        "One number per country, or per area of one country, each listed once. Those left out show as no data.",
+      anyOf: [
+        {
+          type: "array",
+          items: {
+            type: "object",
+            additionalProperties: false,
+            required: ["country", "value"],
+            properties: {
+              country: { $ref: "#/$defs/country" },
+              value: { type: "number" },
+            },
+          },
         },
-      },
+        {
+          type: "array",
+          items: {
+            type: "object",
+            additionalProperties: false,
+            required: ["area", "value"],
+            properties: {
+              area: { $ref: "#/$defs/area" },
+              value: { type: "number" },
+            },
+          },
+        },
+      ],
     },
     scale: {
       description:
@@ -207,6 +244,12 @@ export const schema = {
     country: {
       description: "An ISO 3166-1 alpha-3 code; XKX for Kosovo, CHI for the Channel Islands.",
       enum: countries.map((country) => country.code),
+    },
+    area: {
+      description:
+        'An ISO 3166-2 subdivision code, e.g. "US-CA" for California or "FR-IDF" for Île-de-France. Use the level the country\'s own map draws: US states, French regions, German Länder.',
+      type: "string",
+      pattern: "^[A-Z]{2}-[A-Z0-9]{1,3}$",
     },
   },
 } as const

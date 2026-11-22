@@ -45,7 +45,7 @@ A few things:
 1. The container map is inferred when possible, for this chart every country is in Europe, so `draw` picks the Europe sheet.
 2. Islands get insets: France's overseas regions and Portugal's and Spain's islands get insets.
 3. Validation: Had the model written `"France"`, it would get back `fill.countries.0: "France" is not a country code. Did you mean "FRA"?`.
-4. The page pays 24.9 kB gzipped for this: the code with `parse` and `schema`, plus the Europe sheet.
+4. The page pays 33.9 kB gzipped for this: the code with `parse` and `schema`, plus the Europe sheet.
 
 ### Compare countries far apart at the same scale
 
@@ -82,6 +82,50 @@ A few things:
 2. Same scale: a kilometre is as long in both panels, so the countries compare by size as well as by colour. `"scale": "fit"` makes the panels equally tall instead.
 3. No projection in the browser: each panel is cropped from the narrowest prebuilt sheet that holds its countries, here North America and Europe.
 4. The page pays about 45 kB gzipped for this: the code, the layout code and both sheets.
+
+### Colour a country's states or regions
+
+Name areas by their ISO 3166-2 code with `area` instead of `country`. For example, population density by US state:
+
+<!-- prettier-ignore -->
+```json
+{
+  "title": "Population density, 2020 (people per square mile)",
+  "source": "U.S. Census Bureau, 2020 Census",
+  "fill": {
+    "kind": "choropleth",
+    "values": [
+      { "area": "US-AL", "value": 99 }, { "area": "US-AK", "value": 1.3 }, { "area": "US-AZ", "value": 63 },
+      { "area": "US-AR", "value": 58 }, { "area": "US-CA", "value": 254 }, { "area": "US-CO", "value": 56 },
+      { "area": "US-CT", "value": 745 }, { "area": "US-DE", "value": 508 }, { "area": "US-DC", "value": 11280 },
+      { "area": "US-FL", "value": 401 }, { "area": "US-GA", "value": 187 }, { "area": "US-HI", "value": 227 },
+      { "area": "US-ID", "value": 22 }, { "area": "US-IL", "value": 231 }, { "area": "US-IN", "value": 189 },
+      { "area": "US-IA", "value": 57 }, { "area": "US-KS", "value": 36 }, { "area": "US-KY", "value": 114 },
+      { "area": "US-LA", "value": 108 }, { "area": "US-ME", "value": 44 }, { "area": "US-MD", "value": 636 },
+      { "area": "US-MA", "value": 901 }, { "area": "US-MI", "value": 178 }, { "area": "US-MN", "value": 72 },
+      { "area": "US-MS", "value": 63 }, { "area": "US-MO", "value": 90 }, { "area": "US-MT", "value": 7.4 },
+      { "area": "US-NE", "value": 26 }, { "area": "US-NV", "value": 28 }, { "area": "US-NH", "value": 154 },
+      { "area": "US-NJ", "value": 1263 }, { "area": "US-NM", "value": 18 }, { "area": "US-NY", "value": 429 },
+      { "area": "US-NC", "value": 215 }, { "area": "US-ND", "value": 11 }, { "area": "US-OH", "value": 289 },
+      { "area": "US-OK", "value": 58 }, { "area": "US-OR", "value": 44 }, { "area": "US-PA", "value": 291 },
+      { "area": "US-RI", "value": 1061 }, { "area": "US-SC", "value": 170 }, { "area": "US-SD", "value": 12 },
+      { "area": "US-TN", "value": 168 }, { "area": "US-TX", "value": 112 }, { "area": "US-UT", "value": 40 },
+      { "area": "US-VT", "value": 70 }, { "area": "US-VA", "value": 219 }, { "area": "US-WA", "value": 116 },
+      { "area": "US-WV", "value": 75 }, { "area": "US-WI", "value": 109 }, { "area": "US-WY", "value": 6 }
+    ],
+    "scale": { "kind": "breaks", "at": [10, 50, 100, 200, 500] }
+  }
+}
+```
+
+![US states shaded by population density, with Alaska, Hawaii and the District of Columbia in insets](docs/images/states.svg)
+
+A few things:
+
+1. The codes pick the map: `US-` codes draw the United States sheet. All areas in a fill belong to one country, and a fill names countries or areas, not both.
+2. Highlights take `areas` instead of `countries`: `{ "kind": "highlight", "areas": ["FR-IDF", "FR-BRE"] }`.
+3. `parse` checks every code against the areas each sheet draws, without loading the sheet. Some areas keep their source's code until they are mapped to ISO 3166-2, so they cannot be named yet: `NO-30`, Viken, which Norway split into three counties in 2024, gets `fill.values.0.area: NO-30 has no area on the "NOR" sheet.` `scripts/build-maps/uncoded.gen.ts` lists them.
+4. A subdivision given as a country gets `fill.values.0.country: expected a country code; give the subdivision "US-CA" in \`area\`.`
 
 ## Quick start
 
@@ -189,7 +233,7 @@ A scene is plain data, so you can draw it however your interface needs:
 
 Run the Storybook stories with `pnpm storybook`:
 
-- Use cases: choropleth, highlight, fixed breaks, a country with its subdivisions, dark palette, French locale, every sheet.
+- Use cases: choropleth, highlight, fixed breaks, a country with its subdivisions, a country's areas shaded and highlighted, dark palette, French locale, every sheet.
 - From a model: a spec playground, typical model mistakes and the tool schema.
 - Motion: values revealed in order, years played over a slider, a highlight tour, hover details, a spec drawn while it streams, zoom and drag.
 - Regions: one story per region.
@@ -200,15 +244,15 @@ Run the Storybook stories with `pnpm storybook`:
 
 ## The spec
 
-| Field             | Meaning                                                                                                           |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `sheet`           | `"world"`, a region id such as `"europe"`, the alpha-3 code of a country with its own map, or a layout. Optional. |
-| `title`, `source` | Text shown with the map. `source` names who published the values.                                                 |
-| `fill`            | `{ kind: "choropleth", values, scale?, better? }` or `{ kind: "highlight", countries, colour? }`.                 |
+| Field             | Meaning                                                                                                                                                         |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sheet`           | `"world"`, a region id such as `"europe"`, the alpha-3 code of a country with its own map, or a layout. Optional.                                               |
+| `title`, `source` | Text shown with the map. `source` names who published the values.                                                                                               |
+| `fill`            | `{ kind: "choropleth", values, scale?, better? }`, or `{ kind: "highlight", countries, colour? }` with `areas` in place of `countries` for one country's areas. |
 
 A few things:
 
-1. Values: `values` lists `{ country, value }` pairs, each country an ISO 3166-1 alpha-3 code listed once.
+1. Values: `values` lists `{ country, value }` pairs, each country an ISO 3166-1 alpha-3 code listed once, or `{ area, value }` pairs, each area an ISO 3166-2 code of the same country listed once.
 2. Colour bands, called classes: `scale` is `{ kind: "quantile", classes?: 3–7, colour? }`, `{ kind: "breaks", at: [...], colour? }` or `{ kind: "diverging", at: [...], mid, below, above }`. Quantile is the default, with 5 classes of about as many countries each. Breaks set fixed boundaries.
 3. Diverging: bands below `mid` take `below`'s hue and bands above take `above`'s, stronger the further from `mid`. A band holding `mid` is neutral; with `mid` on a break, none is. The hues must be at least 60° apart, and `mid` must lie between the first and last breaks.
 4. Colours: `"#rrggbb"`, not a grey. Without one, the palette's colour applies.
@@ -240,15 +284,15 @@ Bundled with Vite, tree-shaken and minified:
 
 | Map           | Sheet, gzip | With `draw` and `svg`, gzip | With `parse` and `schema` too, gzip |
 | ------------- | ----------: | --------------------------: | ----------------------------------: |
-| World         |      8.3 kB |                     20.4 kB |                             23.5 kB |
-| North America |     10.5 kB |                     22.6 kB |                             25.7 kB |
-| Europe        |      9.8 kB |                     21.9 kB |                             24.9 kB |
-| East Asia     |      3.9 kB |                     16.0 kB |                             19.1 kB |
-| United States |      8.8 kB |                     20.9 kB |                             24.0 kB |
-| France        |      6.0 kB |                     18.1 kB |                             21.2 kB |
-| Germany       |      6.9 kB |                     19.0 kB |                             22.1 kB |
-| China         |      6.1 kB |                     18.2 kB |                             21.3 kB |
-| Japan         |      6.7 kB |                     18.8 kB |                             21.9 kB |
+| World         |      8.3 kB |                     21.9 kB |                             32.4 kB |
+| North America |     10.5 kB |                     24.1 kB |                             34.6 kB |
+| Europe        |      9.8 kB |                     23.4 kB |                             33.9 kB |
+| East Asia     |      3.9 kB |                     17.5 kB |                             28.1 kB |
+| United States |      8.8 kB |                     22.4 kB |                             33.0 kB |
+| France        |      6.0 kB |                     19.6 kB |                             30.2 kB |
+| Germany       |      6.9 kB |                     20.5 kB |                             31.1 kB |
+| China         |      5.9 kB |                     19.6 kB |                             30.1 kB |
+| Japan         |      6.7 kB |                     20.3 kB |                             30.8 kB |
 
 It ships 242 sheets: the world, 29 regions and 212 countries with their subdivisions. [docs/bundle-size.md](docs/bundle-size.md) adds Brotli sizes and the size of every file in `dist/`.
 

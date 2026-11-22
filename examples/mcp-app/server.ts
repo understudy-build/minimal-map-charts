@@ -32,7 +32,7 @@ export const server = () => {
     {
       title: "Show a map",
       description:
-        "Draw a map of countries: a choropleth with one number per country, or a highlight of some countries. Leave out `sheet` and the map frames the countries in the fill.",
+        "Draw a map of countries, or of one country's areas by ISO 3166-2 code: a choropleth with one number each, or a highlight of some. Leave out `sheet` and the map frames the countries in the fill, or draws the country whose areas it names.",
       inputSchema: Spec,
       _meta: { ui: { resourceUri: view } },
     },

@@ -1,3 +1,4 @@
+import { type Area, countryOf, isArea, isDrawn, suggest as suggestArea } from "./areas.ts"
 import { apart, type Colour, oklch } from "./colour.ts"
 import { type Country, countries, names } from "./countries.ts"
 import { frames, isSheet, members } from "./frame.ts"
@@ -8,8 +9,9 @@ import type { SheetId } from "./sheet.ts"
 
 // What a map shows. Every field is optional: `{}` draws the world, blank.
 // Without `sheet`, the map draws the narrowest region that holds every
-// country in `fill`, else the world. `sheet` names a prebuilt map, or lays
-// countries out in panels cropped from the prebuilt maps.
+// country in `fill`, else the world; a fill of areas draws their country's
+// own map. `sheet` names a prebuilt map, or lays countries out in panels
+// cropped from the prebuilt maps.
 export interface Spec {
   readonly sheet?: SheetId | Layout
   readonly title?: string
@@ -18,10 +20,11 @@ export interface Spec {
   readonly fill?: Fill
 }
 
+// A fill colours countries, or the areas of one country, never both.
 export type Fill =
   | {
       readonly kind: "choropleth"
-      // One number per country, each country once. Countries left out show
+      // One number per country or per area, each once. Those left out show
       // as no data.
       readonly values: Values
       readonly scale?: Scale
@@ -33,13 +36,19 @@ export type Fill =
       // Defaults to the palette's colour.
       readonly colour?: Colour
     }
+  | {
+      readonly kind: "highlight"
+      readonly areas: ReadonlyArray<Area>
+      readonly colour?: Colour
+    }
 
-export interface Value {
-  readonly country: Country
-  readonly value: number
-}
+export type Value =
+  | { readonly country: Country; readonly value: number }
+  | { readonly area: Area; readonly value: number }
 
-export type Values = ReadonlyArray<Value>
+export type Values =
+  | ReadonlyArray<Extract<Value, { readonly country: Country }>>
+  | ReadonlyArray<Extract<Value, { readonly area: Area }>>
 
 // A colour gives only its hue and chroma: the palette sets each class's
 // lightness for the surface the map sits on.
@@ -76,11 +85,21 @@ export type Issue =
       readonly suggestion: Country | undefined
     }
   | {
+      readonly kind: "UnknownArea"
+      readonly path: Path
+      readonly input: string
+      readonly suggestion: Area | undefined
+    }
+  // The area's country has no sheet that draws it under this code: the code
+  // is wrong, or the sheet keeps its source's code for that area.
+  | { readonly kind: "NoArea"; readonly path: Path; readonly area: Area }
+  | {
       readonly kind: "NotOnSheet"
       readonly path: Path
-      readonly country: Country
+      readonly code: Country | Area
       readonly sheet: SheetId
-      // The sheets that would hold every country in the fill, narrowest first.
+      // The sheets that would hold every country, or every area, in the
+      // fill, narrowest first.
       readonly sheets: ReadonlyArray<SheetId>
     }
 
@@ -145,6 +164,21 @@ const country = (input: unknown, path: Path): Checked<Country> => {
         value: undefined,
         issues: [{ kind: "UnknownCountry", path, input, suggestion: suggest(input) }],
       }
+}
+
+const area = (input: unknown, path: Path): Checked<Area> => {
+  if (typeof input !== "string")
+    return { value: undefined, issues: [{ kind: "Invalid", path, expected: "a subdivision code" }] }
+
+  if (!isArea(input))
+    return {
+      value: undefined,
+      issues: [{ kind: "UnknownArea", path, input, suggestion: suggestArea(input) }],
+    }
+
+  return isDrawn(input)
+    ? { value: input, issues: [] }
+    : { value: undefined, issues: [{ kind: "NoArea", path, area: input }] }
 }
 
 const text = (input: unknown, path: Path): Checked<string> =>
@@ -274,27 +308,69 @@ const scale = (input: unknown, path: Path): Checked<Scale> => {
   return invalid(at("kind"), '"quantile", "breaks" or "diverging"')
 }
 
-const pair = (input: unknown, path: Path): Checked<Value> => {
-  if (!isRecord(input)) return invalid(path, "a { country, value } object")
+// A subdivision code where a country code belongs, worded so the caller moves
+// it to the key that takes it.
+const misplaced = (input: unknown, path: Path, key: string): ReadonlyArray<Issue> =>
+  typeof input === "string" && isArea(input)
+    ? invalid(path, `a country code; give the subdivision "${input}" in \`${key}\``).issues
+    : []
 
-  const code = country(input["country"], [...path, "country"])
+const pair = (input: unknown, path: Path): Checked<Value> => {
+  const expected = "a { country, value } or { area, value } object"
+
+  if (!isRecord(input)) return invalid(path, expected)
+
+  const known = keys(path, ["country", "area", "value"])(input)
+
+  if ((input["country"] === undefined) === (input["area"] === undefined))
+    return { value: undefined, issues: [...known, ...invalid(path, expected).issues] }
+
+  const moved = misplaced(input["country"], [...path, "country"], "area")
+  const code =
+    input["area"] === undefined
+      ? moved.length > 0
+        ? { value: undefined, issues: moved }
+        : country(input["country"], [...path, "country"])
+      : area(input["area"], [...path, "area"])
   const number = input["value"]
   const issues = [
-    ...keys(path, ["country", "value"])(input),
+    ...known,
     ...code.issues,
     ...(isNumber(number) ? [] : invalid([...path, "value"], "a finite number").issues),
   ]
 
-  return issues.length > 0 || code.value === undefined || !isNumber(number)
-    ? { value: undefined, issues }
-    : { value: { country: code.value, value: number }, issues }
+  if (issues.length > 0 || code.value === undefined || !isNumber(number))
+    return { value: undefined, issues }
+
+  return {
+    value: isArea(code.value)
+      ? { area: code.value, value: number }
+      : { country: code.value, value: number },
+    issues,
+  }
 }
 
+// Why an area cannot join the areas listed before it: a map draws the areas
+// of one country.
+const stray = (first: Area | undefined, next: Area, path: Path): ReadonlyArray<Issue> =>
+  first === undefined || countryOf(first) === countryOf(next)
+    ? []
+    : invalid(
+        path,
+        `an area of ${countryOf(first)}, as the first is: a map draws one country's areas`,
+      ).issues
+
 const values = (input: unknown, path: Path): Checked<Values> => {
-  if (!Array.isArray(input)) return invalid(path, "an array of { country, value } objects")
+  if (!Array.isArray(input))
+    return invalid(path, "an array of { country, value } or { area, value } objects")
 
   const issues: Array<Issue> = []
-  const parsed: Array<Value> = []
+  const byCountry: Array<Extract<Value, { readonly country: Country }>> = []
+  const byArea: Array<Extract<Value, { readonly area: Area }>> = []
+  // A fill colours countries or areas, as its first value does.
+  const mixed = (at: Path, what: string) =>
+    invalid(at, `${what}, as the first value names: a fill colours countries or areas, not both`)
+      .issues
 
   for (const [index, each] of input.entries()) {
     const at = path.concat(index)
@@ -306,16 +382,67 @@ const values = (input: unknown, path: Path): Checked<Values> => {
 
     if (listed === undefined) continue
 
-    if (parsed.some((other) => other.country === listed.country))
-      issues.push({
-        kind: "Invalid",
-        path: [...at, "country"],
-        expected: "a country not listed before",
-      })
-    else parsed.push(listed)
+    if ("area" in listed) {
+      const where = [...at, "area"]
+      const problems =
+        byCountry.length > 0
+          ? mixed(where, "a country")
+          : stray(byArea[0]?.area, listed.area, where)
+
+      if (problems.length > 0) issues.push(...problems)
+      else if (byArea.some((other) => other.area === listed.area))
+        issues.push(...invalid(where, "an area not listed before").issues)
+      else byArea.push(listed)
+    } else {
+      const where = [...at, "country"]
+
+      if (byArea.length > 0) issues.push(...mixed(where, "an area"))
+      else if (byCountry.some((other) => other.country === listed.country))
+        issues.push(...invalid(where, "a country not listed before").issues)
+      else byCountry.push(listed)
+    }
   }
 
-  return { value: issues.length === 0 ? parsed : undefined, issues }
+  return { value: issues.length > 0 ? undefined : byArea.length > 0 ? byArea : byCountry, issues }
+}
+
+// A highlight's codes: each checked, each listed once, and areas all of one
+// country.
+const picks = <A extends Country | Area>(
+  input: unknown,
+  path: Path,
+  {
+    check,
+    expected,
+  }: {
+    readonly check: (input: unknown, path: Path) => Checked<A>
+    readonly expected: string
+  },
+): Checked<ReadonlyArray<A>> => {
+  if (!Array.isArray(input) || input.length === 0) return invalid(path, expected)
+
+  const issues: Array<Issue> = []
+  const picked: Array<A> = []
+
+  for (const [index, each] of input.entries()) {
+    const at = path.concat(index)
+    const code = check(each, at)
+
+    issues.push(...code.issues)
+
+    if (code.value === undefined) continue
+
+    const [first] = picked
+    const problems =
+      first !== undefined && isArea(first) && isArea(code.value) ? stray(first, code.value, at) : []
+
+    if (problems.length > 0) issues.push(...problems)
+    else if (picked.includes(code.value))
+      issues.push(...invalid(at, "a code not listed before").issues)
+    else picked.push(code.value)
+  }
+
+  return { value: issues.length === 0 ? picked : undefined, issues }
 }
 
 const fill = (input: unknown, path: Path): Checked<Fill> => {
@@ -350,50 +477,42 @@ const fill = (input: unknown, path: Path): Checked<Fill> => {
   }
 
   if (input["kind"] === "highlight") {
-    const known = keys(path, ["kind", "countries", "colour"])(input)
-    const list = input["countries"]
+    const known = keys(path, ["kind", "countries", "areas", "colour"])(input)
     const tint =
       input["colour"] === undefined ? undefined : colour(input["colour"], [...path, "colour"])
+    const tinted = tint?.value === undefined ? {} : { colour: tint.value }
 
-    if (!Array.isArray(list) || list.length === 0)
+    if (input["countries"] !== undefined && input["areas"] !== undefined)
       return {
         value: undefined,
-        issues: [
-          ...known,
-          {
-            kind: "Invalid",
-            path: [...path, "countries"],
-            expected: "a non-empty array of country codes",
-          },
-        ],
+        issues: [...known, ...invalid(path, "either `countries` or `areas`, not both").issues],
       }
 
-    const issues: Array<Issue> = [...known, ...(tint?.issues ?? [])]
-    const picked: Array<Country> = []
+    if (input["areas"] !== undefined) {
+      const listed = picks(input["areas"], [...path, "areas"], {
+        check: area,
+        expected: "a non-empty array of subdivision codes",
+      })
+      const issues = [...known, ...(tint?.issues ?? []), ...listed.issues]
 
-    for (const [index, each] of list.entries()) {
-      const at = path.concat("countries", index)
-      const code = country(each, at)
-
-      issues.push(...code.issues)
-
-      if (code.value === undefined) continue
-
-      if (picked.includes(code.value))
-        issues.push({ kind: "Invalid", path: at, expected: "a code not listed before" })
-      else picked.push(code.value)
+      return issues.length > 0 || listed.value === undefined
+        ? { value: undefined, issues }
+        : { value: { kind: "highlight", areas: listed.value, ...tinted }, issues }
     }
 
-    return issues.length === 0
-      ? {
-          value: {
-            kind: "highlight",
-            countries: picked,
-            ...(tint?.value === undefined ? {} : { colour: tint.value }),
-          },
-          issues,
-        }
-      : { value: undefined, issues }
+    const listed = picks(input["countries"], [...path, "countries"], {
+      check: (each, at) => {
+        const moved = misplaced(each, at, "areas")
+
+        return moved.length > 0 ? { value: undefined, issues: moved } : country(each, at)
+      },
+      expected: "a non-empty array of country codes",
+    })
+    const issues = [...known, ...(tint?.issues ?? []), ...listed.issues]
+
+    return issues.length > 0 || listed.value === undefined
+      ? { value: undefined, issues }
+      : { value: { kind: "highlight", countries: listed.value, ...tinted }, issues }
   }
 
   return {
@@ -402,33 +521,62 @@ const fill = (input: unknown, path: Path): Checked<Fill> => {
   }
 }
 
-// The countries a fill names: a choropleth's in code order, a highlight's in
-// its own order.
-export const named = (input: Fill | undefined): ReadonlyArray<Country> => {
-  if (input === undefined) return []
+// What a fill colours: countries, or the areas of one country. A
+// choropleth's in code order, a highlight's in its own order.
+export type Named =
+  | { readonly kind: "countries"; readonly codes: ReadonlyArray<Country> }
+  | { readonly kind: "areas"; readonly country: Country; readonly codes: ReadonlyArray<Area> }
 
-  switch (input.kind) {
-    case "choropleth": {
-      const listed = new Set(input.values.map((each) => each.country))
+export const named = (input: Fill | undefined): Named => {
+  if (input === undefined) return { kind: "countries", codes: [] }
 
-      return countries.flatMap(({ code }) => (listed.has(code) ? [code] : []))
-    }
-    case "highlight":
-      return input.countries
+  const pairs: ReadonlyArray<Value> = input.kind === "choropleth" ? input.values : []
+  const areas =
+    input.kind === "highlight"
+      ? "areas" in input
+        ? input.areas
+        : []
+      : pairs.flatMap((each) => ("area" in each ? [each.area] : [])).toSorted()
+  const [first] = areas
+
+  if (first !== undefined) return { kind: "areas", country: countryOf(first), codes: areas }
+
+  if (input.kind === "highlight")
+    return { kind: "countries", codes: "countries" in input ? input.countries : [] }
+
+  const listed = new Set(pairs.flatMap((each) => ("country" in each ? [each.country] : [])))
+
+  return {
+    kind: "countries",
+    codes: countries.flatMap(({ code }) => (listed.has(code) ? [code] : [])),
   }
 }
 
-// Each country the fill names that the sheet does not frame.
+// Each country or area the fill names that the sheet does not draw. A fill
+// of areas draws only on its country's own sheet.
 const placed = (sheet: SheetId, input: Fill): ReadonlyArray<Issue> => {
-  const framed = new Set(members(sheet))
-  const sheets = frames(named(input))
-  const listed =
+  const target = named(input)
+  const listed: ReadonlyArray<{ readonly code: Country | Area; readonly path: Path }> =
     input.kind === "choropleth"
-      ? input.values.map((each, index) => ({ code: each.country, path: ["fill", "values", index] }))
-      : input.countries.map((code, index) => ({ code, path: ["fill", "countries", index] }))
+      ? input.values.map((each: Value, index) => ({
+          code: "area" in each ? each.area : each.country,
+          path: ["fill", "values", index],
+        }))
+      : "areas" in input
+        ? input.areas.map((code, index) => ({ code, path: ["fill", "areas", index] }))
+        : input.countries.map((code, index) => ({ code, path: ["fill", "countries", index] }))
+  const framed = new Set<string>(
+    target.kind === "countries" ? members(sheet) : sheet === target.country ? target.codes : [],
+  )
+  const sheets =
+    target.kind === "countries"
+      ? frames(target.codes)
+      : isSheet(target.country)
+        ? [target.country]
+        : []
 
   return listed.flatMap(({ code, path }): ReadonlyArray<Issue> =>
-    framed.has(code) ? [] : [{ kind: "NotOnSheet", path, country: code, sheet, sheets }],
+    framed.has(code) ? [] : [{ kind: "NotOnSheet", path, code, sheet, sheets }],
   )
 }
 
@@ -605,11 +753,20 @@ export const parse = (raw: unknown): Parsed => {
 
   if (issues.length > 0) return { ok: false, issues }
 
-  // A layout draws any country, so only a prebuilt sheet can leave one off.
+  // A layout draws any country, so only a prebuilt sheet can leave one off;
+  // but a layout draws no areas.
+  const target = named(filled?.value)
   const off =
-    typeof framing.value !== "string" || filled?.value === undefined
+    framing.value === undefined || filled?.value === undefined
       ? []
-      : placed(framing.value, filled.value)
+      : typeof framing.value === "string"
+        ? placed(framing.value, filled.value)
+        : target.kind === "areas"
+          ? invalid(
+              ["sheet"],
+              `the "${target.country}" sheet, or none: a country's areas draw only on its own map`,
+            ).issues
+          : []
 
   if (off.length > 0) return { ok: false, issues: off }
 
@@ -637,8 +794,19 @@ const explain = (issue: Issue): string => {
       return issue.suggestion === undefined
         ? `"${issue.input}" is not a country code. Use ISO 3166-1 alpha-3.`
         : `"${issue.input}" is not a country code. Did you mean "${issue.suggestion}"?`
+    case "UnknownArea":
+      return issue.suggestion === undefined
+        ? `"${issue.input}" is not a subdivision code. Use ISO 3166-2, e.g. "US-CA".`
+        : `"${issue.input}" is not a subdivision code. Did you mean "${issue.suggestion}"?`
+    case "NoArea": {
+      const owner = countryOf(issue.area)
+
+      return isSheet(owner)
+        ? `${issue.area} has no area on the "${owner}" sheet.`
+        : `${issue.area} has no area on any sheet: ${owner} has no map of its own.`
+    }
     case "NotOnSheet":
-      return `${issue.country} is not on the "${issue.sheet}" sheet. Sheets that hold every country: ${issue.sheets.join(", ")}.`
+      return `${issue.code} is not on the "${issue.sheet}" sheet. Sheets that hold every ${isArea(issue.code) ? "area" : "country"}: ${issue.sheets.join(", ")}.`
   }
 }
 

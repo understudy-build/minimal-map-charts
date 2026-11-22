@@ -7,7 +7,6 @@ import {
   range,
   type Scene,
   svg,
-  type Values,
 } from "../src/index.ts"
 
 export interface FigureOptions {
@@ -31,7 +30,7 @@ export const figure = (scene: Scene, { palette = light }: FigureOptions = {}) =>
       )
       .join("")
 
-    details.innerHTML = `<summary style="cursor:pointer;color:${palette.muted}">Data table</summary><table style="border-collapse:collapse;margin-top:8px"><thead><tr><th style="text-align:left">Country</th><th>Value</th></tr></thead><tbody>${rows}</tbody></table>`
+    details.innerHTML = `<summary style="cursor:pointer;color:${palette.muted}">Data table</summary><table style="border-collapse:collapse;margin-top:8px"><thead><tr><th style="text-align:left">${scene.rows.some((row) => row.area !== undefined) ? "Area" : "Country"}</th><th>Value</th></tr></thead><tbody>${rows}</tbody></table>`
     root.append(details)
   }
 
@@ -42,7 +41,10 @@ export const palettes = { light, dark } as const
 
 // Illustrative numbers, not real statistics: stories need believable values
 // without implying a source.
-export const illustrative = (codes: ReadonlyArray<Country>, seed: number): Values =>
+export const illustrative = (
+  codes: ReadonlyArray<Country>,
+  seed: number,
+): ReadonlyArray<{ readonly country: Country; readonly value: number }> =>
   codes.map((country, index) => {
     const wave = Math.sin(seed * 0.9 + index * 1.7) + Math.cos(seed * 0.4 + index * 0.6)
 

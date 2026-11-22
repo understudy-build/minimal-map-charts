@@ -32,6 +32,17 @@ const processor = () =>
   new MessageProcessor([new Catalog(id, "1.0", [...Catalog.fromJson(catalog).components.values()])])
 
 const highlight = { title: "Members", fill: { kind: "highlight", countries: ["FRA", "DEU"] } }
+const states = {
+  title: "Population, millions",
+  source: "U.S. Census Bureau",
+  fill: {
+    kind: "choropleth",
+    values: [
+      { area: "US-CA", value: 39.5 },
+      { area: "US-TX", value: 29.1 },
+    ],
+  },
+}
 
 describe("the A2UI catalog", () => {
   it("is a valid A2UI v1.0 catalog", () => {
@@ -44,13 +55,16 @@ describe("the A2UI catalog", () => {
     expect(valid(catalog) || valid.errors).toBe(true)
   })
 
-  it("hands a Map the spec an agent sends as its properties", () => {
+  it.each([
+    ["countries", highlight],
+    ["areas", states],
+  ])("hands a Map of %s the spec an agent sends as its properties", (_, spec) => {
     const host = processor()
-    const errors = host.processMessagesWithErrors([surface(highlight)])
+    const errors = host.processMessagesWithErrors([surface(spec)])
     const [model] = host.model.surfacesMap.values()
 
     expect(errors).toEqual([])
-    expect(model?.componentsModel.get("root")?.properties).toEqual(highlight)
+    expect(model?.componentsModel.get("root")?.properties).toEqual(spec)
   })
 
   it("refuses a Map the schema refuses, with an error the agent can read", () => {
@@ -74,8 +88,12 @@ const page = (props: object) => ({
 describe("the json-render catalog", () => {
   it("accepts a spec with a Map and refuses one the schema refuses", () => {
     expect(jsonRender.validate(page(highlight)).success).toBe(true)
+    expect(jsonRender.validate(page(states)).success).toBe(true)
     expect(
       jsonRender.validate(page({ fill: { kind: "highlight", countries: ["France"] } })).success,
+    ).toBe(false)
+    expect(
+      jsonRender.validate(page({ fill: { kind: "highlight", areas: ["California"] } })).success,
     ).toBe(false)
   })
 
@@ -88,5 +106,7 @@ describe("the json-render catalog", () => {
 
     expect(line).toContain('kind: "highlight"')
     expect(line).toContain('"FRA"')
+    expect(line).toContain('kind: "highlight", areas: Array<string>')
+    expect(line).toContain("ISO 3166-2")
   })
 })

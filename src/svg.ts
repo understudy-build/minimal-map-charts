@@ -195,6 +195,10 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
       (shape) =>
         `<path d="${shape.path}" data-country="${shape.country}" fill="${paint(shape.tone, { palette })}" stroke="${stroke}" stroke-width="0.5"><title>${escape(shape.label)}</title></path>`,
     ),
+    ...scene.patches.map(
+      (patch) =>
+        `<path d="${patch.path}" data-area="${escape(patch.area)}" fill="${paint(patch.tone, { palette })}" stroke="${stroke}" stroke-width="0.5"><title>${escape(patch.label)}</title></path>`,
+    ),
     ...scene.borders.map(
       (border) =>
         `<path d="${border.path}" data-area="${escape(border.code)}" fill="none" stroke="${stroke}" stroke-width="1.5"><title>${escape(border.name)}</title></path>`,
@@ -218,6 +222,10 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
         `<svg x="${each.x}" y="${top}" width="${each.width}" height="${each.height}" viewBox="0 0 ${each.inset.width} ${each.inset.height}">`,
         `<rect width="${each.inset.width}" height="${each.inset.height}" fill="none" stroke="${blank}"/>`,
         `<path d="${each.inset.path}" data-country="${each.inset.country}" data-inset="${escape(each.inset.name)}" fill="${paint(each.inset.tone, { palette })}" stroke="${stroke}" stroke-width="1.5"><title>${escape(each.inset.label)}</title></path>`,
+        ...each.inset.patches.map(
+          (patch) =>
+            `<path d="${patch.path}" data-area="${escape(patch.area)}" fill="${paint(patch.tone, { palette })}" stroke="${stroke}" stroke-width="1.5"><title>${escape(patch.label)}</title></path>`,
+        ),
         ...each.inset.borders.map(
           (border) =>
             `<path d="${border.path}" data-area="${escape(border.code)}" fill="none" stroke="${stroke}" stroke-width="1.5"><title>${escape(border.name)}</title></path>`,

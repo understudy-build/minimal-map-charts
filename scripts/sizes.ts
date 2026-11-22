@@ -39,12 +39,12 @@ const measure = (file: string): Size => {
 const all = files(dist).map(measure)
 const scripts = all.filter((size) => size.path.endsWith(".js"))
 const declarations = all.filter((size) => size.path.endsWith(".d.ts"))
-// The registry of sheets and the layouts' country table are data, not sheets.
+// The registry of sheets, the layouts' country table and the index of areas
+// are data, not sheets.
 const sheets = scripts.filter(
   (size) =>
     size.path.startsWith("data/") &&
-    size.path !== "data/sheets.gen.js" &&
-    size.path !== "data/globe.gen.js",
+    !["data/sheets.gen.js", "data/globe.gen.js", "data/areas.gen.js"].includes(size.path),
 )
 const core = scripts.filter((size) => !sheets.includes(size))
 

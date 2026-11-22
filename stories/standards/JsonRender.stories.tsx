@@ -38,6 +38,31 @@ export const Rendered: Story = {
   render,
 }
 
+// A country's areas, named by ISO 3166-2 code: the same component draws
+// them on the country's own map.
+export const Areas: Story = {
+  args: {
+    props: {
+      title: "Seven western states",
+      source: "Illustrative values",
+      fill: {
+        kind: "choropleth",
+        values: [
+          { area: "US-AK", value: 10 },
+          { area: "US-AZ", value: 17 },
+          { area: "US-CA", value: 11 },
+          { area: "US-CO", value: 18 },
+          { area: "US-HI", value: 12 },
+          { area: "US-ID", value: 19 },
+          { area: "US-MT", value: 13 },
+        ],
+      },
+    },
+  },
+  argTypes: { props: { control: "object" } },
+  render,
+}
+
 // Props a model got wrong. The renderer draws what it is given, so the Map
 // element shows the lines `parse` returns; a host runs `catalog.validate` on
 // the spec first and sends the model what it refuses.

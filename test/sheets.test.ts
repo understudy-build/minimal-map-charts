@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest"
 
+import { coded } from "../scripts/areas.ts"
 import { subdivision } from "../scripts/build-maps/iso.ts"
 import { despike, flat, spikes } from "../scripts/build-maps/tidy.ts"
 import { uncoded } from "../scripts/build-maps/uncoded.gen.ts"
+import { areas } from "../src/data/areas.gen.ts"
 import { draw, sheetIds } from "../src/index.ts"
 import { load, nations, type Steps } from "../src/sheet.ts"
 
@@ -73,6 +75,10 @@ describe("subdivisions", () => {
     )
 
     expect(outside.toSorted()).toEqual((uncoded[country] ?? []).toSorted())
+  })
+
+  it("are indexed by the code each sheet draws them under; run `pnpm build:maps` if not", async () => {
+    expect(areas).toEqual(await coded())
   })
 
   it.each(nations)("%s gives no two areas the same code", async (country) => {
