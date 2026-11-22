@@ -152,7 +152,6 @@ const yearly = (year: number): Spec => ({
 
 const Eased = () => {
   const { scene, palette } = useFigure().state
-  const classes = scene.legend?.classes ?? 1
 
   return (
     <svg
@@ -169,7 +168,7 @@ const Eased = () => {
           stroke={palette.stroke}
           strokeWidth={0.5}
           initial={false}
-          animate={{ fill: paint(shape.tone, { classes, palette }) }}
+          animate={{ fill: paint(shape.tone, { palette }) }}
           transition={{ duration: 0.6 }}
         >
           <title>{shape.label}</title>

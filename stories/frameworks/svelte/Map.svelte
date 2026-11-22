@@ -5,7 +5,6 @@
   // The map itself. Countries in the fill take focus and report the one the
   // reader points at; the active country is outlined on top.
   const { state, actions } = useFigure()
-  const classes = $derived(state.scene.legend?.classes ?? 1)
   const listed = $derived(new Set(state.scene.rows.map((row) => row.country)))
   const outlined = $derived(state.scene.shapes.find((shape) => shape.country === state.active))
 </script>
@@ -22,7 +21,7 @@
     <!-- svelte-ignore a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
     <path
       d={shape.path}
-      fill={paint(shape.tone, { classes, palette: state.palette })}
+      fill={paint(shape.tone, { palette: state.palette })}
       stroke={state.palette.stroke}
       stroke-width="0.5"
       role={focusable ? "img" : undefined}

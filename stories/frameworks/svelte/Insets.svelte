@@ -3,7 +3,6 @@
   import { useFigure } from "./context.ts"
 
   const { state } = useFigure()
-  const classes = $derived(state.scene.legend?.classes ?? 1)
 </script>
 
 {#if state.scene.insets.length > 0}
@@ -19,7 +18,7 @@
         >
           <path
             d={inset.path}
-            fill={paint(inset.tone, { classes, palette: state.palette })}
+            fill={paint(inset.tone, { palette: state.palette })}
             stroke={state.palette.stroke}
             stroke-width="1.5"
           />

@@ -27,10 +27,10 @@ export const entries = (scene: Scene, palette: Palette): ReadonlyArray<Entry> =>
             colour: undefined,
           },
         ]),
-    ...key.bins.map((bin) => ({
-      key: `bin ${bin.shade}`,
+    ...key.bins.map((bin, index) => ({
+      key: `bin ${index}`,
       text: range(bin),
-      colour: paint({ kind: "shade", shade: bin.shade }, { classes: key.classes, palette }),
+      colour: paint(bin.shade, { palette }),
     })),
     ...(scene.shapes.some((shape) => shape.tone.kind === "blank")
       ? [{ key: "blank", text: "No data", colour: palette.blank }]

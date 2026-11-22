@@ -89,7 +89,6 @@ const Shapes = () => {
     state: { scene, palette, active },
     actions: { activate },
   } = useFigure()
-  const classes = scene.legend?.classes ?? 1
   const listed = new Set(scene.rows.map((row) => row.country))
   const outlined = scene.shapes.find((shape) => shape.country === active)
 
@@ -108,7 +107,7 @@ const Shapes = () => {
           <path
             key={shape.country}
             d={shape.path}
-            fill={paint(shape.tone, { classes, palette })}
+            fill={paint(shape.tone, { palette })}
             stroke={palette.stroke}
             strokeWidth={0.5}
             role={focusable ? "img" : undefined}
@@ -149,7 +148,6 @@ const Shapes = () => {
 
 const Insets = () => {
   const { scene, palette } = useFigure().state
-  const classes = scene.legend?.classes ?? 1
 
   return scene.insets.length === 0 ? null : (
     <ul className="m-0 flex list-none flex-wrap gap-3 p-0">
@@ -164,7 +162,7 @@ const Insets = () => {
           >
             <path
               d={inset.path}
-              fill={paint(inset.tone, { classes, palette })}
+              fill={paint(inset.tone, { palette })}
               stroke={palette.stroke}
               strokeWidth={1.5}
             />

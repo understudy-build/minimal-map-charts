@@ -7,7 +7,6 @@ import { useFigure } from "./context.ts"
 // The map itself. Countries in the fill take focus and report the one the
 // reader points at; the active country is outlined on top.
 const { state, actions } = useFigure()
-const classes = computed(() => state.scene.legend?.classes ?? 1)
 const listed = computed(() => new Set(state.scene.rows.map((row) => row.country)))
 const outlined = computed(() => state.scene.shapes.find((shape) => shape.country === state.active))
 </script>
@@ -24,7 +23,7 @@ const outlined = computed(() => state.scene.shapes.find((shape) => shape.country
       v-for="shape in state.scene.shapes"
       :key="shape.country"
       :d="shape.path"
-      :fill="paint(shape.tone, { classes, palette: state.palette })"
+      :fill="paint(shape.tone, { palette: state.palette })"
       :stroke="state.palette.stroke"
       stroke-width="0.5"
       :role="listed.has(shape.country) ? 'img' : undefined"

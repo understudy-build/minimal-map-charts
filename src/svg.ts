@@ -1,12 +1,21 @@
+import { type Colour, hex, oklch } from "./colour.ts"
 import type { Inset, Legend, Scene, Tone } from "./draw.ts"
 import type { Bin } from "./scale.ts"
 
 export interface Palette {
-  // A sequential ramp, lowest values first. A legend with fewer classes
-  // samples it evenly.
-  readonly shades: ReadonlyArray<string>
+  // Shades and highlights take this colour's hue and chroma when the spec
+  // gives no colour.
+  readonly colour: Colour
+  // OKLCH lightness, 0 to 1: of the shade nearest the surface, of the shade
+  // farthest from it, and of a highlighted country.
+  readonly lightness: {
+    readonly near: number
+    readonly far: number
+    readonly accent: number
+  }
+  // The neutral class at the middle of a diverging scale.
+  readonly middle: string
   readonly blank: string
-  readonly accent: string
   readonly context: string
   readonly land: string
   readonly stroke: string
@@ -15,26 +24,11 @@ export interface Palette {
   readonly muted: string
 }
 
-const blues = [
-  "#cde2fb",
-  "#b7d3f6",
-  "#9ec5f4",
-  "#86b6ef",
-  "#6da7ec",
-  "#5598e7",
-  "#3987e5",
-  "#2a78d6",
-  "#256abf",
-  "#1c5cab",
-  "#184f95",
-  "#104281",
-  "#0d366b",
-]
-
 export const light: Palette = {
-  shades: blues,
+  colour: "#256abf",
+  lightness: { near: 0.93, far: 0.36, accent: 0.53 },
+  middle: "#f4ecca",
   blank: "#e1e0d9",
-  accent: "#256abf",
   context: "#e1e0d9",
   land: "#f0efec",
   stroke: "#fcfcfb",
@@ -43,12 +37,13 @@ export const light: Palette = {
   muted: "#52514e",
 }
 
-// On a dark surface the lowest values sit nearest the surface, so the ramp
+// On a dark surface the lowest values sit nearest the surface, so lightness
 // runs the other way.
 export const dark: Palette = {
-  shades: blues.toReversed(),
+  colour: "#256abf",
+  lightness: { near: 0.44, far: 0.82, accent: 0.62 },
+  middle: "#585340",
   blank: "#383835",
-  accent: "#3987e5",
   context: "#383835",
   land: "#2c2c2a",
   stroke: "#1a1a19",
@@ -58,25 +53,29 @@ export const dark: Palette = {
 }
 
 export interface PaintOptions {
-  // How many shades the legend has; a shade tone needs it.
-  readonly classes: number
   readonly palette?: Palette
 }
 
-// The colour of a tone in a palette.
-export const paint = (tone: Tone, { classes, palette = light }: PaintOptions): string => {
+// The colour of a tone in a palette. A shade keeps its colour's hue and
+// chroma and takes its lightness from its strength, so a ramp reads in order
+// on any surface.
+export const paint = (tone: Tone, { palette = light }: PaintOptions = {}): string => {
   switch (tone.kind) {
     case "blank":
       return palette.blank
-    case "accent":
-      return palette.accent
     case "context":
       return palette.context
+    case "middle":
+      return palette.middle
+    case "accent":
+      return hex({ ...oklch(tone.colour ?? palette.colour), l: palette.lightness.accent })
     case "shade": {
-      const last = palette.shades.length - 1
-      const index = classes <= 1 ? last : Math.round((tone.shade * last) / (classes - 1))
+      const { near, far } = palette.lightness
 
-      return palette.shades[index] ?? palette.blank
+      return hex({
+        ...oklch(tone.colour ?? palette.colour),
+        l: near + (far - near) * tone.strength,
+      })
     }
   }
 }
@@ -131,7 +130,7 @@ const insetRows = (insets: ReadonlyArray<Inset>, width: number) => {
 
 const legendItems = (legend: Legend, palette: Palette) =>
   legend.bins.map((bin) => ({
-    colour: paint({ kind: "shade", shade: bin.shade }, { classes: legend.classes, palette }),
+    colour: paint(bin.shade, { palette }),
     text: range(bin),
   }))
 
@@ -158,14 +157,12 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
     y += size.gap
   }
 
-  const classes = scene.legend?.classes ?? 1
-
   lines.push(
     `<g transform="translate(0 ${y})">`,
     `<path d="${scene.land}" fill="${palette.land}"/>`,
     ...scene.shapes.map(
       (shape) =>
-        `<path d="${shape.path}" data-country="${shape.country}" fill="${paint(shape.tone, { classes, palette })}" stroke="${palette.stroke}" stroke-width="0.5"><title>${escape(shape.label)}</title></path>`,
+        `<path d="${shape.path}" data-country="${shape.country}" fill="${paint(shape.tone, { palette })}" stroke="${palette.stroke}" stroke-width="0.5"><title>${escape(shape.label)}</title></path>`,
     ),
     ...scene.borders.map(
       (border) =>
@@ -189,7 +186,7 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
       lines.push(
         `<svg x="${each.x}" y="${top}" width="${each.width}" height="${each.height}" viewBox="0 0 ${each.inset.width} ${each.inset.height}">`,
         `<rect width="${each.inset.width}" height="${each.inset.height}" fill="none" stroke="${palette.blank}"/>`,
-        `<path d="${each.inset.path}" data-country="${each.inset.country}" data-inset="${escape(each.inset.name)}" fill="${paint(each.inset.tone, { classes, palette })}" stroke="${palette.stroke}" stroke-width="1.5"><title>${escape(each.inset.label)}</title></path>`,
+        `<path d="${each.inset.path}" data-country="${each.inset.country}" data-inset="${escape(each.inset.name)}" fill="${paint(each.inset.tone, { palette })}" stroke="${palette.stroke}" stroke-width="1.5"><title>${escape(each.inset.label)}</title></path>`,
         ...each.inset.borders.map(
           (border) =>
             `<path d="${border.path}" data-area="${escape(border.code)}" fill="none" stroke="${palette.stroke}" stroke-width="1.5"><title>${escape(border.name)}</title></path>`,

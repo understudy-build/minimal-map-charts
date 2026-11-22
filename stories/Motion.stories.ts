@@ -23,11 +23,10 @@ const europe = regions.find((region) => region.id === "europe")?.countries ?? []
 const shapes = (root: Element) => [...root.querySelectorAll<SVGPathElement>("path[data-country]")]
 
 const fillOf = (scene: Scene) => {
-  const classes = scene.legend?.classes ?? 1
   const colours = new Map<string, string>()
 
-  for (const shape of scene.shapes) colours.set(shape.country, paint(shape.tone, { classes }))
-  for (const inset of scene.insets) colours.set(inset.country, paint(inset.tone, { classes }))
+  for (const shape of scene.shapes) colours.set(shape.country, paint(shape.tone))
+  for (const inset of scene.insets) colours.set(inset.country, paint(inset.tone))
 
   return colours
 }
@@ -157,7 +156,7 @@ export const Tour: StoryObj = {
 
         animate(
           path,
-          { fill: here ? light.accent : light.blank },
+          { fill: here ? paint({ kind: "accent", colour: undefined }) : light.blank },
           { duration: duration(0.5), ease: "easeInOut" },
         )
       }

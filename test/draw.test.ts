@@ -24,16 +24,27 @@ describe("draw", () => {
     expect(france.borders.map((border) => border.name)).toContain("Bretagne")
     expect(france.insets.map((inset) => [inset.name, inset.tone])).toContainEqual([
       "Réunion",
-      { kind: "accent" },
+      { kind: "accent", colour: undefined },
     ])
+  })
+
+  it("picks out highlighted countries in the spec's colour", async () => {
+    const scene = await draw({
+      fill: { kind: "highlight", countries: ["FRA"], colour: "#ef6c00" },
+    })
+
+    expect(scene.shapes.find((shape) => shape.country === "FRA")?.tone).toEqual({
+      kind: "accent",
+      colour: "#ef6c00",
+    })
   })
 
   it("shades countries with values and leaves the rest blank", async () => {
     const scene = await draw(choropleth({ FRA: 1, DEU: 2, ITA: 3, ESP: 4, POL: 5 }))
     const tone = (country: string) => scene.shapes.find((shape) => shape.country === country)?.tone
 
-    expect(tone("FRA")).toEqual({ kind: "shade", shade: 0 })
-    expect(tone("POL")).toEqual({ kind: "shade", shade: 4 })
+    expect(tone("FRA")).toEqual({ kind: "shade", strength: 0, colour: undefined })
+    expect(tone("POL")).toEqual({ kind: "shade", strength: 1, colour: undefined })
     expect(tone("PRT")).toEqual({ kind: "blank" })
     expect(scene.rows.map((row) => row.country)).toEqual(["POL", "ESP", "ITA", "DEU", "FRA"])
   })

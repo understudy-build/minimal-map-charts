@@ -1,9 +1,10 @@
+import type { Colour } from "./colour.ts"
 import type { Frame } from "./compose.ts"
 import { type Country, countries, names } from "./countries.ts"
 import { frames } from "./frame.ts"
 import type { Layout } from "./layout.ts"
 import { regions } from "./regions.ts"
-import { type Bin, classify } from "./scale.ts"
+import { type Bin, classify, type Shade } from "./scale.ts"
 import {
   type Area,
   type Credit,
@@ -16,11 +17,12 @@ import {
 import { named, type Spec } from "./spec.ts"
 
 // How a shape is coloured: blank, one of the legend's shades, picked out by a
-// highlight, or context only (land shown for location, with no value).
+// highlight, or context only (land shown for location, with no value). A
+// colour of `undefined` takes the palette's.
 export type Tone =
   | { readonly kind: "blank" }
-  | { readonly kind: "shade"; readonly shade: number }
-  | { readonly kind: "accent" }
+  | Shade
+  | { readonly kind: "accent"; readonly colour: Colour | undefined }
   | { readonly kind: "context" }
 
 export interface Shape {
@@ -54,7 +56,6 @@ export interface Inset {
 }
 
 export interface Legend {
-  readonly classes: number
   readonly bins: ReadonlyArray<Bin>
   readonly better: "higher" | "lower" | undefined
 }
@@ -64,7 +65,8 @@ export interface Legend {
 export type Choice = "Given" | "Derived"
 
 // Everything a renderer needs, with paths built and values classed. It holds
-// no colours: a renderer maps each tone to its palette.
+// the spec's colours but no lightness: a renderer paints each tone with its
+// palette.
 export interface Scene {
   readonly sheet: SheetId | Layout
   readonly choice: Choice
@@ -251,13 +253,17 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
   const classed =
     fill?.kind === "choropleth" ? classify([...values.values()], fill.scale) : undefined
 
+  const accent: Tone = {
+    kind: "accent",
+    colour: fill?.kind === "highlight" ? fill.colour : undefined,
+  }
+
   const toneOf = (code: Country): Tone => {
-    if (picked.has(code)) return { kind: "accent" }
+    if (picked.has(code)) return accent
 
     const value = values.get(code)
 
-    if (value !== undefined && classed !== undefined)
-      return { kind: "shade", shade: classed.shadeOf(value) }
+    if (value !== undefined && classed !== undefined) return classed.shadeOf(value)
 
     return canvas.members === undefined || canvas.members.has(code) ? blank : context
   }
@@ -313,7 +319,7 @@ export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Scene
   const legend =
     classed === undefined || fill?.kind !== "choropleth"
       ? undefined
-      : { classes: classed.classes, bins: classed.bins, better: fill.better }
+      : { bins: classed.bins, better: fill.better }
 
   const where = canvas.where(name)
   const what =

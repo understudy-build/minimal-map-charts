@@ -1,3 +1,4 @@
+export type { Colour } from "./colour.ts"
 export { type Country, countries } from "./countries.ts"
 export {
   type Border,
@@ -14,7 +15,7 @@ export {
 export type { Frame } from "./compose.ts"
 export type { Layout, Panel, Place } from "./layout.ts"
 export { type Region, regions } from "./regions.ts"
-export type { Bin } from "./scale.ts"
+export type { Bin, Shade } from "./scale.ts"
 export { schema } from "./schema.ts"
 export { type Credit, type SheetId, sheetIds } from "./sheet.ts"
 export {

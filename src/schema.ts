@@ -79,7 +79,8 @@ export const schema = {
               additionalProperties: { type: "number" },
             },
             scale: {
-              description: "How values become shades. Defaults to 5 quantile classes.",
+              description:
+                "How values become shades. Defaults to 5 quantile classes in the renderer's colour.",
               oneOf: [
                 {
                   type: "object",
@@ -88,6 +89,7 @@ export const schema = {
                   properties: {
                     kind: { const: "quantile" },
                     classes: { enum: [3, 4, 5, 6, 7] },
+                    colour: { $ref: "#/definitions/colour" },
                   },
                 },
                 {
@@ -96,14 +98,25 @@ export const schema = {
                   required: ["kind", "at"],
                   properties: {
                     kind: { const: "breaks" },
-                    at: {
-                      description:
-                        "Band boundaries in strictly ascending order. A value at a break falls in the band above it.",
-                      type: "array",
-                      minItems: 1,
-                      maxItems: 6,
-                      items: { type: "number" },
+                    at: { $ref: "#/definitions/breaks" },
+                    colour: { $ref: "#/definitions/colour" },
+                  },
+                },
+                {
+                  description:
+                    "For values either side of a meaningful middle, such as losses and gains around 0. Bands below `mid` take `below`, bands above it take `above`, each stronger the further from `mid`. A band holding `mid` is neutral; with `mid` on a break, none is. The two hues must be at least 60° apart, e.g. red and blue.",
+                  type: "object",
+                  additionalProperties: false,
+                  required: ["kind", "at", "mid", "below", "above"],
+                  properties: {
+                    kind: { const: "diverging" },
+                    at: { $ref: "#/definitions/breaks" },
+                    mid: {
+                      description: "The middle value, from the first break to the last.",
+                      type: "number",
                     },
+                    below: { $ref: "#/definitions/colour" },
+                    above: { $ref: "#/definitions/colour" },
                   },
                 },
               ],
@@ -127,6 +140,7 @@ export const schema = {
               uniqueItems: true,
               items: { $ref: "#/definitions/country" },
             },
+            colour: { $ref: "#/definitions/colour" },
           },
         },
       ],
@@ -161,6 +175,20 @@ export const schema = {
           },
         ],
       },
+    },
+    breaks: {
+      description:
+        "Band boundaries in strictly ascending order. A value at a break falls in the band above it.",
+      type: "array",
+      minItems: 1,
+      maxItems: 6,
+      items: { type: "number" },
+    },
+    colour: {
+      description:
+        'A colour as "#rrggbb", chosen for what the values mean, e.g. green for forests or red for losses. Only its hue and saturation are kept: the renderer sets each shade\'s lightness for a light or dark page. Not a grey.',
+      type: "string",
+      pattern: "^#[0-9a-fA-F]{6}$",
     },
     country: {
       description: "An ISO 3166-1 alpha-3 code; XKX for Kosovo, CHI for the Channel Islands.",

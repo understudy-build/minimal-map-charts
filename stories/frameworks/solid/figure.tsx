@@ -107,7 +107,6 @@ const Title = () => {
 // reader points at; the active country is outlined on top.
 const Shapes = () => {
   const { state, actions } = useFigure()
-  const classes = () => state.scene.legend?.classes ?? 1
   const listed = () => new Set(state.scene.rows.map((row) => row.country))
   const outlined = () => state.scene.shapes.find((shape) => shape.country === state.active)
 
@@ -126,7 +125,7 @@ const Shapes = () => {
           return (
             <path
               d={shape.path}
-              fill={paint(shape.tone, { classes: classes(), palette: state.palette })}
+              fill={paint(shape.tone, { palette: state.palette })}
               stroke={state.palette.stroke}
               stroke-width="0.5"
               role={focusable() ? "img" : undefined}
@@ -187,10 +186,7 @@ const Insets = () => {
               >
                 <path
                   d={inset.path}
-                  fill={paint(inset.tone, {
-                    classes: state.scene.legend?.classes ?? 1,
-                    palette: state.palette,
-                  })}
+                  fill={paint(inset.tone, { palette: state.palette })}
                   stroke={state.palette.stroke}
                   stroke-width="1.5"
                 />

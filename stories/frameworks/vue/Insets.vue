@@ -21,12 +21,7 @@ const { state } = useFigure()
       >
         <path
           :d="inset.path"
-          :fill="
-            paint(inset.tone, {
-              classes: state.scene.legend?.classes ?? 1,
-              palette: state.palette,
-            })
-          "
+          :fill="paint(inset.tone, { palette: state.palette })"
           :stroke="state.palette.stroke"
           stroke-width="1.5"
         />

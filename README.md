@@ -103,7 +103,9 @@ A few things:
 
 ## Use it with a model
 
-The spec describes what to show, not how to draw it: countries and values, never projections, joins or colours. The shortest valid spec is a correct map, so a model has few ways to get it wrong.
+The spec describes what to show, not how to draw it: countries, values and what the colours mean, never projections, joins or lightness. The shortest valid spec is a correct map, so a model has few ways to get it wrong.
+
+A model picks colours as `"#rrggbb"`: green for forests, red for losses, blue for gains. The renderer keeps each colour's hue and chroma and sets its lightness for the page, so one spec reads on a light or a dark surface, with the lowest values nearest the surface.
 
 1. Tool schema: `schema` is the spec as JSON Schema, for a tool's input or for structured output.
 2. Validation: `parse` returns typed issues, and `describe` turns each into a line the model can fix on its next turn:
@@ -121,18 +123,18 @@ Let the model pick the map and the host supply the numbers. A model should not i
 
 ## API
 
-| Export                              | What it does                                                                          |
-| ----------------------------------- | ------------------------------------------------------------------------------------- |
-| `parse(input)`                      | Reads untrusted input into a `Spec`, or returns every issue.                          |
-| `schema`, `Spec`                    | The spec as JSON Schema and as Standard Schema.                                       |
-| `draw(spec, { locale })`            | Picks and loads the sheet, groups the values into colour bands and returns a `Scene`. |
-| `svg(scene, { palette })`           | Turns a scene into a standalone SVG document with its legend and credits.             |
-| `paint(tone, { classes, palette })` | The colour of a shape's tone. `light` and `dark` are the built-in palettes.           |
-| `range(bin)`                        | A legend band as text: "4 to 6", "10 and above".                                      |
+| Export                     | What it does                                                                          |
+| -------------------------- | ------------------------------------------------------------------------------------- |
+| `parse(input)`             | Reads untrusted input into a `Spec`, or returns every issue.                          |
+| `schema`, `Spec`           | The spec as JSON Schema and as Standard Schema.                                       |
+| `draw(spec, { locale })`   | Picks and loads the sheet, groups the values into colour bands and returns a `Scene`. |
+| `svg(scene, { palette })`  | Turns a scene into a standalone SVG document with its legend and credits.             |
+| `paint(tone, { palette })` | The colour of a shape's tone. `light` and `dark` are the built-in palettes.           |
+| `range(bin)`               | A legend band as text: "4 to 6", "10 and above".                                      |
 
 A scene is plain data, so you can draw it however your interface needs:
 
-1. Contents: SVG paths, a tone per shape (a shade index, not a colour), insets, the legend, credits, a data table (`rows`) and a one-sentence description.
+1. Contents: SVG paths, a tone per shape (the spec's colour and a strength from 0 to 1, not a final colour), insets, the legend, credits, a data table (`rows`) and a one-sentence description.
 2. One coordinate space per sheet: a renderer can animate fills, zoom or pan without touching the geometry.
 3. Renderers: `svg` is one. The stories show others, in plain DOM and in React, Vue, Svelte and Solid.
 
@@ -144,7 +146,7 @@ Run the Storybook stories with `pnpm storybook`:
 - From a model: a spec playground, typical model mistakes and the tool schema.
 - Motion: values revealed in order, years played over a slider, a highlight tour, hover details, a spec drawn while it streams, zoom and drag.
 - Regions: one story per region.
-- Colour scales: a sequential ramp of your own, and a diverging scale centred on zero. Colours belong to the renderer's palette, never to the spec.
+- Colour scales: a sequential scale in one colour, a diverging scale around zero, and a coloured highlight, each in light and dark.
 - Layouts: layouts written in JSX.
 - Frameworks: React, Vue, Svelte and Solid recipes to copy into an app, in `stories/frameworks/`. Each is a set of parts (`Figure.Root`, `Figure.Map`, `Figure.Legend`…) that share one context.
 
@@ -154,13 +156,15 @@ Run the Storybook stories with `pnpm storybook`:
 | ----------------- | ----------------------------------------------------------------------------------------------------------------- |
 | `sheet`           | `"world"`, a region id such as `"europe"`, the alpha-3 code of a country with its own map, or a layout. Optional. |
 | `title`, `source` | Text shown with the map. `source` names who published the values.                                                 |
-| `fill`            | `{ kind: "choropleth", values, scale?, better? }` or `{ kind: "highlight", countries }`.                          |
+| `fill`            | `{ kind: "choropleth", values, scale?, better? }` or `{ kind: "highlight", countries, colour? }`.                 |
 
 A few things:
 
 1. Values: `values` maps ISO 3166-1 alpha-3 codes to numbers.
-2. Colour bands, called classes: `scale` is `{ kind: "quantile", classes?: 3–7 }` or `{ kind: "breaks", at: [...] }`. Quantile is the default, with 5 classes of about as many countries each. Breaks set fixed boundaries.
-3. Ties: equal values always share a class.
+2. Colour bands, called classes: `scale` is `{ kind: "quantile", classes?: 3–7, colour? }`, `{ kind: "breaks", at: [...], colour? }` or `{ kind: "diverging", at: [...], mid, below, above }`. Quantile is the default, with 5 classes of about as many countries each. Breaks set fixed boundaries.
+3. Diverging: bands below `mid` take `below`'s hue and bands above take `above`'s, stronger the further from `mid`. A band holding `mid` is neutral; with `mid` on a break, none is. The hues must be at least 60° apart, and `mid` must lie between the first and last breaks.
+4. Colours: `"#rrggbb"`, not a grey. Without one, the palette's colour applies.
+5. Ties: equal values always share a class.
 
 ## Layouts
 

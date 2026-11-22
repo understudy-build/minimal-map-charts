@@ -9,6 +9,12 @@ const choropleth = (values: Record<string, unknown>, extra: Record<string, unkno
   fill: { kind: "choropleth", values, ...extra },
 })
 
+const issues = (scale: Record<string, unknown>) => {
+  const result = parse(choropleth({ FRA: 1 }, { scale }))
+
+  return !result.ok && result.issues.map(describe)
+}
+
 group("parse", () => {
   it("accepts an empty spec, which draws the world", () => {
     expect(parse({})).toEqual({ ok: true, spec: {} })
@@ -73,6 +79,32 @@ group("parse", () => {
     ])
   })
 
+  it("accepts colours for a scale and a highlight", () => {
+    const diverging = choropleth(
+      { FRA: 1.1, DEU: -0.2 },
+      { scale: { kind: "diverging", at: [-1, 1], mid: 0, below: "#c62828", above: "#1565c0" } },
+    )
+    const highlight = { fill: { kind: "highlight", countries: ["FRA"], colour: "#EF6C00" } }
+
+    expect(parse(diverging)).toEqual({ ok: true, spec: diverging })
+    expect(parse(highlight)).toEqual({ ok: true, spec: highlight })
+  })
+
+  it("refuses colours that cannot show a scale", () => {
+    expect(issues({ kind: "quantile", colour: "green" })).toEqual([
+      'fill.scale.colour: expected a colour as "#rrggbb".',
+    ])
+    expect(issues({ kind: "breaks", at: [1], colour: "#777777" })).toEqual([
+      "fill.scale.colour: expected a colour with a hue, not a grey.",
+    ])
+    expect(
+      issues({ kind: "diverging", at: [0, 2], mid: 5, below: "#c62828", above: "#ef6c00" }),
+    ).toEqual([
+      "fill.scale.mid: expected a number from 0 to 2, so bands fall on both sides of it.",
+      "fill.scale.above: expected a hue at least 60° away from `below`.",
+    ])
+  })
+
   it("serves the Standard Schema interface", () => {
     expect(Spec["~standard"].validate({ sheet: "world" })).toEqual({ value: { sheet: "world" } })
     expect(Spec["~standard"].validate({ sheet: "moon" })).toEqual({
@@ -114,6 +146,19 @@ group("JSON Schema", () => {
     ["unknown place", { sheet: { places: ["atlantis"] } }],
     ["places and panels", { sheet: { places: ["USA"], panels: [{ places: ["FRA"] }] } }],
     ["repeated highlight", { fill: { kind: "highlight", countries: ["FRA", "FRA"] } }],
+    [
+      "diverging",
+      choropleth(
+        { FRA: 1 },
+        { scale: { kind: "diverging", at: [0], mid: 0, below: "#c62828", above: "#1565c0" } },
+      ),
+    ],
+    [
+      "diverging without colours",
+      choropleth({ FRA: 1 }, { scale: { kind: "diverging", at: [0], mid: 0 } }),
+    ],
+    ["named colour", choropleth({ FRA: 1 }, { scale: { kind: "quantile", colour: "green" } })],
+    ["highlight colour", { fill: { kind: "highlight", countries: ["FRA"], colour: "#ef6c00" } }],
   ]
 
   it.each(cases)("agrees with parse on %s", (_, input) => {

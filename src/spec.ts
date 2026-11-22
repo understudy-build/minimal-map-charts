@@ -1,3 +1,4 @@
+import { apart, type Colour, oklch } from "./colour.ts"
 import { type Country, countries, names } from "./countries.ts"
 import { frames, isSheet, members } from "./frame.ts"
 import type { Layout, Panel, Place } from "./layout.ts"
@@ -23,16 +24,34 @@ export type Fill =
       readonly scale?: Scale
       readonly better?: "higher" | "lower"
     }
-  | { readonly kind: "highlight"; readonly countries: ReadonlyArray<Country> }
+  | {
+      readonly kind: "highlight"
+      readonly countries: ReadonlyArray<Country>
+      // Defaults to the palette's colour.
+      readonly colour?: Colour
+    }
 
 export type Values = Readonly<Partial<Record<Country, number>>>
 
+// A colour gives only its hue and chroma: the palette sets each class's
+// lightness for the surface the map sits on.
 export type Scale =
-  // Classes of about the same number of countries, lowest first.
-  | { readonly kind: "quantile"; readonly classes?: Classes }
+  // Classes of about the same number of countries, lowest first, in one
+  // colour that defaults to the palette's.
+  | { readonly kind: "quantile"; readonly classes?: Classes; readonly colour?: Colour }
   // Fixed bands, e.g. to keep shades meaning the same values across years.
   // A value at a break falls in the band above it.
-  | { readonly kind: "breaks"; readonly at: ReadonlyArray<number> }
+  | { readonly kind: "breaks"; readonly at: ReadonlyArray<number>; readonly colour?: Colour }
+  // Fixed bands either side of `mid`, e.g. losses and gains around zero:
+  // bands below it in `below`, bands above it in `above`, a neutral band
+  // holding it unless it sits on a break.
+  | {
+      readonly kind: "diverging"
+      readonly at: ReadonlyArray<number>
+      readonly mid: number
+      readonly below: Colour
+      readonly above: Colour
+    }
 
 export type Classes = 3 | 4 | 5 | 6 | 7
 
@@ -125,59 +144,126 @@ const text = (input: unknown, path: Path): Checked<string> =>
     ? { value: input, issues: [] }
     : { value: undefined, issues: [{ kind: "Invalid", path, expected: "a non-empty string" }] }
 
+// The least chroma that shows a hue: below it a colour reads as grey.
+const minChroma = 0.05
+
+// How far apart, in degrees, the hues of a diverging scale must be to tell
+// its sides apart.
+const minApart = 60
+
+const invalid = <A>(path: Path, expected: string): Checked<A> => ({
+  value: undefined,
+  issues: [{ kind: "Invalid", path, expected }],
+})
+
+const isColour = (input: unknown): input is Colour =>
+  typeof input === "string" && /^#[0-9a-f]{6}$/i.test(input)
+
+const colour = (input: unknown, path: Path): Checked<Colour> => {
+  if (!isColour(input)) return invalid(path, 'a colour as "#rrggbb"')
+
+  if (oklch(input).c < minChroma) return invalid(path, "a colour with a hue, not a grey")
+
+  return { value: input, issues: [] }
+}
+
+const breaks = (input: unknown, path: Path): Checked<ReadonlyArray<number>> => {
+  const list: ReadonlyArray<unknown> = Array.isArray(input) ? input : []
+  const numbers = list.filter(isNumber)
+
+  const ascending =
+    numbers.length === list.length &&
+    numbers.length > 0 &&
+    numbers.length <= maxBreaks &&
+    numbers.every((each, index) => each > (numbers[index - 1] ?? Number.NEGATIVE_INFINITY))
+
+  return ascending
+    ? { value: numbers, issues: [] }
+    : invalid(path, `1 to ${maxBreaks} finite numbers in strictly ascending order`)
+}
+
 const scale = (input: unknown, path: Path): Checked<Scale> => {
-  if (!isRecord(input))
-    return { value: undefined, issues: [{ kind: "Invalid", path, expected: "a scale object" }] }
+  if (!isRecord(input)) return invalid(path, "a scale object")
+
+  const at = (key: string) => [...path, key]
+  const tint = input["colour"] === undefined ? undefined : colour(input["colour"], at("colour"))
+  const tinted = tint?.value === undefined ? {} : { colour: tint.value }
 
   if (input["kind"] === "quantile") {
-    const issues = keys(path, ["kind", "classes"])(input)
     const count = input["classes"]
+    const issues = [
+      ...keys(path, ["kind", "classes", "colour"])(input),
+      ...(tint?.issues ?? []),
+      ...(count === undefined || isClasses(count)
+        ? []
+        : invalid(at("classes"), "3, 4, 5, 6 or 7").issues),
+    ]
 
-    if (count === undefined) return { value: { kind: "quantile" }, issues }
-
-    return isClasses(count)
-      ? { value: { kind: "quantile", classes: count }, issues }
+    return issues.length > 0
+      ? { value: undefined, issues }
       : {
-          value: undefined,
-          issues: [
-            ...issues,
-            { kind: "Invalid", path: [...path, "classes"], expected: "3, 4, 5, 6 or 7" },
-          ],
+          value: { kind: "quantile", ...(isClasses(count) ? { classes: count } : {}), ...tinted },
+          issues,
         }
   }
 
   if (input["kind"] === "breaks") {
-    const issues = keys(path, ["kind", "at"])(input)
-    const at = input["at"]
+    const bands = breaks(input["at"], at("at"))
+    const issues = [
+      ...keys(path, ["kind", "at", "colour"])(input),
+      ...bands.issues,
+      ...(tint?.issues ?? []),
+    ]
 
-    const list: ReadonlyArray<unknown> = Array.isArray(at) ? at : []
-    const numbers = list.filter(isNumber)
+    return issues.length > 0 || bands.value === undefined
+      ? { value: undefined, issues }
+      : { value: { kind: "breaks", at: bands.value, ...tinted }, issues }
+  }
 
-    const ascending =
-      numbers.length === list.length &&
-      numbers.length > 0 &&
-      numbers.length <= maxBreaks &&
-      numbers.every((each, index) => each > (numbers[index - 1] ?? Number.NEGATIVE_INFINITY))
+  if (input["kind"] === "diverging") {
+    const bands = breaks(input["at"], at("at"))
+    const mid = input["mid"]
+    const below = colour(input["below"], at("below"))
+    const above = colour(input["above"], at("above"))
+    const first = bands.value?.[0]
+    const last = bands.value?.at(-1)
 
-    return ascending
-      ? { value: { kind: "breaks", at: numbers }, issues }
+    const issues = [
+      ...keys(path, ["kind", "at", "mid", "below", "above"])(input),
+      ...bands.issues,
+      ...(isNumber(mid) ? [] : invalid(at("mid"), "a finite number").issues),
+      ...(isNumber(mid) && first !== undefined && last !== undefined && (mid < first || mid > last)
+        ? invalid(at("mid"), `a number from ${first} to ${last}, so bands fall on both sides of it`)
+            .issues
+        : []),
+      ...below.issues,
+      ...above.issues,
+      ...(below.value !== undefined &&
+      above.value !== undefined &&
+      apart(oklch(below.value), oklch(above.value)) < minApart
+        ? invalid(at("above"), `a hue at least ${minApart}° away from \`below\``).issues
+        : []),
+    ]
+
+    return issues.length > 0 ||
+      bands.value === undefined ||
+      !isNumber(mid) ||
+      below.value === undefined ||
+      above.value === undefined
+      ? { value: undefined, issues }
       : {
-          value: undefined,
-          issues: [
-            ...issues,
-            {
-              kind: "Invalid",
-              path: [...path, "at"],
-              expected: `1 to ${maxBreaks} finite numbers in strictly ascending order`,
-            },
-          ],
+          value: {
+            kind: "diverging",
+            at: bands.value,
+            mid,
+            below: below.value,
+            above: above.value,
+          },
+          issues,
         }
   }
 
-  return {
-    value: undefined,
-    issues: [{ kind: "Invalid", path: [...path, "kind"], expected: '"quantile" or "breaks"' }],
-  }
+  return invalid(at("kind"), '"quantile", "breaks" or "diverging"')
 }
 
 const values = (input: unknown, path: Path): Checked<Values> => {
@@ -235,8 +321,10 @@ const fill = (input: unknown, path: Path): Checked<Fill> => {
   }
 
   if (input["kind"] === "highlight") {
-    const known = keys(path, ["kind", "countries"])(input)
+    const known = keys(path, ["kind", "countries", "colour"])(input)
     const list = input["countries"]
+    const tint =
+      input["colour"] === undefined ? undefined : colour(input["colour"], [...path, "colour"])
 
     if (!Array.isArray(list) || list.length === 0)
       return {
@@ -251,7 +339,7 @@ const fill = (input: unknown, path: Path): Checked<Fill> => {
         ],
       }
 
-    const issues: Array<Issue> = [...known]
+    const issues: Array<Issue> = [...known, ...(tint?.issues ?? [])]
     const picked: Array<Country> = []
 
     for (const [index, each] of list.entries()) {
@@ -268,7 +356,14 @@ const fill = (input: unknown, path: Path): Checked<Fill> => {
     }
 
     return issues.length === 0
-      ? { value: { kind: "highlight", countries: picked }, issues }
+      ? {
+          value: {
+            kind: "highlight",
+            countries: picked,
+            ...(tint?.value === undefined ? {} : { colour: tint.value }),
+          },
+          issues,
+        }
       : { value: undefined, issues }
   }
 

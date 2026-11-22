@@ -48,7 +48,6 @@ const escape = (text: string) =>
 // Strokes keep their width when a story zooms the viewBox, and the title,
 // legend and credits live in HTML beside it, so they never zoom.
 export const bare = (scene: Scene, { palette = light }: FigureOptions = {}) => {
-  const classes = scene.legend?.classes ?? 1
   const holder = document.createElement("div")
 
   holder.innerHTML = [
@@ -56,7 +55,7 @@ export const bare = (scene: Scene, { palette = light }: FigureOptions = {}) => {
     `<path d="${scene.land}" fill="${palette.land}"/>`,
     ...scene.shapes.map(
       (shape) =>
-        `<path d="${shape.path}" data-country="${shape.country}" fill="${paint(shape.tone, { classes, palette })}" stroke="${palette.stroke}" stroke-width="1" vector-effect="non-scaling-stroke"><title>${escape(shape.label)}</title></path>`,
+        `<path d="${shape.path}" data-country="${shape.country}" fill="${paint(shape.tone, { palette })}" stroke="${palette.stroke}" stroke-width="1" vector-effect="non-scaling-stroke"><title>${escape(shape.label)}</title></path>`,
     ),
     ...scene.borders.map(
       (border) =>
@@ -88,7 +87,7 @@ export const legend = (scene: Scene, { palette = light }: FigureOptions = {}) =>
           },
         ]),
     ...key.bins.map((bin) => ({
-      colour: paint({ kind: "shade", shade: bin.shade }, { classes: key.classes, palette }),
+      colour: paint(bin.shade, { palette }),
       text: range(bin),
     })),
     ...(scene.shapes.some((shape) => shape.tone.kind === "blank")
