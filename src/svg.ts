@@ -1,5 +1,5 @@
 import { type Colour, hex, oklch } from "./colour.ts"
-import type { Inset, Legend, Scene, Tone } from "./draw.ts"
+import type { Legend, Scene, Tone } from "./draw.ts"
 import type { Bin } from "./scale.ts"
 
 export interface Palette {
@@ -129,23 +129,77 @@ const units = (width: number) => ({
   slot: width * 0.11,
 })
 
-const insetRows = (insets: ReadonlyArray<Inset>, width: number) => {
-  const { slot, gap, small } = units(width)
-  const perRow = Math.max(1, Math.floor((width + gap) / (slot + gap)))
+// What decides where svg() puts each part, and so the document's height.
+export interface Parts {
+  // The map's size in units: the scene's, or its sheet's before it loads.
+  readonly width: number
+  readonly height: number
+  readonly title: boolean
+  // Each inset's box, width by height.
+  readonly insets: ReadonlyArray<readonly [number, number]>
+  readonly legend: boolean
+  // Lines of small print under the legend.
+  readonly notes: number
+}
 
-  return insets.map((inset, index) => {
-    const row = Math.floor(index / perRow)
-    const height = (slot * inset.height) / inset.width
+// Where each part sits, top to bottom: the title's baseline, the map's top,
+// each inset's box, the legend's top and each note's baseline, and the height
+// of the whole document.
+export const stack = (parts: Parts) => {
+  const size = units(parts.width)
+  const perRow = Math.max(1, Math.floor((parts.width + size.gap) / (size.slot + size.gap)))
+  let y = 0
+  let title: number | undefined
 
-    return {
-      inset,
-      x: (index % perRow) * (slot + gap),
-      row,
-      width: slot,
-      height,
-      label: small,
-    }
-  })
+  if (parts.title) {
+    y += size.title
+    title = y
+    y += size.gap
+  }
+
+  const map = y
+
+  y += parts.height
+
+  const boxes = parts.insets.map(([width, height], index) => ({
+    x: (index % perRow) * (size.slot + size.gap),
+    row: Math.floor(index / perRow),
+    width: size.slot,
+    height: (size.slot * height) / width,
+  }))
+  const insets: Array<{
+    readonly x: number
+    readonly y: number
+    readonly width: number
+    readonly height: number
+  }> = []
+
+  if (boxes.length > 0) {
+    y += size.gap
+    const rows = Math.max(...boxes.map((box) => box.row)) + 1
+    const rowHeight = Math.max(...boxes.map((box) => box.height)) + size.small * 1.6
+
+    for (const box of boxes) insets.push({ ...box, y: y + box.row * (rowHeight + size.gap) })
+
+    y += rows * (rowHeight + size.gap)
+  }
+
+  let legend: number | undefined
+
+  if (parts.legend) {
+    y += size.gap
+    legend = y
+    y += size.swatch + size.gap
+  }
+
+  const notes: Array<number> = []
+
+  for (let index = 0; index < parts.notes; index += 1) {
+    y += size.small * 1.5
+    notes.push(y)
+  }
+
+  return { title, map, insets, legend, notes, height: Math.ceil(y + size.small * 0.5) }
 }
 
 const legendItems = (legend: Legend, palette: Palette | Schemes) =>
@@ -176,20 +230,40 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
   const blank = pick(palette, (each) => each.blank)
   const size = units(width)
   const lines: Array<string> = []
-  let y = 0
+
+  const notes = [
+    ...(scene.missing.length === 0
+      ? []
+      : [
+          `Too small to show: ${scene.rows
+            .filter((row) => scene.missing.includes(row.country))
+            .map((row) => row.name)
+            .join(", ")}.`,
+        ]),
+    ...(scene.source === undefined ? [] : [`Data: ${scene.source}.`]),
+    ...scene.credits.map(
+      (credit) => `Boundaries: ${credit.publisher}, ${credit.vintage}. ${credit.license}.`,
+    ),
+  ]
+
+  const at = stack({
+    width,
+    height: scene.height,
+    title: scene.title !== undefined,
+    insets: scene.insets.map((inset) => [inset.width, inset.height] as const),
+    legend: scene.legend !== undefined,
+    notes: notes.length,
+  })
 
   const font = `font-family="system-ui, sans-serif"`
 
-  if (scene.title !== undefined) {
-    y += size.title
+  if (scene.title !== undefined)
     lines.push(
-      `<text x="0" y="${y}" ${font} font-size="${size.title}" font-weight="600" fill="${ink}">${escape(scene.title)}</text>`,
+      `<text x="0" y="${at.title}" ${font} font-size="${size.title}" font-weight="600" fill="${ink}">${escape(scene.title)}</text>`,
     )
-    y += size.gap
-  }
 
   lines.push(
-    `<g transform="translate(0 ${y})">`,
+    `<g transform="translate(0 ${at.map})">`,
     `<path d="${scene.land}" fill="${land}"/>`,
     ...scene.shapes.map(
       (shape) =>
@@ -206,40 +280,30 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
     `</g>`,
   )
 
-  y += scene.height
+  for (const [index, inset] of scene.insets.entries()) {
+    const box = at.insets[index]
 
-  const placed = insetRows(scene.insets, width)
+    if (box === undefined) continue
 
-  if (placed.length > 0) {
-    y += size.gap
-    const rows = Math.max(...placed.map((each) => each.row)) + 1
-    const rowHeight = Math.max(...placed.map((each) => each.height)) + size.small * 1.6
-
-    for (const each of placed) {
-      const top = y + each.row * (rowHeight + size.gap)
-
-      lines.push(
-        `<svg x="${each.x}" y="${top}" width="${each.width}" height="${each.height}" viewBox="0 0 ${each.inset.width} ${each.inset.height}">`,
-        `<rect width="${each.inset.width}" height="${each.inset.height}" fill="none" stroke="${blank}"/>`,
-        `<path d="${each.inset.path}" data-country="${each.inset.country}" data-inset="${escape(each.inset.name)}" fill="${paint(each.inset.tone, { palette })}" stroke="${stroke}" stroke-width="1.5"><title>${escape(each.inset.label)}</title></path>`,
-        ...each.inset.patches.map(
-          (patch) =>
-            `<path d="${patch.path}" data-area="${escape(patch.area)}" fill="${paint(patch.tone, { palette })}" stroke="${stroke}" stroke-width="1.5"><title>${escape(patch.label)}</title></path>`,
-        ),
-        ...each.inset.borders.map(
-          (border) =>
-            `<path d="${border.path}" data-area="${escape(border.code)}" fill="none" stroke="${stroke}" stroke-width="1.5"><title>${escape(border.name)}</title></path>`,
-        ),
-        `</svg>`,
-        `<text x="${each.x}" y="${top + each.height + each.label * 1.2}" ${font} font-size="${each.label}" fill="${muted}">${escape(each.inset.name)}</text>`,
-      )
-    }
-
-    y += rows * (rowHeight + size.gap)
+    lines.push(
+      `<svg x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" viewBox="0 0 ${inset.width} ${inset.height}">`,
+      `<rect width="${inset.width}" height="${inset.height}" fill="none" stroke="${blank}"/>`,
+      `<path d="${inset.path}" data-country="${inset.country}" data-inset="${escape(inset.name)}" fill="${paint(inset.tone, { palette })}" stroke="${stroke}" stroke-width="1.5"><title>${escape(inset.label)}</title></path>`,
+      ...inset.patches.map(
+        (patch) =>
+          `<path d="${patch.path}" data-area="${escape(patch.area)}" fill="${paint(patch.tone, { palette })}" stroke="${stroke}" stroke-width="1.5"><title>${escape(patch.label)}</title></path>`,
+      ),
+      ...inset.borders.map(
+        (border) =>
+          `<path d="${border.path}" data-area="${escape(border.code)}" fill="none" stroke="${stroke}" stroke-width="1.5"><title>${escape(border.name)}</title></path>`,
+      ),
+      `</svg>`,
+      `<text x="${box.x}" y="${box.y + box.height + size.small * 1.2}" ${font} font-size="${size.small}" fill="${muted}">${escape(inset.name)}</text>`,
+    )
   }
 
-  if (scene.legend !== undefined) {
-    y += size.gap
+  if (scene.legend !== undefined && at.legend !== undefined) {
+    const y = at.legend
     let x = 0
     const baseline = y + size.swatch * 0.8
 
@@ -266,33 +330,14 @@ export const svg = (scene: Scene, { palette = light }: SvgOptions = {}): string 
       )
       x += size.swatch * 1.4 + item.text.length * size.text * 0.55 + size.gap * 1.5
     }
-
-    y += size.swatch + size.gap
   }
 
-  const notes = [
-    ...(scene.missing.length === 0
-      ? []
-      : [
-          `Too small to show: ${scene.rows
-            .filter((row) => scene.missing.includes(row.country))
-            .map((row) => row.name)
-            .join(", ")}.`,
-        ]),
-    ...(scene.source === undefined ? [] : [`Data: ${scene.source}.`]),
-    ...scene.credits.map(
-      (credit) => `Boundaries: ${credit.publisher}, ${credit.vintage}. ${credit.license}.`,
-    ),
-  ]
-
-  for (const note of notes) {
-    y += size.small * 1.5
+  for (const [index, note] of notes.entries())
     lines.push(
-      `<text x="0" y="${y}" ${font} font-size="${size.small}" fill="${muted}">${escape(note)}</text>`,
+      `<text x="0" y="${at.notes[index]}" ${font} font-size="${size.small}" fill="${muted}">${escape(note)}</text>`,
     )
-  }
 
-  const height = Math.ceil(y + size.small * 0.5)
+  const { height } = at
 
   return [
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" role="img">`,

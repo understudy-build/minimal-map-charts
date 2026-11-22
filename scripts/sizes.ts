@@ -71,6 +71,9 @@ const reached = (start: string): ReadonlySet<string> => {
 
 const entry = reached("index.js")
 const loaded = scripts.filter((size) => entry.has(size.path))
+// What a page loads from a CDN for `<map-chart>`, before its sheet.
+const element = reached("element.js")
+const elementLoaded = scripts.filter((size) => element.has(size.path))
 
 const total = (sizes: ReadonlyArray<Size>): Size => ({
   path: `${sizes.length} files`,
@@ -119,7 +122,9 @@ const kindSections = kinds
   )
   .join("\n\n")
 
-const others = byGzip(core.filter((size) => !entry.has(size.path)))
+const others = byGzip(
+  core.filter((size) => !entry.has(size.path) && !element.has(size.path) && size.path !== "cli.js"),
+)
 
 // Common maps, bundled the way an app would bundle them. "Asia" draws East
 // Asia: no sheet holds the whole continent, and a fill across it draws the
@@ -181,6 +186,12 @@ Importing the package loads the entry point and every module it imports statical
 ${table([...byGzip(loaded), { ...total(loaded), path: "**Total**" }], "Entry point")}
 
 A bundler may merge these modules and minify them, so a bundled page usually sends less than this.
+
+## The \`<map-chart>\` element
+
+A page that loads \`dist/element.js\` from a CDN downloads these modules, unbundled, then the one sheet its map draws.
+
+${table([...byGzip(elementLoaded), { ...total(elementLoaded), path: "**Total**" }], "Module")}
 
 ## Common maps, bundled
 

@@ -15,7 +15,7 @@ import {
   type SheetId,
   type Steps,
 } from "./sheet.ts"
-import { type Fill, type Issue, named, type Spec, type Value } from "./spec.ts"
+import { type Fill, type Issue, type Named, named, type Spec, type Value } from "./spec.ts"
 
 // How a shape is coloured: blank, one of the legend's shades, picked out by a
 // highlight, or context only (land shown for location, with no value). A
@@ -266,6 +266,24 @@ const undrawn = (fill: Fill | undefined, drawn: ReadonlySet<string>): ReadonlyAr
   )
 }
 
+// The countries a map is about: those the fill names, or the one whose areas
+// it names.
+const subjects = (target: Named) => (target.kind === "countries" ? target.codes : [target.country])
+
+// The sheet or layout a spec draws, without loading anything: the spec's
+// own, else the areas' country's map, else the narrowest region holding
+// every country in the fill, else the world.
+export const sheetOf = (spec: Spec): SheetId | Layout => {
+  const target = named(spec.fill)
+
+  return (
+    spec.sheet ??
+    (target.kind === "areas" && isSheet(target.country)
+      ? target.country
+      : (frames(subjects(target))[0] ?? "world"))
+  )
+}
+
 // Resolves a spec into a scene: picks the sheet, or crops sheets into the
 // layout's panels, and classes the values. A page downloads only the sheets
 // it draws. It refuses an area the sheet does not draw rather than leave it
@@ -273,14 +291,8 @@ const undrawn = (fill: Fill | undefined, drawn: ReadonlySet<string>): ReadonlyAr
 export const draw = async (spec: Spec, options: DrawOptions = {}): Promise<Drawn> => {
   const locale = options.locale ?? "en"
   const target = named(spec.fill)
-  // The countries the map is about: those the fill names, or the one whose
-  // areas it names.
-  const codes = target.kind === "countries" ? target.codes : [target.country]
-  const id =
-    spec.sheet ??
-    (target.kind === "areas" && isSheet(target.country)
-      ? target.country
-      : (frames(codes)[0] ?? "world"))
+  const codes = subjects(target)
+  const id = sheetOf(spec)
   const canvas = typeof id === "object" ? await fromLayout(id, codes) : await fromSheet(id)
 
   // Each area's name as its sheet gives it, on the map or in an inset.

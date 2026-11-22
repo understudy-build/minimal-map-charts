@@ -13,6 +13,7 @@ export {
   type Row,
   type Scene,
   type Shape,
+  sheetOf,
   type Tone,
 } from "./draw.ts"
 export type { Frame } from "./compose.ts"
@@ -21,6 +22,7 @@ export { type Region, regions } from "./regions.ts"
 export type { Bin, Shade } from "./scale.ts"
 export { partial } from "./partial.ts"
 export { schema, strict } from "./schema.ts"
+export { size } from "./size.ts"
 export { type Credit, type SheetId, sheetIds } from "./sheet.ts"
 export {
   type Classes,

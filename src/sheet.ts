@@ -54,6 +54,17 @@ export interface Sheet {
   )
 }
 
+// What a page knows of a sheet before it loads, to reserve the height of its
+// map: its size in units, its insets' boxes, how many credit lines it
+// prints, and the countries it frames but is too small to draw.
+export interface Footprint {
+  readonly width: number
+  readonly height: number
+  readonly insets: ReadonlyArray<readonly [number, number]>
+  readonly credits: number
+  readonly absent?: ReadonlyArray<Country>
+}
+
 // A map: the world, a region by its id, or a country's own map by its code.
 export type SheetId = keyof typeof sheets | keyof typeof national
 

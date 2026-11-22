@@ -1,0 +1,122 @@
+# minimal-map-charts
+
+> Country and subdivision maps from a small JSON spec. You write the spec; the package picks the map, colours it, draws the legend and credits, and checks every code.
+
+Use it for a map of countries, or of one country's states or regions: which countries are members of something, or one number per country or per area. It has no points, no cities, no tiles and no pan and zoom.
+
+## The rule for values
+
+Every number in `fill.values` comes from a source: data the user gave you, a file, a tool result or a publication you can cite. Never write values from memory. Name the source in `source`. If you have no source, draw a highlight of the countries instead, or ask for the data. Membership (the euro area, NATO, the EU) is a fact you may know; a highlight needs no numbers.
+
+## In an HTML page
+
+Load the element once and put the spec in a JSON script inside `<map-chart>`. No other script is needed.
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/@nicolastoulemont/minimal-map-charts@0/dist/element.js"></script>
+<map-chart><script type="application/json">{ "title": "Euro area founders, 1999", "fill": { "kind": "highlight", "countries": ["AUT", "BEL", "FIN", "FRA", "DEU", "IRL", "ITA", "LUX", "NLD", "PRT", "ESP"] } }</script></map-chart>
+```
+
+- The map fills the element's width and reserves its height before it loads. A map with a layout as `sheet` gets its height once drawn.
+- Colours follow the page's `color-scheme`: set `:root { color-scheme: light dark }`, or `color-scheme: dark` on the element. The title takes the page's text colour.
+- Hover a country for its name and value.
+- A spec with a problem shows what to fix in place of the map and logs the same lines with `console.error`. Read the console, fix each line, write the page again.
+
+## In a shell
+
+```sh
+npx @nicolastoulemont/minimal-map-charts render spec.json > map.svg
+cat spec.json | npx @nicolastoulemont/minimal-map-charts render --palette light > map.svg
+```
+
+Without a file it reads stdin. The SVG follows the page's `color-scheme`; `--palette light` or `--palette dark` paints a fixed map with its own background, for an image or an email. A bad spec prints what to fix on stderr, one line each, and exits 1.
+
+## The spec
+
+Every field is optional. `{}` draws a blank world.
+
+- `title`: text above the map.
+- `source`: who published the values, printed under the map, e.g. `"Eurostat, 2024"`.
+- `fill`: one of
+  - `{ "kind": "highlight", "countries": ["FRA", ...], "colour"?: "#rrggbb" }`: countries picked out in one colour.
+  - `{ "kind": "highlight", "areas": ["US-CA", ...], "colour"?: "#rrggbb" }`: areas of one country.
+  - `{ "kind": "choropleth", "values": [{ "country": "FRA", "value": 7.3 }, ...], "scale"?, "better"?: "higher" | "lower" }`: one number per country, each listed once. Countries left out show as no data.
+  - The same with `{ "area": "US-CA", "value": 39.4 }` pairs: one number per area, all areas of one country.
+- `scale` (choropleth only), one of
+  - `{ "kind": "quantile", "classes"?: 3 to 7, "colour"?: "#rrggbb" }`: the default, 5 classes of about as many values each.
+  - `{ "kind": "breaks", "at": [2, 5, 10], "colour"?: "#rrggbb" }`: fixed bands, ascending, at most 6 breaks. A value on a break falls in the band above it.
+  - `{ "kind": "diverging", "at": [-2, 0, 2], "mid": 0, "below": "#rrggbb", "above": "#rrggbb" }`: losses and gains around `mid`. The two hues must be at least 60 degrees apart, and `mid` must lie between the first and last break.
+- `sheet`: which map. Leave it out: the map is the narrowest region holding every country in the fill, else the world, and a fill of areas draws its country's own map. Set it to
+  - `"world"`;
+  - a region: baltics, western-balkans, south-caucasus, gulf, caribbean, central-america, nordics, west-africa, central-africa, east-africa, southern-africa, north-africa, middle-east, central-asia, south-asia, southeast-asia, east-asia, australia, europe, south-america, latin-america, north-america, sub-saharan-africa, africa, northeast-asia, post-soviet, extended-europe, oceania, americas;
+  - a country's alpha-3 code, such as `"FRA"`, for its own map with its regions (212 countries have one);
+  - or a layout, to put countries far apart side by side at one scale: `{ "places": ["USA", "FRA", "DEU"] }`, with optional `"scale": "shared" | "fit"`, `"insets": false` and `"context": false`.
+
+Codes: countries are ISO 3166-1 alpha-3 (`"FRA"`, not `"France"` or `"FR"`). Areas are ISO 3166-2 (`"US-CA"`, `"FR-BRE"`, `"DE-BY"`). Colours are `"#rrggbb"` and not grey; the map sets their lightness, so one spec reads on a light or a dark page. Pick a colour that means something: green for forest, red for losses.
+
+## Examples
+
+A highlight, which needs no values:
+
+```json
+{
+  "title": "Euro area members, 2026",
+  "fill": {
+    "kind": "highlight",
+    "countries": ["AUT", "BEL", "BGR", "HRV", "CYP", "EST", "FIN", "FRA", "DEU", "GRC", "IRL", "ITA", "LVA", "LTU", "LUX", "MLT", "NLD", "PRT", "SVK", "SVN", "ESP"]
+  }
+}
+```
+
+A choropleth of countries. Replace the values and the source with the user's data:
+
+```json
+{
+  "title": "Unemployment rate, 2024 (%)",
+  "source": "Illustrative values",
+  "fill": {
+    "kind": "choropleth",
+    "values": [
+      { "country": "ESP", "value": 11.4 },
+      { "country": "GRC", "value": 10.1 },
+      { "country": "FRA", "value": 7.4 },
+      { "country": "ITA", "value": 6.5 },
+      { "country": "DEU", "value": 3.4 },
+      { "country": "POL", "value": 2.9 }
+    ],
+    "better": "lower"
+  }
+}
+```
+
+A choropleth of one country's areas, with fixed bands:
+
+```json
+{
+  "title": "Population, 2024 (millions)",
+  "source": "Illustrative values",
+  "fill": {
+    "kind": "choropleth",
+    "values": [
+      { "area": "US-CA", "value": 39.4 },
+      { "area": "US-TX", "value": 31.3 },
+      { "area": "US-FL", "value": 23.4 },
+      { "area": "US-NY", "value": 19.9 },
+      { "area": "US-WY", "value": 0.6 }
+    ],
+    "scale": { "kind": "breaks", "at": [1, 10, 20, 30] }
+  }
+}
+```
+
+## Errors
+
+Each problem is one line: where it is, then what to do.
+
+```
+spec: unknown key "titel".
+fill.countries.0: "France" is not a country code. Did you mean "FRA"?
+fill.values.2: BRA is not on the "europe" sheet. Sheets that hold every country: world.
+```
+
+Fix every line and draw again. Use the suggested code only if it is the place you meant.

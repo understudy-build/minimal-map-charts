@@ -8,25 +8,49 @@ Each file is compressed on its own (gzip level 9, Brotli quality 11), as a serve
 
 Importing the package loads the entry point and every module it imports statically. Each sheet is a separate module loaded with `import()` the first time a map draws it, so a page that draws one map adds one sheet.
 
-| Entry point        |     Raw |    gzip |  Brotli |
-| ------------------ | ------: | ------: | ------: |
-| spec.js            | 25.7 kB |  6.2 kB |  5.5 kB |
-| draw.js            | 10.3 kB |  3.1 kB |  2.8 kB |
-| schema.js          | 12.3 kB |  3.1 kB |  2.6 kB |
-| svg.js             |  9.5 kB |  3.0 kB |  2.7 kB |
-| data/sheets.gen.js | 11.4 kB |  2.5 kB |  2.0 kB |
-| regions.js         |  6.9 kB |  2.3 kB |  1.8 kB |
-| countries.js       |  8.4 kB |  1.8 kB |  1.1 kB |
-| partial.js         |  3.4 kB |  1.3 kB |  1.1 kB |
-| colour.js          |  2.8 kB |  1.3 kB |  1.1 kB |
-| sheet.js           |  3.3 kB |  1.2 kB |  1.0 kB |
-| scale.js           |  3.2 kB |  1.2 kB |  1.0 kB |
-| areas.js           |  0.9 kB |  0.5 kB |  0.4 kB |
-| frame.js           |  1.0 kB |  0.5 kB |  0.4 kB |
-| index.js           |  0.4 kB |  0.2 kB |  0.1 kB |
-| **Total**          | 99.4 kB | 28.1 kB | 23.8 kB |
+| Entry point        |      Raw |    gzip |  Brotli |
+| ------------------ | -------: | ------: | ------: |
+| spec.js            |  25.7 kB |  6.2 kB |  5.5 kB |
+| data/sheets.gen.js |  33.3 kB |  5.0 kB |  3.8 kB |
+| svg.js             |  10.3 kB |  3.3 kB |  2.9 kB |
+| draw.js            |  10.7 kB |  3.2 kB |  2.9 kB |
+| schema.js          |  12.3 kB |  3.1 kB |  2.6 kB |
+| regions.js         |   6.9 kB |  2.3 kB |  1.8 kB |
+| countries.js       |   8.4 kB |  1.8 kB |  1.1 kB |
+| partial.js         |   3.4 kB |  1.3 kB |  1.1 kB |
+| colour.js          |   2.8 kB |  1.3 kB |  1.1 kB |
+| sheet.js           |   3.3 kB |  1.2 kB |  1.0 kB |
+| scale.js           |   3.2 kB |  1.2 kB |  1.0 kB |
+| size.js            |   1.1 kB |  0.5 kB |  0.4 kB |
+| areas.js           |   0.9 kB |  0.5 kB |  0.4 kB |
+| frame.js           |   1.0 kB |  0.5 kB |  0.4 kB |
+| index.js           |   0.4 kB |  0.2 kB |  0.2 kB |
+| **Total**          | 123.6 kB | 31.5 kB | 26.3 kB |
 
 A bundler may merge these modules and minify them, so a bundled page usually sends less than this.
+
+## The `<map-chart>` element
+
+A page that loads `dist/element.js` from a CDN downloads these modules, unbundled, then the one sheet its map draws.
+
+| Module             |      Raw |    gzip |  Brotli |
+| ------------------ | -------: | ------: | ------: |
+| spec.js            |  25.7 kB |  6.2 kB |  5.5 kB |
+| data/sheets.gen.js |  33.3 kB |  5.0 kB |  3.8 kB |
+| svg.js             |  10.3 kB |  3.3 kB |  2.9 kB |
+| draw.js            |  10.7 kB |  3.2 kB |  2.9 kB |
+| schema.js          |  12.3 kB |  3.1 kB |  2.6 kB |
+| regions.js         |   6.9 kB |  2.3 kB |  1.8 kB |
+| countries.js       |   8.4 kB |  1.8 kB |  1.1 kB |
+| colour.js          |   2.8 kB |  1.3 kB |  1.1 kB |
+| element.js         |   3.0 kB |  1.3 kB |  1.0 kB |
+| sheet.js           |   3.3 kB |  1.2 kB |  1.0 kB |
+| scale.js           |   3.2 kB |  1.2 kB |  1.0 kB |
+| render.js          |   1.4 kB |  0.6 kB |  0.5 kB |
+| size.js            |   1.1 kB |  0.5 kB |  0.4 kB |
+| areas.js           |   0.9 kB |  0.5 kB |  0.4 kB |
+| frame.js           |   1.0 kB |  0.5 kB |  0.4 kB |
+| **Total**          | 124.2 kB | 31.8 kB | 26.5 kB |
 
 ## Common maps, bundled
 
@@ -36,28 +60,28 @@ The code an app imports:
 
 | Imports       | Names                            | Minified |    gzip |  Brotli |
 | ------------- | -------------------------------- | -------: | ------: | ------: |
-| Render        | `draw`, `svg`                    |  38.4 kB | 13.8 kB | 11.4 kB |
-| Generative UI | `parse`, `schema`, `draw`, `svg` |  55.0 kB | 18.8 kB | 15.7 kB |
+| Render        | `draw`, `svg`                    |  38.8 kB | 13.9 kB | 11.5 kB |
+| Generative UI | `parse`, `schema`, `draw`, `svg` |  55.3 kB | 18.9 kB | 15.9 kB |
 
 Each map adds its sheet. The totals are that code plus the sheet:
 
 | Map              | Sheet           | Sheet, gzip | Render, gzip | Generative UI, gzip | Render, Brotli | Generative UI, Brotli |
 | ---------------- | --------------- | ----------: | -----------: | ------------------: | -------------: | --------------------: |
-| World            | `world`         |      8.5 kB |      22.2 kB |             27.2 kB |        19.0 kB |               23.3 kB |
-| North America    | `north-america` |     10.5 kB |      24.3 kB |             29.2 kB |        20.9 kB |               25.3 kB |
-| Europe           | `europe`        |      9.8 kB |      23.6 kB |             28.5 kB |        20.2 kB |               24.6 kB |
-| Asia (East Asia) | `east-asia`     |      3.9 kB |      17.7 kB |             22.7 kB |        15.0 kB |               19.3 kB |
-| United States    | `USA`           |      8.8 kB |      22.6 kB |             27.6 kB |        18.9 kB |               23.3 kB |
-| France           | `FRA`           |      6.0 kB |      19.8 kB |             24.8 kB |        16.7 kB |               21.1 kB |
-| Germany          | `DEU`           |      6.9 kB |      20.7 kB |             25.7 kB |        17.6 kB |               22.0 kB |
-| China            | `CHN`           |      6.0 kB |      19.7 kB |             24.7 kB |        16.7 kB |               21.0 kB |
-| Japan            | `JPN`           |      6.7 kB |      20.5 kB |             25.5 kB |        17.4 kB |               21.7 kB |
+| World            | `world`         |      8.5 kB |      22.4 kB |             27.4 kB |        19.1 kB |               23.5 kB |
+| North America    | `north-america` |     10.5 kB |      24.4 kB |             29.4 kB |        21.1 kB |               25.4 kB |
+| Europe           | `europe`        |      9.8 kB |      23.7 kB |             28.7 kB |        20.3 kB |               24.7 kB |
+| Asia (East Asia) | `east-asia`     |      3.9 kB |      17.9 kB |             22.9 kB |        15.1 kB |               19.5 kB |
+| United States    | `USA`           |      8.8 kB |      22.8 kB |             27.7 kB |        19.1 kB |               23.4 kB |
+| France           | `FRA`           |      6.0 kB |      19.9 kB |             24.9 kB |        16.8 kB |               21.2 kB |
+| Germany          | `DEU`           |      6.9 kB |      20.9 kB |             25.9 kB |        17.7 kB |               22.1 kB |
+| China            | `CHN`           |      6.0 kB |      19.9 kB |             24.9 kB |        16.8 kB |               21.2 kB |
+| Japan            | `JPN`           |      6.7 kB |      20.6 kB |             25.6 kB |        17.5 kB |               21.9 kB |
 
 "Asia" draws the East Asia sheet: no sheet holds the whole continent, and a fill across it draws the world.
 
 ## Sheets
 
-242 sheets, 1355.8 kB gzipped in total. The median sheet is 4.2 kB gzipped.
+243 sheets, 1360.9 kB gzipped in total. The median sheet is 4.2 kB gzipped.
 
 ### World
 
@@ -105,7 +129,7 @@ Each map adds its sheet. The totals are that code plus the sheet:
 
 ### Countries
 
-212 sheets, 1175.0 kB gzipped in total. The median sheet is 4.1 kB gzipped.
+213 sheets, 1180.1 kB gzipped in total. The median sheet is 4.1 kB gzipped.
 
 | Sheet                                        |      Raw |    gzip |  Brotli |
 | -------------------------------------------- | -------: | ------: | ------: |
@@ -194,6 +218,7 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | data/kyrgyzstan.gen.js                       |  27.6 kB |  5.4 kB |  4.8 kB |
 | data/bulgaria.gen.js                         |  23.8 kB |  5.4 kB |  4.9 kB |
 | data/switzerland.gen.js                      |  23.4 kB |  5.3 kB |  4.8 kB |
+| data/areas.gen.js                            |  12.4 kB |  5.1 kB |  4.3 kB |
 | data/british-virgin-islands.gen.js           |  30.7 kB |  5.0 kB |  4.4 kB |
 | data/equatorial-guinea.gen.js                |  32.7 kB |  4.9 kB |  4.4 kB |
 | data/australia-states.gen.js                 |  24.0 kB |  4.9 kB |  4.4 kB |
@@ -335,4 +360,4 @@ Modules the entry point does not import.
 
 ## Type declarations
 
-260 `.d.ts` files, 127.3 kB raw. They are used by editors and type checkers, never downloaded by a page.
+265 `.d.ts` files, 129.4 kB raw. They are used by editors and type checkers, never downloaded by a page.

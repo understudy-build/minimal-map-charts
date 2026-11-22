@@ -44,7 +44,7 @@ A few things:
 1. The container map is inferred when possible, for this chart every country is in Europe, so `draw` picks the Europe sheet.
 2. Islands get insets: France's overseas regions and Portugal's and Spain's islands get insets.
 3. Validation: Had the model written `"France"`, it would get back `fill.countries.0: "France" is not a country code. Did you mean "FRA"?`.
-4. The page pays 28.5 kB gzipped for this: the code with `parse` and `schema`, plus the Europe sheet.
+4. The page pays 28.7 kB gzipped for this: the code with `parse` and `schema`, plus the Europe sheet.
 
 ### Compare countries far apart at the same scale
 
@@ -217,6 +217,44 @@ Both take a catalog of components and let the model compose them. The map is one
 2. A2UI: `catalog` in `stories/standards/a2ui.ts` is an A2UI v1.0 catalog with one `Map` component. It adds the component name, the catalog id and the unions every catalog declares to the spec's schema; a test checks it against A2UI's own catalog schema. The renderer builds its component from the same document with `Catalog.fromJson`, so it checks an agent's message against the schema the agent was given.
 3. Both components still run `parse`, which holds the rules no schema states, then `draw`, which knows the sheet's areas, and show their lines when a spec does not parse or draw.
 
+### In an HTML page or a shell
+
+A host that renders HTML a model writes, such as an artifact or a chat preview, gives the model no tool to call. `<map-chart>` takes the spec as JSON, with no script to write:
+
+```html
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/@nicolastoulemont/minimal-map-charts@0/dist/element.js"
+></script>
+<map-chart
+  ><script type="application/json">
+    {
+      "title": "Euro area founders, 1999",
+      "fill": {
+        "kind": "highlight",
+        "countries": ["AUT", "BEL", "FIN", "FRA", "DEU", "IRL", "ITA", "LUX", "NLD", "PRT", "ESP"]
+      }
+    }
+  </script></map-chart
+>
+```
+
+A few things:
+
+1. Errors reach the model: a spec that `parse` or `draw` refuses shows `describe`'s lines in place of the map and logs the same text with `console.error`. Hosts that report console output pass them back.
+2. Height before load: the element reserves the map's final height from `size(spec)` before its sheet arrives, so a host that measures the page early measures the map. A layout's height depends on the outlines it crops, so a map with a layout takes its height once drawn.
+3. Theme: the map follows the page's `color-scheme`, as `svg` does with `{ light, dark }`.
+4. Updates: change the JSON and the map draws again.
+
+An agent with a shell draws the same spec to a file. Without a file the CLI reads stdin; a bad spec prints the lines to stderr and exits 1:
+
+```sh
+npx @nicolastoulemont/minimal-map-charts render spec.json > map.svg
+npx @nicolastoulemont/minimal-map-charts render spec.json --palette dark > map.svg
+```
+
+[llms.txt](llms.txt), shipped in the package, is the spec, both snippets and three examples on one page for a model. A test parses every spec in it.
+
 ## API
 
 | Export                     | What it does                                                                                                                   |
@@ -228,6 +266,8 @@ Both take a catalog of components and let the model compose them. The map is one
 | `svg(scene, { palette })`  | Turns a scene into a standalone SVG document with its legend and credits. `{ light, dark }` follows the page's `color-scheme`. |
 | `paint(tone, { palette })` | The colour of a shape's tone. `light` and `dark` are the built-in palettes; `{ light, dark }` gives a `light-dark()` pair.     |
 | `range(bin)`               | A legend band as text: "4 to 6", "10 and above".                                                                               |
+| `size(spec)`               | The size `svg` will give a spec's map, before its sheet loads, to reserve its height. `undefined` for a layout.                |
+| `sheetOf(spec)`            | The sheet or layout `draw` will use, without loading anything.                                                                 |
 
 A scene is plain data, so you can draw it however your interface needs:
 
@@ -245,6 +285,7 @@ Run the Storybook stories with `pnpm storybook`:
 - Regions: one story per region.
 - Colour scales: a sequential scale in one colour, a diverging scale around zero, and a coloured highlight, each in light and dark, and one map that follows its page's `color-scheme`.
 - Layouts: layouts written in JSX.
+- Element: `<map-chart>` with a choropleth, a country's areas, a dark page, a layout and a spec with errors.
 - Frameworks: React, Vue, Svelte and Solid recipes to copy into an app, in `stories/frameworks/`. Each is a set of parts (`Figure.Root`, `Figure.Map`, `Figure.Legend`…) that share one context.
 - Standards: the map as a json-render component and as an A2UI component, with the prompt and the catalog each gives a model.
 
@@ -290,15 +331,15 @@ Bundled with Vite, tree-shaken and minified:
 
 | Map           | Sheet, gzip | With `draw` and `svg`, gzip | With `parse` and `schema` too, gzip |
 | ------------- | ----------: | --------------------------: | ----------------------------------: |
-| World         |      8.5 kB |                     22.2 kB |                             27.2 kB |
-| North America |     10.5 kB |                     24.3 kB |                             29.2 kB |
-| Europe        |      9.8 kB |                     23.6 kB |                             28.5 kB |
-| East Asia     |      3.9 kB |                     17.7 kB |                             22.7 kB |
-| United States |      8.8 kB |                     22.6 kB |                             27.6 kB |
-| France        |      6.0 kB |                     19.8 kB |                             24.8 kB |
-| Germany       |      6.9 kB |                     20.7 kB |                             25.7 kB |
-| China         |      6.0 kB |                     19.7 kB |                             24.7 kB |
-| Japan         |      6.7 kB |                     20.5 kB |                             25.5 kB |
+| World         |      8.5 kB |                     22.4 kB |                             27.4 kB |
+| North America |     10.5 kB |                     24.4 kB |                             29.4 kB |
+| Europe        |      9.8 kB |                     23.7 kB |                             28.7 kB |
+| East Asia     |      3.9 kB |                     17.9 kB |                             22.9 kB |
+| United States |      8.8 kB |                     22.8 kB |                             27.7 kB |
+| France        |      6.0 kB |                     19.9 kB |                             24.9 kB |
+| Germany       |      6.9 kB |                     20.9 kB |                             25.9 kB |
+| China         |      6.0 kB |                     19.9 kB |                             24.9 kB |
+| Japan         |      6.7 kB |                     20.6 kB |                             25.6 kB |
 
 It ships 242 sheets: the world, 29 regions and 212 countries with their subdivisions. [docs/bundle-size.md](docs/bundle-size.md) adds Brotli sizes and the size of every file in `dist/`.
 

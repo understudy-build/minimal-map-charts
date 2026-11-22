@@ -3,16 +3,26 @@
   "version": "0.0.0",
   "description": "Small map primitives for generative UI: a JSON spec of countries and values, checked and drawn as SVG from pre-projected sheets.",
   "license": "SEE LICENSE IN LICENSE.md",
+  "bin": {
+    "minimal-map-charts": "./dist/cli.js"
+  },
   "files": [
     "dist",
-    "LICENSE.md"
+    "LICENSE.md",
+    "llms.txt"
   ],
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "./dist/element.js"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./element": {
+      "types": "./dist/element.d.ts",
+      "default": "./dist/element.js"
     }
   },
   "scripts": {
