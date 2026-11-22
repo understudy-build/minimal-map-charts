@@ -107,8 +107,8 @@ describe("subdivisions", () => {
   })
 })
 
-// Who holds each landmark in scripts/build-maps/borders.ts, as the README's
-// "Borders" section says; null for land of no country.
+// Who holds each landmark in scripts/build-maps/borders.ts, as the "Borders"
+// section of docs/data.md says; null for land of no country.
 const holders: Readonly<Record<string, Country | null>> = {
   Simferopol: "UKR",
   Donetsk: "UKR",

@@ -14,7 +14,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Map geometry
 
-The MIT licence covers the code, not the boundaries in `dist/data/`. Every sheet is simplified and re-projected from its sources and stays under their licences. Natural Earth, in the public domain, draws the world and region sheets, every country's outline, the disputed land the README's Borders section moves between countries, and 121 national sheets. The other 91 national sheets keep the licences in the table below.
+The MIT licence covers the code, not the boundaries in `dist/data/`. Every sheet is simplified and re-projected from its sources and stays under their licences. Natural Earth, in the public domain, draws the world and region sheets, every country's outline, the disputed land the [borders policy](docs/data.md#borders) moves between countries, and 121 national sheets. The other 91 national sheets keep the licences in the table below.
 
 `draw` returns a map's sources in `scene.credits`, and `cite(credit)` writes the line each source's licence asks for: the publisher and date, "simplified and re-projected", each licence with its address, and for ODbL sources where the derived data can be downloaded. `svg()` prints these lines under every map. A renderer of your own should print `scene.credits.map(cite)` next to every map it draws.
 

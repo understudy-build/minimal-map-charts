@@ -1,4 +1,4 @@
-// Who the sheets draw holding disputed land. The README's "Borders" section
+// Who the sheets draw holding disputed land. The "Borders" section of docs/data.md
 // states the rule:
 //
 // 1. Land goes to the World Bank economy the UN recognises as its sovereign,

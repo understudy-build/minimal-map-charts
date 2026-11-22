@@ -1,5 +1,5 @@
-// Writes the README's example maps to docs/images/, drawn by the package
-// itself from the specs the README shows. Run with `pnpm readme`.
+// Writes the example maps of the README and docs/maps.md to docs/images/, drawn
+// by the package itself from the specs they show. Run with `pnpm readme`.
 import { mkdirSync, writeFileSync } from "node:fs"
 
 import { describe, draw, parse, svg } from "../src/index.ts"

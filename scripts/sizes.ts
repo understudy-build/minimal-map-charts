@@ -1,6 +1,6 @@
 // Writes docs/bundle-size.md: the size of every file in dist/, raw and
-// compressed, and what a page downloads before it draws a sheet. Run with
-// `pnpm sizes`, which builds first.
+// compressed, and what a page downloads before it draws a sheet; and the
+// README's size table. Run with `pnpm sizes`, which builds first.
 import { readdirSync, readFileSync, writeFileSync } from "node:fs"
 import { join, relative } from "node:path"
 import { brotliCompressSync, constants, gzipSync } from "node:zlib"
@@ -227,6 +227,34 @@ ${others.length === 0 ? "" : `## Other modules\n\nModules the entry point does n
 `
 
 writeFileSync(join(root, "docs", "bundle-size.md"), markdown)
+
+// The README's size table, written between `<!-- name -->` and `<!-- /name -->`.
+const [render, generative] = bundles
+
+if (render === undefined || generative === undefined) throw new Error("Expected two bundles")
+
+const mapTable = [
+  "| Map | Sheet, gzip | With `draw` and `svg`, gzip | With `parse` and `schema` too, gzip |",
+  "|---|---:|---:|---:|",
+  ...cases.map(({ name, sheet }) => {
+    const weight = sheetOf(sheet)
+
+    return `| ${name} | ${kb(weight.gzip)} | ${kb(add(render.code, weight).gzip)} | ${kb(add(generative.code, weight).gzip)} |`
+  }),
+].join("\n")
+
+const fill = (text: string, name: string, body: string) => {
+  const block = new RegExp(`(<!-- ${name} -->)[\\s\\S]*?(<!-- /${name} -->)`)
+
+  if (!block.test(text)) throw new Error(`README.md has no ${name} block`)
+
+  return text.replace(block, (_, open: string, close: string) => `${open}\n\n${body}\n\n${close}`)
+}
+
+const readme = join(root, "README.md")
+
+writeFileSync(readme, fill(readFileSync(readme, "utf8"), "sizes:maps", mapTable))
+
 console.info(
-  `Wrote docs/bundle-size.md: ${scripts.length} scripts, ${declarations.length} declarations`,
+  `Wrote docs/bundle-size.md and README.md: ${scripts.length} scripts, ${declarations.length} declarations`,
 )

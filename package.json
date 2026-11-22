@@ -35,7 +35,7 @@
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
     "storybook": "storybook dev --port 6007",
     "build-storybook": "storybook build",
-    "sizes": "pnpm build && node scripts/sizes.ts && oxfmt docs",
+    "sizes": "pnpm build && node scripts/sizes.ts && oxfmt docs README.md",
     "readme": "node scripts/readme.ts",
     "build:maps": "node scripts/build-maps/index.ts && oxfmt src/data scripts/build-maps/uncoded.gen.ts test/places.gen.ts",
     "audit:borders": "node scripts/build-maps/audit.ts",
