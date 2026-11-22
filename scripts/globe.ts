@@ -1,34 +1,34 @@
 // Writes src/data/globe.gen.ts: where each country lies and how large it is,
 // which layouts need to split countries into panels and to draw panels at one
-// scale. Reads Natural Earth's 1:50m countries as GeoJSON:
+// scale, with disputed land given to who scripts/build-maps/borders.ts says
+// holds it. Reads Natural Earth's 1:50m countries as GeoJSON:
 //
 //   curl -LO https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_50m_admin_0_countries.geojson
 //   node scripts/globe.ts ne_50m_admin_0_countries.geojson && oxfmt src/data
 import { readFileSync, writeFileSync } from "node:fs"
 
 import { around, type Box, contains, gap } from "../src/box.ts"
-import { countries } from "../src/countries.ts"
+import { type Country, countries } from "../src/countries.ts"
+import { settle } from "./build-maps/borders.ts"
 
 type Point = readonly [number, number]
 type Ring = ReadonlyArray<Point>
 type Polygon = ReadonlyArray<Ring>
 
 interface Feature {
-  readonly properties: { readonly ADM0_A3: string }
+  readonly properties: { readonly ADM0_A3: string; readonly NAME: string }
   readonly geometry:
     | { readonly type: "Polygon"; readonly coordinates: Polygon }
     | { readonly type: "MultiPolygon"; readonly coordinates: ReadonlyArray<Polygon> }
 }
 
 // Natural Earth units the World Bank counts under another code, or as part of
-// a country.
+// a country. borders.ts gives disputed land, such as Somaliland, its holder.
 const aliases: Readonly<Record<string, string>> = {
   JEY: "CHI",
   GGY: "CHI",
   KOS: "XKX",
   SDS: "SSD",
-  SOL: "SOM",
-  CYN: "CYP",
   PSX: "PSE",
   ALD: "FIN",
   IOA: "AUS",
@@ -123,15 +123,18 @@ const features =
     ? parsed.features.filter(isFeature)
     : []
 
-const byCode = Map.groupBy(
-  features.flatMap((feature) => {
-    const { geometry } = feature
-    const code = aliases[feature.properties.ADM0_A3] ?? feature.properties.ADM0_A3
+const known = new Map<string, Country>(countries.map(({ code }) => [code, code]))
 
-    return (geometry.type === "Polygon" ? [geometry.coordinates] : geometry.coordinates).map(
-      (polygon) => ({ code, polygon }),
-    )
-  }),
+const byCode = Map.groupBy(
+  settle(
+    features.map(({ properties, geometry }) => ({
+      name: properties.NAME,
+      code: known.get(aliases[properties.ADM0_A3] ?? properties.ADM0_A3) ?? null,
+      shapes: (geometry.type === "Polygon" ? [geometry.coordinates] : geometry.coordinates).map(
+        (polygon) => polygon.map((ring) => ring.map(([x, y]): [number, number] => [x, y])),
+      ),
+    })),
+  ).flatMap(({ code, shapes }) => shapes.map((polygon) => ({ code, polygon }))),
   ({ code }) => code,
 )
 

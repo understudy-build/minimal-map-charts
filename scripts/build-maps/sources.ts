@@ -11,8 +11,11 @@ import { Match, Schema } from "effect"
 import type { MultiPolygon, Polygon } from "geojson"
 import { difference, intersection } from "polyclip-ts"
 
-import { countries } from "../../src/countries.ts"
+import { type Country as Code, countries } from "../../src/countries.ts"
 import { snapshot } from "./archive.ts"
+import { outlines } from "./atlas.ts"
+import { pairs, trim, trims } from "./borders.ts"
+import { geometry } from "./geojson.ts"
 import { counties, councils, type Nation } from "./nations.ts"
 
 const Codes = Schema.Literals
@@ -22,18 +25,6 @@ const Country = Codes(countries.map((country) => country.code))
 // A nation's snapshot file: gzipped for the larger sources.
 export const file = (nation: Nation) =>
   `${nation.id}${nation.source === "Boundary" || nation.source === "LandBoard" ? ".json.gz" : ".json"}`
-
-const position = Schema.mutable(Schema.Tuple([Schema.Finite, Schema.Finite]))
-const ring = Schema.mutable(Schema.NonEmptyArray(position))
-const polygon = Schema.mutable(Schema.NonEmptyArray(ring))
-
-const geometry = Schema.Union([
-  Schema.Struct({ type: Schema.Literal("Polygon"), coordinates: polygon }),
-  Schema.Struct({
-    type: Schema.Literal("MultiPolygon"),
-    coordinates: Schema.mutable(Schema.NonEmptyArray(polygon)),
-  }),
-])
 
 export interface Land {
   readonly type: "Feature"
@@ -456,8 +447,27 @@ export type Read =
       readonly lands: ReadonlyArray<Land>
     }
 
-export const read = (nation: Nation): Read =>
-  Match.value(nation).pipe(
+// A national map's land with what the borders policy gives another country
+// cut out (borders.ts).
+const settled = (country: Code, lands: ReadonlyArray<Land>): ReadonlyArray<Land> =>
+  trims.some((each) => each.country === country)
+    ? lands.map((land) => ({
+        ...land,
+        geometry: {
+          type: "MultiPolygon",
+          coordinates: trim(country, {
+            shapes:
+              land.geometry.type === "Polygon"
+                ? [pairs(land.geometry.coordinates)]
+                : land.geometry.coordinates.map(pairs),
+            outlines,
+          }),
+        },
+      }))
+    : lands
+
+export const read = (nation: Nation): Read => {
+  const raw = Match.value(nation).pipe(
     Match.when({ source: "ONS" }, (each) => ({ source: each.source, lands: readONS(each) })),
     Match.when({ source: "Tailte" }, (each) => ({ source: each.source, lands: readTailte(each) })),
     Match.when({ source: "LandBoard" }, (each) => ({
@@ -471,3 +481,6 @@ export const read = (nation: Nation): Read =>
     Match.when({ source: "Boundary" }, (each) => ({ source: each.source, ...readBoundary(each) })),
     Match.exhaustive,
   )
+
+  return { ...raw, lands: settled(nation.country, raw.lands) }
+}

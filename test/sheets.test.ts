@@ -4,9 +4,12 @@ import { coded } from "../scripts/areas.ts"
 import { subdivision } from "../scripts/build-maps/iso.ts"
 import { despike, flat, spikes } from "../scripts/build-maps/tidy.ts"
 import { uncoded } from "../scripts/build-maps/uncoded.gen.ts"
+import type { Country } from "../src/countries.ts"
 import { areas } from "../src/data/areas.gen.ts"
+import { globe } from "../src/data/globe.gen.ts"
 import { draw, sheetIds } from "../src/index.ts"
 import { load, nations, type Steps } from "../src/sheet.ts"
+import { placed } from "./places.gen.ts"
 
 // Every outline a sheet draws, named for the failure message.
 const outlines = async (id: (typeof sheetIds)[number]) => {
@@ -85,6 +88,113 @@ describe("subdivisions", () => {
     const all = await codes(country)
 
     expect(all.filter((code, index) => all.indexOf(code) !== index)).toEqual([])
+  })
+})
+
+// Who holds each landmark in scripts/build-maps/borders.ts, as the README's
+// "Borders" section says; null for land of no country.
+const holders: Readonly<Record<string, Country | null>> = {
+  Simferopol: "UKR",
+  Donetsk: "UKR",
+  Katzrin: "SYR",
+  Kyrenia: "CYP",
+  Hargeisa: "SOM",
+  Abkhazia: "GEO",
+  Tskhinvali: "GEO",
+  Rîbnița: "MDA",
+  Stepanakert: "AZE",
+  Baikonur: "KAZ",
+  Pristina: "XKX",
+  Ramallah: "PSE",
+  Srinagar: "IND",
+  Siachen: "IND",
+  Itanagar: "IND",
+  Gilgit: "PAK",
+  Muzaffarabad: "PAK",
+  "Aksai Chin": "CHN",
+  "Hala'ib": "EGY",
+  "Kafia Kingi": "SDN",
+  "Ilemi, south": "KEN",
+  "Ilemi, north": "KEN",
+  Laayoune: null,
+  Tifariti: null,
+  Abyei: null,
+  "Bir Tawil": null,
+  Taipei: null,
+  "East Falkland": null,
+}
+
+// Places a national sheet's main outline leaves out although its country
+// holds them: Natural Earth's Admin 1 draws no Siachen in India, and
+// Moldova's sheet draws Transnistria beside the map, as context its
+// statistics leave out.
+const absent: Readonly<Record<string, ReadonlyArray<string>>> = {
+  IND: ["Siachen"],
+  MDA: ["Rîbnița"],
+}
+
+// Whether a point lies inside an outline, by the even-odd rule over its rings.
+const inside = (outline: Steps, [x, y]: readonly [number, number]) => {
+  let crossings = 0
+
+  for (const ring of outline) {
+    const points: Array<readonly [number, number]> = []
+
+    for (let index = 0; index + 1 < ring.length; index += 2) {
+      const [px, py] = points.at(-1) ?? [0, 0]
+
+      points.push([px + (ring[index] ?? 0), py + (ring[index + 1] ?? 0)])
+    }
+
+    for (const [index, [x0, y0]] of points.entries()) {
+      const [x1, y1] = points[(index + 1) % points.length] ?? [x0, y0]
+
+      if (y0 > y !== y1 > y && x < x0 + ((y - y0) / (y1 - y0)) * (x1 - x0)) crossings++
+    }
+  }
+
+  return crossings % 2 === 1
+}
+
+describe("borders", () => {
+  it.each(sheetIds)(
+    "%s draws each disputed place in its holder and no other country",
+    async (id) => {
+      const sheet = await load(id)
+
+      const wrong = Object.entries(placed[id] ?? {}).flatMap(([name, point]) => {
+        const holder = holders[name]
+        const held = Object.entries(sheet.outlines)
+          .filter(([, outline]) => inside(outline ?? [], point))
+          .map(([country]) => country)
+        const expected =
+          holder !== null &&
+          holder !== undefined &&
+          holder in sheet.outlines &&
+          !(absent[id] ?? []).includes(name)
+            ? [holder]
+            : []
+
+        return held.join() === expected.join() ? [] : [`${name}: ${held.join() || "none"}`]
+      })
+
+      expect(wrong).toEqual([])
+    },
+  )
+
+  it("draws land of no country as land on the world sheet, not as a hole", async () => {
+    const sheet = await load("world")
+
+    const holes = Object.entries(placed["world"] ?? {})
+      .filter(([name, point]) => holders[name] === null && !inside(sheet.land, point))
+      .map(([name]) => name)
+
+    expect(holes).toEqual([])
+  })
+
+  it("gives globe Crimea in Ukraine and Western Sahara outside Morocco", () => {
+    expect(globe.UKR?.box[1]).toBeLessThan(44.5)
+    expect(globe.MAR?.box[1]).toBeGreaterThan(27.6)
   })
 })
 

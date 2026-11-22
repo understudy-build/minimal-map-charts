@@ -11,7 +11,7 @@
 // 4. draws a country left with no ring on a world or regional sheet as a dot.
 //
 // Ported from civicdata's packages/maps/scripts/maps.ts at commit 6c2d279.
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs"
+import { mkdirSync, writeFileSync } from "node:fs"
 
 import {
   geoArea,
@@ -31,120 +31,21 @@ import type {
   Polygon,
   Position,
 } from "geojson"
-import { feature, merge, mergeArcs } from "topojson-client"
+import { feature, merge } from "topojson-client"
 import { topology } from "topojson-server"
-import type {
-  GeometryCollection,
-  GeometryObject,
-  MultiPolygon as Arcs,
-  Polygon as Arc,
-  Topology,
-} from "topojson-specification"
+import type { MultiPolygon as Arcs, Polygon as Arc } from "topojson-specification"
 
-import { type Country, countries } from "../../src/countries.ts"
+import type { Country } from "../../src/countries.ts"
 import { type Region, regions } from "../../src/regions.ts"
 import { restore } from "./archive.ts"
+import { atlas, type Detail, isArea } from "./atlas.ts"
+import { landmarks } from "./borders.ts"
 import { subdivision } from "./iso.ts"
 import { mapped } from "./mapped.ts"
 import { nations, type Nation } from "./nations.ts"
 import { type Group, simplify, type Ring } from "./simplify.ts"
 import { file, read } from "./sources.ts"
 import { tidy } from "./tidy.ts"
-
-// A JSON file shipped in an npm package, such as world-atlas.
-const packaged = (path: string) => readFileSync(new URL(import.meta.resolve(path)), "utf8")
-
-type Countries = Topology<{ countries: GeometryCollection<{ name: string }> }>
-
-// How detailed Natural Earth's outlines are: 1:110m for the world, 1:50m for
-// most regions, 1:10m for the smallest.
-type Detail = "110m" | "50m" | "10m"
-
-// Natural Earth draws who holds the land, so its Russia holds Crimea. Our
-// maps draw Crimea in Ukraine, as the EU, whose statistics office we chart,
-// and the UN General Assembly do: its polygon, Sevastopol included, moves
-// from Russia's outline into Ukraine's, without a border between them.
-const ukrainian = (atlas: Countries): Countries => {
-  const { geometries } = atlas.objects.countries
-  const areas = geometries.filter(isArea)
-  const russia = areas.find((geometry) => geometry.properties?.name === "Russia")
-  const ukraine = areas.find((geometry) => geometry.properties?.name === "Ukraine")
-
-  if (russia?.type !== "MultiPolygon" || ukraine === undefined)
-    throw new Error("Natural Earth no longer draws Russia and Ukraine as it did")
-
-  const crimean = (arcs: Array<Array<number>>) => {
-    const [x, y] = geoCentroid(feature(atlas, { type: "Polygon", arcs }))
-
-    return x > 32 && x < 37 && y > 44 && y < 46.5
-  }
-
-  const crimea = russia.arcs.filter(crimean)
-
-  if (crimea.length !== 1) throw new Error(`Found ${crimea.length} polygons of Crimea, not 1`)
-
-  const moved = {
-    ...russia,
-    arcs: russia.arcs.filter((arcs) => !crimean(arcs)),
-  }
-
-  const joined = {
-    ...mergeArcs(atlas, [ukraine, { type: "MultiPolygon", arcs: crimea }]),
-    id: ukraine.id,
-    properties: ukraine.properties,
-  }
-
-  return {
-    ...atlas,
-    objects: {
-      countries: {
-        ...atlas.objects.countries,
-        geometries: geometries.map((geometry) =>
-          geometry === russia ? moved : geometry === ukraine ? joined : geometry,
-        ),
-      },
-    },
-  }
-}
-
-const isArea = (
-  geometry: GeometryObject<{ name: string }>,
-): geometry is Arc<{ name: string }> | Arcs<{ name: string }> =>
-  geometry.type === "Polygon" || geometry.type === "MultiPolygon"
-
-const atlasOf = (detail: Detail): Countries =>
-  ukrainian(JSON.parse(packaged(`world-atlas/countries-${detail}.json`)))
-
-// Natural Earth country outlines, keyed by ISO 3166-1 numeric code.
-const atlas: Record<Detail, Countries> = {
-  "110m": atlasOf("110m"),
-  "50m": atlasOf("50m"),
-  "10m": atlasOf("10m"),
-}
-
-// [alpha-2, alpha-3, numeric, subdivision prefix] for every ISO 3166-1 country.
-const codes = Schema.decodeUnknownSync(Schema.Array(Schema.Array(Schema.String)))(
-  JSON.parse(packaged("i18n-iso-countries/codes.json")),
-)
-
-const alpha3 = new Map(codes.map(([, three, numeric]) => [numeric, three]))
-const known = new Set<string>(countries.map((country) => country.code))
-const isCountry = (code: string | undefined): code is Country =>
-  code !== undefined && known.has(code)
-
-// The World Bank's code for a Natural Earth country, if it publishes data for
-// it. Kosovo has no ISO code, so the World Bank calls it XKX; Jersey and
-// Guernsey are its Channel Islands, CHI.
-const codeOf = (name: string | undefined, id: string | number | undefined) => {
-  const code =
-    name === "Kosovo"
-      ? "XKX"
-      : name === "Jersey" || name === "Guernsey"
-        ? "CHI"
-        : alpha3.get(`${id}`)
-
-  return isCountry(code) ? code : undefined
-}
 
 type Points = Array<readonly [number, number]>
 
@@ -206,6 +107,26 @@ const sizeOf = (projection: GeoProjection, area: GeoPermissibleObjects) => {
 }
 
 const folder = new URL("../../src/data/", import.meta.url)
+
+// Where each landmark in borders.ts falls on each sheet it frames, in sheet
+// units, for test/sheets.test.ts.
+const placed: Record<string, Record<string, readonly [number, number]>> = {}
+
+const mark = (
+  id: string,
+  projection: GeoProjection,
+  { width, height }: { readonly width: number; readonly height: number },
+) => {
+  placed[id] = Object.fromEntries(
+    Object.entries(landmarks).flatMap(([name, at]) => {
+      const [x, y] = projection([...at]) ?? [-1, -1]
+
+      return x >= 0 && x <= width && y >= 0 && y <= height
+        ? [[name, [Math.round(x * 10) / 10, Math.round(y * 10) / 10] as const]]
+        : []
+    }),
+  )
+}
 
 interface Inset {
   readonly name: string
@@ -311,22 +232,39 @@ export default sheet
   )
 
 // The world in the Equal Earth projection, 1000 units wide, with each World
-// Bank economy large enough to draw at this scale. d3 clips Russia and Fiji
-// at the edge.
+// Bank economy large enough to draw at this scale, and land of no economy,
+// such as Taiwan and Western Sahara, as land. It leaves Antarctica out. d3
+// clips Russia and Fiji at the edge.
 const drawWorld = () => {
   const sphere: GeoPermissibleObjects = { type: "Sphere" }
   const projection = geoEqualEarth().fitWidth(1000, sphere)
   const source = atlas["110m"]
 
   const outlines = feature(source, source.objects.countries).features.flatMap((place) => {
-    const code = codeOf(place.properties.name, place.id)
+    const { code } = place.properties
 
-    return code === undefined ? [] : [[code, stepsOf(ringsOf(projection, place))] as const]
+    return code === null ? [] : [[code, stepsOf(ringsOf(projection, place))] as const]
   })
+
+  const land = orient(
+    merge(
+      source,
+      source.objects.countries.geometries
+        .filter(isArea)
+        .filter(({ properties }) => properties?.code === null && properties.name !== "Antarctica"),
+    ),
+  )
+
+  mark("world", projection, sizeOf(projection, sphere))
 
   write("world", {
     detail: "110m",
-    body: finishSheet({ ...sizeOf(projection, sphere), outlines, land: [], insets: [] }),
+    body: finishSheet({
+      ...sizeOf(projection, sphere),
+      outlines,
+      land: stepsOf(ringsOf(projection, land)),
+      insets: [],
+    }),
   })
 }
 
@@ -449,10 +387,10 @@ const drawRegion = ({ id, countries: members }: Region) => {
   const included = new Set<Country>(members)
 
   const places = feature(source, source.objects.countries).features.flatMap((place) => {
-    const code = codeOf(place.properties.name, place.id)
+    const { code } = place.properties
     const { geometry } = place
 
-    return code !== undefined &&
+    return code !== null &&
       included.has(code) &&
       (geometry.type === "Polygon" || geometry.type === "MultiPolygon")
       ? [{ code, polygons: polygonsOf(geometry) }]
@@ -509,9 +447,9 @@ const drawRegion = ({ id, countries: members }: Region) => {
   const merged = merge(
     source,
     source.objects.countries.geometries.filter(isArea).filter((geometry) => {
-      const code = codeOf(geometry.properties?.name, geometry.id)
+      const code = geometry.properties?.code ?? null
 
-      return code === undefined || !included.has(code)
+      return code === null || !included.has(code)
     }),
   )
 
@@ -525,6 +463,8 @@ const drawRegion = ({ id, countries: members }: Region) => {
 
     return rings.length === 0 ? [] : [[code, stepsOf(rings)] as const]
   })
+
+  mark(id, projection, size)
 
   write(id, {
     detail,
@@ -830,6 +770,8 @@ const drawNation = (nation: Nation) => {
       ? ""
       : `\n// ${uncoded.length} of ${divisions.length} areas keep their source's code, with no ISO 3166-2 code the build trusts: see scripts/build-maps/uncoded.gen.ts.`
 
+  mark(nation.country, projection, { width: 1000, height: height + 10 })
+
   writeFileSync(
     new URL(`${nation.id}.gen.ts`, folder),
     `// Generated by scripts/build-maps/index.ts from ${credit}${gap}
@@ -903,4 +845,14 @@ const kept = gaps.reduce((sum, { uncoded }) => sum + uncoded.length, 0)
 
 console.info(
   `ISO 3166-2 codes for ${areas - kept} of ${areas} areas; ${kept} areas on ${gaps.length} sheets keep their source's code (scripts/build-maps/uncoded.gen.ts)`,
+)
+
+writeFileSync(
+  new URL("../../test/places.gen.ts", import.meta.url),
+  `// Generated by scripts/build-maps/index.ts. Do not edit.
+// Where each landmark in scripts/build-maps/borders.ts falls on each sheet that
+// frames it, in sheet units.
+export const placed: Readonly<Record<string, Readonly<Record<string, readonly [number, number]>>>> =
+  ${JSON.stringify(placed)}
+`,
 )

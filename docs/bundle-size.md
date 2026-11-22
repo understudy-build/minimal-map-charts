@@ -38,71 +38,71 @@ The code an app imports:
 | Imports       | Names                            | Minified |    gzip |  Brotli |
 | ------------- | -------------------------------- | -------: | ------: | ------: |
 | Render        | `draw`, `svg`                    |  38.1 kB | 13.6 kB | 11.2 kB |
-| Generative UI | `parse`, `schema`, `draw`, `svg` |  65.8 kB | 24.2 kB | 20.0 kB |
+| Generative UI | `parse`, `schema`, `draw`, `svg` |  65.8 kB | 24.1 kB | 19.9 kB |
 
 Each map adds its sheet. The totals are that code plus the sheet:
 
 | Map              | Sheet           | Sheet, gzip | Render, gzip | Generative UI, gzip | Render, Brotli | Generative UI, Brotli |
 | ---------------- | --------------- | ----------: | -----------: | ------------------: | -------------: | --------------------: |
-| World            | `world`         |      8.3 kB |      21.9 kB |             32.4 kB |        18.6 kB |               27.4 kB |
+| World            | `world`         |      8.5 kB |      22.1 kB |             32.6 kB |        18.8 kB |               27.5 kB |
 | North America    | `north-america` |     10.5 kB |      24.1 kB |             34.6 kB |        20.8 kB |               29.5 kB |
 | Europe           | `europe`        |      9.8 kB |      23.4 kB |             33.9 kB |        20.0 kB |               28.7 kB |
-| Asia (East Asia) | `east-asia`     |      3.9 kB |      17.5 kB |             28.1 kB |        14.8 kB |               23.5 kB |
+| Asia (East Asia) | `east-asia`     |      3.9 kB |      17.6 kB |             28.1 kB |        14.8 kB |               23.5 kB |
 | United States    | `USA`           |      8.8 kB |      22.4 kB |             33.0 kB |        18.8 kB |               27.5 kB |
-| France           | `FRA`           |      6.0 kB |      19.6 kB |             30.2 kB |        16.5 kB |               25.3 kB |
-| Germany          | `DEU`           |      6.9 kB |      20.5 kB |             31.1 kB |        17.4 kB |               26.2 kB |
-| China            | `CHN`           |      5.9 kB |      19.6 kB |             30.1 kB |        16.5 kB |               25.2 kB |
-| Japan            | `JPN`           |      6.7 kB |      20.3 kB |             30.8 kB |        17.2 kB |               26.0 kB |
+| France           | `FRA`           |      6.0 kB |      19.6 kB |             30.1 kB |        16.5 kB |               25.2 kB |
+| Germany          | `DEU`           |      6.9 kB |      20.5 kB |             31.1 kB |        17.4 kB |               26.1 kB |
+| China            | `CHN`           |      6.0 kB |      19.6 kB |             30.1 kB |        16.5 kB |               25.2 kB |
+| Japan            | `JPN`           |      6.7 kB |      20.3 kB |             30.8 kB |        17.2 kB |               25.9 kB |
 
 "Asia" draws the East Asia sheet: no sheet holds the whole continent, and a fill across it draws the world.
 
 ## Sheets
 
-242 sheets, 1355.1 kB gzipped in total. The median sheet is 4.2 kB gzipped.
+242 sheets, 1355.8 kB gzipped in total. The median sheet is 4.2 kB gzipped.
 
 ### World
 
-1 sheet, 9.7 kB gzipped.
+1 sheet, 9.9 kB gzipped.
 
 | Sheet             |     Raw |   gzip | Brotli |
 | ----------------- | ------: | -----: | -----: |
-| data/world.gen.js | 46.1 kB | 9.7 kB | 8.7 kB |
+| data/world.gen.js | 47.1 kB | 9.9 kB | 8.9 kB |
 
 ### Regions
 
-29 sheets, 170.5 kB gzipped in total. The median sheet is 4.7 kB gzipped.
+29 sheets, 170.9 kB gzipped in total. The median sheet is 4.7 kB gzipped.
 
 | Sheet                          |     Raw |    gzip |  Brotli |
 | ------------------------------ | ------: | ------: | ------: |
 | data/americas.gen.js           | 76.9 kB | 15.4 kB | 14.0 kB |
 | data/north-america.gen.js      | 60.7 kB | 12.1 kB | 11.1 kB |
-| data/extended-europe.gen.js    | 56.1 kB | 11.8 kB | 10.7 kB |
-| data/europe.gen.js             | 54.0 kB | 11.3 kB | 10.3 kB |
-| data/post-soviet.gen.js        | 49.0 kB | 10.1 kB |  9.2 kB |
-| data/northeast-asia.gen.js     | 41.1 kB |  8.6 kB |  7.8 kB |
+| data/extended-europe.gen.js    | 56.3 kB | 11.8 kB | 10.8 kB |
+| data/europe.gen.js             | 54.2 kB | 11.4 kB | 10.3 kB |
+| data/post-soviet.gen.js        | 49.3 kB | 10.1 kB |  9.2 kB |
+| data/northeast-asia.gen.js     | 41.3 kB |  8.7 kB |  7.9 kB |
 | data/southeast-asia.gen.js     | 34.7 kB |  7.8 kB |  7.1 kB |
-| data/africa.gen.js             | 34.0 kB |  7.6 kB |  6.9 kB |
+| data/africa.gen.js             | 33.9 kB |  7.6 kB |  6.9 kB |
 | data/latin-america.gen.js      | 34.2 kB |  7.4 kB |  6.7 kB |
-| data/sub-saharan-africa.gen.js | 27.2 kB |  6.1 kB |  5.6 kB |
+| data/sub-saharan-africa.gen.js | 27.5 kB |  6.2 kB |  5.7 kB |
 | data/south-america.gen.js      | 24.3 kB |  5.5 kB |  5.0 kB |
 | data/oceania.gen.js            | 23.5 kB |  5.1 kB |  4.5 kB |
-| data/caribbean.gen.js          | 23.2 kB |  5.0 kB |  4.5 kB |
+| data/caribbean.gen.js          | 23.1 kB |  5.0 kB |  4.5 kB |
 | data/nordics.gen.js            | 19.8 kB |  4.7 kB |  4.3 kB |
 | data/western-balkans.gen.js    | 19.4 kB |  4.7 kB |  4.3 kB |
+| data/east-asia.gen.js          | 20.2 kB |  4.6 kB |  4.2 kB |
 | data/australia.gen.js          | 20.2 kB |  4.6 kB |  4.2 kB |
-| data/east-asia.gen.js          | 20.1 kB |  4.6 kB |  4.2 kB |
-| data/middle-east.gen.js        | 17.8 kB |  4.3 kB |  4.0 kB |
-| data/south-asia.gen.js         | 16.6 kB |  4.0 kB |  3.7 kB |
+| data/middle-east.gen.js        | 17.9 kB |  4.3 kB |  4.0 kB |
+| data/south-asia.gen.js         | 16.8 kB |  4.0 kB |  3.7 kB |
 | data/central-asia.gen.js       | 14.3 kB |  3.5 kB |  3.3 kB |
-| data/central-africa.gen.js     | 13.1 kB |  3.4 kB |  3.1 kB |
+| data/central-africa.gen.js     | 13.5 kB |  3.5 kB |  3.2 kB |
 | data/central-america.gen.js    | 13.0 kB |  3.3 kB |  3.0 kB |
+| data/west-africa.gen.js        | 13.1 kB |  3.2 kB |  2.9 kB |
 | data/baltics.gen.js            | 12.5 kB |  3.2 kB |  2.9 kB |
-| data/west-africa.gen.js        | 12.5 kB |  3.1 kB |  2.8 kB |
-| data/gulf.gen.js               | 12.4 kB |  2.9 kB |  2.7 kB |
+| data/gulf.gen.js               | 12.6 kB |  3.0 kB |  2.7 kB |
 | data/east-africa.gen.js        | 10.3 kB |  2.7 kB |  2.5 kB |
 | data/southern-africa.gen.js    | 10.2 kB |  2.6 kB |  2.4 kB |
 | data/south-caucasus.gen.js     |  9.7 kB |  2.5 kB |  2.3 kB |
-| data/north-africa.gen.js       |  9.6 kB |  2.5 kB |  2.3 kB |
+| data/north-africa.gen.js       |  8.8 kB |  2.3 kB |  2.1 kB |
 
 ### Countries
 
@@ -164,7 +164,7 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | data/brazil.gen.js                           |  35.1 kB |  7.1 kB |  6.4 kB |
 | data/serbia.gen.js                           |  33.0 kB |  7.1 kB |  6.4 kB |
 | data/faroe-islands.gen.js                    |  35.7 kB |  6.9 kB |  6.2 kB |
-| data/china.gen.js                            |  31.1 kB |  6.8 kB |  6.2 kB |
+| data/china.gen.js                            |  31.3 kB |  6.9 kB |  6.2 kB |
 | data/nigeria.gen.js                          |  30.9 kB |  6.8 kB |  6.2 kB |
 | data/indonesia.gen.js                        |  31.4 kB |  6.8 kB |  6.1 kB |
 | data/isle-of-man.gen.js                      |  30.5 kB |  6.8 kB |  6.2 kB |
@@ -202,11 +202,11 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | data/norway.gen.js                           |  23.2 kB |  4.8 kB |  4.3 kB |
 | data/mali.gen.js                             |  20.7 kB |  4.7 kB |  4.2 kB |
 | data/malawi.gen.js                           |  19.5 kB |  4.7 kB |  4.2 kB |
-| data/sudan.gen.js                            |  20.2 kB |  4.6 kB |  4.1 kB |
 | data/south-africa.gen.js                     |  21.5 kB |  4.6 kB |  4.2 kB |
+| data/sudan.gen.js                            |  20.0 kB |  4.6 kB |  4.1 kB |
 | data/nepal.gen.js                            |  21.6 kB |  4.6 kB |  4.1 kB |
+| data/south-sudan.gen.js                      |  22.9 kB |  4.6 kB |  4.1 kB |
 | data/bahrain.gen.js                          |  19.2 kB |  4.5 kB |  4.1 kB |
-| data/south-sudan.gen.js                      |  23.0 kB |  4.5 kB |  4.1 kB |
 | data/albania.gen.js                          |  18.5 kB |  4.4 kB |  4.0 kB |
 | data/poland.gen.js                           |  18.2 kB |  4.4 kB |  4.0 kB |
 | data/uruguay.gen.js                          |  18.3 kB |  4.3 kB |  4.0 kB |
@@ -253,9 +253,9 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | data/lesotho.gen.js                          |  12.8 kB |  3.2 kB |  2.9 kB |
 | data/botswana.gen.js                         |  13.4 kB |  3.2 kB |  2.8 kB |
 | data/saudi-arabia.gen.js                     |  13.2 kB |  3.2 kB |  2.9 kB |
+| data/pakistan.gen.js                         |  12.7 kB |  3.1 kB |  2.8 kB |
 | data/slovakia.gen.js                         |  14.0 kB |  3.1 kB |  2.8 kB |
 | data/guinea-bissau.gen.js                    |  12.4 kB |  3.1 kB |  2.8 kB |
-| data/pakistan.gen.js                         |  12.3 kB |  3.1 kB |  2.7 kB |
 | data/turkmenistan.gen.js                     |  12.5 kB |  3.1 kB |  2.7 kB |
 | data/bolivia.gen.js                          |  12.1 kB |  3.0 kB |  2.7 kB |
 | data/st-lucia.gen.js                         |  10.2 kB |  2.9 kB |  2.6 kB |
@@ -264,8 +264,8 @@ Each map adds its sheet. The totals are that code plus the sheet:
 | data/austria.gen.js                          |  11.4 kB |  2.8 kB |  2.5 kB |
 | data/somalia-fed-rep.gen.js                  |  10.7 kB |  2.8 kB |  2.5 kB |
 | data/tuvalu.gen.js                           |  17.4 kB |  2.7 kB |  2.4 kB |
-| data/israel.gen.js                           |   9.6 kB |  2.7 kB |  2.4 kB |
 | data/el-salvador.gen.js                      |  10.2 kB |  2.7 kB |  2.4 kB |
+| data/israel.gen.js                           |   9.5 kB |  2.7 kB |  2.4 kB |
 | data/armenia.gen.js                          |  10.4 kB |  2.6 kB |  2.4 kB |
 | data/haiti.gen.js                            |  10.5 kB |  2.6 kB |  2.4 kB |
 | data/northern-mariana-islands.gen.js         |  13.7 kB |  2.6 kB |  2.3 kB |
@@ -329,7 +329,7 @@ Modules the entry point does not import.
 
 | Module            |     Raw |   gzip | Brotli |
 | ----------------- | ------: | -----: | -----: |
-| data/globe.gen.js | 12.5 kB | 4.0 kB | 3.4 kB |
+| data/globe.gen.js | 12.5 kB | 4.0 kB | 3.5 kB |
 | compose.js        |  8.7 kB | 2.9 kB | 2.6 kB |
 | layout.js         |  3.0 kB | 1.1 kB | 1.0 kB |
 | box.js            |  2.7 kB | 1.1 kB | 0.9 kB |

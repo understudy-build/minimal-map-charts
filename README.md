@@ -284,14 +284,14 @@ Bundled with Vite, tree-shaken and minified:
 
 | Map           | Sheet, gzip | With `draw` and `svg`, gzip | With `parse` and `schema` too, gzip |
 | ------------- | ----------: | --------------------------: | ----------------------------------: |
-| World         |      8.3 kB |                     21.9 kB |                             32.4 kB |
+| World         |      8.5 kB |                     22.1 kB |                             32.6 kB |
 | North America |     10.5 kB |                     24.1 kB |                             34.6 kB |
 | Europe        |      9.8 kB |                     23.4 kB |                             33.9 kB |
-| East Asia     |      3.9 kB |                     17.5 kB |                             28.1 kB |
+| East Asia     |      3.9 kB |                     17.6 kB |                             28.1 kB |
 | United States |      8.8 kB |                     22.4 kB |                             33.0 kB |
-| France        |      6.0 kB |                     19.6 kB |                             30.2 kB |
+| France        |      6.0 kB |                     19.6 kB |                             30.1 kB |
 | Germany       |      6.9 kB |                     20.5 kB |                             31.1 kB |
-| China         |      5.9 kB |                     19.6 kB |                             30.1 kB |
+| China         |      6.0 kB |                     19.6 kB |                             30.1 kB |
 | Japan         |      6.7 kB |                     20.3 kB |                             30.8 kB |
 
 It ships 242 sheets: the world, 29 regions and 212 countries with their subdivisions. [docs/bundle-size.md](docs/bundle-size.md) adds Brotli sizes and the size of every file in `dist/`.
@@ -305,12 +305,24 @@ pnpm storybook   # http://localhost:6007
 pnpm sizes       # regenerate docs/bundle-size.md
 pnpm readme      # redraw the README's example maps
 pnpm build:maps  # regenerate src/data/ from the pinned source snapshots
+pnpm audit:borders  # list land two sheets give to different countries
 ```
+
+## Borders
+
+Natural Earth draws who holds land, and each national publisher draws its own government's view. The sheets follow one rule instead, set in `scripts/build-maps/borders.ts`:
+
+1. Land goes to the World Bank economy the UN recognises as its sovereign: Crimea and Sevastopol to Ukraine, the Golan Heights to Syria, Northern Cyprus to Cyprus, Somaliland to Somalia, Abkhazia and South Ossetia to Georgia, Transnistria to Moldova, Baikonur to Kazakhstan. Kosovo and West Bank and Gaza are World Bank economies of their own.
+2. Land two economies dispute goes to the one that administers it. Kashmir splits along the Line of Control. Siachen and Arunachal Pradesh go to India, Aksai Chin and the Shaksgam valley to China, Hala'ib to Egypt, Kafia Kingi to Sudan, the Ilemi triangle to Kenya and the southern Kuril Islands to Russia.
+3. Land of no economy, or that no economy administers, belongs to no country and is drawn as land around the countries: Western Sahara, Taiwan, the Falklands, Abyei and Bir Tawil.
+
+Every sheet follows it, and so do layouts. The world and region sheets move land between Natural Earth's outlines, and a national sheet drops land its publisher draws in its country when the rule gives it to another. Some national sheets leave out land their country holds: India's has no Siachen, and neither Russia's nor Japan's has the southern Kurils. Cyprus, Georgia and Moldova draw the land their government does not control in boxes beside the map, as context. `pnpm audit:borders` lists any land two sheets give to different countries.
 
 ## Where the geometry comes from
 
-1. Sheets: `pnpm build:maps` runs `scripts/build-maps/index.ts`, which writes every `src/data/*.gen.ts` but `globe.gen.ts`. It projects Natural Earth's countries (from `world-atlas`) for the world and the regions, and each country's subdivisions from one of 212 source snapshots. It then simplifies the rings with mapshaper's Douglas-Peucker at 1 sheet unit, on shared arcs so borders between neighbours stay aligned, and removes the spikes and flat rings left by rounding. The snapshots weigh 126 MB, so they are not in Git: the script downloads any missing one into the ignored `.archive/` folder before it starts, and checks it against the SHA-256 GitHub records for the asset. A changed source shows up as a diff in the committed `src/data`. They are assets of the [`sources-6c2d279`](https://github.com/nicolastoulemont/minimal-map-charts/releases/tag/sources-6c2d279) release; while this repository is private, run `GITHUB_TOKEN=$(gh auth token) pnpm build:maps`. The generator and the snapshots come from civicdata's `packages/maps` (commit `6c2d279`), and refreshing a snapshot from its publisher still happens there.
+1. Sheets: `pnpm build:maps` runs `scripts/build-maps/index.ts`, which writes every `src/data/*.gen.ts` but `globe.gen.ts`. It projects Natural Earth's countries (v4.1.0, from `world-atlas`) for the world and the regions, and each country's subdivisions from one of 212 source snapshots. It then simplifies the rings with mapshaper's Douglas-Peucker at 1 sheet unit, on shared arcs so borders between neighbours stay aligned, and removes the spikes and flat rings left by rounding. The snapshots weigh 126 MB, so they are not in Git: the script downloads any missing one into the ignored `.archive/` folder before it starts, and checks it against the SHA-256 GitHub records for the asset. A changed source shows up as a diff in the committed `src/data`. They are assets of the [`sources-6c2d279`](https://github.com/nicolastoulemont/minimal-map-charts/releases/tag/sources-6c2d279) release; while this repository is private, run `GITHUB_TOKEN=$(gh auth token) pnpm build:maps`. The generator and the snapshots come from civicdata's `packages/maps` (commit `6c2d279`), and refreshing a snapshot from its publisher still happens there.
    Each subdivision's `code` is its ISO 3166-2 code: the one `scripts/build-maps/mapped.ts` gives it, reviewed after matching names, or else the one its source gives, if `scripts/build-maps/iso-3166-2.json` lists it for the country and no other area on the sheet shares it: the file is Debian's [iso-codes](https://salsa.debian.org/iso-codes-team/iso-codes) v4.20.1 list, unchanged (LGPL-2.1-or-later, used only by the build and the tests). Any other area keeps its source's code, and `scripts/build-maps/uncoded.gen.ts` lists it.
 2. Layouts: `scripts/globe.ts` writes `src/data/globe.gen.ts`, each country's box in degrees and its area, from Natural Earth's 1:50m countries, v5.1.2. The script's header says how to fetch the source and run it.
+3. Disputed land: `scripts/build-maps/disputed.ts` extracts the outlines the [borders](#borders) policy needs from Natural Earth's 1:10m disputed areas, v5.1.2, into `scripts/build-maps/disputed.json`.
 
 See [LICENSE.md](LICENSE.md): the code is MIT, and each sheet keeps its source's licence.

@@ -27,7 +27,8 @@
     "build-storybook": "storybook build",
     "sizes": "pnpm build && node scripts/sizes.ts && oxfmt docs",
     "readme": "node scripts/readme.ts",
-    "build:maps": "node scripts/build-maps/index.ts && node scripts/areas.ts && oxfmt src/data scripts/build-maps/uncoded.gen.ts",
+    "build:maps": "node scripts/build-maps/index.ts && node scripts/areas.ts && oxfmt src/data scripts/build-maps/uncoded.gen.ts test/places.gen.ts",
+    "audit:borders": "node scripts/build-maps/audit.ts",
     "mcp:build": "vite build --config examples/mcp-app/vite.config.ts",
     "mcp": "pnpm mcp:build && node examples/mcp-app/server.ts"
   },
