@@ -2,7 +2,7 @@
 
 Minimal map charts for generative UI with a focus on composability and small bundle size.
 
-It draws charts, not slippy maps: no tiles, no pan and zoom, and no geography beyond countries and their subdivisions. Use MapLibre for those, and Vega-Lite, Observable Plot or D3 for other charts.
+It draws charts, not maps: no tiles, no pan and zoom, and no geography beyond countries and their subdivisions. Use MapLibre for those, and Vega-Lite, Observable Plot or D3 for other charts.
 
 ## Quick start
 
