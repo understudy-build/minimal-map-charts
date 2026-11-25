@@ -1,4 +1,11 @@
-# @understudy-build/minimal-map-charts
+<h1 align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/logo-dark.svg">
+    <img alt="" src="docs/images/logo.svg" width="88">
+  </picture>
+  <br>
+  minimal-map-charts
+</h1>
 
 Minimal map charts for generative UI with a focus on composability and small bundle size.
 
